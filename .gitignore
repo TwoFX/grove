@@ -1,0 +1,3 @@
+/.lake
+*.json
+!lake-manifest.json

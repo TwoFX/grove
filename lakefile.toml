@@ -1,0 +1,11 @@
+name = "std-metadata"
+version = "0.1.0"
+defaultTargets = ["std-metadata"]
+
+[[lean_lib]]
+name = "StdMetadata"
+
+[[lean_exe]]
+name = "std-metadata"
+supportInterpreter = true
+root = "Main"
