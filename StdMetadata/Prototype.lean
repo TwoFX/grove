@@ -76,6 +76,7 @@ def TheoremInfo.empty : TheoremInfo where
 -/
 
 structure FullResult where
+  namespaces : Array Name
   namespaceInfos : Std.HashMap Name NamespaceInfo
   /-- key of declaration 1 -> key of declaration 2 -> theorems -/
   theoremInfos : Std.HashMap String (Std.HashMap String TheoremInfo)
@@ -110,7 +111,7 @@ def extractTheorems (allNamespaces : Array Name) (definitions : DefinitionsResul
       (pairwiseM declarations fun l r =>
         modify (insertTheoremString l.toString r.toString thmString)) theoremInfos).2
 
-  return { namespaceInfos, theoremInfos }
+  return { namespaces := allNamespaces, namespaceInfos, theoremInfos }
 
 instance {α : Type u} [ToJson α] : ToJson (Std.HashMap String α) where
   toJson m := .obj <| toRBNodeMapping toJson m
@@ -145,12 +146,14 @@ def NamespaceInfo.toExt (info : NamespaceInfo) : NamespaceInfoExt where
   definitions := info.definitions.map (·.toExt info.name)
 
 structure FullResultExt where
+  namespaces : Array Name
   namespaceInfos : Std.HashMap String NamespaceInfoExt
   /-- key of declaration 1 -> key of declaration 2 -> theorems -/
   theoremInfos : Std.HashMap String (Std.HashMap String TheoremInfo)
 deriving ToJson
 
 def FullResult.toExt (res : FullResult) : FullResultExt where
+  namespaces := res.namespaces
   namespaceInfos := res.namespaceInfos.fold (init := ∅) (fun m k v => m.insert k.toString v.toExt)
   theoremInfos := res.theoremInfos
 
