@@ -104,7 +104,7 @@ def extractTheorems (allNamespaces : Array Name) (definitions : DefinitionsResul
   let env ← getEnv
 
   for (nameWithPrefix, info) in env.constants do
-    unless isInRelevantNamespace allNamespaces nameWithPrefix && (← isTheorem info) && !(← Name.isAutoDecl nameWithPrefix) do continue
+    unless isInRelevantNamespace allNamespaces nameWithPrefix && (← isTheorem info) && !(← Name.isAutoDecl nameWithPrefix) && !Lean.Linter.isDeprecated env nameWithPrefix do continue
     let declarations := info.type.getUsedConstants.filter allDeclarations.contains
     let thmString := (← Lean.PrettyPrinter.ppSignature nameWithPrefix).fmt.pretty
     theoremInfos := (← StateT.run
