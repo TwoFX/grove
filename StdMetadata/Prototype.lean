@@ -27,7 +27,7 @@ def NamespaceInfo.addDeclaration (d : DeclarationInfo) (n : NamespaceInfo) : Nam
   { n with definitions := n.definitions.push d }
 
 structure DefinitionsResult where
-  allDeclarations : NameSet
+  allDeclarations : Array DeclarationInfo
   namespaceInfos : Std.HashMap Name NamespaceInfo
 
 def isTheorem (c : ConstantInfo) : MetaM Bool := do
@@ -42,18 +42,21 @@ def isTheorem (c : ConstantInfo) : MetaM Bool := do
 
 def extractDefinitions (allNamespaces : Array Name) : MetaM DefinitionsResult := do
   let allNamespacesSet : NameSet := allNamespaces.foldl (init := NameSet.empty) NameSet.insert
-  let mut allDeclarations := NameSet.empty
+  let mut allDeclarations := #[]
   let mut namespaceInfos :=
     allNamespaces.foldl (init := ∅) (fun m n => m.insert n { key := n.toString, name := n, definitions := #[] })
 
   let env ← getEnv
 
+  for declInfo in ← getExplicitDeclarationInfos allNamespaces do
+    allDeclarations := allDeclarations.push declInfo
+    namespaceInfos := namespaceInfos.modify declInfo.fromNamespace (·.addDeclaration declInfo)
+
   for (nameWithPrefix, info) in env.constants do
-    for namesp in allNamespaces do
-      if let some declInfo ← getDeclarationInfo? namesp nameWithPrefix info allNamespacesSet then do
-        if !(← isTheorem info) then do
-          allDeclarations := allDeclarations.insert nameWithPrefix
-          namespaceInfos := namespaceInfos.modify namesp (·.addDeclaration declInfo)
+    for declInfo in ← getDeclarationInfosForName nameWithPrefix info allNamespaces allNamespacesSet do
+      if !(← isTheorem info) then do
+        allDeclarations := allDeclarations.push declInfo
+        namespaceInfos := namespaceInfos.modify declInfo.fromNamespace (·.addDeclaration declInfo)
 
   return { allDeclarations, namespaceInfos }
 
@@ -97,6 +100,21 @@ def insertTheoremString (l r thmString : String) (m : Std.HashMap String (Std.Ha
     Std.HashMap String (Std.HashMap String TheoremInfo) :=
   m.alter l (·.getD ∅ |>.alter r (·.getD .empty |>.add thmString))
 
+def findMatchingDeclarations (e : Expr) (allDeclarations : Array DeclarationInfo) : Array Name := Id.run do
+  let mut result := #[]
+
+  let mut usedConstantSet := e.getUsedConstantsAsSet
+
+  for declInfo in allDeclarations do
+    let isMatch :=
+      match declInfo.searchKey with
+      | .byName n => usedConstantSet.contains n
+      | .byExpr needle => Expr.occurs needle e
+    if isMatch then
+      result := result.push declInfo.fullName
+
+  return result
+
 def extractTheorems (allNamespaces : Array Name) (definitions : DefinitionsResult) : MetaM FullResult := do
   let ⟨allDeclarations, namespaceInfos⟩ := definitions
   let mut theoremInfos : Std.HashMap String (Std.HashMap String TheoremInfo) := ∅
@@ -105,7 +123,7 @@ def extractTheorems (allNamespaces : Array Name) (definitions : DefinitionsResul
 
   for (nameWithPrefix, info) in env.constants do
     unless isInRelevantNamespace allNamespaces nameWithPrefix && (← isTheorem info) && !(← Name.isAutoDecl nameWithPrefix) && !Lean.Linter.isDeprecated env nameWithPrefix do continue
-    let declarations := info.type.getUsedConstants.filter allDeclarations.contains
+    let declarations := findMatchingDeclarations info.type allDeclarations
     let thmString := (← Lean.PrettyPrinter.ppSignature nameWithPrefix).fmt.pretty
     theoremInfos := (← StateT.run
       (pairwiseM declarations fun l r =>
@@ -131,8 +149,8 @@ deriving ToJson
 
 def DeclarationInfo.toExt (info : DeclarationInfo) (namesp : Name) : DeclarationInfoExt where
   key := info.key
-  displayName := info.displayName.toString
-  returnNamespaceKey := (info.returnNamespace.getD namesp).toString
+  displayName := info.displayName.toString-- ++ " (" ++ info.fromNamespace.toString ++ " -> " ++ (info.returnNamespace.map (·.toString)).getD "unknown" ++ ")"
+  returnNamespaceKey := (info.returnNamespace.map (·.toString)).getD "unknown"
 
 structure NamespaceInfoExt where
   key : String -- this is going to be the (full) name of the namespace. Currently identical to `name`.
@@ -143,7 +161,7 @@ deriving ToJson
 def NamespaceInfo.toExt (info : NamespaceInfo) : NamespaceInfoExt where
   key := info.key
   name := info.name.toString
-  definitions := info.definitions.map (·.toExt info.name)
+  definitions := info.definitions.map (·.toExt info.name) |>.qsort (·.displayName < ·.displayName)
 
 structure FullResultExt where
   namespaces : Array Name

@@ -21,7 +21,7 @@ def Lean.Name.isAutoDecl (decl : Name) : CoreM Bool := do
       if s.startsWith "brecOn_" || s.startsWith "below_" || s.startsWith "binductionOn_"
         || s.startsWith "ibelow_" then return true
       if [casesOnSuffix, recOnSuffix, brecOnSuffix, binductionOnSuffix, belowSuffix, "ibelow",
-          "ndrec", "ndrecOn", "noConfusionType", "noConfusion", "ofNat", "toCtorIdx", "rec"
+          "ndrec", "ndrecOn", "noConfusionType", "noConfusion", "toCtorIdx", "rec"
         ].any (· == s) then
         return true
       if let some _ := isSubobjectField? env n (.mkSimple s) then
