@@ -37,7 +37,7 @@ structure DeclarationInfo where
   returnNamespace : Option Name
 
 instance : ToString DeclarationInfo where
-  toString declInfo := s!"{declInfo.longDisplayName} @ {declInfo.searchKey.toString}"
+  toString declInfo := s!"{declInfo.longDisplayName} -> {declInfo.returnNamespace} @ {declInfo.searchKey.toString}"
 
 def DeclarationInfo.key (declInfo : DeclarationInfo) : String :=
   declInfo.searchKey.toString
@@ -65,6 +65,12 @@ def originNamespaceOverride : NameMap Name :=
     (``BitVec.intMax, ``BitVec)
   ]
 
+ def targetNamespaceOverride : NameMap (Option Name) :=
+  .ofList [
+    (``BitVec.sle, some ``BitVec),
+    (``BitVec.slt, some ``BitVec)
+  ]
+
 def DeclarationInfo.within? (namesp name : Name) (info : ConstantInfo) (allNamespaces : NameSet) : Option DeclarationInfo :=
   let fromNamespace := originNamespaceOverride.find? name |>.orElse (fun _ => computeOriginNamespace info namesp allNamespaces) |>.getD namesp
   let displayName := Name.dropPrefix? fromNamespace name |>.getD name
@@ -78,7 +84,7 @@ def DeclarationInfo.within? (namesp name : Name) (info : ConstantInfo) (allNames
       longDisplayName := name.toString
       displayName := displayName.toString
       searchKey := .byName name
-      returnNamespace := computeReturnNamespace info allNamespaces
+      returnNamespace := targetNamespaceOverride.find? name |>.getD (computeReturnNamespace info allNamespaces)
     }
 
 def mkHomogeneousBinary (op type : Name) : Expr :=
@@ -122,7 +128,7 @@ def getUnaryOperatorDeclarationInfos (namespaces : Array Name) : Array Declarati
     for (src, cls) in polymorphicTargetOperators do
       result := result.push (DeclarationInfo.ofUnary cls src namesp (some namesp))
     for (cls, tgt) in polymorphicSourceOperators do
-      result := result.push (DeclarationInfo.ofUnary cls namesp namesp tgt)
+      result := result.push (DeclarationInfo.ofUnary cls namesp namesp (some <| tgt.getD namesp))
     for cls in homogeneousUnaryOperators do
       result := result.push (DeclarationInfo.ofUnary cls namesp namesp (some namesp))
 
@@ -134,6 +140,7 @@ where
     #[(``LE.le, none), (``LT.lt, none)]
   homogeneousUnaryOperators : Array Name :=
     #[``Neg.neg, ``Complement.complement]
+
 
 def getExplicitDeclarationInfos (namespaces : Array Name) : MetaM (Array DeclarationInfo) := do
   return getBinaryOperatorDeclarationInfos namespaces ++ getUnaryOperatorDeclarationInfos namespaces
