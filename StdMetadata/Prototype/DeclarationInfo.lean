@@ -36,6 +36,9 @@ structure DeclarationInfo where
   fromNamespace : Name
   returnNamespace : Option Name
 
+instance : ToString DeclarationInfo where
+  toString declInfo := s!"{declInfo.longDisplayName} @ {declInfo.searchKey.toString}"
+
 def DeclarationInfo.key (declInfo : DeclarationInfo) : String :=
   declInfo.searchKey.toString
 
@@ -57,7 +60,9 @@ def computeReturnNamespace (info : ConstantInfo) (allNamespaces : NameSet) : Opt
 
 def originNamespaceOverride : NameMap Name :=
   .ofList [
-    (``BitVec.ofFin, ``Fin)
+    (``BitVec.ofFin, ``Fin),
+    (``BitVec.intMin, ``BitVec),
+    (``BitVec.intMax, ``BitVec)
   ]
 
 def DeclarationInfo.within? (namesp name : Name) (info : ConstantInfo) (allNamespaces : NameSet) : Option DeclarationInfo :=
@@ -85,18 +90,19 @@ def DeclarationInfo.ofHomogeneousBinary (operation namesp : Name) : DeclarationI
   longDisplayName := operation.toString ++ " (" ++ namesp.toString ++ ")"
   searchKey := .byExpr (mkHomogeneousBinary operation namesp)
   fromNamespace := namesp
-  returnNamespace := namesp
+  returnNamespace := some namesp
 
 def mkHomogeneousUnary (op type : Name) : Expr :=
   mkApp (mkConst op [.zero]) (mkConst type)
 
-def DeclarationInfo.ofUnary (operation fromType toType : Name) : DeclarationInfo where
-  fullName := operation
-  displayName := operation.toString ++ " (" ++ fromType.toString ++ " -> " ++ toType.toString ++ ")"
-  longDisplayName := operation.toString ++ " (" ++ fromType.toString ++ " -> " ++ toType.toString ++ ")"
-  searchKey := .byExpr (mkHomogeneousUnary operation toType)
-  fromNamespace := fromType
-  returnNamespace := toType
+def DeclarationInfo.ofUnary (operation fromType opType : Name) (toType : Option Name) : DeclarationInfo :=
+  let displayName := operation.toString ++ " (" ++ fromType.toString ++ (toType.map (" -> " ++ ·.toString) |>.getD "") ++ ")"
+  { fullName := operation
+    displayName
+    longDisplayName := displayName
+    searchKey := .byExpr (mkHomogeneousUnary operation opType)
+    fromNamespace := fromType
+    returnNamespace := toType }
 
 def getBinaryOperatorDeclarationInfos (namespaces : Array Name) : Array DeclarationInfo := Id.run do
   let mut result := #[]
@@ -107,23 +113,27 @@ def getBinaryOperatorDeclarationInfos (namespaces : Array Name) : Array Declarat
 
   return result
 where binaryOperators : Array Name :=
-  #[``HAnd.hAnd, ``HOr.hOr, ``HAdd.hAdd, ``HSub.hSub, ``HMul.hMul, ``HDiv.hDiv]
+  #[``HAnd.hAnd, ``HOr.hOr, ``HAdd.hAdd, ``HSub.hSub, ``HMul.hMul, ``HDiv.hDiv, ``HMod.hMod, ``HXor.hXor, ``HShiftLeft.hShiftLeft, ``HShiftRight.hShiftRight]
 
 def getUnaryOperatorDeclarationInfos (namespaces : Array Name) : Array DeclarationInfo := Id.run do
   let mut result := #[]
 
   for namesp in namespaces do
     for (src, cls) in polymorphicTargetOperators do
-      result := result.push (DeclarationInfo.ofUnary cls src namesp)
+      result := result.push (DeclarationInfo.ofUnary cls src namesp (some namesp))
+    for (cls, tgt) in polymorphicSourceOperators do
+      result := result.push (DeclarationInfo.ofUnary cls namesp namesp tgt)
     for cls in homogeneousUnaryOperators do
-      result := result.push (DeclarationInfo.ofUnary cls namesp namesp)
+      result := result.push (DeclarationInfo.ofUnary cls namesp namesp (some namesp))
 
   return result
 where
   polymorphicTargetOperators : Array (Name × Name) :=
     #[(``Nat, ``OfNat.ofNat), (``Nat, ``Nat.cast)]
+  polymorphicSourceOperators : Array (Name × Option Name) :=
+    #[(``LE.le, none), (``LT.lt, none)]
   homogeneousUnaryOperators : Array Name :=
-    #[``Neg.neg]
+    #[``Neg.neg, ``Complement.complement]
 
 def getExplicitDeclarationInfos (namespaces : Array Name) : MetaM (Array DeclarationInfo) := do
   return getBinaryOperatorDeclarationInfos namespaces ++ getUnaryOperatorDeclarationInfos namespaces
