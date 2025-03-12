@@ -100,18 +100,24 @@ def insertTheoremString (l r thmString : String) (m : Std.HashMap String (Std.Ha
     Std.HashMap String (Std.HashMap String TheoremInfo) :=
   m.alter l (·.getD ∅ |>.alter r (·.getD .empty |>.add thmString))
 
-def findMatchingDeclarations (e : Expr) (allDeclarations : Array DeclarationInfo) : Array Name := Id.run do
+-- This is needed for lemmas like `Int8.ofInt_eq_ofNat` whose type is
+-- `forall {n : Nat}, Eq.{1} Int8 (Int8.ofInt (Nat.cast.{0} ([mdata borrowed:1 Int]) instNatCastInt n)) (Int8.ofNat n)`
+partial def stripMData : Expr → Expr :=
+  Expr.replace (fun | .mdata _ e => some (stripMData e) | _ => none)
+
+def findMatchingDeclarations (e : Expr) (allDeclarations : Array DeclarationInfo) : Array String := Id.run do
   let mut result := #[]
 
-  let mut usedConstantSet := e.getUsedConstantsAsSet
+  let usedConstantSet := e.getUsedConstantsAsSet
+  let strippedType := stripMData e
 
   for declInfo in allDeclarations do
     let isMatch :=
       match declInfo.searchKey with
       | .byName n => usedConstantSet.contains n
-      | .byExpr needle => Expr.occurs needle e
+      | .byExpr needle => Expr.occurs needle strippedType
     if isMatch then
-      result := result.push declInfo.fullName
+      result := result.push declInfo.key
 
   return result
 
@@ -127,7 +133,7 @@ def extractTheorems (allNamespaces : Array Name) (definitions : DefinitionsResul
     let thmString := (← Lean.PrettyPrinter.ppSignature nameWithPrefix).fmt.pretty
     theoremInfos := (← StateT.run
       (pairwiseM declarations fun l r =>
-        modify (insertTheoremString l.toString r.toString thmString)) theoremInfos).2
+        modify (insertTheoremString l r thmString)) theoremInfos).2
 
   return { namespaces := allNamespaces, namespaceInfos, theoremInfos }
 
@@ -138,18 +144,15 @@ where
       Std.HashMap α β → Lean.RBNode α (fun _ => γ) :=
     fun m => m.fold (init := .leaf) fun n k v => n.insert compare k (f v)
 
-def DeclarationInfo.toString (info : DeclarationInfo) : String :=
-  info.displayName.toString
-
 structure DeclarationInfoExt where
   key : String
   displayName : String
   returnNamespaceKey : String
 deriving ToJson
 
-def DeclarationInfo.toExt (info : DeclarationInfo) (namesp : Name) : DeclarationInfoExt where
+def DeclarationInfo.toExt (info : DeclarationInfo) : DeclarationInfoExt where
   key := info.key
-  displayName := info.displayName.toString-- ++ " (" ++ info.fromNamespace.toString ++ " -> " ++ (info.returnNamespace.map (·.toString)).getD "unknown" ++ ")"
+  displayName := info.displayName-- ++ " (" ++ info.fromNamespace.toString ++ " -> " ++ (info.returnNamespace.map (·.toString)).getD "unknown" ++ ")"
   returnNamespaceKey := (info.returnNamespace.map (·.toString)).getD "unknown"
 
 structure NamespaceInfoExt where
@@ -161,7 +164,7 @@ deriving ToJson
 def NamespaceInfo.toExt (info : NamespaceInfo) : NamespaceInfoExt where
   key := info.key
   name := info.name.toString
-  definitions := info.definitions.map (·.toExt info.name) |>.qsort (·.displayName < ·.displayName)
+  definitions := info.definitions.map (·.toExt) |>.qsort (·.displayName < ·.displayName)
 
 structure FullResultExt where
   namespaces : Array Name

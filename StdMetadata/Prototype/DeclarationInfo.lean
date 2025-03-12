@@ -24,13 +24,19 @@ inductive SearchKey where
   | byName : Name → SearchKey
   | byExpr : Expr → SearchKey
 
+def SearchKey.toString : SearchKey → String
+  | byName n => n.toString
+  | byExpr e => e.dbgToString
+
 structure DeclarationInfo where
   fullName : Name
-  key : String -- this is going to be the full name of the declaration
-  displayName : Name
+  displayName : String
   searchKey : SearchKey
   fromNamespace : Name
   returnNamespace : Option Name
+
+def DeclarationInfo.key (declInfo : DeclarationInfo) : String :=
+  declInfo.searchKey.toString
 
 def getNamesAppearingInForallBinderTypes (names : NameSet) : Expr → Std.TreeSet Name Name.quickCmp
   | Expr.forallE _ binderType body _ =>
@@ -48,22 +54,32 @@ def computeOriginNamespace (info : ConstantInfo) (ownNamespace : Name) (allNames
 def computeReturnNamespace (info : ConstantInfo) (allNamespaces : NameSet) : Option Name :=
   info.type.getForallBody.getUsedConstants.find? allNamespaces.contains
 
-def DeclarationInfo.within (namesp name : Name) (info : ConstantInfo) (allNamespaces : NameSet) : DeclarationInfo := -- where
-  let fromNamespace := computeOriginNamespace info namesp allNamespaces |>.getD namesp
-  { fromNamespace
-    fullName := name
-    key := name.toString
-    displayName := Name.dropPrefix? fromNamespace name |>.getD name
-    searchKey := .byName name
-    returnNamespace := computeReturnNamespace info allNamespaces }
+def originNamespaceOverride : NameMap Name :=
+  .ofList [
+    (``BitVec.ofFin, ``Fin)
+  ]
+
+def DeclarationInfo.within? (namesp name : Name) (info : ConstantInfo) (allNamespaces : NameSet) : Option DeclarationInfo :=
+  let fromNamespace := originNamespaceOverride.find? name |>.orElse (fun _ => computeOriginNamespace info namesp allNamespaces) |>.getD namesp
+  let displayName := Name.dropPrefix? fromNamespace name |>.getD name
+  if displayName.getNumParts = 0 || (`Raw).isPrefixOf displayName ||
+      (`Internal).isPrefixOf displayName then
+    none
+  else
+    some {
+      fromNamespace
+      fullName := name
+      displayName := displayName.toString
+      searchKey := .byName name
+      returnNamespace := computeReturnNamespace info allNamespaces
+    }
 
 def mkHomogeneousBinary (op type : Name) : Expr :=
   mkApp3 (mkConst op [.zero, .zero, .zero]) (mkConst type) (mkConst type) (mkConst type)
 
 def DeclarationInfo.ofHomogeneousBinary (operation namesp : Name) : DeclarationInfo where
   fullName := operation
-  key := operation.toString
-  displayName := operation
+  displayName := operation.toString ++ " (" ++ namesp.toString ++ ")"
   searchKey := .byExpr (mkHomogeneousBinary operation namesp)
   fromNamespace := namesp
   returnNamespace := namesp
@@ -73,77 +89,10 @@ def mkHomogeneousUnary (op type : Name) : Expr :=
 
 def DeclarationInfo.ofUnary (operation fromType toType : Name) : DeclarationInfo where
   fullName := operation
-  key := operation.toString
-  displayName := operation
+  displayName := operation.toString ++ " (" ++ fromType.toString ++ " -> " ++ toType.toString ++ ")"
   searchKey := .byExpr (mkHomogeneousUnary operation toType)
   fromNamespace := fromType
   returnNamespace := toType
-
-
--- def allowNames : NameSet :=
---   .ofList [``GetElem.getElem, ``GetElem?.getElem?, ``GetElem?.getElem!, ``Membership.mem]
-
--- def namespaceOverride : NameMap Name :=
---   .ofList [
---     (``Fin.mk, ``Nat),
---     (``Fin.ofNat', ``Nat),
---     (``BitVec.ofFin, ``Fin),
---     (``BitVec.ofNat, ``Nat),
---     (``BitVec.ofNatLT, ``Nat),
---     (``BitVec.ofInt, ``Int),
---     (``UInt8.ofBitVec, ``BitVec),
---     (``UInt8.ofFin, ``Fin),
---     (``UInt8.ofNat, ``Nat),
---     (``UInt8.ofNatLT, ``Nat),
---     (``UInt8.ofNatTruncate, ``Nat),
---     (``UInt16.ofBitVec, ``BitVec),
---     (``UInt16.ofFin, ``Fin),
---     (``UInt16.ofNat, ``Nat),
---     (``UInt16.ofNatLT, ``Nat),
---     (``UInt16.ofNatTruncate, ``Nat),
---     (``UInt32.ofBitVec, ``BitVec),
---     (``UInt32.ofFin, ``Fin),
---     (``UInt32.ofNat, ``Nat),
---     (``UInt32.ofNatLT, ``Nat),
---     (``UInt32.ofNatTruncate, ``Nat),
---     (``UInt64.ofBitVec, ``BitVec),
---     (``UInt64.ofFin, ``Fin),
---     (``UInt64.ofNat, ``Nat),
---     (``UInt64.ofNatLT, ``Nat),
---     (``UInt64.ofNatTruncate, ``Nat),
---     (``USize.ofBitVec, ``BitVec),
---     (``USize.ofFin, ``Fin),
---     (``USize.ofNat, ``Nat),
---     (``USize.ofNatLT, ``Nat),
---     (``USize.ofNatTruncate, ``Nat),
---     (``Int8.ofNat, ``Nat),
---     (``Int16.ofNat, ``Nat),
---     (``Int32.ofNat, ``Nat),
---     (``Int64.ofNat, ``Nat),
---     (``ISize.ofNat, ``Nat),
---     (``Int8.ofBitVec, ``BitVec),
---     (``Int8.ofInt, ``Int),
---     (``Int8.ofIntLE, ``Int),
---     (``Int8.ofIntTruncate, ``Int),
---     (``Int16.ofBitVec, ``BitVec),
---     (``Int16.ofInt, ``Int),
---     (``Int16.ofIntLE, ``Int),
---     (``Int16.ofIntTruncate, ``Int),
---     (``Int32.ofBitVec, ``BitVec),
---     (``Int32.ofInt, ``Int),
---     (``Int32.ofIntLE, ``Int),
---     (``Int32.ofIntTruncate, ``Int),
---     (``Int64.ofBitVec, ``BitVec),
---     (``Int64.ofInt, ``Int),
---     (``Int64.ofIntLE, ``Int),
---     (``Int64.ofIntTruncate, ``Int),
---     (``ISize.ofBitVec, ``BitVec),
---     (``ISize.ofInt, ``Int),
---     (``ISize.ofIntLE, ``Int),
---     (``ISize.ofIntTruncate, ``Int),
---     (``OfNat.ofNat, ``Nat),
---     (``Neg.neg, ``Int)
---   ]
 
 def getBinaryOperatorDeclarationInfos (namespaces : Array Name) : Array DeclarationInfo := Id.run do
   let mut result := #[]
@@ -160,13 +109,17 @@ def getUnaryOperatorDeclarationInfos (namespaces : Array Name) : Array Declarati
   let mut result := #[]
 
   for namesp in namespaces do
-    result := result.push (DeclarationInfo.ofUnary ``OfNat.ofNat ``Nat namesp)
+    for (src, cls) in polymorphicTargetOperators do
+      result := result.push (DeclarationInfo.ofUnary cls src namesp)
     for cls in homogeneousUnaryOperators do
       result := result.push (DeclarationInfo.ofUnary cls namesp namesp)
 
   return result
-where homogeneousUnaryOperators : Array Name :=
-  #[``Neg.neg]
+where
+  polymorphicTargetOperators : Array (Name × Name) :=
+    #[(``Nat, ``OfNat.ofNat), (``Nat, ``Nat.cast)]
+  homogeneousUnaryOperators : Array Name :=
+    #[``Neg.neg]
 
 def getExplicitDeclarationInfos (namespaces : Array Name) : MetaM (Array DeclarationInfo) := do
   return getBinaryOperatorDeclarationInfos namespaces ++ getUnaryOperatorDeclarationInfos namespaces
@@ -178,11 +131,7 @@ def getDeclarationInfosForName (name : Name) (info : ConstantInfo) (namespaces :
 
   let some matchedNamespace := namespaces.find? (·.isPrefixOf name) | return []
 
-  let declInfo := DeclarationInfo.within matchedNamespace name info namespacesSet
-
-  if declInfo.displayName.getNumParts = 0 || (`Raw).isPrefixOf declInfo.displayName ||
-      (`Internal).isPrefixOf declInfo.displayName then
-    return []
+  let some declInfo := DeclarationInfo.within? matchedNamespace name info namespacesSet | return []
 
   return [declInfo]
 
