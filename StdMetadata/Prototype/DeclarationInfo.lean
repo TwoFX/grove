@@ -31,6 +31,7 @@ def SearchKey.toString : SearchKey → String
 structure DeclarationInfo where
   fullName : Name
   displayName : String
+  longDisplayName : String
   searchKey : SearchKey
   fromNamespace : Name
   returnNamespace : Option Name
@@ -69,6 +70,7 @@ def DeclarationInfo.within? (namesp name : Name) (info : ConstantInfo) (allNames
     some {
       fromNamespace
       fullName := name
+      longDisplayName := name.toString
       displayName := displayName.toString
       searchKey := .byName name
       returnNamespace := computeReturnNamespace info allNamespaces
@@ -80,6 +82,7 @@ def mkHomogeneousBinary (op type : Name) : Expr :=
 def DeclarationInfo.ofHomogeneousBinary (operation namesp : Name) : DeclarationInfo where
   fullName := operation
   displayName := operation.toString ++ " (" ++ namesp.toString ++ ")"
+  longDisplayName := operation.toString ++ " (" ++ namesp.toString ++ ")"
   searchKey := .byExpr (mkHomogeneousBinary operation namesp)
   fromNamespace := namesp
   returnNamespace := namesp
@@ -90,6 +93,7 @@ def mkHomogeneousUnary (op type : Name) : Expr :=
 def DeclarationInfo.ofUnary (operation fromType toType : Name) : DeclarationInfo where
   fullName := operation
   displayName := operation.toString ++ " (" ++ fromType.toString ++ " -> " ++ toType.toString ++ ")"
+  longDisplayName := operation.toString ++ " (" ++ fromType.toString ++ " -> " ++ toType.toString ++ ")"
   searchKey := .byExpr (mkHomogeneousUnary operation toType)
   fromNamespace := fromType
   returnNamespace := toType

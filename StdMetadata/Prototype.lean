@@ -147,12 +147,14 @@ where
 structure DeclarationInfoExt where
   key : String
   displayName : String
+  longDisplayName : String
   returnNamespaceKey : String
 deriving ToJson
 
 def DeclarationInfo.toExt (info : DeclarationInfo) : DeclarationInfoExt where
   key := info.key
-  displayName := info.displayName-- ++ " (" ++ info.fromNamespace.toString ++ " -> " ++ (info.returnNamespace.map (·.toString)).getD "unknown" ++ ")"
+  displayName := info.displayName
+  longDisplayName := info.longDisplayName
   returnNamespaceKey := (info.returnNamespace.map (·.toString)).getD "unknown"
 
 structure NamespaceInfoExt where
