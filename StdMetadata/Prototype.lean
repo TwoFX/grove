@@ -115,7 +115,7 @@ def findMatchingDeclarations (e : Expr) (allDeclarations : Array DeclarationInfo
     let isMatch :=
       match declInfo.searchKey with
       | .byName n => usedConstantSet.contains n
-      | .byExpr needle => Expr.occurs needle strippedType
+      | .byExpr needle => needle.occurs strippedType
     if isMatch then
       result := result.push declInfo.key
 

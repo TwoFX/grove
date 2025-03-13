@@ -20,13 +20,45 @@ end Std.TreeSet
 
 namespace StdMetadata.Prototype
 
+structure ExprPred where
+  check : Expr → Bool
+  key : String
+
+def ExprPred.any : ExprPred where
+  check _ := true
+  key := "*"
+
+def ExprPred.const (n : Name) : ExprPred where
+  check e := e.isConstOf n
+  key := n.toString
+
+def ExprPred.app (l r : ExprPred) : ExprPred where
+  check e :=
+    match e with
+    | .app lhs rhs => l.check lhs && r.check rhs
+    | _ => false
+  key := s!"app ({l.key}) ({r.key})"
+
+def ExprPred.appOf (n : Name) : ExprPred where
+  check e := e.isAppOf n
+  key := s!"{n}*"
+
+def ExprPred.app2 (l r₁ r₂ : ExprPred) : ExprPred :=
+  .app (.app l r₁) r₂
+
+def ExprPred.app3 (l r₁ r₂ r₃ : ExprPred) : ExprPred :=
+  .app (.app2 l r₁ r₂) r₃
+
+def ExprPred.occurs (p : ExprPred) (e : Expr) : Bool :=
+  Expr.find? p.check e |>.isSome
+
 inductive SearchKey where
   | byName : Name → SearchKey
-  | byExpr : Expr → SearchKey
+  | byExpr : ExprPred → SearchKey
 
 def SearchKey.toString : SearchKey → String
   | byName n => n.toString
-  | byExpr e => e.dbgToString
+  | byExpr e => e.key
 
 structure DeclarationInfo where
   fullName : Name
@@ -87,8 +119,8 @@ def DeclarationInfo.within? (namesp name : Name) (info : ConstantInfo) (allNames
       returnNamespace := targetNamespaceOverride.find? name |>.getD (computeReturnNamespace info allNamespaces)
     }
 
-def mkHomogeneousBinary (op type : Name) : Expr :=
-  mkApp3 (mkConst op [.zero, .zero, .zero]) (mkConst type) (mkConst type) (mkConst type)
+def mkHomogeneousBinary (op type : Name) : ExprPred :=
+  .app3 (.const op) (.appOf type) (.appOf type) (.appOf type)
 
 def DeclarationInfo.ofHomogeneousBinary (operation namesp : Name) : DeclarationInfo where
   fullName := operation
@@ -98,8 +130,8 @@ def DeclarationInfo.ofHomogeneousBinary (operation namesp : Name) : DeclarationI
   fromNamespace := namesp
   returnNamespace := some namesp
 
-def mkHomogeneousUnary (op type : Name) : Expr :=
-  mkApp (mkConst op [.zero]) (mkConst type)
+def mkHomogeneousUnary (op type : Name) : ExprPred :=
+  .app (.const op) (.appOf type)
 
 def DeclarationInfo.ofUnary (operation fromType opType : Name) (toType : Option Name) : DeclarationInfo :=
   let displayName := operation.toString ++ " (" ++ fromType.toString ++ (toType.map (" -> " ++ ·.toString) |>.getD "") ++ ")"
