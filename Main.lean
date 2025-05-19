@@ -12,6 +12,7 @@ open Lean
 def hashMaps : Array Name := #[`Std.DHashMap, `Std.HashMap, `Std.HashSet]
 def numericTypes : Array Name := #[``Nat, ``Int, ``Fin, ``BitVec, ``UInt8, ``UInt16, ``UInt32, ``UInt64, ``USize,
   ``Int8, ``Int16, ``Int32, ``Int64, ``ISize]
+def option : Array Name := #[``Option]
 
 -- def doIt (types : Array Name) : MetaM Unit := do
 --   let nameset : NameSet := types.foldl (init := NameSet.empty) (fun s n => s.insert n)
@@ -19,15 +20,17 @@ def numericTypes : Array Name := #[``Nat, ``Int, ``Fin, ``BitVec, ``UInt8, ``UIn
 --   IO.FS.writeFile "/home/markus/api-manager.json" json
 
 def perform : MetaM String := do
-  let json := toJson (← StdMetadata.Prototype.calculateExternalResult numericTypes)
+  let json := toJson (← StdMetadata.Prototype.calculateExternalResult option)
   return toString json
 
 def main : IO Unit := do
   Lean.initSearchPath (← Lean.findSysroot)
+  unsafe enableInitializersExecution
   let env: Environment ← importModules
     (imports := #[`Init, `Std, `Lean])
     (opts := {})
     (trustLevel := 1)
+    (loadExts := true)
   let coreContext: Lean.Core.Context := {
     currNamespace := `Example
     openDecls := [],     -- No 'open' directives needed

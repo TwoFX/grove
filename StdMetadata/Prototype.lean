@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import StdMetadata.Prototype.DeclarationInfo
+-- import Std.import Std.Dat
 import Lean
 
 set_option autoImplicit false
@@ -31,7 +32,7 @@ structure DefinitionsResult where
   namespaceInfos : Std.HashMap Name NamespaceInfo
 
 def isTheorem (c : ConstantInfo) : MetaM Bool := do
-  if c.isTheorem then
+  if getOriginalConstKind? (← getEnv) c.name == some .thm then
     return true
 
   try

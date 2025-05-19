@@ -171,7 +171,7 @@ where
   polymorphicSourceOperators : Array (Name × Option Name) :=
     #[(``LE.le, none), (``LT.lt, none)]
   homogeneousUnaryOperators : Array Name :=
-    #[``Neg.neg, ``Complement.complement]
+    #[``Neg.neg, ``Complement.complement, ``Max.max, ``Min.min]
 
 
 def getExplicitDeclarationInfos (namespaces : Array Name) : MetaM (Array DeclarationInfo) := do
