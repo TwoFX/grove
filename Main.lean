@@ -3,7 +3,9 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Prototype
+import StdMetadata.Framework.Backend.Full
+import StdMetadata.Std.Structure.Basic
+import StdMetadata.Std.Facts.Basic
 import Lean
 import Std
 
@@ -19,9 +21,8 @@ def option : Array Name := #[``Option]
 --   let json : String := (← types.mapM (namespaceInfo · nameset)) |> toJson |> toString
 --   IO.FS.writeFile "/home/markus/api-manager.json" json
 
-def perform : MetaM String := do
-  let json := toJson (← StdMetadata.Prototype.calculateExternalResult option)
-  return toString json
+def perform : MetaM String :=
+  StdMetadata.Framework.Backend.Full.render StdMetadata.Std.standardLibrary StdMetadata.Facts.addFacts
 
 def main : IO Unit := do
   Lean.initSearchPath (← Lean.findSysroot)

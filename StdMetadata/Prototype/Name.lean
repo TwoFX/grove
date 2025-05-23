@@ -8,7 +8,7 @@ import Lean
 open Lean
 
 -- From Batteries, modified to include `rec`.
-def Lean.Name.isAutoDecl (decl : Name) : CoreM Bool := do
+def Lean.Name.isAutoDecl (decl : Name) : MetaM Bool := do
   if decl.hasMacroScopes then return true
   if decl.isInternal then return true
   let env ← getEnv
