@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build backend:
+  build-backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,7 +15,7 @@ jobs:
         with:
           lake-package-directory: ./backend
 
-  build test project:
+  build-test-project:
     runs-on: ubuntu-latest
 
     steps:
