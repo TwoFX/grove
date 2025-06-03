@@ -2,21 +2,21 @@ import { sectionMap } from "@/transfer/metadata";
 import { SectionComponent } from "@/widgets/section/SectionComponent";
 
 export async function generateStaticParams() {
-    return sectionMap.keys().map((key) => ({ id: key }));
+  return sectionMap.keys().map((key) => ({ id: key }));
 }
 
 export default async function Page({
-    params,
+  params,
 }: {
-    params: Promise<{ id: string }>
+  params: Promise<{ id: string }>;
 }) {
-    const { id } = await params;
-    
-    const section = sectionMap.get(id);
+  const { id } = await params;
 
-    if (!section) {
-        throw new Error("Unknown section");
-    }
+  const section = sectionMap.get(id);
 
-    return <SectionComponent section={section} depth={0} />;
+  if (!section) {
+    throw new Error("Unknown section");
+  }
+
+  return <SectionComponent section={section} depth={0} />;
 }

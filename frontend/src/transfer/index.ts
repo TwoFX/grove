@@ -45,7 +45,9 @@ export enum FactStatus {
   Postponed = "postponed",
 }
 
-export type FactValidationResult = FactValidationResultInvalidated | FactValidationResultOk;
+export type FactValidationResult =
+  | FactValidationResultInvalidated
+  | FactValidationResultOk;
 
 export interface FactValidationResultInvalidated {
   constructor: "invalidated";
@@ -57,7 +59,12 @@ export interface FactValidationResultOk {
   dummy?: string;
 }
 
-export type Node0 = NodeAssertion | NodeNamespace | NodeSection | NodeShowDeclaration | NodeText;
+export type Node0 =
+  | NodeAssertion
+  | NodeNamespace
+  | NodeSection
+  | NodeShowDeclaration
+  | NodeText;
 
 export interface NodeAssertion {
   constructor: "assertion";

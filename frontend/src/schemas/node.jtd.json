@@ -72,13 +72,7 @@
       }
     },
     "factStatus": {
-      "enum": [
-        "done",
-        "nothingToDo",
-        "believedGood",
-        "postponed",
-        "bad"
-      ]
+      "enum": ["done", "nothingToDo", "believedGood", "postponed", "bad"]
     },
     "factMetadata": {
       "properties": {
