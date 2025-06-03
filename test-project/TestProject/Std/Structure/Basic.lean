@@ -13,7 +13,7 @@ For now this is just for testing.
 
 open Lean StdMetadata.Framework Widget
 
-namespace StdMetadata.Std
+namespace TestProject.Std
 
 namespace Containers
 
@@ -41,4 +41,4 @@ end Containers
 def standardLibrary : Node :=
   .section "stdlib" "The Lean standard library" #[Containers.root]
 
-end StdMetadata.Std
+end TestProject.Std

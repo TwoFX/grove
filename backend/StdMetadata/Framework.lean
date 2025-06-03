@@ -5,3 +5,4 @@ Authors: Markus Himmel
 -/
 import StdMetadata.Framework.Basic
 import StdMetadata.Framework.Widget.Facts
+import StdMetadata.Framework.Main

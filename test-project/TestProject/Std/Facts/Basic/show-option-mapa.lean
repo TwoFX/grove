@@ -2,7 +2,7 @@ import StdMetadata.Framework
 
 open StdMetadata.Framework Widget
 
-namespace StdMetadata.Facts.«stdlib».«containers»
+namespace TestProject.Std.Facts.«stdlib».«containers»
 
 def «0» : ShowDeclaration.Fact where
   widgetId := "show-option-mapa"

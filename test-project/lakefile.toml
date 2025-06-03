@@ -1,0 +1,16 @@
+name = "test-project"
+version = "0.1.0"
+defaultTargets = ["test-project"]
+
+# Real users will be using `git` and `subDir` instead.
+[[require]]
+name = "std-metadata"
+path = "../backend"
+
+[[lean_lib]]
+name = "TestProject"
+
+[[lean_exe]]
+name = "test-project"
+supportInterpreter = true
+root = "Main"
