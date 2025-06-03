@@ -1,0 +1,200 @@
+{
+  "definitions": {
+    "assertion": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "success": {
+          "type": "boolean"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "theorem": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "renderedStatement": {
+          "type": "string"
+        },
+        "isSimp": {
+          "type": "boolean"
+        },
+        "isDeprecated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "definition": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "renderedStatement": {
+          "type": "string"
+        },
+        "isDeprecated": {
+          "type": "boolean"
+        }
+      }
+    },
+    "declaration": {
+      "discriminator": "constructor",
+      "mapping": {
+        "thm": {
+          "properties": {
+            "thm": {
+              "ref": "theorem"
+            }
+          }
+        },
+        "def": {
+          "properties": {
+            "def": {
+              "ref": "definition"
+            }
+          }
+        },
+        "missing": {
+          "properties": {
+            "missing": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "factStatus": {
+      "enum": [
+        "done",
+        "nothingToDo",
+        "believedGood",
+        "postponed",
+        "bad"
+      ]
+    },
+    "factMetadata": {
+      "properties": {
+        "status": {
+          "ref": "factStatus"
+        },
+        "comment": {
+          "type": "string"
+        }
+      }
+    },
+    "factValidationResult": {
+      "discriminator": "constructor",
+      "mapping": {
+        "ok": {
+          "optionalProperties": {
+            "dummy": {
+              "type": "string"
+            }
+          }
+        },
+        "invalidated": {
+          "properties": {
+            "invalidated": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "showDeclarationFact": {
+      "properties": {
+        "factId": {
+          "type": "string"
+        },
+        "metadata": {
+          "ref": "factMetadata"
+        },
+        "state": {
+          "ref": "declaration"
+        },
+        "validationResult": {
+          "ref": "factValidationResult"
+        }
+      }
+    },
+    "showDeclaration": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "facts": {
+          "elements": {
+            "ref": "showDeclarationFact"
+          }
+        }
+      }
+    },
+    "section": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "children": {
+          "elements": {
+            "ref": "node"
+          }
+        }
+      }
+    },
+    "node": {
+      "discriminator": "constructor",
+      "mapping": {
+        "assertion": {
+          "properties": {
+            "assertion": {
+              "ref": "assertion"
+            }
+          }
+        },
+        "showDeclaration": {
+          "properties": {
+            "showDeclaration": {
+              "ref": "showDeclaration"
+            }
+          }
+        },
+        "section": {
+          "properties": {
+            "section": {
+              "ref": "section"
+            }
+          }
+        },
+        "namespace": {
+          "properties": {
+            "namespace": {
+              "type": "string"
+            }
+          }
+        },
+        "text": {
+          "properties": {
+            "text": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "ref": "node"
+}

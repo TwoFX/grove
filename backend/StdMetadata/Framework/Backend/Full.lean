@@ -8,6 +8,9 @@ import StdMetadata.Framework.Widget.Facts
 
 open Lean
 
+def mkDisc (name : String) (child : α) (conv : α → Json := by exact toJson) : Json :=
+  .mkObj [("constructor", name), (name, conv child)]
+
 namespace StdMetadata.Framework.Backend
 
 open Widget
@@ -24,14 +27,14 @@ structure Assertion where
 deriving Lean.ToJson
 
 structure Theorem where
-  name : Name
+  name : String
   renderedStatement : String
   isSimp : Bool
   isDeprecated : Bool
 deriving ToJson
 
 structure Definition where
-  name : Name
+  name : String
   renderedStatement : String
   isDeprecated : Bool
 deriving ToJson
@@ -40,7 +43,12 @@ inductive Declaration where
   | thm : Theorem → Declaration
   | def : Definition → Declaration
   | missing : String → Declaration
-deriving ToJson
+
+instance : ToJson Declaration where
+  toJson
+    | .thm t => mkDisc "thm" t
+    | .def d => mkDisc "def" d
+    | .missing s => mkDisc "missing" s
 
 structure ShowDeclaration.Fact where
   factId : String
@@ -55,15 +63,41 @@ structure ShowDeclaration where
   facts : Array ShowDeclaration.Fact
 deriving Lean.ToJson
 
+mutual
+
+structure Section where
+  id : String
+  title : String
+  children : Array Node
+
 inductive Node where
-  | «section» : String → String → Array Node → Node
+  | «section» : Section → Node
   | «namespace» : String → Node
-  | associationTable : Node
-  | table : Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
   | text : String → Node
-deriving Lean.ToJson
+
+end
+
+mutual
+
+partial def Section.toJson (s : Section) : Json :=
+  .mkObj [("id", s.id), ("title", s.title), ("children", .arr (s.children.map Node.toJson))]
+
+partial def Node.toJson : Node → Json
+  | .section s => mkDisc "section" s Section.toJson
+  | .namespace n => mkDisc "namespace" n
+  | .assertion a => mkDisc "assertion" a
+  | .showDeclaration s => mkDisc "showDeclaration" s
+  | .text s => mkDisc "text" s
+
+end
+
+instance : ToJson Section where
+  toJson := Section.toJson
+
+instance : ToJson Node where
+  toJson := Node.toJson
 
 end Data
 
@@ -77,10 +111,10 @@ def processAssertion (a : Assertion) : MetaM Data.Assertion := do
   }
 
 def processTheorem (t : Theorem) : Data.Theorem :=
-  { t with }
+  { t with name := t.name.toString }
 
 def processDefinition (d : Definition) : Data.Definition :=
-  { d with }
+  { d with name := d.name.toString }
 
 def processDeclaration : Declaration → Data.Declaration
   | .thm t => .thm (processTheorem t)
@@ -105,10 +139,10 @@ where
     }
 
 partial def process (factState : FactState) : Node → MetaM Data.Node
-  | .section id title nodes => .section id title <$> nodes.mapM (process factState)
+  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (process factState)
   | .namespace n => pure <| .namespace n.toString
-  | @Node.associationTable _ _ _ _ _ _ => pure <| .associationTable
-  | @Node.table _ _ _ _ _ _ _ => pure <| .table
+  -- | @Node.associationTable _ _ _ _ _ _ => pure <| .associationTable
+  -- | @Node.table _ _ _ _ _ _ _ => pure <| .table
   | .assertion a => Data.Node.assertion <$> processAssertion a
   | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration factState s
   | .text s => pure <| .text s

@@ -18,8 +18,8 @@ open Widget
 inductive Node where
   | «section» : String → String → Array Node → Node
   | «namespace» : Name → Node
-  | associationTable [HasId α] [DisplayShort β] {l : List β} : AssociationTable α l → Node
-  | table [DisplayShort δ] (l : List δ) : Table α β γ l → Node
+  -- | associationTable [HasId α] [DisplayShort β] {l : List β} : AssociationTable α l → Node
+  -- | table [DisplayShort δ] (l : List δ) : Table α β γ l → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
   | text : String → Node

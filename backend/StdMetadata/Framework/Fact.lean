@@ -32,7 +32,11 @@ deriving ToJson
 inductive ValidationResult where
   | ok : ValidationResult
   | invalidated : String → ValidationResult
-deriving ToJson
+
+instance : ToJson ValidationResult where
+  toJson
+    | .ok => .mkObj [("constructor", "ok")]
+    | .invalidated s => .mkObj [("constructor", "invalidated"), ("invalidated", s)]
 
 end Fact
 
