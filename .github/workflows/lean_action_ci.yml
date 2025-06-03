@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build backend:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,3 +14,12 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           lake-package-directory: ./backend
+
+  build test project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: leanprover/lean-action@v1
+        with:
+          lake-package-directory: ./test-project
