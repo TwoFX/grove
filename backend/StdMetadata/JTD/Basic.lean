@@ -44,7 +44,7 @@ structure Property where
 
 structure DiscriminatorCase where
   discriminatorValue : String
-  s : Schema
+  s : Option Schema
 
 inductive Schema where
   | empty : Schema
@@ -73,7 +73,10 @@ where
   propJson : Property → String × Json
     | .mk name s => (name, .mkObj s.toJson)
   discJson : DiscriminatorCase → String × Json
-    | .mk discriminatorValue s => (discriminatorValue, .mkObj [("properties", .mkObj [(discriminatorValue, .mkObj s.toJson)])])
+    | .mk discriminatorValue s => (discriminatorValue,
+      match s with
+      | none => .mkObj [("optionalProperties", .mkObj [(discriminatorValue, .mkObj [])])]
+      | some s => .mkObj [("properties", .mkObj [(discriminatorValue, .mkObj s.toJson)])])
 
 instance : ToJson Schema where
   toJson := .mkObj ∘ Schema.toJson
@@ -166,8 +169,8 @@ def Constructor.addDependencies {α : Type u} : Constructor α → Std.HashMap S
   | .unary _ β _ _ , m => SchemaFor.addDependencies β m
 
 def Constructor.toDiscriminatorCase {α : Type u} : Constructor α → DiscriminatorCase
-  | .nullary name _ => ⟨name, .empty⟩
-  | .unary name β _ _ => ⟨name, SchemaFor.schema β⟩
+  | .nullary name _ => ⟨name, none⟩
+  | .unary name β _ _ => ⟨name, some (SchemaFor.schema β)⟩
 
 def JsonConstructor.toJson? {α : Type u} : JsonConstructor α → α → Option Json
   | .nullary name is?, a => if is? a then some (.mkObj [("constructor", name), (name, .mkObj [])]) else none

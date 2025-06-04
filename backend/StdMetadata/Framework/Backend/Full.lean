@@ -26,7 +26,8 @@ instance : SchemaFor Assertion :=
   .structure "assertion"
     [.single "id" Assertion.id,
      .single "title" Assertion.title,
-     .single "success" Assertion.success]
+     .single "success" Assertion.success,
+     .single "message" Assertion.message]
 
 structure Theorem where
   name : String
