@@ -3,10 +3,10 @@ import { Node, Section, NodeSection } from "@/transfer/index";
 import schema_node from "@/schemas/node.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
-const serverDataFileLocation = process.env.STD_METADATA_LOCATION;
+const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
 if (!serverDataFileLocation) {
   throw new Error(
-    "Location for std metadata file must be provided in env variable STD_METADATA_LOCATION",
+    "Location for std metadata file must be provided in env variable GROVE_DATA_LOCATION",
   );
 }
 
