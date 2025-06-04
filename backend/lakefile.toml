@@ -1,6 +1,10 @@
 name = "std-metadata"
 version = "0.1.0"
-defaultTargets = ["StdMetadata"]
+defaultTargets = ["StdMetadata", "print-schema"]
 
 [[lean_lib]]
 name = "StdMetadata"
+
+[[lean_exe]]
+name = "print-schema"
+root = "PrintSchema"

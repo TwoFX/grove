@@ -4,10 +4,13 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Lean.Meta.Basic
+import StdMetadata.JTD.Basic
 
 open Lean
 
 namespace StdMetadata.Framework
+
+open JTD
 
 namespace Fact
 
@@ -22,21 +25,33 @@ inductive Status where
   | postponed
   /-- This is known bad. -/
   | bad
-deriving ToJson
+
+instance : ToString Status where
+  toString
+    | .done => "done"
+    | .nothingToDo => "nothingToDo"
+    | .believedGood => "believedGood"
+    | .postponed => "postponed"
+    | .bad => "bad"
+
+instance : SchemaFor Status :=
+  .enum "factStatus" [.done, .nothingToDo, .believedGood, .postponed, .bad]
 
 structure Metadata where
   status : Status
   comment : String
-deriving ToJson
+
+instance : SchemaFor Metadata :=
+  .structure "factMetadata" [.single "status" Metadata.status, .single "comment" Metadata.comment]
 
 inductive ValidationResult where
   | ok : ValidationResult
   | invalidated : String → ValidationResult
 
-instance : ToJson ValidationResult where
-  toJson
-    | .ok => .mkObj [("constructor", "ok")]
-    | .invalidated s => .mkObj [("constructor", "invalidated"), ("invalidated", s)]
+instance : SchemaFor ValidationResult :=
+  .inductive "factValidationResult"
+    [.nullary "ok" (fun | .ok => true | _ => false),
+     .unary "invalidated" String (fun | .invalidated s => some s | _ => none)]
 
 end Fact
 

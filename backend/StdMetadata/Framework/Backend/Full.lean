@@ -8,12 +8,9 @@ import StdMetadata.Framework.Widget.Facts
 
 open Lean
 
-def mkDisc (name : String) (child : α) (conv : α → Json := by exact toJson) : Json :=
-  .mkObj [("constructor", name), (name, conv child)]
-
 namespace StdMetadata.Framework.Backend
 
-open Widget
+open Widget JTD
 
 namespace Full
 
@@ -24,44 +21,71 @@ structure Assertion where
   title : String
   success : Bool
   message : String
-deriving Lean.ToJson
+
+instance : SchemaFor Assertion :=
+  .structure "assertion"
+    [.single "id" Assertion.id,
+     .single "title" Assertion.title,
+     .single "success" Assertion.success]
 
 structure Theorem where
   name : String
   renderedStatement : String
   isSimp : Bool
   isDeprecated : Bool
-deriving ToJson
+
+instance : SchemaFor Theorem :=
+  .structure "theorem"
+    [.single "name" Theorem.name,
+     .single "renderedStatement" Theorem.renderedStatement,
+     .single "isSimp" Theorem.isSimp,
+     .single "isDeprecated" Theorem.isDeprecated]
 
 structure Definition where
   name : String
   renderedStatement : String
   isDeprecated : Bool
-deriving ToJson
+
+instance : SchemaFor Definition :=
+  .structure "definition"
+    [.single "name" Definition.name,
+     .single "renderedStatement" Definition.renderedStatement,
+     .single "isDeprecated" Definition.isDeprecated]
 
 inductive Declaration where
   | thm : Theorem → Declaration
   | def : Definition → Declaration
   | missing : String → Declaration
 
-instance : ToJson Declaration where
-  toJson
-    | .thm t => mkDisc "thm" t
-    | .def d => mkDisc "def" d
-    | .missing s => mkDisc "missing" s
+instance : SchemaFor Declaration :=
+  .inductive "declaration"
+    [.unary "thm" Theorem (fun | .thm t => some t | _ => none),
+     .unary "def" Definition (fun | .def d => some d | _ => none),
+     .unary "missing" String (fun | .missing s => some s | _ => none)]
 
 structure ShowDeclaration.Fact where
   factId : String
   metadata : Fact.Metadata
   state : Declaration
   validationResult : Fact.ValidationResult
-deriving ToJson
+
+instance : SchemaFor ShowDeclaration.Fact :=
+  .structure "showDeclarationFact"
+    [.single "factId" ShowDeclaration.Fact.factId,
+     .single "metadata" ShowDeclaration.Fact.metadata,
+     .single "state" ShowDeclaration.Fact.state,
+     .single "validationResult" ShowDeclaration.Fact.validationResult]
 
 structure ShowDeclaration where
   id : String
   name : String
   facts : Array ShowDeclaration.Fact
-deriving Lean.ToJson
+
+instance : SchemaFor ShowDeclaration :=
+  .structure "showDeclaration"
+    [.single "id" ShowDeclaration.id,
+     .single "name" ShowDeclaration.name,
+     .arr "facts" ShowDeclaration.facts]
 
 mutual
 
@@ -82,22 +106,34 @@ end
 mutual
 
 partial def Section.toJson (s : Section) : Json :=
-  .mkObj [("id", s.id), ("title", s.title), ("children", .arr (s.children.map Node.toJson))]
+  SchemaFor.structure.toJson
+    [.single toJson "id" Section.id,
+     .single toJson "title" Section.title,
+     .arr Node.toJson "children" Section.children] s
 
-partial def Node.toJson : Node → Json
-  | .section s => mkDisc "section" s Section.toJson
-  | .namespace n => mkDisc "namespace" n
-  | .assertion a => mkDisc "assertion" a
-  | .showDeclaration s => mkDisc "showDeclaration" s
-  | .text s => mkDisc "text" s
+partial def Node.toJson (n : Node) : Json :=
+  SchemaFor.inductive.toJson
+    [.unary "section" Section (fun | .section s => some s | _ => none) Section.toJson,
+     .unary "namespace" String (fun | .namespace s => some s | _ => none),
+     .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
+     .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
+     .unary "text" String (fun | .text t => some t | _ => none)] n
 
 end
 
-instance : ToJson Section where
-  toJson := Section.toJson
+instance : SchemaFor Section :=
+  .structure "section"
+    [.single "id" Section.id,
+     .single "title" Section.title,
+     .backArr "node" Node.toJson "children" Section.children]
 
-instance : ToJson Node where
-  toJson := Node.toJson
+instance : SchemaFor Node :=
+  .inductive "node"
+    [.unary "section" Section (fun | .section s => some s | _ => none),
+     .unary "namespace" String (fun | .namespace s => some s | _ => none),
+     .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
+     .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
+     .unary "text" String (fun | .text t => some t | _ => none)]
 
 end Data
 
@@ -141,8 +177,6 @@ where
 partial def process (factState : FactState) : Node → MetaM Data.Node
   | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (process factState)
   | .namespace n => pure <| .namespace n.toString
-  -- | @Node.associationTable _ _ _ _ _ _ => pure <| .associationTable
-  -- | @Node.table _ _ _ _ _ _ _ => pure <| .table
   | .assertion a => Data.Node.assertion <$> processAssertion a
   | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration factState s
   | .text s => pure <| .text s
