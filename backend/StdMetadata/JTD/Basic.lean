@@ -143,12 +143,8 @@ def SchemaFor.structure.toJson {α : Type u} (fields : List (JsonStructureField 
 
 def SchemaFor.structure {α : Type u} (name : String) (fields : List (StructureField α)) : SchemaFor α where
   addDependencies m :=
-    if name ∈ m then
-      m
-    else
-      let m := m.insert name .empty
-      let upstream : Std.HashMap String Schema := (fields.foldl (init := m) (fun sofar f => f.addDependencies sofar))
-      upstream.insert name (.properties (fields.map StructureField.toProperty))
+    let upstream : Std.HashMap String Schema := (fields.foldl (init := m) (fun sofar f => f.addDependencies sofar))
+    upstream.insert name (.properties (fields.map StructureField.toProperty))
   schema := .ref name
   toJson := SchemaFor.structure.toJson (fields.map StructureField.toJsonStructureField)
 
@@ -184,12 +180,8 @@ def SchemaFor.inductive.toJson {α : Type u} (constructors : List (JsonConstruct
 
 def SchemaFor.inductive {α : Type u} (name : String) (constructors : List (Constructor α)) : SchemaFor α where
   addDependencies m :=
-    if name ∈ m then
-      m
-    else
-      let m := m.insert name .empty
-      let upstream : Std.HashMap String Schema := (constructors.foldl (init := m) (fun sofar f => f.addDependencies sofar))
-      upstream.insert name (.discriminator "constructor" (constructors.map Constructor.toDiscriminatorCase))
+    let upstream : Std.HashMap String Schema := (constructors.foldl (init := m) (fun sofar f => f.addDependencies sofar))
+    upstream.insert name (.discriminator "constructor" (constructors.map Constructor.toDiscriminatorCase))
   schema := .ref name
   toJson := SchemaFor.inductive.toJson (constructors.map Constructor.toJsonConstructor)
 
