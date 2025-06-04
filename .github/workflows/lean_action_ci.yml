@@ -25,6 +25,8 @@ jobs:
           lake-package-directory: ./test-project
 
   grove-test-project:
+    runs-on: ubuntu-latest
+
     steps:
       - uses: TwoFx/grove-action@v1
         with:
