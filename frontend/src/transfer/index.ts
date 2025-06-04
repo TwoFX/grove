@@ -56,7 +56,7 @@ export interface FactValidationResultInvalidated {
 
 export interface FactValidationResultOk {
   constructor: "ok";
-  dummy?: string;
+  ok?: any;
 }
 
 export type Node0 =

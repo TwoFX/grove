@@ -1,194 +1,86 @@
 {
+  "ref": "node",
   "definitions": {
-    "assertion": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "success": {
-          "type": "boolean"
-        },
-        "message": {
-          "type": "string"
-        }
-      }
-    },
     "theorem": {
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "renderedStatement": {
-          "type": "string"
-        },
-        "isSimp": {
-          "type": "boolean"
-        },
-        "isDeprecated": {
-          "type": "boolean"
-        }
+        "renderedStatement": { "type": "string" },
+        "name": { "type": "string" },
+        "isSimp": { "type": "boolean" },
+        "isDeprecated": { "type": "boolean" }
       }
     },
-    "definition": {
+    "showDeclarationFact": {
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "renderedStatement": {
-          "type": "string"
-        },
-        "isDeprecated": {
-          "type": "boolean"
-        }
+        "validationResult": { "ref": "factValidationResult" },
+        "state": { "ref": "declaration" },
+        "metadata": { "ref": "factMetadata" },
+        "factId": { "type": "string" }
       }
     },
-    "declaration": {
-      "discriminator": "constructor",
-      "mapping": {
-        "thm": {
-          "properties": {
-            "thm": {
-              "ref": "theorem"
-            }
-          }
-        },
-        "def": {
-          "properties": {
-            "def": {
-              "ref": "definition"
-            }
-          }
-        },
-        "missing": {
-          "properties": {
-            "missing": {
-              "type": "string"
-            }
-          }
-        }
+    "showDeclaration": {
+      "properties": {
+        "name": { "type": "string" },
+        "id": { "type": "string" },
+        "facts": { "elements": { "ref": "showDeclarationFact" } }
       }
+    },
+    "section": {
+      "properties": {
+        "title": { "type": "string" },
+        "id": { "type": "string" },
+        "children": { "elements": { "ref": "node" } }
+      }
+    },
+    "node": {
+      "mapping": {
+        "text": { "properties": { "text": { "type": "string" } } },
+        "showDeclaration": {
+          "properties": { "showDeclaration": { "ref": "showDeclaration" } }
+        },
+        "section": { "properties": { "section": { "ref": "section" } } },
+        "namespace": { "properties": { "namespace": { "type": "string" } } },
+        "assertion": { "properties": { "assertion": { "ref": "assertion" } } }
+      },
+      "discriminator": "constructor"
+    },
+    "factValidationResult": {
+      "mapping": {
+        "ok": { "optionalProperties": { "ok": {} } },
+        "invalidated": { "properties": { "invalidated": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
     },
     "factStatus": {
       "enum": ["done", "nothingToDo", "believedGood", "postponed", "bad"]
     },
     "factMetadata": {
       "properties": {
-        "status": {
-          "ref": "factStatus"
-        },
-        "comment": {
-          "type": "string"
-        }
+        "status": { "ref": "factStatus" },
+        "comment": { "type": "string" }
       }
     },
-    "factValidationResult": {
-      "discriminator": "constructor",
+    "definition": {
+      "properties": {
+        "renderedStatement": { "type": "string" },
+        "name": { "type": "string" },
+        "isDeprecated": { "type": "boolean" }
+      }
+    },
+    "declaration": {
       "mapping": {
-        "ok": {
-          "optionalProperties": {
-            "dummy": {
-              "type": "string"
-            }
-          }
-        },
-        "invalidated": {
-          "properties": {
-            "invalidated": {
-              "type": "string"
-            }
-          }
-        }
-      }
+        "thm": { "properties": { "thm": { "ref": "theorem" } } },
+        "missing": { "properties": { "missing": { "type": "string" } } },
+        "def": { "properties": { "def": { "ref": "definition" } } }
+      },
+      "discriminator": "constructor"
     },
-    "showDeclarationFact": {
+    "assertion": {
       "properties": {
-        "factId": {
-          "type": "string"
-        },
-        "metadata": {
-          "ref": "factMetadata"
-        },
-        "state": {
-          "ref": "declaration"
-        },
-        "validationResult": {
-          "ref": "factValidationResult"
-        }
-      }
-    },
-    "showDeclaration": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "facts": {
-          "elements": {
-            "ref": "showDeclarationFact"
-          }
-        }
-      }
-    },
-    "section": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "title": {
-          "type": "string"
-        },
-        "children": {
-          "elements": {
-            "ref": "node"
-          }
-        }
-      }
-    },
-    "node": {
-      "discriminator": "constructor",
-      "mapping": {
-        "assertion": {
-          "properties": {
-            "assertion": {
-              "ref": "assertion"
-            }
-          }
-        },
-        "showDeclaration": {
-          "properties": {
-            "showDeclaration": {
-              "ref": "showDeclaration"
-            }
-          }
-        },
-        "section": {
-          "properties": {
-            "section": {
-              "ref": "section"
-            }
-          }
-        },
-        "namespace": {
-          "properties": {
-            "namespace": {
-              "type": "string"
-            }
-          }
-        },
-        "text": {
-          "properties": {
-            "text": {
-              "type": "string"
-            }
-          }
-        }
+        "title": { "type": "string" },
+        "success": { "type": "boolean" },
+        "message": { "type": "string" },
+        "id": { "type": "string" }
       }
     }
-  },
-  "ref": "node"
+  }
 }
