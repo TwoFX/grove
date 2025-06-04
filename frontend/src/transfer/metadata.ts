@@ -14,7 +14,11 @@ const ajv = new Ajv();
 const parseNode = ajv.compileParser<Node>(schema_node);
 
 const serverData = await fs.readFile(serverDataFileLocation, "utf8");
-export const rootNode: Node | undefined = parseNode(serverData);
+const parsedNode = parseNode(serverData);
+if (!parsedNode) {
+  throw new Error("Invalid metadata");
+}
+export const rootNode: Node = parsedNode;
 
 function createSectionMap(): Map<string, Section> {
   const sectionMap = new Map<string, Section>();

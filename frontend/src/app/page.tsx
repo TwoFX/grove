@@ -1,5 +1,6 @@
 import { rootNode } from "@/transfer/metadata";
+import { NodeComponent } from "@/widgets/NodeComponent";
 
 export default async function Home() {
-  return <p>Here be dragons: {JSON.stringify(rootNode)}</p>;
+  return <NodeComponent node={rootNode} depth={0} />;
 }
