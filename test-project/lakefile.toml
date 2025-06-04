@@ -4,7 +4,7 @@ defaultTargets = ["test-project"]
 
 # Real users will be using `git` and `subDir` instead.
 [[require]]
-name = "std-metadata"
+name = "grove"
 path = "../backend"
 
 [[lean_lib]]

@@ -3,7 +3,7 @@
  "packages":
  [{"type": "path",
    "scope": "",
-   "name": "«std-metadata»",
+   "name": "grove",
    "manifestFile": "lake-manifest.json",
    "inherited": false,
    "dir": "../backend",
