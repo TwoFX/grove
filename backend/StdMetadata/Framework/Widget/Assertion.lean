@@ -4,11 +4,11 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Lean.Meta.Basic
-import StdMetadata.Framework.Fact
+import Grove.Framework.Fact
 
 open Lean
 
-namespace StdMetadata.Framework.Widget
+namespace Grove.Framework.Widget
 
 structure Assertion.Result where
   passed : Bool
@@ -29,4 +29,4 @@ structure Assertion.Fact where
   assertionId : String
   metadata : Fact.Metadata
 
-end StdMetadata.Framework.Widget
+end Grove.Framework.Widget

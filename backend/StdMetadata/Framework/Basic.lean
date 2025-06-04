@@ -4,13 +4,13 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Lean.Meta.Basic
-import StdMetadata.Framework.Widget.Table.Basic
-import StdMetadata.Framework.Widget.Assertion
-import StdMetadata.Framework.Widget.ShowDeclaration
+import Grove.Framework.Widget.Table.Basic
+import Grove.Framework.Widget.Assertion
+import Grove.Framework.Widget.ShowDeclaration
 
 open Lean
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 open Widget
 
@@ -30,4 +30,4 @@ instance : Coe Assertion Node where
 instance : Coe ShowDeclaration Node where
   coe := .showDeclaration
 
-end StdMetadata.Framework
+end Grove.Framework

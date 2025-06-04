@@ -8,7 +8,7 @@ import Std.Data.HashMap
 
 open Lean
 
-namespace StdMetadata.JTD
+namespace Grove.JTD
 
 inductive PrimitiveType where
   | boolean
@@ -185,4 +185,4 @@ def SchemaFor.inductive {α : Type u} (name : String) (constructors : List (Cons
   schema := .ref name
   toJson := SchemaFor.inductive.toJson (constructors.map Constructor.toJsonConstructor)
 
-end StdMetadata.JTD
+end Grove.JTD

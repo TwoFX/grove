@@ -3,14 +3,14 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Framework.Widget.ShowDeclaration
+import Grove.Framework.Widget.ShowDeclaration
 import Std.Data.HashMap.Basic
 
 open Std
 
-open StdMetadata.Framework Widget
+open Grove.Framework Widget
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 structure FactState where
   showDeclaration : HashMap String (Array ShowDeclaration.Fact) := ∅
@@ -27,4 +27,4 @@ private def addToMap (m : HashMap String (Array α)) (id : String) (a : α) :=
 def addShowDeclarationFact (f : ShowDeclaration.Fact) : FactStateM Unit :=
   modify (fun s => { s with showDeclaration := addToMap s.showDeclaration f.widgetId f })
 
-end StdMetadata.Framework
+end Grove.Framework

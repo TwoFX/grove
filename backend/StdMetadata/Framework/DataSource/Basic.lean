@@ -4,12 +4,12 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Lean.Meta.Basic
-import StdMetadata.Framework.HasId
-import StdMetadata.Framework.Declaration
+import Grove.Framework.HasId
+import Grove.Framework.Declaration
 
 open Lean
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 structure DataSource (β : Type) where
   getAll : MetaM (Array β)
@@ -44,4 +44,4 @@ def ofArray {α : Type} [HasId α] (l : Array α) : DataSource α :=
 
 end DataSource
 
-end StdMetadata.Framework
+end Grove.Framework

@@ -7,7 +7,7 @@ import Lean.Meta.Basic
 
 open Lean
 
-namespace StdMetadata.Framework.Widget.Table
+namespace Grove.Framework.Widget.Table
 
 structure CellDataForRow {δ : Type} (layerIdentifiers : List δ)
     (possibleValuesForColumns : Vector (Array β) layerIdentifiers.length) (γ : Type) where
@@ -20,4 +20,4 @@ structure CellDataProvider (α β γ : Type) (layerIdentifiers : List δ) where
     (possibleColValues : Vector (Array β) layerIdentifiers.length) →
       MetaM (Vector (Array (CellDataForRow layerIdentifiers possibleColValues γ)) layerIdentifiers.length)
 
-end StdMetadata.Framework.Widget.Table
+end Grove.Framework.Widget.Table

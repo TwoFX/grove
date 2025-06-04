@@ -4,9 +4,9 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 class HasId (α : Type) where
   getId : α → String
 
-end StdMetadata.Framework
+end Grove.Framework

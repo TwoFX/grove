@@ -3,7 +3,7 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Prototype.Name
+import Grove.Prototype.Name
 import Lean
 import Std.Data.TreeSet
 
@@ -18,7 +18,7 @@ def any? (m : TreeSet α cmp) : Option α := Id.run do
 
 end Std.TreeSet
 
-namespace StdMetadata.Prototype
+namespace Grove.Prototype
 
 structure ExprPred where
   check : Expr → Bool
@@ -188,4 +188,4 @@ def getDeclarationInfosForName (name : Name) (info : ConstantInfo) (namespaces :
 
   return [declInfo]
 
-end StdMetadata.Prototype
+end Grove.Prototype

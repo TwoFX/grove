@@ -3,7 +3,7 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Prototype.DeclarationInfo
+import Grove.Prototype.DeclarationInfo
 -- import Std.import Std.Dat
 import Lean
 
@@ -13,7 +13,7 @@ universe u v w x
 
 open Lean Meta
 
-namespace StdMetadata.Prototype
+namespace Grove.Prototype
 
 /-!
 # Step 1: Collect all relevant declarations
@@ -184,4 +184,4 @@ def FullResult.toExt (res : FullResult) : FullResultExt where
 def calculateExternalResult (types : Array Name) : MetaM FullResultExt := do
   return (← extractTheorems types (← extractDefinitions types)).toExt
 
-end StdMetadata.Prototype
+end Grove.Prototype

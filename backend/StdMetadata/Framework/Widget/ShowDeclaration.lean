@@ -3,12 +3,12 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Framework.Fact
-import StdMetadata.Framework.Declaration
+import Grove.Framework.Fact
+import Grove.Framework.Declaration
 
 open Lean
 
-namespace StdMetadata.Framework.Widget
+namespace Grove.Framework.Widget
 
 structure ShowDeclaration where
   id : String
@@ -39,4 +39,4 @@ end Fact
 
 end ShowDeclaration
 
-end StdMetadata.Framework.Widget
+end Grove.Framework.Widget

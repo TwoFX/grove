@@ -1,6 +1,6 @@
 import TestProject.Std.Facts.Basic.«show-option-mapa»
 
-open StdMetadata.Framework Widget
+open Grove.Framework Widget
 
 namespace TestProject.Std.Facts
 

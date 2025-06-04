@@ -1,9 +1,9 @@
-name = "std-metadata"
+name = "grove"
 version = "0.1.0"
-defaultTargets = ["StdMetadata", "print-schema"]
+defaultTargets = ["Grove", "print-schema"]
 
 [[lean_lib]]
-name = "StdMetadata"
+name = "Grove"
 
 [[lean_exe]]
 name = "print-schema"

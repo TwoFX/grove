@@ -3,16 +3,16 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Framework.Backend.Full
+import Grove.Framework.Backend.Full
 import Lean
 import Std
 
 open Lean
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 def perform (rootNode : Node) (addFacts : FactStateM Unit) : MetaM String :=
-  StdMetadata.Framework.Backend.Full.render rootNode addFacts
+  Grove.Framework.Backend.Full.render rootNode addFacts
 
 def main (rootNode : Node) (addFacts : FactStateM Unit) (imports : Array Name) : IO Unit := do
   Lean.initSearchPath (← Lean.findSysroot)
@@ -33,4 +33,4 @@ def main (rootNode : Node) (addFacts : FactStateM Unit) (imports : Array Name) :
     IO.println s!"{← exception.toMessageData.toString}"
   | .ok s => IO.println s
 
-end StdMetadata.Framework
+end Grove.Framework

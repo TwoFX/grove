@@ -1,6 +1,6 @@
-import StdMetadata.Framework
+import Grove.Framework
 
-open StdMetadata.Framework Widget
+open Grove.Framework Widget
 
 namespace TestProject.Std.Facts.«stdlib».«containers»
 

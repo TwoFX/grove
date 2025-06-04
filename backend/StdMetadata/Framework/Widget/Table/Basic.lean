@@ -3,13 +3,13 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Framework.Widget.Table.CellDataProvider
-import StdMetadata.Framework.Display
-import StdMetadata.Framework.Widget.AssociationTable.Basic
+import Grove.Framework.Widget.Table.CellDataProvider
+import Grove.Framework.Display
+import Grove.Framework.Widget.AssociationTable.Basic
 
 open Lean
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 inductive AssociationSource (α : Type) {β : Type} (layerIdentifiers : List β) where
   | table : Widget.AssociationTable α layerIdentifiers → AssociationSource α layerIdentifiers
@@ -25,4 +25,4 @@ structure Table (α β γ : Type) {δ : Type} [DisplayShort δ] (layerIdentifier
 
 end Widget
 
-end StdMetadata.Framework
+end Grove.Framework

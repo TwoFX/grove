@@ -3,7 +3,7 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import StdMetadata.Framework
+import Grove.Framework
 
 /-!
 This will be split into multiple files in the future.
@@ -11,7 +11,7 @@ This will be split into multiple files in the future.
 For now this is just for testing.
 -/
 
-open Lean StdMetadata.Framework Widget
+open Lean Grove.Framework Widget
 
 namespace TestProject.Std
 

@@ -7,7 +7,7 @@ import Lean.Util.FindExpr
 
 open Lean
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 structure ExprPred where
   check : Expr → Bool
@@ -62,4 +62,4 @@ def id : SearchKey → String
 
 end SearchKey
 
-end StdMetadata.Framework
+end Grove.Framework

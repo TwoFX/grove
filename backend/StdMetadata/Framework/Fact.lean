@@ -4,11 +4,11 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Lean.Meta.Basic
-import StdMetadata.JTD.Basic
+import Grove.JTD.Basic
 
 open Lean
 
-namespace StdMetadata.Framework
+namespace Grove.Framework
 
 open JTD
 
@@ -58,4 +58,4 @@ end Fact
 class Fact (Widget : Type) (WidgetFact : outParam Type) where
   validate : Widget → WidgetFact → MetaM Fact.ValidationResult
 
-end StdMetadata.Framework
+end Grove.Framework
