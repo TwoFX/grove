@@ -45,7 +45,7 @@
     },
     "factValidationResult": {
       "mapping": {
-        "ok": { "optionalProperties": { "ok": {} } },
+        "ok": { "optionalProperties": { "dummy": { "type": "string" } } },
         "invalidated": { "properties": { "invalidated": { "type": "string" } } }
       },
       "discriminator": "constructor"

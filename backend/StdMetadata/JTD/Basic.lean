@@ -75,7 +75,7 @@ where
   discJson : DiscriminatorCase → String × Json
     | .mk discriminatorValue s => (discriminatorValue,
       match s with
-      | none => .mkObj [("optionalProperties", .mkObj [(discriminatorValue, .mkObj [])])]
+      | none => .mkObj [("optionalProperties", .mkObj [("dummy", .mkObj [("type", "string")])])]
       | some s => .mkObj [("properties", .mkObj [(discriminatorValue, .mkObj s.toJson)])])
 
 instance : ToJson Schema where

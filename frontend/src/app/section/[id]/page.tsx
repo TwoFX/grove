@@ -2,7 +2,10 @@ import { sectionMap } from "@/transfer/metadata";
 import { SectionComponent } from "@/widgets/section/SectionComponent";
 
 export async function generateStaticParams() {
-  return sectionMap.keys().map((key) => ({ id: key }));
+  return sectionMap
+    .keys()
+    .map((key) => ({ id: key }))
+    .toArray();
 }
 
 export default async function Page({

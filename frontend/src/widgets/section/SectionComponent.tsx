@@ -1,6 +1,7 @@
 import { Section } from "@/transfer";
 import { JSX } from "react";
 import { NodeComponent } from "../NodeComponent";
+import { nodeKey } from "@/transfer/metadata";
 
 function SectionHeader({
   text,
@@ -31,7 +32,7 @@ export function SectionComponent({
     <div>
       <SectionHeader text={section.title} depth={depth} />
       {section.children.map((node) => (
-        <NodeComponent node={node} depth={depth + 1} />
+        <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />
       ))}
     </div>
   );
