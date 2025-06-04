@@ -23,3 +23,10 @@ jobs:
       - uses: leanprover/lean-action@v1
         with:
           lake-package-directory: ./test-project
+
+  grove-test-project:
+    steps:
+      - uses: TwoFx/grove-action@v1
+        with:
+          analysis-path: "test-project"
+          script-name: "test-project"
