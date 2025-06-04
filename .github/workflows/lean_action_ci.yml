@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: TwoFx/grove-action@v1
+      - uses: TwoFx/grove-action@master
         with:
           analysis-path: "test-project"
           script-name: "test-project"
