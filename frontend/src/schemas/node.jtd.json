@@ -21,7 +21,8 @@
       "properties": {
         "name": { "type": "string" },
         "id": { "type": "string" },
-        "facts": { "elements": { "ref": "showDeclarationFact" } }
+        "facts": { "elements": { "ref": "showDeclarationFact" } },
+        "declaration": { "ref": "declaration" }
       }
     },
     "section": {

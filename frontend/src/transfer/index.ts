@@ -98,6 +98,7 @@ export interface Section {
 }
 
 export interface ShowDeclaration {
+  declaration: Declaration;
   facts: ShowDeclarationFact[];
   id: string;
   name: string;

@@ -1,6 +1,9 @@
 import { JSX } from "react";
 import { Node } from "@/transfer/index";
 import { SectionComponent } from "./section/SectionComponent";
+import { TextComponent } from "./text/TextComponent";
+import { ShowDeclarationComponent } from "./show-declaration/ShowDeclarationComponent";
+import { AssertionComponent } from "./assertion/AssertionComponent";
 
 export function NodeComponent({
   node,
@@ -11,14 +14,16 @@ export function NodeComponent({
 }): JSX.Element {
   switch (node.constructor) {
     case "assertion":
-      return <div>Assertion</div>;
+      return <AssertionComponent assertion={node.assertion} />;
     case "namespace":
       return <div>Namespace</div>;
     case "section":
       return <SectionComponent section={node.section} depth={depth} />;
     case "showDeclaration":
-      return <div>ShowDeclaration</div>;
+      return (
+        <ShowDeclarationComponent showDeclaration={node.showDeclaration} />
+      );
     case "text":
-      return <div>Text</div>;
+      return <TextComponent text={node.text} />;
   }
 }

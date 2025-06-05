@@ -24,16 +24,11 @@ structure Fact where
 
 namespace Fact
 
-def validate (s : ShowDeclaration) (f : Fact) : MetaM Fact.ValidationResult := do
-  let currentState ← Declaration.fromName s.name
-
+def validate (currentState : Declaration) (f : Fact) : MetaM Fact.ValidationResult := do
   if f.state == currentState then
     return .ok
 
   return .invalidated (Declaration.describeDifferences f.state currentState)
-
-instance : Framework.Fact ShowDeclaration ShowDeclaration.Fact where
-  validate := validate
 
 end Fact
 

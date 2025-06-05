@@ -80,12 +80,14 @@ instance : SchemaFor ShowDeclaration.Fact :=
 structure ShowDeclaration where
   id : String
   name : String
+  declaration : Declaration
   facts : Array ShowDeclaration.Fact
 
 instance : SchemaFor ShowDeclaration :=
   .structure "showDeclaration"
     [.single "id" ShowDeclaration.id,
      .single "name" ShowDeclaration.name,
+     .single "declaration" ShowDeclaration.declaration,
      .arr "facts" ShowDeclaration.facts]
 
 mutual
@@ -159,15 +161,17 @@ def processDeclaration : Declaration → Data.Declaration
   | .missing n => .missing n.toString
 
 def processShowDeclaration (factState : FactState) (s : ShowDeclaration) : MetaM Data.ShowDeclaration := do
-  let facts ← (factState.showDeclaration.getD s.id #[]).mapM (processFact s)
+  let decl ← Declaration.fromName s.name
+  let facts ← (factState.showDeclaration.getD s.id #[]).mapM (processFact decl)
   return {
     id := s.id
     name := s.name.toString
+    declaration := processDeclaration decl
     facts
   }
 where
-  processFact (s : ShowDeclaration) (f : ShowDeclaration.Fact) : MetaM Data.ShowDeclaration.Fact := do
-    let validationResult ← f.validate s
+  processFact (decl : Declaration) (f : ShowDeclaration.Fact) : MetaM Data.ShowDeclaration.Fact := do
+    let validationResult ← f.validate decl
     return {
       factId := f.factId
       metadata := f.metadata
