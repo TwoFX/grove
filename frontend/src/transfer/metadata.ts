@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import { Node, Section, NodeSection } from "@/transfer/index";
-import schema_node from "@/schemas/node.jtd.json";
+import schema_node from "@/transfer/node.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
 const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
