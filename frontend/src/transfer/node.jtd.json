@@ -44,10 +44,18 @@
       },
       "discriminator": "constructor"
     },
+    "invalidation": {
+      "properties": {
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" }
+      }
+    },
     "factValidationResult": {
       "mapping": {
         "ok": { "optionalProperties": { "dummy": { "type": "string" } } },
-        "invalidated": { "properties": { "invalidated": { "type": "string" } } }
+        "invalidated": {
+          "properties": { "invalidated": { "ref": "invalidation" } }
+        }
       },
       "discriminator": "constructor"
     },

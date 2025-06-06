@@ -44,14 +44,23 @@ structure Metadata where
 instance : SchemaFor Metadata :=
   .structure "factMetadata" [.single "status" Metadata.status, .single "comment" Metadata.comment]
 
+structure Invalidation where
+  shortDescription : String
+  longDescription : String
+
+instance : SchemaFor Invalidation :=
+  .structure "invalidation"
+    [.single "shortDescription" Invalidation.shortDescription,
+     .single "longDescription" Invalidation.longDescription]
+
 inductive ValidationResult where
   | ok : ValidationResult
-  | invalidated : String → ValidationResult
+  | invalidated : Invalidation → ValidationResult
 
 instance : SchemaFor ValidationResult :=
   .inductive "factValidationResult"
     [.nullary "ok" (fun | .ok => true | _ => false),
-     .unary "invalidated" String (fun | .invalidated s => some s | _ => none)]
+     .unary "invalidated" Invalidation (fun | .invalidated s => some s | _ => none)]
 
 end Fact
 

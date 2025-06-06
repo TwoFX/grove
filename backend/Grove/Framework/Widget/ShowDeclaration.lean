@@ -28,7 +28,7 @@ def validate (currentState : Declaration) (f : Fact) : MetaM Fact.ValidationResu
   if f.state == currentState then
     return .ok
 
-  return .invalidated (Declaration.describeDifferences f.state currentState)
+  return .invalidated ⟨"Declaration has changed", Declaration.describeDifferences f.state currentState⟩
 
 end Fact
 

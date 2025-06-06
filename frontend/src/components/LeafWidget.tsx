@@ -17,7 +17,7 @@ export function LeafWidget({
   const toggleCollapsed = useGroveStore((state) => state.toggleCollapsed);
 
   return (
-    <div className={!isCollapsed ? "bg-gray-100" : ""}>
+    <div className={!isCollapsed ? "border-gray-200 border-1" : ""}>
       <div
         className="flex items-center cursor-pointer hover:bg-gray-100 gap-1 rounded"
         onClick={() => toggleCollapsed(id)}

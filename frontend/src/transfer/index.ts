@@ -51,12 +51,17 @@ export type FactValidationResult =
 
 export interface FactValidationResultInvalidated {
   constructor: "invalidated";
-  invalidated: string;
+  invalidated: Invalidation;
 }
 
 export interface FactValidationResultOk {
   constructor: "ok";
   dummy?: string;
+}
+
+export interface Invalidation {
+  longDescription: string;
+  shortDescription: string;
 }
 
 export type Node0 =
