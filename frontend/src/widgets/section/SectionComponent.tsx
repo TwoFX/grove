@@ -1,7 +1,7 @@
 "use client";
 
 import { Section } from "@/transfer";
-import { JSX, useState } from "react";
+import { JSX } from "react";
 import { NodeComponent } from "../NodeComponent";
 import { nodeKey } from "@/transfer/util";
 import { BsChevronDown } from "react-icons/bs";
