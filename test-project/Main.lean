@@ -4,11 +4,11 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Grove.Framework
-import TestProject.Std.Structure.Basic
-import TestProject.Std.Facts.Basic
+import TestProject.Grove.Structure.Basic
+import TestProject.Grove.Facts.Basic
 
 def main : IO Unit :=
   Grove.Framework.main
-    TestProject.Std.standardLibrary
-    TestProject.Std.Facts.addFacts
+    TestProject.Grove.Structure.root
+    TestProject.Grove.Facts.addFacts
     #[`Init, `Std, `Lean]

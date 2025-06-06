@@ -5,15 +5,9 @@ Authors: Markus Himmel
 -/
 import Grove.Framework
 
-/-!
-This will be split into multiple files in the future.
-
-For now this is just for testing.
--/
-
 open Lean Grove.Framework Widget
 
-namespace TestProject.Std
+namespace TestProject.Grove.Structure
 
 namespace Containers
 
@@ -38,7 +32,10 @@ def root : Node :=
 
 end Containers
 
-def standardLibrary : Node :=
-  .section "stdlib" "The Lean standard library" #[Containers.root]
+def introduction : Node :=
+  .text "Welcome to the test project for Grove, a quality assurance system for Lean libraries."
 
-end TestProject.Std
+def root : Node :=
+  .section "test-project" "The Grove test project" #[introduction, Containers.root]
+
+end TestProject.Grove.Structure

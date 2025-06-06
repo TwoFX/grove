@@ -1,8 +1,8 @@
-import TestProject.Std.Facts.Basic.«show-option-mapa»
+import TestProject.Grove.Facts.Basic.«show-option-mapa»
 
 open Grove.Framework Widget
 
-namespace TestProject.Std.Facts
+namespace TestProject.Grove.Facts
 
 def addFacts : FactStateM Unit := do
   «stdlib».«containers».addFacts

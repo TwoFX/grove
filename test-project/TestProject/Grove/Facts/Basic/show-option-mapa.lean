@@ -2,7 +2,7 @@ import Grove.Framework
 
 open Grove.Framework Widget
 
-namespace TestProject.Std.Facts.«stdlib».«containers»
+namespace TestProject.Grove.Facts.«stdlib».«containers»
 
 def «0» : ShowDeclaration.Fact where
   widgetId := "show-option-mapa"
