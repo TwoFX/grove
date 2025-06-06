@@ -54,12 +54,14 @@ instance : SchemaFor Invalidation :=
      .single "longDescription" Invalidation.longDescription]
 
 inductive ValidationResult where
+  | new : ValidationResult
   | ok : ValidationResult
   | invalidated : Invalidation → ValidationResult
 
 instance : SchemaFor ValidationResult :=
   .inductive "factValidationResult"
-    [.nullary "ok" (fun | .ok => true | _ => false),
+    [.nullary "new" (fun | .new => true | _ => false),
+     .nullary "ok" (fun | .ok => true | _ => false),
      .unary "invalidated" Invalidation (fun | .invalidated s => some s | _ => none)]
 
 end Fact

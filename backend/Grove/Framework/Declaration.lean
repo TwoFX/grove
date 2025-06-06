@@ -80,7 +80,7 @@ def fromName (n : Name) : MetaM Declaration := do
     return .missing n
 
 def describeDifferences (d₁ d₂ : Declaration) : String :=
-  s!"First is {repr d₁}, second is {repr d₂}."
+  s!"Used to be\n\n  {repr d₁}\n\nBut now is\n\n  {repr d₂}"
 
 end Declaration
 

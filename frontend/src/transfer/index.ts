@@ -47,11 +47,17 @@ export enum FactStatus {
 
 export type FactValidationResult =
   | FactValidationResultInvalidated
+  | FactValidationResultNew
   | FactValidationResultOk;
 
 export interface FactValidationResultInvalidated {
   constructor: "invalidated";
   invalidated: Invalidation;
+}
+
+export interface FactValidationResultNew {
+  constructor: "new";
+  dummy?: string;
 }
 
 export interface FactValidationResultOk {

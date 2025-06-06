@@ -53,6 +53,7 @@
     "factValidationResult": {
       "mapping": {
         "ok": { "optionalProperties": { "dummy": { "type": "string" } } },
+        "new": { "optionalProperties": { "dummy": { "type": "string" } } },
         "invalidated": {
           "properties": { "invalidated": { "ref": "invalidation" } }
         }
