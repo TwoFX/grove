@@ -5,16 +5,17 @@ import { JSX, useState } from "react";
 import { NodeComponent } from "../NodeComponent";
 import { nodeKey } from "@/transfer/util";
 import { BsChevronDown } from "react-icons/bs";
+import { useGroveStore } from "@/state/state";
 
 function SectionHeader({
   text,
   depth,
-  isExpanded,
+  isCollapsed,
   onToggle,
 }: {
   text: string;
   depth: number;
-  isExpanded: boolean;
+  isCollapsed: boolean;
   onToggle: () => void;
 }): JSX.Element {
   const headerContent = () => {
@@ -35,7 +36,7 @@ function SectionHeader({
       onClick={onToggle}
     >
       <BsChevronDown
-        className={`${isExpanded ? "" : "-rotate-90"} ${
+        className={`${isCollapsed ? "" : "-rotate-90"} ${
           depth === 0 ? "text-xl" : depth === 1 ? "text-lg" : "text-base"
         }`}
       />
@@ -51,17 +52,18 @@ export function SectionComponent({
   section: Section;
   depth: number;
 }): JSX.Element {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const isCollapsed = useGroveStore((state) => state.collapsed[section.id]);
+  const toggleCollapsed = useGroveStore((state) => state.toggleCollapsed);
 
   return (
     <div className="m-1">
       <SectionHeader
         text={section.title}
         depth={depth}
-        isExpanded={isExpanded}
-        onToggle={() => setIsExpanded(!isExpanded)}
+        isCollapsed={isCollapsed}
+        onToggle={() => toggleCollapsed(section.id)}
       />
-      {isExpanded && (
+      {isCollapsed && (
         <div className="border-1 border-gray-300 p-1">
           {section.children.map((node) => (
             <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />

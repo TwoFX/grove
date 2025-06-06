@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lean Library Manager",
-  description: "This is the as-yet-unnamed Lean Library Manager",
+  title: "Grove",
+  description: "Grove Lean library QA",
 };
 
 export default function RootLayout({
