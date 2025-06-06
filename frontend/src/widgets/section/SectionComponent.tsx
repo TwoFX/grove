@@ -64,7 +64,7 @@ export function SectionComponent({
         onToggle={() => toggleCollapsed(section.id)}
       />
       {!isCollapsed && (
-        <div className="border-1 border-gray-300 p-1">
+        <div className="border-1 border-gray-300 p-1 space-y-1">
           {section.children.map((node) => (
             <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />
           ))}

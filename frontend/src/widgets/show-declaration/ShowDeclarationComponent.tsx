@@ -1,11 +1,13 @@
+import { LeafWidget } from "@/components/LeafWidget";
+import { useGroveStore } from "@/state/state";
 import {
   Declaration,
   FactStatus,
   ShowDeclaration,
   ShowDeclarationFact,
 } from "@/transfer";
-import { JSX } from "react";
-import { BsCheck, BsExclamation } from "react-icons/bs";
+import { JSX, ReactElement } from "react";
+import { BsCheck, BsChevronDown, BsExclamation } from "react-icons/bs";
 
 function Fact({ fact }: { fact: ShowDeclarationFact }): JSX.Element {
   return (
@@ -44,11 +46,17 @@ export function ShowDeclarationComponent({
   showDeclaration: ShowDeclaration;
 }): JSX.Element {
   return (
-    <div>
-      {showDeclaration.facts.map((fact) => (
-        <Fact fact={fact} key={fact.factId} />
-      ))}
-      <p>{statement(showDeclaration.declaration)}</p>
-    </div>
+    <LeafWidget
+      widgetType="Declaration"
+      id={showDeclaration.id}
+      title={showDeclaration.name}
+    >
+      <div>
+        {showDeclaration.facts.map((fact) => (
+          <Fact fact={fact} key={fact.factId} />
+        ))}
+        <p>{statement(showDeclaration.declaration)}</p>
+      </div>
+    </LeafWidget>
   );
 }

@@ -1,3 +1,4 @@
+import { LeafWidget } from "@/components/LeafWidget";
 import { Assertion } from "@/transfer";
 import { JSX } from "react";
 
@@ -6,9 +7,18 @@ export function AssertionComponent({
 }: {
   assertion: Assertion;
 }): JSX.Element {
-  if (assertion.success) {
-    return <div>Success: {assertion.message}</div>;
-  } else {
-    return <div>Failure: {assertion.message}</div>;
-  }
+  return (
+    <LeafWidget
+      id={assertion.id}
+      widgetType="Assertion"
+      title={assertion.title}
+    >
+      <>
+        <span className="font-bold">
+          {assertion.success ? "Success: " : "Failure: "}
+        </span>
+        <span>{assertion.message}</span>
+      </>
+    </LeafWidget>
+  );
 }
