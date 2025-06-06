@@ -9,7 +9,7 @@ import { BsCheck, BsExclamation } from "react-icons/bs";
 
 function Fact({ fact }: { fact: ShowDeclarationFact }): JSX.Element {
   return (
-    <div>
+    <div className="flex items-center">
       {fact.metadata.status === FactStatus.Done ? (
         <BsCheck />
       ) : (
@@ -18,9 +18,10 @@ function Fact({ fact }: { fact: ShowDeclarationFact }): JSX.Element {
       {fact.validationResult.constructor === "ok" ? (
         <BsCheck />
       ) : (
-        <div>
-          <BsExclamation /> {fact.validationResult.invalidated}
-        </div>
+        <>
+          <BsExclamation />
+          <span>{fact.validationResult.invalidated}</span>
+        </>
       )}
     </div>
   );

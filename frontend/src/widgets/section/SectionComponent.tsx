@@ -11,13 +11,13 @@ function SectionHeader({
   depth: number;
 }): JSX.Element {
   if (depth === 0) {
-    return <h1>h1: {text}</h1>;
+    return <span className="text-xl">{text}</span>;
   } else if (depth === 1) {
-    return <h2>h2: {text}</h2>;
+    return <span className="text-lg">{text}</span>;
   } else if (depth === 2) {
-    return <h3>h3: {text}</h3>;
+    return <span className="font-bold">h3: {text}</span>;
   } else {
-    return <h4>h4: {text}</h4>;
+    return <span className="font-bold">h4: {text}</span>;
   }
 }
 
@@ -29,11 +29,13 @@ export function SectionComponent({
   depth: number;
 }): JSX.Element {
   return (
-    <div>
+    <div className="p-1">
       <SectionHeader text={section.title} depth={depth} />
-      {section.children.map((node) => (
-        <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />
-      ))}
+      <div className="border-1 border-gray-300 rounded-sm p-1">
+        {section.children.map((node) => (
+          <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />
+        ))}
+      </div>
     </div>
   );
 }
