@@ -3,7 +3,7 @@ import "./globals.css";
 import Image from "next/image";
 import { SaveButton } from "@/components/SaveButton";
 import { rootNode } from "@/transfer/metadata";
-import { templates } from "@/templates/precompile";
+import { templates } from "@/templates/server";
 
 export const metadata: Metadata = {
   title: "Grove",
@@ -18,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="flex items-center gap-4 p-2 border-b">
+        <header className="flex items-center justify-between gap-4 p-2 border-b">
           <Image
             src="/lean_logo.svg"
             alt="Lean Logo"
@@ -26,7 +26,7 @@ export default function RootLayout({
             height={40}
             priority
           />
-          <SaveButton rootNode={rootNode} templates={templates} />
+          <SaveButton rootNode={rootNode} templateStrings={templates} />
         </header>
         <main>{children}</main>
       </body>

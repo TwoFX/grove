@@ -1,17 +1,17 @@
 "use client";
 
 import { useGroveStore } from "@/state/state";
-import { Templates } from "@/templates";
-import { Node, ShowDeclaration } from "@/transfer";
-import { compile } from "handlebars";
+import { TemplateStrings } from "@/templates";
+import { setupTemplates } from "@/templates/client";
+import { ShowDeclaration, Node } from "@/transfer";
 import { JSX } from "react";
 
 export function SaveButton({
   rootNode,
-  templates,
+  templateStrings,
 }: {
   rootNode: Node;
-  templates: Templates;
+  templateStrings: TemplateStrings;
 }): JSX.Element {
   const pendingShowDeclarationFacts = useGroveStore(
     (state) => state.pendingShowDeclarationFacts,
@@ -26,6 +26,8 @@ export function SaveButton({
       create: true,
     });
 
+    const templates = setupTemplates(templateStrings);
+
     async function writeShowDeclaration(
       dirHandle: FileSystemDirectoryHandle,
       decl: ShowDeclaration,
@@ -34,11 +36,8 @@ export function SaveButton({
         create: true,
       });
 
-      console.log(templates.showDeclaration);
-      const showDeclaration = compile(templates.showDeclaration);
-
       const writable = await fileHandle.createWritable();
-      await writable.write(showDeclaration(decl));
+      await writable.write(templates.showDeclaration(decl));
       await writable.close();
     }
 

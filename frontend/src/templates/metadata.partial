@@ -1,0 +1,4 @@
+{
+    status := {{status status}}
+    comment := {{leanEscape comment}}
+}
