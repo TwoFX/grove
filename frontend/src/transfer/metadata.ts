@@ -16,7 +16,7 @@ const parseNode = ajv.compileParser<Node>(schema_node);
 const serverData = await fs.readFile(serverDataFileLocation, "utf8");
 const parsedNode = parseNode(serverData);
 if (!parsedNode) {
-  throw new Error("Invalid metadata");
+  throw new Error("Invalid metadata: " + parseNode.message);
 }
 export const rootNode: Node = parsedNode;
 

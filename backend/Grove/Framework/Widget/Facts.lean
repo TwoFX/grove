@@ -21,7 +21,7 @@ def FactStateM.run (c : FactStateM Unit) : FactState :=
   (StateT.run c {}).2
 
 @[inline]
-private def addToMap (m : HashMap String (Array α)) (id : String) (a : α) :=
+private def addToMap (m : HashMap String (Array α)) (id : String) (a : α) : HashMap String (Array α) :=
   m.alter id (fun arr => some ((arr.getD #[]).push a))
 
 def addShowDeclarationFact (f : ShowDeclaration.Fact) : FactStateM Unit :=

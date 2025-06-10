@@ -1,0 +1,18 @@
+{{#if (declarationIsDefinition this)}}
+.def {
+    name := {{leanName def/name}}
+    renderedStatement := {{leanString def/renderedStatement}}
+    isDeprecated := {{def/isDeprecated}}
+  }
+{{/if}}
+{{#if (declarationIsTheorem this)}}
+.thm {
+    name := {{leanName thm/name}}
+    renderedStatement := {{leanString thm/renderedStatement}}
+    isDeprecated := {{thm/isDeprecated}}
+    isSimp := {{isSimp}}
+  }
+{{/if}}
+{{#if (declarationIsMissing this)}}
+.missing {{leanName missing}}
+{{/if}}

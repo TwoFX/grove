@@ -1,11 +1,42 @@
-import { FactStatus } from "@/transfer";
+import { Declaration, FactStatus } from "@/transfer";
 import { Templates, TemplateStrings } from ".";
 import Handlebars from "handlebars";
 
 export function setupTemplates(templateStrings: TemplateStrings): Templates {
-  Handlebars.registerHelper("leanEscape", function (str: string): string {
-    return JSON.stringify(str).slice(1, -1);
-  });
+  Handlebars.registerHelper(
+    "leanString",
+    function (str: string): Handlebars.SafeString {
+      return new Handlebars.SafeString(JSON.stringify(str));
+    },
+  );
+
+  Handlebars.registerHelper(
+    "leanName",
+    function (str: string): Handlebars.SafeString {
+      return new Handlebars.SafeString("`" + str);
+    },
+  );
+
+  Handlebars.registerHelper(
+    "declarationIsDefinition",
+    function (decl: Declaration): boolean {
+      return decl.constructor === "def";
+    },
+  );
+
+  Handlebars.registerHelper(
+    "declarationIsTheorem",
+    function (decl: Declaration): boolean {
+      return decl.constructor === "thm";
+    },
+  );
+
+  Handlebars.registerHelper(
+    "declarationIsMissing",
+    function (decl: Declaration): boolean {
+      return decl.constructor === "missing";
+    },
+  );
 
   Handlebars.registerHelper("status", function (status: FactStatus): string {
     switch (status) {
@@ -23,6 +54,7 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
   });
 
   Handlebars.registerPartial("metadata", templateStrings.metadataPartial);
+  Handlebars.registerPartial("declaration", templateStrings.declarationPartial);
 
   return {
     showDeclaration: Handlebars.compile(templateStrings.showDeclaration),

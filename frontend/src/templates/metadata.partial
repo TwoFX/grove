@@ -1,4 +1,4 @@
 {
     status := {{status status}}
-    comment := {{leanEscape comment}}
-}
+    comment := {{leanString comment}}
+  }

@@ -8,4 +8,5 @@ function readTemplate(path: string): string {
 export const templates: TemplateStrings = {
   showDeclaration: readTemplate("showDeclaration.template"),
   metadataPartial: readTemplate("metadata.partial"),
+  declarationPartial: readTemplate("declaration.partial"),
 };
