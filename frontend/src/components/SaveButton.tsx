@@ -1,10 +1,18 @@
 "use client";
 
 import { useGroveStore } from "@/state/state";
+import { Templates } from "@/templates";
 import { Node, ShowDeclaration } from "@/transfer";
+import { compile } from "handlebars";
 import { JSX } from "react";
 
-export function SaveButton({ rootNode }: { rootNode: Node }): JSX.Element {
+export function SaveButton({
+  rootNode,
+  templates,
+}: {
+  rootNode: Node;
+  templates: Templates;
+}): JSX.Element {
   const pendingShowDeclarationFacts = useGroveStore(
     (state) => state.pendingShowDeclarationFacts,
   );
@@ -14,7 +22,7 @@ export function SaveButton({ rootNode }: { rootNode: Node }): JSX.Element {
   async function saveFiles() {
     const dirHandle = await window.showDirectoryPicker();
 
-    const generatedDirHandle = await dirHandle.getDirectoryHandle("generated", {
+    const generatedDirHandle = await dirHandle.getDirectoryHandle("Generated", {
       create: true,
     });
 
@@ -26,8 +34,11 @@ export function SaveButton({ rootNode }: { rootNode: Node }): JSX.Element {
         create: true,
       });
 
+      console.log(templates.showDeclaration);
+      const showDeclaration = compile(templates.showDeclaration);
+
       const writable = await fileHandle.createWritable();
-      await writable.write("TODO, missing some kind of templating engine");
+      await writable.write(showDeclaration(decl));
       await writable.close();
     }
 

@@ -3,6 +3,7 @@ import "./globals.css";
 import Image from "next/image";
 import { SaveButton } from "@/components/SaveButton";
 import { rootNode } from "@/transfer/metadata";
+import { templates } from "@/templates/precompile";
 
 export const metadata: Metadata = {
   title: "Grove",
@@ -25,7 +26,7 @@ export default function RootLayout({
             height={40}
             priority
           />
-          <SaveButton rootNode={rootNode} />
+          <SaveButton rootNode={rootNode} templates={templates} />
         </header>
         <main>{children}</main>
       </body>
