@@ -140,11 +140,13 @@ instance : SchemaFor Node :=
 
 structure Project where
   projectNamespace : String
+  hash : String
   rootNode : Node
 
 instance : SchemaFor Project :=
   .structure "project"
     [.single "projectNamespace" Project.projectNamespace,
+     .single "hash" Project.hash,
      .single "rootNode" Project.rootNode]
 
 end Data
@@ -196,7 +198,11 @@ partial def processNode (factState : FactState) : Node → MetaM Data.Node
   | .text s => pure <| .text s
 
 def processProject (p : Project) : MetaM Data.Project :=
-  Data.Project.mk p.projectNamespace.toString <$> processNode p.facts.run p.rootNode
+  return {
+    projectNamespace := p.config.projectNamespace.toString
+    hash := ← p.config.getHash
+    rootNode := ← processNode p.facts.run p.rootNode
+  }
 
 def render (p : Project) : MetaM String :=
   (toString ∘ toJson) <$> processProject p

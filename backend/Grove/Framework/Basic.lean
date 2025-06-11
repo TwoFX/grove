@@ -8,6 +8,7 @@ import Grove.Framework.Widget.Table.Basic
 import Grove.Framework.Widget.Assertion
 import Grove.Framework.Widget.ShowDeclaration
 import Grove.Framework.Widget.Facts
+import Grove.Framework.Git
 
 open Lean
 
@@ -31,8 +32,12 @@ instance : Coe Assertion Node where
 instance : Coe ShowDeclaration Node where
   coe := .showDeclaration
 
-structure Project where
+structure Project.Configuration where
   projectNamespace : Name
+  getHash : IO String := getGitHash
+
+structure Project where
+  config : Project.Configuration
   rootNode : Node
   facts : FactStateM Unit
 

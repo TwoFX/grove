@@ -103,6 +103,7 @@ export interface NodeText {
 }
 
 export interface Project0 {
+  hash: string;
   projectNamespace: string;
   rootNode: Node;
 }

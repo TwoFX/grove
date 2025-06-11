@@ -7,8 +7,11 @@ import Grove.Framework
 import TestProject.Grove.Structure.Basic
 import TestProject.Grove.Facts.Basic
 
-def project : Grove.Framework.Project where
+def config : Grove.Framework.Project.Configuration where
   projectNamespace := `TestProject.Grove
+
+def project : Grove.Framework.Project where
+  config := config
   rootNode := TestProject.Grove.Structure.root
   facts := TestProject.Grove.Facts.addFacts
 
