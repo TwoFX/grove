@@ -8,4 +8,4 @@ import Grove.Framework.Backend.Full
 open Grove.JTD
 
 def main : IO Unit := do
-  IO.println (schemaJson Grove.Framework.Backend.Full.Data.Node)
+  IO.println (schemaJson Grove.Framework.Backend.Full.Data.Project)

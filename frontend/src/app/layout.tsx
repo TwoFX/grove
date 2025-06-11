@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Image from "next/image";
 import { SaveButton } from "@/components/SaveButton";
-import { rootNode } from "@/transfer/metadata";
+import { projectMetadata, rootNode } from "@/transfer/metadata";
 import { templates } from "@/templates/server";
 
 export const metadata: Metadata = {
@@ -26,7 +26,11 @@ export default function RootLayout({
             height={40}
             priority
           />
-          <SaveButton rootNode={rootNode} templateStrings={templates} />
+          <SaveButton
+            rootNode={rootNode}
+            templateStrings={templates}
+            projectMetadata={projectMetadata}
+          />
         </header>
         <main>{children}</main>
       </body>

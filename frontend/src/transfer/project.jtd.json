@@ -1,5 +1,5 @@
 {
-  "ref": "node",
+  "ref": "project",
   "definitions": {
     "theorem": {
       "properties": {
@@ -30,6 +30,12 @@
         "title": { "type": "string" },
         "id": { "type": "string" },
         "children": { "elements": { "ref": "node" } }
+      }
+    },
+    "project": {
+      "properties": {
+        "rootNode": { "ref": "node" },
+        "projectNamespace": { "type": "string" }
       }
     },
     "node": {

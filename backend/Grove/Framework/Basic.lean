@@ -7,6 +7,7 @@ import Lean.Meta.Basic
 import Grove.Framework.Widget.Table.Basic
 import Grove.Framework.Widget.Assertion
 import Grove.Framework.Widget.ShowDeclaration
+import Grove.Framework.Widget.Facts
 
 open Lean
 
@@ -29,5 +30,10 @@ instance : Coe Assertion Node where
 
 instance : Coe ShowDeclaration Node where
   coe := .showDeclaration
+
+structure Project where
+  projectNamespace : Name
+  rootNode : Node
+  facts : FactStateM Unit
 
 end Grove.Framework

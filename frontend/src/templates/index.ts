@@ -1,4 +1,5 @@
 import { ShowDeclaration } from "@/transfer";
+import { ProjectMetadata } from "@/transfer/metadata";
 
 export interface TemplateStrings {
   showDeclaration: string;
@@ -6,6 +7,13 @@ export interface TemplateStrings {
   declarationPartial: string;
 }
 
+export interface WidgetWithMetadata<T> {
+  metadata: ProjectMetadata;
+  widget: T;
+}
+
 export interface Templates {
-  showDeclaration: HandlebarsTemplateDelegate<ShowDeclaration>;
+  showDeclaration: HandlebarsTemplateDelegate<
+    WidgetWithMetadata<ShowDeclaration>
+  >;
 }

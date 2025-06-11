@@ -11,10 +11,10 @@ open Lean
 
 namespace Grove.Framework
 
-def perform (rootNode : Node) (addFacts : FactStateM Unit) : MetaM String :=
-  Grove.Framework.Backend.Full.render rootNode addFacts
+def perform (p : Project) : MetaM String :=
+  Grove.Framework.Backend.Full.render p
 
-def main (rootNode : Node) (addFacts : FactStateM Unit) (imports : Array Name) : IO Unit := do
+def main (p : Project) (imports : Array Name) : IO Unit := do
   Lean.initSearchPath (← Lean.findSysroot)
   unsafe enableInitializersExecution
   let env: Environment ← importModules
@@ -28,7 +28,7 @@ def main (rootNode : Node) (addFacts : FactStateM Unit) (imports : Array Name) :
     fileName := "<stdin>",
     fileMap := { source := "", positions := #[0] }
   }
-  match ← ((perform rootNode addFacts).run'.run' coreContext { env }).toBaseIO with
+  match ← ((perform p).run'.run' coreContext { env }).toBaseIO with
   | .error exception =>
     IO.println s!"{← exception.toMessageData.toString}"
   | .ok s => IO.println s

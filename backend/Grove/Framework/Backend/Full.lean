@@ -138,6 +138,15 @@ instance : SchemaFor Node :=
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
      .unary "text" String (fun | .text t => some t | _ => none)]
 
+structure Project where
+  projectNamespace : String
+  rootNode : Node
+
+instance : SchemaFor Project :=
+  .structure "project"
+    [.single "projectNamespace" Project.projectNamespace,
+     .single "rootNode" Project.rootNode]
+
 end Data
 
 def processAssertion (a : Assertion) : MetaM Data.Assertion := do
@@ -179,15 +188,18 @@ where
       validationResult
     }
 
-partial def process (factState : FactState) : Node → MetaM Data.Node
-  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (process factState)
+partial def processNode (factState : FactState) : Node → MetaM Data.Node
+  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (processNode factState)
   | .namespace n => pure <| .namespace n.toString
   | .assertion a => Data.Node.assertion <$> processAssertion a
   | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration factState s
   | .text s => pure <| .text s
 
-def render (n : Node) (c : FactStateM Unit) : MetaM String :=
-  (toString ∘ toJson) <$> process c.run n
+def processProject (p : Project) : MetaM Data.Project :=
+  Data.Project.mk p.projectNamespace.toString <$> processNode p.facts.run p.rootNode
+
+def render (p : Project) : MetaM String :=
+  (toString ∘ toJson) <$> processProject p
 
 end Full
 

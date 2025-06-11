@@ -8,6 +8,6 @@ echo $SCRIPT_DIR
 # Change to the script directory and run the commands
 cd "$SCRIPT_DIR" && \
 cd ../backend && \
-lake exe print-schema > ../frontend/src/transfer/node.jtd.json && \
-jtd-codegen ../frontend/src/transfer/node.jtd.json --typescript-out ../frontend/src/transfer && \
+lake exe print-schema > ../frontend/src/transfer/project.jtd.json && \
+jtd-codegen ../frontend/src/transfer/project.jtd.json --typescript-out ../frontend/src/transfer && \
 cd ../frontend && npx prettier . --write

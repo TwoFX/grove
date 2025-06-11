@@ -4,13 +4,16 @@ import { useGroveStore } from "@/state/state";
 import { TemplateStrings } from "@/templates";
 import { setupTemplates } from "@/templates/client";
 import { ShowDeclaration, Node } from "@/transfer";
+import { ProjectMetadata } from "@/transfer/metadata";
 import { JSX } from "react";
 
 export function SaveButton({
   rootNode,
+  projectMetadata,
   templateStrings,
 }: {
   rootNode: Node;
+  projectMetadata: ProjectMetadata;
   templateStrings: TemplateStrings;
 }): JSX.Element {
   const pendingShowDeclarationFacts = useGroveStore(
@@ -37,7 +40,9 @@ export function SaveButton({
       });
 
       const writable = await fileHandle.createWritable();
-      await writable.write(templates.showDeclaration(decl));
+      await writable.write(
+        templates.showDeclaration({ widget: decl, metadata: projectMetadata }),
+      );
       await writable.close();
     }
 

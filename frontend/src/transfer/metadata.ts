@@ -1,7 +1,11 @@
 import { promises as fs } from "fs";
-import { Node, Section, NodeSection } from "@/transfer/index";
-import schema_node from "@/transfer/node.jtd.json";
+import { Node, Section, NodeSection, Project } from "@/transfer/index";
+import schema_project from "@/transfer/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
+
+export interface ProjectMetadata {
+  projectNamespace: string;
+}
 
 const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
 if (!serverDataFileLocation) {
@@ -11,14 +15,18 @@ if (!serverDataFileLocation) {
 }
 
 const ajv = new Ajv();
-const parseNode = ajv.compileParser<Node>(schema_node);
+const parseProject = ajv.compileParser<Project>(schema_project);
 
 const serverData = await fs.readFile(serverDataFileLocation, "utf8");
-const parsedNode = parseNode(serverData);
-if (!parsedNode) {
-  throw new Error("Invalid metadata: " + parseNode.message);
+const parsedProject = parseProject(serverData);
+if (!parsedProject) {
+  throw new Error("Invalid metadata: " + parseProject.message);
 }
-export const rootNode: Node = parsedNode;
+export const project: Project = parsedProject;
+export const rootNode: Node = project.rootNode;
+export const projectMetadata: ProjectMetadata = {
+  projectNamespace: project.projectNamespace,
+};
 
 function createSectionMap(): Map<string, Section> {
   const sectionMap = new Map<string, Section>();
@@ -31,9 +39,7 @@ function createSectionMap(): Map<string, Section> {
     }
   }
 
-  if (rootNode) {
-    traverse(rootNode);
-  }
+  traverse(project.rootNode);
 
   return sectionMap;
 }
