@@ -7,7 +7,7 @@ Authors: Markus Himmel
 namespace Grove.Framework
 
 def getGitHashViaCommand : IO String :=
-  IO.Process.run {
+  String.trim <$> IO.Process.run {
     cmd := "git"
     args := #["rev-parse", "HEAD"]
   }
