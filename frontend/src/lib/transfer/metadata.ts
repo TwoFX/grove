@@ -1,6 +1,6 @@
 import { promises as fs } from "fs";
 import { Node, Section, NodeSection, Project } from "@/lib/transfer/index";
-import schema_project from "@/transfer/project.jtd.json";
+import schema_project from "@/lib/transfer/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
 export interface ProjectMetadata {

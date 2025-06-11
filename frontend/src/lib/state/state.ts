@@ -1,38 +1,31 @@
-import { ShowDeclarationFact } from "@/lib/transfer";
+import {
+  createShowDeclarationSlice,
+  ShowDeclarationSlice,
+} from "@/widgets/show-declaration/state";
 import { produce } from "immer";
-import { create } from "zustand";
+import { create, StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
 
-interface GroveState {
+interface UISlice {
   collapsed: { [key: string]: boolean };
   toggleCollapsed: (key: string) => void;
-
-  pendingShowDeclarationFacts: { [key: string]: ShowDeclarationFact };
-  setPendingShowDeclarationFact: (
-    key: string,
-    fact: ShowDeclarationFact,
-  ) => void;
 }
 
-export const useGroveStore = create<GroveState>()(
-  persist(
-    (set) => ({
-      collapsed: {},
-      toggleCollapsed: (key) =>
-        set((state) =>
-          produce(state, (draft) => {
-            draft.collapsed[key] = !draft.collapsed[key];
-          }),
-        ),
+const createUISlice: StateCreator<UISlice, [], [], UISlice> = (set) => ({
+  collapsed: {},
+  toggleCollapsed: (key) =>
+    set((state) =>
+      produce(state, (draft) => {
+        draft.collapsed[key] = !draft.collapsed[key];
+      }),
+    ),
+});
 
-      pendingShowDeclarationFacts: {},
-      setPendingShowDeclarationFact: (key, fact) => {
-        set((state) =>
-          produce(state, (draft) => {
-            draft.pendingShowDeclarationFacts[key] = fact;
-          }),
-        );
-      },
+export const useGroveStore = create<UISlice & ShowDeclarationSlice>()(
+  persist(
+    (...a) => ({
+      ...createUISlice(...a),
+      ...createShowDeclarationSlice(...a),
     }),
     { name: "grove-storage" },
   ),
