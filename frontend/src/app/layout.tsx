@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Image from "next/image";
-import { SaveButton } from "@/components/SaveButton";
-import { projectMetadata, rootNode } from "@/lib/transfer/metadata";
+import {
+  groveContextData,
+  projectMetadata,
+  rootNode,
+} from "@/lib/transfer/metadata";
 import { templates } from "@/lib/templates/server";
+import { HeaderBar } from "@/components/HeaderBar";
+import { GroveClient } from "@/components/GroveClient";
 
 export const metadata: Metadata = {
   title: "Grove",
@@ -17,23 +21,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <header className="flex items-center justify-between gap-4 p-2 border-b">
-          <Image
-            src="/lean_logo.svg"
-            alt="Lean Logo"
-            width={70}
-            height={40}
-            priority
-          />
-          <SaveButton
-            rootNode={rootNode}
-            templateStrings={templates}
-            projectMetadata={projectMetadata}
-          />
-        </header>
-        <main>{children}</main>
-      </body>
+      <GroveClient groveContext={groveContextData}>
+        <body>
+          <header>
+            <HeaderBar
+              rootNode={rootNode}
+              templateStrings={templates}
+              projectMetadata={projectMetadata}
+            />
+          </header>
+          <main>{children}</main>
+        </body>
+      </GroveClient>
     </html>
   );
 }

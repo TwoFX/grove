@@ -1,8 +1,9 @@
 "use client";
 
-import { saveFiles } from "@/lib/save/save";
+import { saveFiles, useRenderers } from "@/lib/save/save";
 import { useGroveStore } from "@/lib/state/state";
 import { TemplateStrings } from "@/lib/templates";
+import { setupTemplates } from "@/lib/templates/client";
 import { Node } from "@/lib/transfer";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { JSX } from "react";
@@ -16,11 +17,14 @@ export function SaveButton({
   projectMetadata: ProjectMetadata;
   templateStrings: TemplateStrings;
 }): JSX.Element {
+  // TODO
   const pendingShowDeclarationFacts = useGroveStore(
     (state) => state.pendingShowDeclarationFacts,
   );
-
   const numFacts = Object.keys(pendingShowDeclarationFacts).length;
+
+  const templates = setupTemplates(templateStrings);
+  const renderers = useRenderers(projectMetadata, templates);
 
   return (
     <button
@@ -30,7 +34,7 @@ export function SaveButton({
           ? "bg-gray-400 cursor-not-allowed"
           : "bg-blue-600 hover:bg-blue-700"
       }`}
-      onClick={() => saveFiles(templateStrings, rootNode, projectMetadata)}
+      onClick={() => saveFiles(rootNode, renderers)}
     >
       Save ({numFacts})
     </button>

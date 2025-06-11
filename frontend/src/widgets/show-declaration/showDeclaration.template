@@ -7,12 +7,11 @@ conflicts, but be careful.
 
 open Grove.Framework Widget
 
-namespace {{metadata/projectNamespace}}.Facts.Generated.«{{widget/id}}»
+namespace {{metadata/projectNamespace}}.Facts.Generated.«{{definition/id}}»
 
-{{#with widget}}
 {{#each facts}}
 def «{{factId}}» : ShowDeclaration.Fact where
-  widgetId := {{leanString ../id}}
+  widgetId := {{leanString ../definition/id}}
   factId := {{leanString factId}}
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
   state := {{#with state}}{{> declaration }}{{/with}}
@@ -22,4 +21,3 @@ def addFacts : FactStateM Unit := do
 {{#each facts}}
   addShowDeclarationFact «{{factId}}»
 {{/each}}
-{{/with}}

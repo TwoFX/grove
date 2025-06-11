@@ -77,17 +77,24 @@ instance : SchemaFor ShowDeclaration.Fact :=
      .single "state" ShowDeclaration.Fact.state,
      .single "validationResult" ShowDeclaration.Fact.validationResult]
 
-structure ShowDeclaration where
+structure ShowDeclaration.Definition where
   id : String
   name : String
   declaration : Declaration
+
+instance : SchemaFor ShowDeclaration.Definition :=
+  .structure "showDeclarationDefinition"
+    [.single "id" ShowDeclaration.Definition.id,
+     .single "name" ShowDeclaration.Definition.name,
+     .single "declaration" ShowDeclaration.Definition.declaration]
+
+structure ShowDeclaration where
+  definition : ShowDeclaration.Definition
   facts : Array ShowDeclaration.Fact
 
 instance : SchemaFor ShowDeclaration :=
   .structure "showDeclaration"
-    [.single "id" ShowDeclaration.id,
-     .single "name" ShowDeclaration.name,
-     .single "declaration" ShowDeclaration.declaration,
+    [.single "definition" ShowDeclaration.definition,
      .arr "facts" ShowDeclaration.facts]
 
 mutual
@@ -175,9 +182,11 @@ def processShowDeclaration (factState : FactState) (s : ShowDeclaration) : MetaM
   let decl ← Declaration.fromName s.name
   let facts ← (factState.showDeclaration.getD s.id #[]).mapM (processFact decl)
   return {
-    id := s.id
-    name := s.name.toString
-    declaration := processDeclaration decl
+    definition := {
+      id := s.id
+      name := s.name.toString
+      declaration := processDeclaration decl
+    }
     facts
   }
 where

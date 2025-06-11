@@ -1,5 +1,11 @@
 import { promises as fs } from "fs";
-import { Node, Section, NodeSection, Project } from "@/lib/transfer/index";
+import {
+  Node,
+  Section,
+  NodeSection,
+  Project,
+  ShowDeclarationFact,
+} from "@/lib/transfer/index";
 import schema_project from "@/lib/transfer/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
@@ -47,5 +53,42 @@ function createSectionMap(): Map<string, Section> {
 }
 
 export const sectionMap = createSectionMap();
+
+export interface GroveContextData {
+  showDeclarationFact: {
+    [widgetId: string]: { [factId: string]: ShowDeclarationFact };
+  };
+}
+
+function createShowDeclarationFactMap(): {
+  [widgetId: string]: { [factId: string]: ShowDeclarationFact };
+} {
+  const showDeclarationMap: {
+    [widgetId: string]: { [factId: string]: ShowDeclarationFact };
+  } = {};
+
+  function traverse(node: Node) {
+    if (node.constructor === "section") {
+      node.section.children.forEach(traverse);
+    } else if (node.constructor === "showDeclaration") {
+      const id = node.showDeclaration.definition.id;
+      node.showDeclaration.facts.forEach((fact) => {
+        const factId = fact.factId;
+        if (!showDeclarationMap[id]) {
+          showDeclarationMap[id] = {};
+        }
+        showDeclarationMap[id][factId] = fact;
+      });
+    }
+  }
+
+  traverse(project.rootNode);
+
+  return showDeclarationMap;
+}
+
+export const groveContextData: GroveContextData = {
+  showDeclarationFact: createShowDeclarationFactMap(),
+};
 
 // TODO: Access file containing invalidated fact ids, if present

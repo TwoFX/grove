@@ -3,9 +3,12 @@ import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface ShowDeclarationSlice {
-  pendingShowDeclarationFacts: { [key: string]: ShowDeclarationFact };
+  pendingShowDeclarationFacts: {
+    [widgetId: string]: { [factId: string]: ShowDeclarationFact };
+  };
   setPendingShowDeclarationFact: (
-    key: string,
+    widgetId: string,
+    factId: string,
     fact: ShowDeclarationFact,
   ) => void;
 }
@@ -17,10 +20,13 @@ export const createShowDeclarationSlice: StateCreator<
   ShowDeclarationSlice
 > = (set) => ({
   pendingShowDeclarationFacts: {},
-  setPendingShowDeclarationFact: (key, fact) => {
+  setPendingShowDeclarationFact: (widgetId, factId, fact) => {
     set((state) =>
       produce(state, (draft) => {
-        draft.pendingShowDeclarationFacts[key] = fact;
+        if (!draft.pendingShowDeclarationFacts[widgetId]) {
+          draft.pendingShowDeclarationFacts[widgetId] = {};
+        }
+        draft.pendingShowDeclarationFacts[widgetId][factId] = fact;
       }),
     );
   },

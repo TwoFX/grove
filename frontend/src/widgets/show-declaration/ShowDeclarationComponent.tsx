@@ -1,7 +1,10 @@
 "use client";
 
 import { LeafWidget } from "@/components/LeafWidget";
-import { useGroveStore } from "@/lib/state/state";
+import {
+  useGroveStore,
+  usePendingShowDeclarationFact,
+} from "@/lib/state/state";
 import {
   Declaration,
   FactMetadata,
@@ -177,25 +180,21 @@ function FactDialog({
   );
 }
 
-function Fact({
+export function Fact({
+  widgetId,
   factId,
-  oldFact,
   newState,
 }: {
+  widgetId: string;
   factId: string;
-  oldFact: ShowDeclarationFact | undefined;
   newState: Declaration;
 }): JSX.Element {
-  const pendingFact = useGroveStore(
-    (state) => state.pendingShowDeclarationFacts[factId],
-  );
+  const fact = usePendingShowDeclarationFact()(widgetId, factId);
   const setPendingFact = useGroveStore(
     (state) => state.setPendingShowDeclarationFact,
   );
 
   const [diagOpen, setDiagOpen] = useState(false);
-
-  const fact: ShowDeclarationFact | undefined = pendingFact ?? oldFact;
 
   const initialStatus: FactStatus = fact?.metadata.status ?? FactStatus.Done;
   const initialMessage: string = fact?.metadata.comment ?? "Blub";
@@ -204,7 +203,7 @@ function Fact({
     status,
     message,
   ) =>
-    setPendingFact(factId, {
+    setPendingFact(widgetId, factId, {
       factId: factId,
       metadata: { status: status, comment: message },
       state: newState,
@@ -257,20 +256,20 @@ export function ShowDeclarationComponent({
 }: {
   showDeclaration: ShowDeclaration;
 }): JSX.Element {
-  const firstFact: ShowDeclarationFact | undefined = showDeclaration.facts[0];
-
   return (
     <LeafWidget
       widgetType="Declaration"
-      id={showDeclaration.id}
-      title={showDeclaration.name}
+      id={showDeclaration.definition.id}
+      title={showDeclaration.definition.name}
     >
       <div>
-        <p className="font-mono">{statement(showDeclaration.declaration)}</p>
+        <p className="font-mono">
+          {statement(showDeclaration.definition.declaration)}
+        </p>
         <Fact
           factId="0"
-          oldFact={firstFact}
-          newState={showDeclaration.declaration}
+          widgetId={showDeclaration.definition.id}
+          newState={showDeclaration.definition.declaration}
         ></Fact>
       </div>
     </LeafWidget>

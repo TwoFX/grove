@@ -17,12 +17,17 @@
         "factId": { "type": "string" }
       }
     },
-    "showDeclaration": {
+    "showDeclarationDefinition": {
       "properties": {
         "name": { "type": "string" },
         "id": { "type": "string" },
-        "facts": { "elements": { "ref": "showDeclarationFact" } },
         "declaration": { "ref": "declaration" }
+      }
+    },
+    "showDeclaration": {
+      "properties": {
+        "facts": { "elements": { "ref": "showDeclarationFact" } },
+        "definition": { "ref": "showDeclarationDefinition" }
       }
     },
     "section": {

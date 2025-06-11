@@ -1,37 +1,42 @@
-import { TemplateStrings, WidgetWithMetadata } from "../templates";
-import { setupTemplates } from "../templates/client";
+import { useRenderShowDeclaration } from "@/widgets/show-declaration/save";
+import { Templates } from "../templates";
 import { ProjectMetadata } from "../transfer/metadata";
-import { Node } from "@/lib/transfer";
+import { Node, ShowDeclarationDefinition } from "@/lib/transfer";
 
 async function writeWidget<T>(
-  projectMetadata: ProjectMetadata,
   dirHandle: FileSystemDirectoryHandle,
   widget: T,
   id: string,
-  template: HandlebarsTemplateDelegate<WidgetWithMetadata<T>>,
+  render: (t: T) => string,
 ): Promise<string> {
   const fileHandle = await dirHandle.getFileHandle(id + ".lean", {
     create: true,
   });
 
   const writable = await fileHandle.createWritable();
-  await writable.write(template({ widget: widget, metadata: projectMetadata }));
+  await writable.write(render(widget));
   await writable.close();
   return id;
 }
 
-export async function saveFiles(
-  templateStrings: TemplateStrings,
-  rootNode: Node,
-  projectMetadata: ProjectMetadata,
-) {
+export interface Renderers {
+  renderShowDeclaration: (definition: ShowDeclarationDefinition) => string;
+}
+
+export function useRenderers(metadata: ProjectMetadata, templates: Templates) {
+  const renderShowDeclaration = useRenderShowDeclaration(metadata, templates);
+
+  return {
+    renderShowDeclaration,
+  };
+}
+
+export async function saveFiles(rootNode: Node, renderers: Renderers) {
   const dirHandle = await window.showDirectoryPicker();
 
   const generatedDirHandle = await dirHandle.getDirectoryHandle("Generated", {
     create: true,
   });
-
-  const templates = setupTemplates(templateStrings);
 
   async function traverse(
     dirHandle: FileSystemDirectoryHandle,
@@ -49,11 +54,10 @@ export async function saveFiles(
         return childResults.flat();
       case "showDeclaration":
         const id = await writeWidget(
-          projectMetadata,
           dirHandle,
-          node.showDeclaration,
-          node.showDeclaration.id,
-          templates.showDeclaration,
+          node.showDeclaration.definition,
+          node.showDeclaration.definition.id,
+          renderers.renderShowDeclaration,
         );
         return [id];
       case "text":

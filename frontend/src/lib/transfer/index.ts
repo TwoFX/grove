@@ -115,8 +115,12 @@ export interface Section {
 }
 
 export interface ShowDeclaration {
-  declaration: Declaration;
+  definition: ShowDeclarationDefinition;
   facts: ShowDeclarationFact[];
+}
+
+export interface ShowDeclarationDefinition {
+  declaration: Declaration;
   id: string;
   name: string;
 }
