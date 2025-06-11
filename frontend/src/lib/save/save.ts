@@ -9,7 +9,7 @@ async function writeWidget<T>(
   widget: T,
   id: string,
   template: HandlebarsTemplateDelegate<WidgetWithMetadata<T>>,
-) {
+): Promise<string> {
   const fileHandle = await dirHandle.getFileHandle(id + ".lean", {
     create: true,
   });
@@ -17,6 +17,7 @@ async function writeWidget<T>(
   const writable = await fileHandle.createWritable();
   await writable.write(template({ widget: widget, metadata: projectMetadata }));
   await writable.close();
+  return id;
 }
 
 export async function saveFiles(
@@ -32,30 +33,33 @@ export async function saveFiles(
 
   const templates = setupTemplates(templateStrings);
 
-  async function traverse(dirHandle: FileSystemDirectoryHandle, node: Node) {
+  async function traverse(
+    dirHandle: FileSystemDirectoryHandle,
+    node: Node,
+  ): Promise<string[]> {
     switch (node.constructor) {
       case "assertion":
-        return;
+        return [];
       case "namespace":
-        return;
+        return [];
       case "section":
-        await Promise.all(
+        const childResults = await Promise.all(
           node.section.children.map((child) => traverse(dirHandle, child)),
         );
-        return;
+        return childResults.flat();
       case "showDeclaration":
-        await writeWidget(
+        const id = await writeWidget(
           projectMetadata,
           dirHandle,
           node.showDeclaration,
           node.showDeclaration.id,
           templates.showDeclaration,
         );
-        return;
+        return [id];
       case "text":
-        return;
+        return [];
     }
   }
 
-  traverse(generatedDirHandle, rootNode);
+  await traverse(generatedDirHandle, rootNode);
 }
