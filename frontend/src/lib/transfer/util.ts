@@ -1,4 +1,4 @@
-import { Node } from "@/transfer/index";
+import { Node } from "@/lib/transfer/index";
 
 export function nodeKey(node: Node): string {
   switch (node.constructor) {

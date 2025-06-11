@@ -1,5 +1,5 @@
 import { promises as fs } from "fs";
-import { Node, Section, NodeSection, Project } from "@/transfer/index";
+import { Node, Section, NodeSection, Project } from "@/lib/transfer/index";
 import schema_project from "@/transfer/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
 

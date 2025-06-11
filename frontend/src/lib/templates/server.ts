@@ -2,7 +2,7 @@ import { readFileSync } from "fs";
 import { TemplateStrings } from ".";
 
 function readTemplate(path: string): string {
-  return readFileSync(`./src/templates/${path}`, "utf-8");
+  return readFileSync(`./src/lib/templates/${path}`, "utf-8");
 }
 
 export const templates: TemplateStrings = {

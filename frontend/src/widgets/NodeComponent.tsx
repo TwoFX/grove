@@ -1,5 +1,5 @@
 import { JSX } from "react";
-import { Node } from "@/transfer/index";
+import { Node } from "@/lib/transfer/index";
 import { SectionComponent } from "./section/SectionComponent";
 import { TextComponent } from "./text/TextComponent";
 import { ShowDeclarationComponent } from "./show-declaration/ShowDeclarationComponent";

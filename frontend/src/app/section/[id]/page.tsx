@@ -1,4 +1,4 @@
-import { sectionMap } from "@/transfer/metadata";
+import { sectionMap } from "@/lib/transfer/metadata";
 import { SectionComponent } from "@/widgets/section/SectionComponent";
 
 export async function generateStaticParams() {

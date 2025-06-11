@@ -1,11 +1,11 @@
 "use client";
 
-import { Section } from "@/transfer";
+import { Section } from "@/lib/transfer";
 import { JSX } from "react";
 import { NodeComponent } from "../NodeComponent";
-import { nodeKey } from "@/transfer/util";
+import { nodeKey } from "@/lib/transfer/util";
 import { BsChevronDown } from "react-icons/bs";
-import { useGroveStore } from "@/state/state";
+import { useGroveStore } from "@/lib/state/state";
 
 function SectionHeader({
   text,

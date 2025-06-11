@@ -1,5 +1,5 @@
-import { ShowDeclaration } from "@/transfer";
-import { ProjectMetadata } from "@/transfer/metadata";
+import { ShowDeclaration } from "@/lib/transfer";
+import { ProjectMetadata } from "@/lib/transfer/metadata";
 
 export interface TemplateStrings {
   showDeclaration: string;

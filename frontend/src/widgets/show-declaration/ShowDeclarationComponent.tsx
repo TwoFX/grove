@@ -1,7 +1,7 @@
 "use client";
 
 import { LeafWidget } from "@/components/LeafWidget";
-import { useGroveStore } from "@/state/state";
+import { useGroveStore } from "@/lib/state/state";
 import {
   Declaration,
   FactMetadata,
@@ -9,7 +9,7 @@ import {
   FactValidationResult,
   ShowDeclaration,
   ShowDeclarationFact,
-} from "@/transfer";
+} from "@/lib/transfer";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { JSX, ReactElement, useState } from "react";
 import {

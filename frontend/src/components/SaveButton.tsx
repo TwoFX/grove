@@ -1,10 +1,10 @@
 "use client";
 
-import { useGroveStore } from "@/state/state";
-import { TemplateStrings } from "@/templates";
-import { setupTemplates } from "@/templates/client";
-import { ShowDeclaration, Node } from "@/transfer";
-import { ProjectMetadata } from "@/transfer/metadata";
+import { useGroveStore } from "@/lib/state/state";
+import { TemplateStrings } from "@/lib/templates";
+import { setupTemplates } from "@/lib/templates/client";
+import { ShowDeclaration, Node } from "@/lib/transfer";
+import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { JSX } from "react";
 
 export function SaveButton({

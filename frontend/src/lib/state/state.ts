@@ -1,4 +1,4 @@
-import { ShowDeclarationFact } from "@/transfer";
+import { ShowDeclarationFact } from "@/lib/transfer";
 import { produce } from "immer";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
@@ -7,7 +7,6 @@ interface GroveState {
   collapsed: { [key: string]: boolean };
   toggleCollapsed: (key: string) => void;
 
-  // TODO: refactor to use a map instead
   pendingShowDeclarationFacts: { [key: string]: ShowDeclarationFact };
   setPendingShowDeclarationFact: (
     key: string,

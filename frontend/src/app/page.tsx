@@ -1,4 +1,4 @@
-import { rootNode } from "@/transfer/metadata";
+import { rootNode } from "@/lib/transfer/metadata";
 import { NodeComponent } from "@/widgets/NodeComponent";
 
 export default async function Home() {

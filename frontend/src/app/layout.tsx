@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Image from "next/image";
 import { SaveButton } from "@/components/SaveButton";
-import { projectMetadata, rootNode } from "@/transfer/metadata";
-import { templates } from "@/templates/server";
+import { projectMetadata, rootNode } from "@/lib/transfer/metadata";
+import { templates } from "@/lib/templates/server";
 
 export const metadata: Metadata = {
   title: "Grove",

@@ -1,4 +1,4 @@
-import { Declaration, FactStatus } from "@/transfer";
+import { Declaration, FactStatus } from "@/lib/transfer";
 import { Templates, TemplateStrings } from ".";
 import Handlebars from "handlebars";
 

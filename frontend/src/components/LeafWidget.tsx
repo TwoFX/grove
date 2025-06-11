@@ -1,4 +1,4 @@
-import { useGroveStore } from "@/state/state";
+import { useGroveStore } from "@/lib/state/state";
 import { JSX, ReactElement } from "react";
 import { BsChevronDown } from "react-icons/bs";
 

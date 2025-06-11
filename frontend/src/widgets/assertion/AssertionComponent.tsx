@@ -1,5 +1,5 @@
 import { LeafWidget } from "@/components/LeafWidget";
-import { Assertion } from "@/transfer";
+import { Assertion } from "@/lib/transfer";
 import { JSX } from "react";
 
 export function AssertionComponent({
