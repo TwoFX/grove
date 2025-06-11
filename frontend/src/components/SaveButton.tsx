@@ -1,9 +1,9 @@
 "use client";
 
+import { saveFiles } from "@/lib/save/save";
 import { useGroveStore } from "@/lib/state/state";
 import { TemplateStrings } from "@/lib/templates";
-import { setupTemplates } from "@/lib/templates/client";
-import { ShowDeclaration, Node } from "@/lib/transfer";
+import { Node } from "@/lib/transfer";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { JSX } from "react";
 
@@ -22,52 +22,6 @@ export function SaveButton({
 
   const numFacts = Object.keys(pendingShowDeclarationFacts).length;
 
-  async function saveFiles() {
-    const dirHandle = await window.showDirectoryPicker();
-
-    const generatedDirHandle = await dirHandle.getDirectoryHandle("Generated", {
-      create: true,
-    });
-
-    const templates = setupTemplates(templateStrings);
-
-    async function writeShowDeclaration(
-      dirHandle: FileSystemDirectoryHandle,
-      decl: ShowDeclaration,
-    ) {
-      const fileHandle = await dirHandle.getFileHandle(decl.id + ".lean", {
-        create: true,
-      });
-
-      const writable = await fileHandle.createWritable();
-      await writable.write(
-        templates.showDeclaration({ widget: decl, metadata: projectMetadata }),
-      );
-      await writable.close();
-    }
-
-    async function traverse(dirHandle: FileSystemDirectoryHandle, node: Node) {
-      switch (node.constructor) {
-        case "assertion":
-          return;
-        case "namespace":
-          return;
-        case "section":
-          await Promise.all(
-            node.section.children.map((child) => traverse(dirHandle, child)),
-          );
-          return;
-        case "showDeclaration":
-          await writeShowDeclaration(dirHandle, node.showDeclaration);
-          return;
-        case "text":
-          return;
-      }
-    }
-
-    traverse(generatedDirHandle, rootNode);
-  }
-
   return (
     <button
       disabled={numFacts === 0}
@@ -76,7 +30,7 @@ export function SaveButton({
           ? "bg-gray-400 cursor-not-allowed"
           : "bg-blue-600 hover:bg-blue-700"
       }`}
-      onClick={() => saveFiles()}
+      onClick={() => saveFiles(templateStrings, rootNode, projectMetadata)}
     >
       Save ({numFacts})
     </button>
