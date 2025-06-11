@@ -4,6 +4,7 @@ import schema_project from "@/transfer/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
 export interface ProjectMetadata {
+  hash: string;
   projectNamespace: string;
 }
 
@@ -25,6 +26,7 @@ if (!parsedProject) {
 export const project: Project = parsedProject;
 export const rootNode: Node = project.rootNode;
 export const projectMetadata: ProjectMetadata = {
+  hash: project.hash,
   projectNamespace: project.projectNamespace,
 };
 
