@@ -1,6 +1,6 @@
 "use client";
 
-import { Section } from "@/lib/transfer";
+import { Section } from "@/lib/transfer/project";
 import { JSX } from "react";
 import { NodeComponent } from "../NodeComponent";
 import { nodeKey } from "@/lib/transfer/util";
