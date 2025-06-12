@@ -7,7 +7,7 @@ conflicts, but be careful.
 
 open Grove.Framework Widget
 
-namespace {{metadata/projectNamespace}}.Facts.Generated.«{{definition/id}}»
+namespace {{metadata/projectNamespace}}.Generated.«{{definition/id}}»
 
 {{#each facts}}
 def «{{factId}}» : ShowDeclaration.Fact where

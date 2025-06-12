@@ -5,7 +5,7 @@ Authors: Markus Himmel
 -/
 import Grove.Framework
 import TestProject.Grove.Structure.Basic
-import TestProject.Grove.Facts.Basic
+import TestProject.Grove.Generated
 
 def config : Grove.Framework.Project.Configuration where
   projectNamespace := `TestProject.Grove
@@ -13,7 +13,7 @@ def config : Grove.Framework.Project.Configuration where
 def project : Grove.Framework.Project where
   config := config
   rootNode := TestProject.Grove.Structure.root
-  facts := TestProject.Grove.Facts.addFacts
+  facts := TestProject.Grove.Generated.addFacts
 
 def main : IO Unit :=
   Grove.Framework.main project #[`Init, `Std, `Lean]

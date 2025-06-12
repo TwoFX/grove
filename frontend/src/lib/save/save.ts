@@ -19,20 +19,37 @@ async function writeWidget<T>(
   return id;
 }
 
-export interface Renderers {
-  renderShowDeclaration: (definition: ShowDeclarationDefinition) => string;
+export function useRenderGeneratedFile(
+  metadata: ProjectMetadata,
+  templates: Templates,
+): (ids: string[]) => string {
+  return (ids) => {
+    return templates.generatedFile({ metadata, ids });
+  };
 }
 
-export function useRenderers(metadata: ProjectMetadata, templates: Templates) {
+export interface Renderers {
+  renderShowDeclaration: (definition: ShowDeclarationDefinition) => string;
+  renderGeneratedFile: (ids: string[]) => string;
+}
+
+export function useRenderers(
+  metadata: ProjectMetadata,
+  templates: Templates,
+): Renderers {
   const renderShowDeclaration = useRenderShowDeclaration(metadata, templates);
+  const renderGeneratedFile = useRenderGeneratedFile(metadata, templates);
 
   return {
     renderShowDeclaration,
+    renderGeneratedFile,
   };
 }
 
 export async function saveFiles(rootNode: Node, renderers: Renderers) {
-  const dirHandle = await window.showDirectoryPicker();
+  const dirHandle = await window.showDirectoryPicker({
+    mode: "readwrite",
+  });
 
   const generatedDirHandle = await dirHandle.getDirectoryHandle("Generated", {
     create: true,
@@ -65,5 +82,12 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
     }
   }
 
-  await traverse(generatedDirHandle, rootNode);
+  const allIds = await traverse(generatedDirHandle, rootNode);
+
+  await writeWidget(
+    dirHandle,
+    allIds,
+    "Generated",
+    renderers.renderGeneratedFile,
+  );
 }

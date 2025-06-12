@@ -57,6 +57,7 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
   Handlebars.registerPartial("declaration", templateStrings.declarationPartial);
 
   return {
+    generatedFile: Handlebars.compile(templateStrings.generatedFile),
     showDeclaration: Handlebars.compile(templateStrings.showDeclaration),
   };
 }

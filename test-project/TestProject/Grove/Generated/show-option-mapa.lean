@@ -7,7 +7,7 @@ conflicts, but be careful.
 
 open Grove.Framework Widget
 
-namespace TestProject.Grove.Facts.Generated.«show-option-mapa»
+namespace TestProject.Grove.Generated.«show-option-mapa»
 
 def «0» : ShowDeclaration.Fact where
   widgetId := "show-option-mapa"

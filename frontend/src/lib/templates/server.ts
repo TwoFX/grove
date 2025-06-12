@@ -10,6 +10,7 @@ function readPartial(path: string): string {
 }
 
 export const templates: TemplateStrings = {
+  generatedFile: readTemplate("lib/templates/generatedFile.template"),
   showDeclaration: readTemplate(
     "widgets/show-declaration/save/showDeclaration.template",
   ),
