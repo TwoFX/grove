@@ -11,6 +11,7 @@ export interface ShowDeclarationSlice {
     factId: string,
     fact: ShowDeclarationFact,
   ) => void;
+  clearPendingShowDeclarationFacts: () => void;
 }
 
 export const createShowDeclarationSlice: StateCreator<
@@ -27,6 +28,13 @@ export const createShowDeclarationSlice: StateCreator<
           draft.pendingShowDeclarationFacts[widgetId] = {};
         }
         draft.pendingShowDeclarationFacts[widgetId][factId] = fact;
+      }),
+    );
+  },
+  clearPendingShowDeclarationFacts: () => {
+    set((state) =>
+      produce(state, (draft) => {
+        draft.pendingShowDeclarationFacts = {};
       }),
     );
   },

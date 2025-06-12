@@ -16,3 +16,9 @@ export function usePendingShowDeclarationFact(): (
     pendingFact[widgetId]?.[factId] ??
     groveContextData.showDeclarationFact[widgetId]?.[factId];
 }
+
+export function useCountPendingShowDeclarationFacts(): number {
+  return useGroveStore(
+    (state) => Object.keys(state.pendingShowDeclarationFacts).length,
+  );
+}

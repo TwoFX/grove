@@ -1,7 +1,7 @@
 "use client";
 
 import { saveFiles, useRenderers } from "@/lib/save/save";
-import { useGroveStore } from "@/lib/state/state";
+import { useCountPendingFacts } from "@/lib/state/pending";
 import { TemplateStrings } from "@/lib/templates";
 import { setupTemplates } from "@/lib/templates/client";
 import { Node } from "@/lib/transfer";
@@ -17,11 +17,7 @@ export function SaveButton({
   projectMetadata: ProjectMetadata;
   templateStrings: TemplateStrings;
 }): JSX.Element {
-  // TODO
-  const pendingShowDeclarationFacts = useGroveStore(
-    (state) => state.pendingShowDeclarationFacts,
-  );
-  const numFacts = Object.keys(pendingShowDeclarationFacts).length;
+  const numFacts = useCountPendingFacts();
 
   const templates = setupTemplates(templateStrings);
   const renderers = useRenderers(projectMetadata, templates);

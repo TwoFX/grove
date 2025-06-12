@@ -6,6 +6,7 @@ import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { JSX } from "react";
 import Image from "next/image";
 import { SaveButton } from "./SaveButton";
+import { ClearButton } from "./ClearButton";
 
 export function HeaderBar({
   rootNode,
@@ -25,11 +26,14 @@ export function HeaderBar({
         height={40}
         priority
       />
-      <SaveButton
-        rootNode={rootNode}
-        templateStrings={templateStrings}
-        projectMetadata={projectMetadata}
-      />
+      <div className="flex gap-2">
+        <ClearButton />
+        <SaveButton
+          rootNode={rootNode}
+          templateStrings={templateStrings}
+          projectMetadata={projectMetadata}
+        />
+      </div>
     </div>
   );
 }
