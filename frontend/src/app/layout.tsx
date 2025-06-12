@@ -1,10 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import {
-  groveContextData,
-  projectMetadata,
-  rootNode,
-} from "@/lib/transfer/metadata";
+import { groveContextData } from "@/lib/transfer/metadata";
 import { templates } from "@/lib/templates/server";
 import { HeaderBar } from "@/components/HeaderBar";
 import { GroveClient } from "@/components/GroveClient";
@@ -24,11 +20,7 @@ export default function RootLayout({
       <body>
         <GroveClient groveContext={groveContextData}>
           <header>
-            <HeaderBar
-              rootNode={rootNode}
-              templateStrings={templates}
-              projectMetadata={projectMetadata}
-            />
+            <HeaderBar templateStrings={templates} />
           </header>
           <main>{children}</main>
         </GroveClient>

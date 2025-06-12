@@ -2,7 +2,6 @@ import { promises as fs } from "fs";
 import {
   Node,
   Section,
-  NodeSection,
   Project,
   ShowDeclarationFact,
 } from "@/lib/transfer/project/index";
@@ -29,68 +28,53 @@ const parsedProject = parseProject(serverData);
 if (!parsedProject) {
   throw new Error("Invalid metadata: " + parseProject.message);
 }
-export const project: Project = parsedProject;
-export const rootNode: Node = project.rootNode;
-export const projectMetadata: ProjectMetadata = {
+const project: Project = parsedProject;
+const rootNode: Node = project.rootNode;
+const projectMetadata: ProjectMetadata = {
   hash: project.hash,
   projectNamespace: project.projectNamespace,
 };
 
-function createSectionMap(): Map<string, Section> {
-  const sectionMap = new Map<string, Section>();
-
-  function traverse(node: Node) {
-    if (node.constructor === "section") {
-      const section = (node as NodeSection).section;
-      sectionMap.set(section.id, section);
-      section.children.forEach(traverse);
-    }
-  }
-
-  traverse(project.rootNode);
-
-  return sectionMap;
-}
-
-export const sectionMap = createSectionMap();
-
 export interface GroveContextData {
+  rootNode: Node;
   projectMetadata: ProjectMetadata;
+  section: {
+    [sectionId: string]: Section;
+  };
   showDeclarationFact: {
     [widgetId: string]: { [factId: string]: ShowDeclarationFact };
   };
 }
 
-function createShowDeclarationFactMap(): {
-  [widgetId: string]: { [factId: string]: ShowDeclarationFact };
-} {
-  const showDeclarationMap: {
-    [widgetId: string]: { [factId: string]: ShowDeclarationFact };
-  } = {};
+function createContextData(): GroveContextData {
+  const contextData: GroveContextData = {
+    rootNode: rootNode,
+    projectMetadata: projectMetadata,
+    section: {},
+    showDeclarationFact: {},
+  };
 
   function traverse(node: Node) {
     if (node.constructor === "section") {
+      contextData.section[node.section.id] = node.section;
       node.section.children.forEach(traverse);
     } else if (node.constructor === "showDeclaration") {
       const id = node.showDeclaration.definition.id;
       node.showDeclaration.facts.forEach((fact) => {
         const factId = fact.factId;
-        if (!showDeclarationMap[id]) {
-          showDeclarationMap[id] = {};
+        if (!contextData.showDeclarationFact[id]) {
+          contextData.showDeclarationFact[id] = {};
         }
-        showDeclarationMap[id][factId] = fact;
+        contextData.showDeclarationFact[id][factId] = fact;
       });
     }
   }
 
   traverse(project.rootNode);
 
-  return showDeclarationMap;
+  return contextData;
 }
 
-export const groveContextData: GroveContextData = {
-  projectMetadata: projectMetadata,
-  showDeclarationFact: createShowDeclarationFactMap(),
-};
+export const groveContextData: GroveContextData = createContextData();
 
 // TODO: Access file containing invalidated fact ids, if present

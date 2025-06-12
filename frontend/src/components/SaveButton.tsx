@@ -4,23 +4,19 @@ import { saveFiles, useRenderers } from "@/lib/save/save";
 import { useCountPendingFacts } from "@/lib/state/pending";
 import { TemplateStrings } from "@/lib/templates";
 import { setupTemplates } from "@/lib/templates/client";
-import { Node } from "@/lib/transfer/project";
-import { ProjectMetadata } from "@/lib/transfer/metadata";
-import { JSX } from "react";
+import { JSX, useContext } from "react";
+import { GroveContext } from "@/lib/transfer/context";
 
 export function SaveButton({
-  rootNode,
-  projectMetadata,
   templateStrings,
 }: {
-  rootNode: Node;
-  projectMetadata: ProjectMetadata;
   templateStrings: TemplateStrings;
 }): JSX.Element {
+  const context = useContext(GroveContext);
   const numFacts = useCountPendingFacts();
 
   const templates = setupTemplates(templateStrings);
-  const renderers = useRenderers(projectMetadata, templates);
+  const renderers = useRenderers(context.projectMetadata, templates);
 
   return (
     <button
@@ -30,7 +26,7 @@ export function SaveButton({
           ? "bg-gray-400 cursor-not-allowed"
           : "bg-blue-600 hover:bg-blue-700"
       }`}
-      onClick={() => saveFiles(rootNode, renderers)}
+      onClick={() => saveFiles(context.rootNode, renderers)}
     >
       Save ({numFacts})
     </button>

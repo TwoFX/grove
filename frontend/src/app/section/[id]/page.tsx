@@ -1,11 +1,8 @@
-import { sectionMap } from "@/lib/transfer/metadata";
+import { groveContextData } from "@/lib/transfer/metadata";
 import { SectionComponent } from "@/widgets/section/SectionComponent";
 
 export async function generateStaticParams() {
-  return sectionMap
-    .keys()
-    .map((key) => ({ id: key }))
-    .toArray();
+  return Object.keys(groveContextData.section).map((key) => ({ id: key }));
 }
 
 export default async function Page({
@@ -15,7 +12,7 @@ export default async function Page({
 }) {
   const { id } = await params;
 
-  const section = sectionMap.get(id);
+  const section = groveContextData.section[id];
 
   if (!section) {
     throw new Error("Unknown section");
