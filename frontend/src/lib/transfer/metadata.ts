@@ -6,7 +6,7 @@ import {
   Project,
   ShowDeclarationFact,
 } from "@/lib/transfer/project/index";
-import schema_project from "@/lib/transfer/project.jtd.json";
+import schema_project from "@/lib/transfer/project/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
 export interface ProjectMetadata {
