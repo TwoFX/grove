@@ -21,8 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <GroveClient groveContext={groveContextData}>
-        <body>
+      <body>
+        <GroveClient groveContext={groveContextData}>
           <header>
             <HeaderBar
               rootNode={rootNode}
@@ -31,8 +31,8 @@ export default function RootLayout({
             />
           </header>
           <main>{children}</main>
-        </body>
-      </GroveClient>
+        </GroveClient>
+      </body>
     </html>
   );
 }

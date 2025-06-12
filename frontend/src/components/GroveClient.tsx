@@ -3,6 +3,7 @@
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/metadata";
 import { JSX, ReactNode } from "react";
+import { HashCheck } from "./HashCheck";
 
 export function GroveClient({
   children,
@@ -11,5 +12,9 @@ export function GroveClient({
   children: ReactNode;
   groveContext: GroveContextData;
 }): JSX.Element {
-  return <GroveContext value={groveContext}>{children}</GroveContext>;
+  return (
+    <GroveContext value={groveContext}>
+      <HashCheck>{children}</HashCheck>
+    </GroveContext>
+  );
 }

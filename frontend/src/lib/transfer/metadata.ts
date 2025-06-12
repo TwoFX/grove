@@ -55,6 +55,7 @@ function createSectionMap(): Map<string, Section> {
 export const sectionMap = createSectionMap();
 
 export interface GroveContextData {
+  projectMetadata: ProjectMetadata;
   showDeclarationFact: {
     [widgetId: string]: { [factId: string]: ShowDeclarationFact };
   };
@@ -88,6 +89,7 @@ function createShowDeclarationFactMap(): {
 }
 
 export const groveContextData: GroveContextData = {
+  projectMetadata: projectMetadata,
   showDeclarationFact: createShowDeclarationFactMap(),
 };
 
