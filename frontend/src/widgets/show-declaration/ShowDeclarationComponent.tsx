@@ -1,10 +1,7 @@
 "use client";
 
 import { LeafWidget } from "@/components/LeafWidget";
-import {
-  useGroveStore,
-  usePendingShowDeclarationFact,
-} from "@/lib/state/state";
+import { useGroveStore } from "@/lib/state/state";
 import {
   Declaration,
   FactMetadata,
@@ -22,6 +19,7 @@ import {
   BsExclamationLg,
   BsStar,
 } from "react-icons/bs";
+import { usePendingShowDeclarationFact } from "./state/pending";
 
 function FactStatusIcon({
   factStatus,

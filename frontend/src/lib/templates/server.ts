@@ -11,7 +11,7 @@ function readPartial(path: string): string {
 
 export const templates: TemplateStrings = {
   showDeclaration: readTemplate(
-    "widgets/show-declaration/showDeclaration.template",
+    "widgets/show-declaration/save/showDeclaration.template",
   ),
   metadataPartial: readPartial("metadata.partial"),
   declarationPartial: readPartial("declaration.partial"),

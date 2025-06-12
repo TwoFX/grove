@@ -1,7 +1,7 @@
-import { usePendingShowDeclarationFact } from "@/lib/state/state";
 import { Templates } from "@/lib/templates";
 import { ShowDeclarationDefinition } from "@/lib/transfer";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
+import { usePendingShowDeclarationFact } from "../state/pending";
 
 function getPossibleFactIds(): string[] {
   return ["0"];
