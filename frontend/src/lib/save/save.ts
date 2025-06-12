@@ -1,7 +1,7 @@
 import { useRenderShowDeclaration } from "@/widgets/show-declaration/save";
 import { Templates } from "../templates";
 import { ProjectMetadata } from "../transfer/metadata";
-import { Node, ShowDeclarationDefinition } from "@/lib/transfer";
+import { Node, ShowDeclarationDefinition } from "@/lib/transfer/project";
 
 async function writeWidget<T>(
   dirHandle: FileSystemDirectoryHandle,

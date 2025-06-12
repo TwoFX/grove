@@ -15,5 +15,5 @@ def project : Grove.Framework.Project where
   rootNode := TestProject.Grove.Structure.root
   facts := TestProject.Grove.Generated.addFacts
 
-def main : IO Unit :=
-  Grove.Framework.main project #[`Init, `Std, `Lean]
+def main (args : List String) : IO UInt32 :=
+  Grove.Framework.main project #[`Init, `Std, `Lean] args

@@ -4,7 +4,7 @@ import { saveFiles, useRenderers } from "@/lib/save/save";
 import { useCountPendingFacts } from "@/lib/state/pending";
 import { TemplateStrings } from "@/lib/templates";
 import { setupTemplates } from "@/lib/templates/client";
-import { Node } from "@/lib/transfer";
+import { Node } from "@/lib/transfer/project";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { JSX } from "react";
 

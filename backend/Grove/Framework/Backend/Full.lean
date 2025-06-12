@@ -156,6 +156,22 @@ instance : SchemaFor Project :=
      .single "hash" Project.hash,
      .single "rootNode" Project.rootNode]
 
+structure InvalidatedFact where
+  widgetId : String
+  factId : String
+
+instance : SchemaFor InvalidatedFact :=
+  .structure "invalidatedFact"
+    [.single "widgetId" InvalidatedFact.widgetId,
+     .single "factId" InvalidatedFact.factId]
+
+structure InvalidatedFacts where
+  invalidatedFacts : Array InvalidatedFact
+
+instance : SchemaFor InvalidatedFacts :=
+  .structure "invalidatedFacts"
+    [.arr "invalidatedFacts" InvalidatedFacts.invalidatedFacts]
+
 end Data
 
 def processAssertion (a : Assertion) : MetaM Data.Assertion := do
@@ -213,8 +229,30 @@ def processProject (p : Project) : MetaM Data.Project :=
     rootNode := ← processNode p.facts.run p.rootNode
   }
 
-def render (p : Project) : MetaM String :=
-  (toString ∘ toJson) <$> processProject p
+structure RenderResult where
+  fullOutput : String
+  invalidatedFacts : String
+
+partial def Data.Project.collectInvalidatedFacts (p : Data.Project) : InvalidatedFacts :=
+  ⟨((explore p.rootNode).run #[]).2⟩
+where
+  explore (n : Data.Node) : StateM (Array InvalidatedFact) PUnit := do
+    match n with
+    | .section s => s.children.forM explore
+    | .namespace _ => return ()
+    | .assertion _ => return ()
+    | .showDeclaration s => s.facts.forM (exploreShowDeclarationFact s.definition.id)
+    | .text _ => return ()
+  exploreShowDeclarationFact (widgetId : String) (s : Data.ShowDeclaration.Fact) : StateM (Array InvalidatedFact) PUnit := do
+    if s.validationResult matches .invalidated _ then
+      modify (·.push ⟨widgetId, s.factId⟩)
+
+def Data.Project.render (p : Data.Project) : RenderResult where
+  fullOutput := toString (toJson p)
+  invalidatedFacts := toString (toJson p.collectInvalidatedFacts)
+
+def render (p : Project) : MetaM RenderResult :=
+  (·.render) <$> processProject p
 
 end Full
 

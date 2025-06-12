@@ -1,0 +1,108 @@
+{
+  "ref": "project",
+  "definitions": {
+    "theorem": {
+      "properties": {
+        "renderedStatement": { "type": "string" },
+        "name": { "type": "string" },
+        "isSimp": { "type": "boolean" },
+        "isDeprecated": { "type": "boolean" }
+      }
+    },
+    "showDeclarationFact": {
+      "properties": {
+        "validationResult": { "ref": "factValidationResult" },
+        "state": { "ref": "declaration" },
+        "metadata": { "ref": "factMetadata" },
+        "factId": { "type": "string" }
+      }
+    },
+    "showDeclarationDefinition": {
+      "properties": {
+        "name": { "type": "string" },
+        "id": { "type": "string" },
+        "declaration": { "ref": "declaration" }
+      }
+    },
+    "showDeclaration": {
+      "properties": {
+        "facts": { "elements": { "ref": "showDeclarationFact" } },
+        "definition": { "ref": "showDeclarationDefinition" }
+      }
+    },
+    "section": {
+      "properties": {
+        "title": { "type": "string" },
+        "id": { "type": "string" },
+        "children": { "elements": { "ref": "node" } }
+      }
+    },
+    "project": {
+      "properties": {
+        "rootNode": { "ref": "node" },
+        "projectNamespace": { "type": "string" },
+        "hash": { "type": "string" }
+      }
+    },
+    "node": {
+      "mapping": {
+        "text": { "properties": { "text": { "type": "string" } } },
+        "showDeclaration": {
+          "properties": { "showDeclaration": { "ref": "showDeclaration" } }
+        },
+        "section": { "properties": { "section": { "ref": "section" } } },
+        "namespace": { "properties": { "namespace": { "type": "string" } } },
+        "assertion": { "properties": { "assertion": { "ref": "assertion" } } }
+      },
+      "discriminator": "constructor"
+    },
+    "invalidation": {
+      "properties": {
+        "shortDescription": { "type": "string" },
+        "longDescription": { "type": "string" }
+      }
+    },
+    "factValidationResult": {
+      "mapping": {
+        "ok": { "optionalProperties": { "dummy": { "type": "string" } } },
+        "new": { "optionalProperties": { "dummy": { "type": "string" } } },
+        "invalidated": {
+          "properties": { "invalidated": { "ref": "invalidation" } }
+        }
+      },
+      "discriminator": "constructor"
+    },
+    "factStatus": {
+      "enum": ["done", "nothingToDo", "believedGood", "postponed", "bad"]
+    },
+    "factMetadata": {
+      "properties": {
+        "status": { "ref": "factStatus" },
+        "comment": { "type": "string" }
+      }
+    },
+    "definition": {
+      "properties": {
+        "renderedStatement": { "type": "string" },
+        "name": { "type": "string" },
+        "isDeprecated": { "type": "boolean" }
+      }
+    },
+    "declaration": {
+      "mapping": {
+        "thm": { "properties": { "thm": { "ref": "theorem" } } },
+        "missing": { "properties": { "missing": { "type": "string" } } },
+        "def": { "properties": { "def": { "ref": "definition" } } }
+      },
+      "discriminator": "constructor"
+    },
+    "assertion": {
+      "properties": {
+        "title": { "type": "string" },
+        "success": { "type": "boolean" },
+        "message": { "type": "string" },
+        "id": { "type": "string" }
+      }
+    }
+  }
+}

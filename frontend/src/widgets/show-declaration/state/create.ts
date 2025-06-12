@@ -1,4 +1,4 @@
-import { ShowDeclarationFact } from "@/lib/transfer";
+import { ShowDeclarationFact } from "@/lib/transfer/project";
 import { produce } from "immer";
 import { StateCreator } from "zustand";
 

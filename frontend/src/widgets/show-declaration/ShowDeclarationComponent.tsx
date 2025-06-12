@@ -9,7 +9,7 @@ import {
   FactValidationResult,
   ShowDeclaration,
   ShowDeclarationFact,
-} from "@/lib/transfer";
+} from "@/lib/transfer/project";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { JSX, ReactElement, useState } from "react";
 import {

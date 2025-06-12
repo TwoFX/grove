@@ -1,5 +1,5 @@
 import { Templates } from "@/lib/templates";
-import { ShowDeclarationDefinition } from "@/lib/transfer";
+import { ShowDeclarationDefinition } from "@/lib/transfer/project";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { usePendingShowDeclarationFact } from "../state/pending";
 

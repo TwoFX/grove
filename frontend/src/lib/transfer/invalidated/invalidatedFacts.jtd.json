@@ -1,0 +1,16 @@
+{
+  "ref": "invalidatedFacts",
+  "definitions": {
+    "invalidatedFacts": {
+      "properties": {
+        "invalidatedFacts": { "elements": { "ref": "invalidatedFact" } }
+      }
+    },
+    "invalidatedFact": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "factId": { "type": "string" }
+      }
+    }
+  }
+}

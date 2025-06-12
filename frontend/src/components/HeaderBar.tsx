@@ -1,7 +1,7 @@
 "use client";
 
 import { TemplateStrings } from "@/lib/templates";
-import { Node } from "@/lib/transfer";
+import { Node } from "@/lib/transfer/project";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
 import { JSX } from "react";
 import Image from "next/image";

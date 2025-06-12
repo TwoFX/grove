@@ -1,4 +1,7 @@
-import { ShowDeclarationDefinition, ShowDeclarationFact } from "@/lib/transfer";
+import {
+  ShowDeclarationDefinition,
+  ShowDeclarationFact,
+} from "@/lib/transfer/project";
 import { ProjectMetadata } from "@/lib/transfer/metadata";
 
 export interface TemplateStrings {

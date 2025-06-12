@@ -1,5 +1,5 @@
 import { useGroveStore } from "@/lib/state/state";
-import { ShowDeclarationFact } from "@/lib/transfer";
+import { ShowDeclarationFact } from "@/lib/transfer/project";
 import { GroveContext } from "@/lib/transfer/context";
 import { useContext } from "react";
 

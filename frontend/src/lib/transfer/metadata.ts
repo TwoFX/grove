@@ -5,7 +5,7 @@ import {
   NodeSection,
   Project,
   ShowDeclarationFact,
-} from "@/lib/transfer/index";
+} from "@/lib/transfer/project/index";
 import schema_project from "@/lib/transfer/project.jtd.json";
 import Ajv from "ajv/dist/jtd";
 
