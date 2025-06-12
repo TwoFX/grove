@@ -19,13 +19,16 @@ export function HeaderBar({
 }): JSX.Element {
   return (
     <div className="flex items-center justify-between gap-4 p-2 border-b">
-      <Image
-        src="/lean_logo.svg"
-        alt="Lean Logo"
-        width={70}
-        height={40}
-        priority
-      />
+      <div className="flex gap-4">
+        <Image
+          src="/lean_logo.svg"
+          alt="Lean Logo"
+          width={70}
+          height={40}
+          priority
+        />
+        <span className="text-2xl flex items-center">Grove</span>
+      </div>
       <div className="flex gap-2">
         <ClearButton />
         <SaveButton
