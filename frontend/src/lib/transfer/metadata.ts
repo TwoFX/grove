@@ -1,4 +1,3 @@
-import { promises as fs } from "fs";
 import {
   Node,
   Section,
@@ -6,7 +5,10 @@ import {
   ShowDeclarationFact,
 } from "@/lib/transfer/project/index";
 import schema_project from "@/lib/transfer/project/project.jtd.json";
+import schema_invalidatedFacts from "@/lib/transfer/invalidated/invalidatedFacts.jtd.json";
 import Ajv from "ajv/dist/jtd";
+import { InvalidatedFacts } from "./invalidated";
+import { readFileSync } from "fs";
 
 export interface ProjectMetadata {
   hash: string;
@@ -22,12 +24,34 @@ if (!serverDataFileLocation) {
 
 const ajv = new Ajv();
 const parseProject = ajv.compileParser<Project>(schema_project);
+const parseInvalidatedFacts = ajv.compileParser<InvalidatedFacts>(
+  schema_invalidatedFacts,
+);
 
-const serverData = await fs.readFile(serverDataFileLocation, "utf8");
+const serverData = readFileSync(serverDataFileLocation, "utf8");
 const parsedProject = parseProject(serverData);
 if (!parsedProject) {
   throw new Error("Invalid metadata: " + parseProject.message);
 }
+
+let upstreamInvalidatedFacts: InvalidatedFacts | undefined = undefined;
+
+const upstreamInvalidatedFactsLocation =
+  process.env.GROVE_UPSTREAM_INVALIDATED_FACTS_LOCATION;
+if (upstreamInvalidatedFactsLocation) {
+  const invalidatedFactsData = readFileSync(
+    upstreamInvalidatedFactsLocation,
+    "utf8",
+  );
+  const parsedInvalidatedFacts = parseInvalidatedFacts(invalidatedFactsData);
+  if (!parsedInvalidatedFacts) {
+    throw new Error(
+      "Invalid invalidated facts: " + parseInvalidatedFacts.message,
+    );
+  }
+  upstreamInvalidatedFacts = parsedInvalidatedFacts;
+}
+
 const project: Project = parsedProject;
 const rootNode: Node = project.rootNode;
 const projectMetadata: ProjectMetadata = {
@@ -36,6 +60,7 @@ const projectMetadata: ProjectMetadata = {
 };
 
 export interface GroveContextData {
+  upstreamInvalidatedFacts: InvalidatedFacts | undefined;
   rootNode: Node;
   projectMetadata: ProjectMetadata;
   section: {
@@ -48,6 +73,7 @@ export interface GroveContextData {
 
 function createContextData(): GroveContextData {
   const contextData: GroveContextData = {
+    upstreamInvalidatedFacts,
     rootNode: rootNode,
     projectMetadata: projectMetadata,
     section: {},
@@ -76,5 +102,3 @@ function createContextData(): GroveContextData {
 }
 
 export const groveContextData: GroveContextData = createContextData();
-
-// TODO: Access file containing invalidated fact ids, if present
