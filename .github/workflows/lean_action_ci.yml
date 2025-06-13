@@ -37,7 +37,6 @@ jobs:
         uses: TwoFx/grove-action/fetch-upstream@master
         with:
           artifact-name: invalidated-facts
-          baseline-branch: master
 
       - name: Build
         id: build
