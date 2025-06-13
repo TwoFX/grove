@@ -10,36 +10,25 @@ on:
 permissions:
   deployments: write
   statuses: write
+  pull-requests: write
 
 jobs:
-  build-backend:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
-        with:
-          lake-package-directory: ./backend
-
-  build-test-project:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: leanprover/lean-action@v1
-        with:
-          lake-package-directory: ./test-project
-
-  grove-test-project:
+  fetch-upstream:
     runs-on: ubuntu-latest
 
     steps:
       - name: Fetch upstream invalidated facts
+        if: github.event_name == 'pull_request'
         id: fetch-upstream
         uses: TwoFx/grove-action/fetch-upstream@master
         with:
           artifact-name: invalidated-facts
 
+  build-and-deploy:
+    needs: fetch-upstream
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Build
         id: build
         uses: TwoFx/grove-action/build@master
@@ -60,3 +49,13 @@ jobs:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         timeout-minutes: 1
+
+  pr-comment:
+    needs: [fetch-upstream, build-and-deploy]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Post comment about newly invalidated facts
+        id: pr-comment
+        uses: TwoFx/grove-action/pr-comment@master
