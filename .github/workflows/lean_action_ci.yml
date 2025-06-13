@@ -50,7 +50,7 @@ jobs:
         timeout-minutes: 1
 
   pr-comment:
-    needs: fetch-upstream
+    needs: [fetch-upstream, build-and-deploy]
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
 
