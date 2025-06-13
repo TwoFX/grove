@@ -202,6 +202,7 @@ export function Fact({
     message,
   ) =>
     setPendingFact(widgetId, factId, {
+      widgetId: widgetId,
       factId: factId,
       metadata: { status: status, comment: message },
       state: newState,
