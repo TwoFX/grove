@@ -1,19 +1,15 @@
-import {
-  Node,
-  Section,
-  Project,
-  ShowDeclarationFact,
-} from "@/lib/transfer/project/index";
+import { Node, Project } from "@/lib/transfer/project/index";
 import schema_project from "@/lib/transfer/project/project.jtd.json";
 import schema_invalidatedFacts from "@/lib/transfer/invalidated/invalidatedFacts.jtd.json";
 import Ajv from "ajv/dist/jtd";
 import { InvalidatedFacts } from "./invalidated";
 import { readFileSync } from "fs";
-
-export interface ProjectMetadata {
-  hash: string;
-  projectNamespace: string;
-}
+import {
+  addToRegistry,
+  emptyRegistry,
+  GroveContextData,
+  ProjectMetadata,
+} from "./contextdata";
 
 const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
 if (!serverDataFileLocation) {
@@ -59,25 +55,13 @@ const projectMetadata: ProjectMetadata = {
   projectNamespace: project.projectNamespace,
 };
 
-export interface GroveContextData {
-  upstreamInvalidatedFacts: InvalidatedFacts | undefined;
-  rootNode: Node;
-  projectMetadata: ProjectMetadata;
-  section: {
-    [sectionId: string]: Section;
-  };
-  showDeclarationFact: {
-    [widgetId: string]: { [factId: string]: ShowDeclarationFact };
-  };
-}
-
 function createContextData(): GroveContextData {
   const contextData: GroveContextData = {
     upstreamInvalidatedFacts,
     rootNode: rootNode,
     projectMetadata: projectMetadata,
     section: {},
-    showDeclarationFact: {},
+    showDeclarationFact: emptyRegistry(),
   };
 
   function traverse(node: Node) {
@@ -88,10 +72,7 @@ function createContextData(): GroveContextData {
       const id = node.showDeclaration.definition.id;
       node.showDeclaration.facts.forEach((fact) => {
         const factId = fact.factId;
-        if (!contextData.showDeclarationFact[id]) {
-          contextData.showDeclarationFact[id] = {};
-        }
-        contextData.showDeclarationFact[id][factId] = fact;
+        addToRegistry(contextData.showDeclarationFact, id, factId, fact);
       });
     }
   }

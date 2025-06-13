@@ -2,7 +2,7 @@ import {
   ShowDeclarationDefinition,
   ShowDeclarationFact,
 } from "@/lib/transfer/project";
-import { ProjectMetadata } from "@/lib/transfer/metadata";
+import { ProjectMetadata } from "../transfer/contextdata";
 
 export interface TemplateStrings {
   generatedFile: string;

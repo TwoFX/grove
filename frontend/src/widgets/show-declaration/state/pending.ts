@@ -14,7 +14,7 @@ export function usePendingShowDeclarationFact(): (
 
   return (widgetId, factId) =>
     pendingFact[widgetId]?.[factId] ??
-    groveContextData.showDeclarationFact[widgetId]?.[factId];
+    groveContextData.showDeclarationFact.byId[widgetId]?.[factId];
 }
 
 export function useCountPendingShowDeclarationFacts(): number {

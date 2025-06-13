@@ -1,9 +1,9 @@
 "use client";
 
 import { GroveContext } from "@/lib/transfer/context";
-import { GroveContextData } from "@/lib/transfer/metadata";
 import { JSX, ReactNode } from "react";
 import { HashCheck } from "./HashCheck";
+import { GroveContextData } from "@/lib/transfer/contextdata";
 
 export function GroveClient({
   children,
