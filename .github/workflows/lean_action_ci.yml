@@ -32,6 +32,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Fetch upstream invalidated facts
+        id: fetch-upstream
+        uses: TwoFx/grove-action/fetch-upstream@master
+        with:
+          artifact-name: invalidated-facts
+
       - name: Build
         id: build
         uses: TwoFx/grove-action/build@master
