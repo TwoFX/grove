@@ -11,6 +11,7 @@
     },
     "showDeclarationFact": {
       "properties": {
+        "widgetId": { "type": "string" },
         "validationResult": { "ref": "factValidationResult" },
         "state": { "ref": "declaration" },
         "metadata": { "ref": "factMetadata" },

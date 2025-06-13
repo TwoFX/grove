@@ -65,6 +65,7 @@ instance : SchemaFor Declaration :=
      .unary "missing" String (fun | .missing s => some s | _ => none)]
 
 structure ShowDeclaration.Fact where
+  widgetId : String
   factId : String
   metadata : Fact.Metadata
   state : Declaration
@@ -72,7 +73,8 @@ structure ShowDeclaration.Fact where
 
 instance : SchemaFor ShowDeclaration.Fact :=
   .structure "showDeclarationFact"
-    [.single "factId" ShowDeclaration.Fact.factId,
+    [.single "widgetId" ShowDeclaration.Fact.widgetId,
+     .single "factId" ShowDeclaration.Fact.factId,
      .single "metadata" ShowDeclaration.Fact.metadata,
      .single "state" ShowDeclaration.Fact.state,
      .single "validationResult" ShowDeclaration.Fact.validationResult]
@@ -196,7 +198,7 @@ def processDeclaration : Declaration → Data.Declaration
 
 def processShowDeclaration (factState : FactState) (s : ShowDeclaration) : MetaM Data.ShowDeclaration := do
   let decl ← Declaration.fromName s.name
-  let facts ← (factState.showDeclaration.getD s.id #[]).mapM (processFact decl)
+  let facts ← (factState.showDeclaration.getD s.id #[]).mapM (processFact s.id decl)
   return {
     definition := {
       id := s.id
@@ -206,9 +208,10 @@ def processShowDeclaration (factState : FactState) (s : ShowDeclaration) : MetaM
     facts
   }
 where
-  processFact (decl : Declaration) (f : ShowDeclaration.Fact) : MetaM Data.ShowDeclaration.Fact := do
+  processFact (widgetId : String) (decl : Declaration) (f : ShowDeclaration.Fact) : MetaM Data.ShowDeclaration.Fact := do
     let validationResult ← f.validate decl
     return {
+      widgetId := widgetId
       factId := f.factId
       metadata := f.metadata
       state := processDeclaration f.state

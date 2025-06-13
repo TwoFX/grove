@@ -130,6 +130,7 @@ export interface ShowDeclarationFact {
   metadata: FactMetadata;
   state: Declaration;
   validationResult: FactValidationResult;
+  widgetId: string;
 }
 
 export interface Theorem {
