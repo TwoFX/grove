@@ -17,6 +17,7 @@ jobs:
 
     steps:
       - name: Fetch upstream invalidated facts
+        if: github.event_name == 'pull_request'
         id: fetch-upstream
         uses: TwoFx/grove-action/fetch-upstream@master
         with:
@@ -51,6 +52,7 @@ jobs:
   pr-comment:
     needs: fetch-upstream
     runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
 
     steps:
       - name: Post comment about newly invalidated facts
