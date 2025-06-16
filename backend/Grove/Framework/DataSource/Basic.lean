@@ -32,15 +32,16 @@ def ofArray {α : Type} [HasId α] (l : Array α) : DataSource α :=
     getById? := (pure m[·]?)
   }
 
--- def definitionsInNamespace (n : Name) : DataSource Declaration where
---   getAll := do
---     let env ← getEnv
---     let mut ans := #[]
---     for (constName, _) in env.constants do
---       if n.isPrefixOf constName then
---         ans := ans.push ⟨constName⟩
---     return ans
---   getById? id := pure (some ⟨id.toName⟩)
+def definitionsInNamespace (n : Name) : DataSource Name where
+  getAll := do
+    let env ← getEnv
+    let mut ans := #[]
+    for (constName, _) in env.constants do
+      if n.isPrefixOf constName then
+        -- Missing: is this a definition?
+        ans := ans.push constName
+    return ans
+  getById? id := pure (some id.toName)
 
 end DataSource
 
