@@ -23,5 +23,5 @@ def «0» : ShowDeclaration.Fact where
   }
 
 
-def addFacts : FactStateM Unit := do
+def restoreState : RestoreStateM Unit := do
   addShowDeclarationFact «0»

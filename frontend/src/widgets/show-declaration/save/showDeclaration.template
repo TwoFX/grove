@@ -17,7 +17,7 @@ def «{{factId}}» : ShowDeclaration.Fact where
   state := {{#with state}}{{> declaration }}{{/with}}
 {{/each}}
 
-def addFacts : FactStateM Unit := do
+def restoreState : RestoreStateM Unit := do
 {{#each facts}}
   addShowDeclarationFact «{{factId}}»
 {{/each}}

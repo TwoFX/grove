@@ -12,19 +12,19 @@ open Grove.Framework Widget
 
 namespace Grove.Framework
 
-structure FactState where
+structure SavedState where
   showDeclaration : HashMap String (Array ShowDeclaration.Fact) := ∅
 
-abbrev FactStateM := StateM FactState
+abbrev RestoreStateM := StateM SavedState
 
-def FactStateM.run (c : FactStateM Unit) : FactState :=
+def RestoreStateM.run (c : RestoreStateM Unit) : SavedState :=
   (StateT.run c {}).2
 
 @[inline]
 private def addToMap (m : HashMap String (Array α)) (id : String) (a : α) : HashMap String (Array α) :=
   m.alter id (fun arr => some ((arr.getD #[]).push a))
 
-def addShowDeclarationFact (f : ShowDeclaration.Fact) : FactStateM Unit :=
+def addShowDeclarationFact (f : ShowDeclaration.Fact) : RestoreStateM Unit :=
   modify (fun s => { s with showDeclaration := addToMap s.showDeclaration f.widgetId f })
 
 end Grove.Framework

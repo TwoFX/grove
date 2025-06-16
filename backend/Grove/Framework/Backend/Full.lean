@@ -196,9 +196,9 @@ def processDeclaration : Declaration → Data.Declaration
   | .def d => .def (processDefinition d)
   | .missing n => .missing n.toString
 
-def processShowDeclaration (factState : FactState) (s : ShowDeclaration) : MetaM Data.ShowDeclaration := do
+def processShowDeclaration (state : SavedState) (s : ShowDeclaration) : MetaM Data.ShowDeclaration := do
   let decl ← Declaration.fromName s.name
-  let facts ← (factState.showDeclaration.getD s.id #[]).mapM (processFact s.id decl)
+  let facts ← (state.showDeclaration.getD s.id #[]).mapM (processFact s.id decl)
   return {
     definition := {
       id := s.id
@@ -218,18 +218,18 @@ where
       validationResult
     }
 
-partial def processNode (factState : FactState) : Node → MetaM Data.Node
-  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (processNode factState)
+partial def processNode (state : SavedState) : Node → MetaM Data.Node
+  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (processNode state)
   | .namespace n => pure <| .namespace n.toString
   | .assertion a => Data.Node.assertion <$> processAssertion a
-  | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration factState s
+  | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration state s
   | .text s => pure <| .text s
 
 def processProject (p : Project) : MetaM Data.Project :=
   return {
     projectNamespace := p.config.projectNamespace.toString
     hash := ← p.config.getHash
-    rootNode := ← processNode p.facts.run p.rootNode
+    rootNode := ← processNode p.restoreState.run p.rootNode
   }
 
 structure RenderResult where

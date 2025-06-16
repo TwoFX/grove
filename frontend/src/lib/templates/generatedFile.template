@@ -12,7 +12,7 @@ open Grove.Framework Widget
 
 namespace {{metadata/projectNamespace}}.Generated
 
-def addFacts : FactStateM Unit := do
+def restoreState : RestoreStateM Unit := do
 {{#each ids}}
-  «{{this}}».addFacts
+  «{{this}}».restoreState
 {{/each}}

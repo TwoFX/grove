@@ -10,5 +10,5 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated
 
-def addFacts : FactStateM Unit := do
-  «show-option-mapa».addFacts
+def restoreState : RestoreStateM Unit := do
+  «show-option-mapa».restoreState

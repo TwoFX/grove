@@ -39,6 +39,6 @@ structure Project.Configuration where
 structure Project where
   config : Project.Configuration
   rootNode : Node
-  facts : FactStateM Unit
+  restoreState : RestoreStateM Unit
 
 end Grove.Framework

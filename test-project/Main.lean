@@ -13,7 +13,7 @@ def config : Grove.Framework.Project.Configuration where
 def project : Grove.Framework.Project where
   config := config
   rootNode := TestProject.Grove.Structure.root
-  facts := TestProject.Grove.Generated.addFacts
+  restoreState := TestProject.Grove.Generated.restoreState
 
 def main (args : List String) : IO UInt32 :=
   Grove.Framework.main project #[`Init, `Std, `Lean] args
