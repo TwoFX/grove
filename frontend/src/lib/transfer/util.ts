@@ -1,4 +1,15 @@
-import { Node } from "@/lib/transfer/project/index";
+import { Declaration, Node } from "@/lib/transfer/project/index";
+
+export function declarationName(declaration: Declaration): string {
+  switch (declaration.constructor) {
+    case "def":
+      return declaration.def.name;
+    case "missing":
+      return declaration.missing;
+    case "thm":
+      return declaration.thm.name;
+  }
+}
 
 export function nodeKey(node: Node): string {
   switch (node.constructor) {

@@ -11,7 +11,7 @@ import {
   ShowDeclarationFact,
 } from "@/lib/transfer/project";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
-import { JSX, ReactElement, useState } from "react";
+import { JSX, ReactElement, useContext, useState } from "react";
 import {
   BsCheckLg,
   BsClock,
@@ -20,6 +20,7 @@ import {
   BsStar,
 } from "react-icons/bs";
 import { usePendingShowDeclarationFact } from "./state/pending";
+import { GroveContext } from "@/lib/transfer/context";
 
 function FactStatusIcon({
   factStatus,
@@ -255,6 +256,8 @@ export function ShowDeclarationComponent({
 }: {
   showDeclaration: ShowDeclaration;
 }): JSX.Element {
+  const context = useContext(GroveContext);
+
   return (
     <LeafWidget
       widgetType="Declaration"
@@ -263,12 +266,16 @@ export function ShowDeclarationComponent({
     >
       <div>
         <p className="font-mono">
-          {statement(showDeclaration.definition.declaration)}
+          {statement(
+            context.declarations[showDeclaration.definition.declarationKey],
+          )}
         </p>
         <Fact
           factId="0"
           widgetId={showDeclaration.definition.id}
-          newState={showDeclaration.definition.declaration}
+          newState={
+            context.declarations[showDeclaration.definition.declarationKey]
+          }
         ></Fact>
       </div>
     </LeafWidget>

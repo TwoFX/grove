@@ -2,6 +2,7 @@ import { createContext } from "react";
 import { emptyRegistry, GroveContextData } from "./contextdata";
 
 export const GroveContext = createContext<GroveContextData>({
+  declarations: {},
   upstreamInvalidatedFacts: undefined,
   projectMetadata: {
     hash: "",

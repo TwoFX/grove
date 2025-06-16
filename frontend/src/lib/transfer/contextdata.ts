@@ -1,5 +1,5 @@
 import { InvalidatedFacts } from "./invalidated";
-import { Section, ShowDeclarationFact } from "./project";
+import { Declaration, Section, ShowDeclarationFact } from "./project";
 import { Node } from "@/lib/transfer/project/index";
 
 export interface FactRegistry<T> {
@@ -36,6 +36,7 @@ export interface GroveContextData {
   upstreamInvalidatedFacts: InvalidatedFacts | undefined;
   rootNode: Node;
   projectMetadata: ProjectMetadata;
+  declarations: { [key: string]: Declaration };
   section: {
     [sectionId: string]: Section;
   };

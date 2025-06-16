@@ -22,7 +22,7 @@
       "properties": {
         "name": { "type": "string" },
         "id": { "type": "string" },
-        "declaration": { "ref": "declaration" }
+        "declarationKey": { "type": "string" }
       }
     },
     "showDeclaration": {
@@ -42,7 +42,8 @@
       "properties": {
         "rootNode": { "ref": "node" },
         "projectNamespace": { "type": "string" },
-        "hash": { "type": "string" }
+        "hash": { "type": "string" },
+        "declarations": { "elements": { "ref": "declaration" } }
       }
     },
     "node": {

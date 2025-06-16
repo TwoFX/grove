@@ -82,13 +82,13 @@ instance : SchemaFor ShowDeclaration.Fact :=
 structure ShowDeclaration.Definition where
   id : String
   name : String
-  declaration : Declaration
+  declarationKey : String
 
 instance : SchemaFor ShowDeclaration.Definition :=
   .structure "showDeclarationDefinition"
     [.single "id" ShowDeclaration.Definition.id,
      .single "name" ShowDeclaration.Definition.name,
-     .single "declaration" ShowDeclaration.Definition.declaration]
+     .single "declarationKey" ShowDeclaration.Definition.declarationKey]
 
 structure ShowDeclaration where
   definition : ShowDeclaration.Definition
@@ -151,12 +151,14 @@ structure Project where
   projectNamespace : String
   hash : String
   rootNode : Node
+  declarations : Array Data.Declaration
 
 instance : SchemaFor Project :=
   .structure "project"
     [.single "projectNamespace" Project.projectNamespace,
      .single "hash" Project.hash,
-     .single "rootNode" Project.rootNode]
+     .single "rootNode" Project.rootNode,
+     .arr "declarations" Project.declarations]
 
 structure InvalidatedFact where
   widgetId : String
@@ -176,7 +178,36 @@ instance : SchemaFor InvalidatedFacts :=
 
 end Data
 
-def processAssertion (a : Assertion) : MetaM Data.Assertion := do
+section RenderM
+
+structure RenderState where
+  declarations : Std.HashMap String Declaration := ∅
+
+def RenderState.getDeclaration (r : RenderState) (n : Name) : MetaM (RenderState × Declaration) :=
+  match r.declarations.get? n.toString with
+  | none => do
+    let d ← Declaration.fromName n
+    return ({ r with declarations := r.declarations.insert n.toString d }, d)
+  | some d => return (r, d)
+
+abbrev RenderM := StateRefT RenderState MetaM
+
+def RenderM.modifyGetM {α β : Type} (f : RenderState → α → MetaM (RenderState × β)) (a : α) : RenderM β := do
+  let oldState ← get
+  set ({ } : RenderState)
+  let (newState, result) ← f oldState a
+  set newState
+  return result
+
+def getDeclaration (n : Name) : RenderM Declaration :=
+  RenderM.modifyGetM RenderState.getDeclaration n
+
+def RenderM.run {α : Type} (r : RenderM α) : MetaM (α × RenderState) :=
+  StateRefT'.run r {}
+
+end RenderM
+
+def processAssertion (a : Assertion) : RenderM Data.Assertion := do
   let result ← a.check
   return {
     id := a.id
@@ -196,19 +227,19 @@ def processDeclaration : Declaration → Data.Declaration
   | .def d => .def (processDefinition d)
   | .missing n => .missing n.toString
 
-def processShowDeclaration (state : SavedState) (s : ShowDeclaration) : MetaM Data.ShowDeclaration := do
-  let decl ← Declaration.fromName s.name
+def processShowDeclaration (state : SavedState) (s : ShowDeclaration) : RenderM Data.ShowDeclaration := do
+  let decl ← getDeclaration s.name
   let facts ← (state.showDeclaration.getD s.id #[]).mapM (processFact s.id decl)
   return {
     definition := {
       id := s.id
       name := s.name.toString
-      declaration := processDeclaration decl
+      declarationKey := s.name.toString
     }
     facts
   }
 where
-  processFact (widgetId : String) (decl : Declaration) (f : ShowDeclaration.Fact) : MetaM Data.ShowDeclaration.Fact := do
+  processFact (widgetId : String) (decl : Declaration) (f : ShowDeclaration.Fact) : RenderM Data.ShowDeclaration.Fact := do
     let validationResult ← f.validate decl
     return {
       widgetId := widgetId
@@ -218,18 +249,21 @@ where
       validationResult
     }
 
-partial def processNode (state : SavedState) : Node → MetaM Data.Node
+partial def processNode (state : SavedState) : Node → RenderM Data.Node
   | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (processNode state)
   | .namespace n => pure <| .namespace n.toString
   | .assertion a => Data.Node.assertion <$> processAssertion a
   | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration state s
   | .text s => pure <| .text s
 
-def processProject (p : Project) : MetaM Data.Project :=
+def processProject (p : Project) : MetaM Data.Project := do
+  let (rootNode, renderState) ← (processNode p.restoreState.run p.rootNode).run
+
   return {
     projectNamespace := p.config.projectNamespace.toString
     hash := ← p.config.getHash
-    rootNode := ← processNode p.restoreState.run p.rootNode
+    rootNode := rootNode
+    declarations := renderState.declarations.valuesArray.map processDeclaration
   }
 
 structure RenderResult where

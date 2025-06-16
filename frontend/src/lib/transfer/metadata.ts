@@ -1,4 +1,4 @@
-import { Node, Project } from "@/lib/transfer/project/index";
+import { Declaration, Node, Project } from "@/lib/transfer/project/index";
 import schema_project from "@/lib/transfer/project/project.jtd.json";
 import schema_invalidatedFacts from "@/lib/transfer/invalidated/invalidatedFacts.jtd.json";
 import Ajv from "ajv/dist/jtd";
@@ -10,6 +10,7 @@ import {
   GroveContextData,
   ProjectMetadata,
 } from "./contextdata";
+import { declarationName } from "./util";
 
 const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
 if (!serverDataFileLocation) {
@@ -55,8 +56,19 @@ const projectMetadata: ProjectMetadata = {
   projectNamespace: project.projectNamespace,
 };
 
+function collectDeclarations(decls: Declaration[]): {
+  [key: string]: Declaration;
+} {
+  const result: { [key: string]: Declaration } = {};
+  decls.forEach((decl) => {
+    result[declarationName(decl)] = decl;
+  });
+  return result;
+}
+
 function createContextData(): GroveContextData {
   const contextData: GroveContextData = {
+    declarations: collectDeclarations(project.declarations),
     upstreamInvalidatedFacts,
     rootNode: rootNode,
     projectMetadata: projectMetadata,

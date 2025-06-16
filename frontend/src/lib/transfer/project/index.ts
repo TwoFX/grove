@@ -103,6 +103,7 @@ export interface NodeText {
 }
 
 export interface Project0 {
+  declarations: Declaration[];
   hash: string;
   projectNamespace: string;
   rootNode: Node;
@@ -120,7 +121,7 @@ export interface ShowDeclaration {
 }
 
 export interface ShowDeclarationDefinition {
-  declaration: Declaration;
+  declarationKey: string;
   id: string;
   name: string;
 }
