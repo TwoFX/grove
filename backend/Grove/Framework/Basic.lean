@@ -7,7 +7,7 @@ import Lean.Meta.Basic
 import Grove.Framework.Widget.Table.Basic
 import Grove.Framework.Widget.Assertion
 import Grove.Framework.Widget.ShowDeclaration
-import Grove.Framework.Widget.Facts
+import Grove.Framework.Widget.State
 import Grove.Framework.Git
 
 open Lean
@@ -16,12 +16,11 @@ namespace Grove.Framework
 
 open Widget
 
-
 inductive Node where
   | «section» : String → String → Array Node → Node
   | «namespace» : Name → Node
-  -- | associationTable [HasId α] [DisplayShort β] {l : List β} : AssociationTable α l → Node
-  -- | table [DisplayShort δ] (l : List δ) : Table α β γ l → Node
+  | associationTable {β : Type} [HasId β] [DisplayShort β] {columnIdentifiers : List β} :
+      AssociationTable kind columnIdentifiers → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
   | text : String → Node

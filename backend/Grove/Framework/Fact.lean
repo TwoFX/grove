@@ -66,7 +66,9 @@ instance : SchemaFor ValidationResult :=
 
 end Fact
 
-class Fact (Widget : Type) (WidgetFact : outParam Type) where
-  validate : Widget → WidgetFact → MetaM Fact.ValidationResult
+class ValidatedFact (α : Type) where
+  widgetId : α → String
+  factId : α → String
+  validationResult : α → Fact.ValidationResult
 
 end Grove.Framework

@@ -9,6 +9,7 @@ import Lean.AddDecl
 import Lean.PrettyPrinter
 import Lean.Linter.Deprecated
 import Lean.Meta.Tactic.Simp.Attr
+import Grove.Framework.RenderInfo
 
 open Lean Meta
 
@@ -35,13 +36,28 @@ deriving BEq, Repr
 
 namespace Declaration
 
+def repr (d : Declaration) : String :=
+  (_root_.repr d).pretty
+
 def name : Declaration → Name
   | .thm t => t.name
   | .def d => d.name
   | .missing n => n
 
+def longDescription : Declaration → String
+  | .thm t => t.renderedStatement
+  | .def d => d.renderedStatement
+  | .missing n => s!"Missing: {n}"
+
 instance : HasId Declaration where
   getId d := d.name.toString
+
+def renderInfo (d : Declaration) : RenderInfo where
+  value := HasId.getId d
+  shortDescription := d.name.toString
+  longDescription := d.longDescription
+  reference := .none
+  stateRepr := d.repr
 
 private def isTheorem (c : ConstantInfo) : MetaM Bool := do
   if getOriginalConstKind? (← getEnv) c.name == some .thm then
@@ -55,7 +71,7 @@ private def isTheorem (c : ConstantInfo) : MetaM Bool := do
 private def isSimpTheorem (n : Name) : MetaM Bool :=
   return (← getSimpTheorems).lemmaNames.contains (.decl n)
 
-def fromName (n : Name) : MetaM Declaration := do
+def ofName (n : Name) : MetaM Declaration := do
   let c? := (← getEnv).find? n
 
   if let some c := c? then

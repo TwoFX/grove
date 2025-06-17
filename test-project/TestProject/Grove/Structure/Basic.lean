@@ -27,8 +27,13 @@ def optionMapALooksNice : ShowDeclaration where
   id := "show-option-mapa"
   name := `Option.mapA
 
+def listArrayOperations : AssociationTable .declaration [`List, `Array] where
+  id := "list-array-operations"
+  dataSources n := DataSource.declarationsInNamespace n
+
 def root : Node :=
-  .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice]
+  .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice,
+    .associationTable listArrayOperations]
 
 end Containers
 

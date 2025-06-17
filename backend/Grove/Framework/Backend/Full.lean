@@ -3,8 +3,7 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.Basic
-import Grove.Framework.Widget.Facts
+import Grove.Framework.Backend.Process
 
 open Lean
 
@@ -16,89 +15,6 @@ namespace Full
 
 namespace Data
 
-structure Assertion where
-  id : String
-  title : String
-  success : Bool
-  message : String
-
-instance : SchemaFor Assertion :=
-  .structure "assertion"
-    [.single "id" Assertion.id,
-     .single "title" Assertion.title,
-     .single "success" Assertion.success,
-     .single "message" Assertion.message]
-
-structure Theorem where
-  name : String
-  renderedStatement : String
-  isSimp : Bool
-  isDeprecated : Bool
-
-instance : SchemaFor Theorem :=
-  .structure "theorem"
-    [.single "name" Theorem.name,
-     .single "renderedStatement" Theorem.renderedStatement,
-     .single "isSimp" Theorem.isSimp,
-     .single "isDeprecated" Theorem.isDeprecated]
-
-structure Definition where
-  name : String
-  renderedStatement : String
-  isDeprecated : Bool
-
-instance : SchemaFor Definition :=
-  .structure "definition"
-    [.single "name" Definition.name,
-     .single "renderedStatement" Definition.renderedStatement,
-     .single "isDeprecated" Definition.isDeprecated]
-
-inductive Declaration where
-  | thm : Theorem → Declaration
-  | def : Definition → Declaration
-  | missing : String → Declaration
-
-instance : SchemaFor Declaration :=
-  .inductive "declaration"
-    [.unary "thm" Theorem (fun | .thm t => some t | _ => none),
-     .unary "def" Definition (fun | .def d => some d | _ => none),
-     .unary "missing" String (fun | .missing s => some s | _ => none)]
-
-structure ShowDeclaration.Fact where
-  widgetId : String
-  factId : String
-  metadata : Fact.Metadata
-  state : Declaration
-  validationResult : Fact.ValidationResult
-
-instance : SchemaFor ShowDeclaration.Fact :=
-  .structure "showDeclarationFact"
-    [.single "widgetId" ShowDeclaration.Fact.widgetId,
-     .single "factId" ShowDeclaration.Fact.factId,
-     .single "metadata" ShowDeclaration.Fact.metadata,
-     .single "state" ShowDeclaration.Fact.state,
-     .single "validationResult" ShowDeclaration.Fact.validationResult]
-
-structure ShowDeclaration.Definition where
-  id : String
-  name : String
-  declarationKey : String
-
-instance : SchemaFor ShowDeclaration.Definition :=
-  .structure "showDeclarationDefinition"
-    [.single "id" ShowDeclaration.Definition.id,
-     .single "name" ShowDeclaration.Definition.name,
-     .single "declarationKey" ShowDeclaration.Definition.declarationKey]
-
-structure ShowDeclaration where
-  definition : ShowDeclaration.Definition
-  facts : Array ShowDeclaration.Fact
-
-instance : SchemaFor ShowDeclaration :=
-  .structure "showDeclaration"
-    [.single "definition" ShowDeclaration.definition,
-     .arr "facts" ShowDeclaration.facts]
-
 mutual
 
 structure Section where
@@ -108,6 +24,7 @@ structure Section where
 
 inductive Node where
   | «section» : Section → Node
+  | associationTable : AssociationTable → Node
   | «namespace» : String → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
@@ -178,34 +95,6 @@ instance : SchemaFor InvalidatedFacts :=
 
 end Data
 
-section RenderM
-
-structure RenderState where
-  declarations : Std.HashMap String Declaration := ∅
-
-def RenderState.getDeclaration (r : RenderState) (n : Name) : MetaM (RenderState × Declaration) :=
-  match r.declarations.get? n.toString with
-  | none => do
-    let d ← Declaration.fromName n
-    return ({ r with declarations := r.declarations.insert n.toString d }, d)
-  | some d => return (r, d)
-
-abbrev RenderM := StateRefT RenderState MetaM
-
-def RenderM.modifyGetM {α β : Type} (f : RenderState → α → MetaM (RenderState × β)) (a : α) : RenderM β := do
-  let oldState ← get
-  set ({ } : RenderState)
-  let (newState, result) ← f oldState a
-  set newState
-  return result
-
-def getDeclaration (n : Name) : RenderM Declaration :=
-  RenderM.modifyGetM RenderState.getDeclaration n
-
-def RenderM.run {α : Type} (r : RenderM α) : MetaM (α × RenderState) :=
-  StateRefT'.run r {}
-
-end RenderM
 
 def processAssertion (a : Assertion) : RenderM Data.Assertion := do
   let result ← a.check
@@ -227,9 +116,9 @@ def processDeclaration : Declaration → Data.Declaration
   | .def d => .def (processDefinition d)
   | .missing n => .missing n.toString
 
-def processShowDeclaration (state : SavedState) (s : ShowDeclaration) : RenderM Data.ShowDeclaration := do
+def processShowDeclaration (s : ShowDeclaration) : RenderM Data.ShowDeclaration := do
   let decl ← getDeclaration s.name
-  let facts ← (state.showDeclaration.getD s.id #[]).mapM (processFact s.id decl)
+  let facts ← ((← getSavedState).showDeclarationFacts.getD s.id #[]).mapM (processFact s.id decl)
   return {
     definition := {
       id := s.id
@@ -249,15 +138,16 @@ where
       validationResult
     }
 
-partial def processNode (state : SavedState) : Node → RenderM Data.Node
-  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM (processNode state)
+partial def processNode : Node → RenderM Data.Node
+  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM processNode
+  | Node.associationTable t => Data.Node.associationTable <$> processAssociationTable t
   | .namespace n => pure <| .namespace n.toString
   | .assertion a => Data.Node.assertion <$> processAssertion a
-  | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration state s
+  | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration s
   | .text s => pure <| .text s
 
 def processProject (p : Project) : MetaM Data.Project := do
-  let (rootNode, renderState) ← (processNode p.restoreState.run p.rootNode).run
+  let (rootNode, renderState) ← (processNode p.rootNode).run p.restoreState.run
 
   return {
     projectNamespace := p.config.projectNamespace.toString
@@ -276,10 +166,16 @@ where
   explore (n : Data.Node) : StateM (Array InvalidatedFact) PUnit := do
     match n with
     | .section s => s.children.forM explore
+    | .associationTable t => exploreFacts t.facts
     | .namespace _ => return ()
     | .assertion _ => return ()
     | .showDeclaration s => s.facts.forM (exploreShowDeclarationFact s.definition.id)
     | .text _ => return ()
+  exploreFacts {α : Type} [ValidatedFact α] (facts : Array α) :
+      StateM (Array InvalidatedFact) PUnit := facts.forM fun f => do
+    if ValidatedFact.validationResult f matches .invalidated _ then
+      modify (·.push ⟨ValidatedFact.widgetId f, ValidatedFact.factId f⟩)
+
   exploreShowDeclarationFact (widgetId : String) (s : Data.ShowDeclaration.Fact) : StateM (Array InvalidatedFact) PUnit := do
     if s.validationResult matches .invalidated _ then
       modify (·.push ⟨widgetId, s.factId⟩)
