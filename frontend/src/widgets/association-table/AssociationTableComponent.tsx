@@ -6,5 +6,5 @@ export function AssociationTableComponent({
 }: {
   associationTable: AssociationTable;
 }): JSX.Element {
-  return <p>{associationTable.widgetId}</p>;
+  return <p>{associationTable.definition.widgetId}</p>;
 }

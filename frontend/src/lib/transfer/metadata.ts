@@ -5,8 +5,10 @@ import Ajv from "ajv/dist/jtd";
 import { InvalidatedFacts } from "./invalidated";
 import { readFileSync } from "fs";
 import {
-  addToRegistry,
-  emptyRegistry,
+  addToFactRegistry,
+  addToStateRegistry,
+  emptyFactRegistry,
+  emptyStateRegistry,
   GroveContextData,
   ProjectMetadata,
 } from "./contextdata";
@@ -78,7 +80,9 @@ function createContextData(): GroveContextData {
     rootNode: rootNode,
     projectMetadata: projectMetadata,
     section: {},
-    showDeclarationFact: emptyRegistry(),
+    showDeclarationFact: emptyFactRegistry(),
+    associationTableFact: emptyFactRegistry(),
+    associationTableState: emptyStateRegistry(),
   };
 
   function traverse(node: Node) {
@@ -86,10 +90,27 @@ function createContextData(): GroveContextData {
       contextData.section[node.section.id] = node.section;
       node.section.children.forEach(traverse);
     } else if (node.constructor === "showDeclaration") {
-      const id = node.showDeclaration.definition.id;
       node.showDeclaration.facts.forEach((fact) => {
-        const factId = fact.factId;
-        addToRegistry(contextData.showDeclarationFact, id, factId, fact);
+        addToFactRegistry(
+          contextData.showDeclarationFact,
+          node.showDeclaration.definition.id,
+          fact.factId,
+          fact,
+        );
+      });
+    } else if (node.constructor === "associationTable") {
+      addToStateRegistry(
+        contextData.associationTableState,
+        node.associationTable.definition.widgetId,
+        node.associationTable.state,
+      );
+      node.associationTable.facts.forEach((fact) => {
+        addToFactRegistry(
+          contextData.associationTableFact,
+          node.associationTable.definition.widgetId,
+          fact.factId,
+          fact,
+        );
       });
     }
   }

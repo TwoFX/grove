@@ -1,4 +1,4 @@
-import { useCountPendingFacts } from "@/lib/state/pending";
+import { useCountPendingChanges } from "@/lib/state/pending";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
@@ -9,7 +9,7 @@ function HashConflictDialog(): JSX.Element {
   const basisHash = useContext(GroveContext).projectMetadata.hash;
   const storedHash = useGroveStore((state) => state.hash);
   const setStoredHash = useGroveStore((state) => state.setHash);
-  const pendingCount = useCountPendingFacts();
+  const pendingCount = useCountPendingChanges();
   const hasHydrated = useGroveStore((state) => state.hasHydrated);
 
   useEffect(() => {

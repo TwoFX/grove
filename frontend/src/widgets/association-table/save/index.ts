@@ -1,9 +1,9 @@
-import { AssociationTable } from "@/lib/transfer/project";
+import { AssociationTableDefinition } from "@/lib/transfer/project";
 
 export function useRenderAssociationTable(): (
   //   metadata: ProjectMetadata,
   //   templates: Templates,
-  associationTable: AssociationTable,
+  associationTable: AssociationTableDefinition,
 ) => string {
   return (associationTable) => {
     return associationTable.widgetId;

@@ -1,7 +1,7 @@
 import { useRenderShowDeclaration } from "@/widgets/show-declaration/save";
 import { Templates } from "../templates";
 import {
-  AssociationTable,
+  AssociationTableDefinition,
   Node,
   ShowDeclarationDefinition,
 } from "@/lib/transfer/project";
@@ -36,7 +36,9 @@ export function useRenderGeneratedFile(
 export interface Renderers {
   renderShowDeclaration: (definition: ShowDeclarationDefinition) => string;
   renderGeneratedFile: (ids: string[]) => string;
-  renderAssociationTable: (associationTable: AssociationTable) => string;
+  renderAssociationTable: (
+    associationTable: AssociationTableDefinition,
+  ) => string;
 }
 
 export function useRenderers(
@@ -88,8 +90,8 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
       case "associationTable":
         const associationTableId = await writeWidget(
           dirHandle,
-          node.associationTable,
-          node.associationTable.widgetId,
+          node.associationTable.definition,
+          node.associationTable.definition.widgetId,
           renderers.renderAssociationTable,
         );
         return [associationTableId];

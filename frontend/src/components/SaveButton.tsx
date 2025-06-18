@@ -1,7 +1,7 @@
 "use client";
 
 import { saveFiles, useRenderers } from "@/lib/save/save";
-import { useCountPendingFacts } from "@/lib/state/pending";
+import { useCountPendingChanges } from "@/lib/state/pending";
 import { TemplateStrings } from "@/lib/templates";
 import { setupTemplates } from "@/lib/templates/client";
 import { JSX, useContext } from "react";
@@ -13,7 +13,7 @@ export function SaveButton({
   templateStrings: TemplateStrings;
 }): JSX.Element {
   const context = useContext(GroveContext);
-  const numFacts = useCountPendingFacts();
+  const numFacts = useCountPendingChanges();
 
   const templates = setupTemplates(templateStrings);
   const renderers = useRenderers(context.projectMetadata, templates);

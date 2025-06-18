@@ -10,11 +10,9 @@ export interface Assertion {
 }
 
 export interface AssociationTable {
-  columns: AssociationTableColumnDescription[];
-  dataKind: DataKind;
+  definition: AssociationTableDefinition;
   facts: AssociationTableFact[];
-  rows: AssociationTableRow[];
-  widgetId: string;
+  state: AssociationTableState;
 }
 
 export interface AssociationTableCell {
@@ -50,6 +48,12 @@ export interface AssociationTableColumnDescription {
   shortDescription: string;
 }
 
+export interface AssociationTableDefinition {
+  columns: AssociationTableColumnDescription[];
+  dataKind: DataKind;
+  widgetId: string;
+}
+
 export interface AssociationTableFact {
   factId: string;
   metadata: FactMetadata;
@@ -67,7 +71,11 @@ export interface AssociationTableFactCellState {
 
 export interface AssociationTableRow {
   columns: AssociationTableCell[];
-  uiid: string;
+  uuid: string;
+}
+
+export interface AssociationTableState {
+  rows: AssociationTableRow[];
 }
 
 export type DataKind = DataKindDeclaration | DataKindSubexpression;

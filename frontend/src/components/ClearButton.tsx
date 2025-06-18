@@ -1,13 +1,13 @@
 import {
-  useClearPendingFacts,
-  useCountPendingFacts,
+  useClearPendingChanges,
+  useCountPendingChanges,
 } from "@/lib/state/pending";
 import { JSX } from "react";
 import { BsFillTrash3Fill } from "react-icons/bs";
 
 export function ClearButton(): JSX.Element {
-  const numFacts = useCountPendingFacts();
-  const clearFacts = useClearPendingFacts();
+  const numFacts = useCountPendingChanges();
+  const clearFacts = useClearPendingChanges();
 
   return (
     <button

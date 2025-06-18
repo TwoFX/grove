@@ -1,5 +1,9 @@
 import { createContext } from "react";
-import { emptyRegistry, GroveContextData } from "./contextdata";
+import {
+  emptyFactRegistry,
+  emptyStateRegistry,
+  GroveContextData,
+} from "./contextdata";
 
 export const GroveContext = createContext<GroveContextData>({
   declarations: {},
@@ -13,5 +17,7 @@ export const GroveContext = createContext<GroveContextData>({
     text: "This is the dummy root node created when there is no context available.",
   },
   section: {},
-  showDeclarationFact: emptyRegistry(),
+  showDeclarationFact: emptyFactRegistry(),
+  associationTableFact: emptyFactRegistry(),
+  associationTableState: emptyStateRegistry(),
 });

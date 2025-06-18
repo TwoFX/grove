@@ -7,6 +7,10 @@ import { persist } from "zustand/middleware";
 import { createUISlice, UISlice } from "./slices/ui";
 import { createHashSlice, HashSlice } from "./slices/hash";
 import { produce } from "immer";
+import {
+  AssociationTableSlice,
+  createAssociationTableSlice,
+} from "@/widgets/association-table/state/create";
 
 export interface HasHydratedSlice {
   hasHydrated: boolean;
@@ -31,7 +35,8 @@ export const createHasHydratedSlice: StateCreator<
 export type GroveState = HasHydratedSlice &
   HashSlice &
   UISlice &
-  ShowDeclarationSlice;
+  ShowDeclarationSlice &
+  AssociationTableSlice;
 
 export const useGroveStore = create<GroveState>()(
   persist(
@@ -40,6 +45,7 @@ export const useGroveStore = create<GroveState>()(
       ...createHashSlice(...a),
       ...createUISlice(...a),
       ...createShowDeclarationSlice(...a),
+      ...createAssociationTableSlice(...a),
     }),
     {
       name: "grove-storage",

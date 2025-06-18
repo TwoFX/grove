@@ -31,7 +31,7 @@ structure AssociationTable.Row where
 
 instance : SchemaFor AssociationTable.Row :=
   .structure "associationTableRow"
-    [.single "uiid" AssociationTable.Row.uuid,
+    [.single "uuid" AssociationTable.Row.uuid,
      .arr "columns" AssociationTable.Row.columns]
 
 structure AssociationTable.CellOption.Other where
@@ -102,19 +102,33 @@ instance : SchemaFor AssociationTable.Fact :=
      .single "metadata" AssociationTable.Fact.metadata,
      .single "validationResult" AssociationTable.Fact.validationResult]
 
-structure AssociationTable where
+structure AssociationTable.Definition where
   widgetId : String
   dataKind : DataKind
   columns : Array AssociationTable.ColumnDiscription
+
+instance : SchemaFor AssociationTable.Definition :=
+  .structure "associationTableDefinition"
+    [.single "widgetId" AssociationTable.Definition.widgetId,
+     .single "dataKind" AssociationTable.Definition.dataKind,
+     .arr "columns" AssociationTable.Definition.columns]
+
+structure AssociationTable.State where
   rows : Array AssociationTable.Row
+
+instance : SchemaFor AssociationTable.State :=
+  .structure "associationTableState"
+    [.arr "rows" AssociationTable.State.rows]
+
+structure AssociationTable where
+  definition : AssociationTable.Definition
+  state : AssociationTable.State
   facts : Array AssociationTable.Fact
 
 instance : SchemaFor AssociationTable :=
   .structure "associationTable"
-    [.single "widgetId" AssociationTable.widgetId,
-     .single "dataKind" AssociationTable.dataKind,
-     .arr "columns" AssociationTable.columns,
-     .arr "rows" AssociationTable.rows,
+    [.single "definition" AssociationTable.definition,
+     .single "state" AssociationTable.state,
      .arr "facts" AssociationTable.facts]
 
 end Data
@@ -191,18 +205,24 @@ def processAssociationTable {kind : DataKind} {β : Type} [HasId β] [DisplaySho
     (t : AssociationTable kind l) : RenderM Data.AssociationTable := do
   let columns ← processColumnDescriptions l t.dataSources
 
+  let definition : Data.AssociationTable.Definition := {
+    widgetId := t.id
+    dataKind := kind
+    columns := columns
+  }
+
   let some savedData ← RenderM.findAssociationTable? kind t.id
-    | return ⟨t.id, kind, columns, #[], #[]⟩
+    | return ⟨definition, ⟨#[]⟩, #[]⟩
 
   let cellValueMap : Std.HashMap (String × String) String :=
     savedData.rows.foldl (init := ∅) (fun sofar row => row.columns.foldl (init := sofar)
       (fun sofar' col => sofar'.insert (row.uuid, col.columnIdentifier) col.cellValue))
 
   return {
-    widgetId := t.id
-    dataKind := kind
-    columns := columns
-    rows := processRows savedData
+    definition
+    state := {
+      rows := processRows savedData
+    }
     facts := ← processFacts l savedData.facts cellValueMap t.dataSources
   }
 

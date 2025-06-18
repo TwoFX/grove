@@ -1,5 +1,11 @@
 import { InvalidatedFacts } from "./invalidated";
-import { Declaration, Section, ShowDeclarationFact } from "./project";
+import {
+  AssociationTableFact,
+  AssociationTableState,
+  Declaration,
+  Section,
+  ShowDeclarationFact,
+} from "./project";
 import { Node } from "@/lib/transfer/project/index";
 
 export interface FactRegistry<T> {
@@ -7,14 +13,14 @@ export interface FactRegistry<T> {
   all: T[];
 }
 
-export function emptyRegistry<T>(): FactRegistry<T> {
+export function emptyFactRegistry<T>(): FactRegistry<T> {
   return {
     byId: {},
     all: [],
   };
 }
 
-export function addToRegistry<T>(
+export function addToFactRegistry<T>(
   reg: FactRegistry<T>,
   widgetId: string,
   factId: string,
@@ -25,6 +31,27 @@ export function addToRegistry<T>(
   }
   reg.byId[widgetId][factId] = fact;
   reg.all.push(fact);
+}
+
+export interface StateRegistry<T> {
+  byId: { [widgetId: string]: T };
+  all: T[];
+}
+
+export function emptyStateRegistry<T>(): StateRegistry<T> {
+  return {
+    byId: {},
+    all: [],
+  };
+}
+
+export function addToStateRegistry<T>(
+  reg: StateRegistry<T>,
+  widgetId: string,
+  data: T,
+) {
+  reg.byId[widgetId] = data;
+  reg.all.push(data);
 }
 
 export interface ProjectMetadata {
@@ -41,4 +68,6 @@ export interface GroveContextData {
     [sectionId: string]: Section;
   };
   showDeclarationFact: FactRegistry<ShowDeclarationFact>;
+  associationTableFact: FactRegistry<AssociationTableFact>;
+  associationTableState: StateRegistry<AssociationTableState>;
 }
