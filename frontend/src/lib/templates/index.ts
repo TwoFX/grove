@@ -1,4 +1,7 @@
 import {
+  AssociationTableDefinition,
+  AssociationTableFact,
+  AssociationTableState,
   ShowDeclarationDefinition,
   ShowDeclarationFact,
 } from "@/lib/transfer/project";
@@ -7,13 +10,15 @@ import { ProjectMetadata } from "../transfer/contextdata";
 export interface TemplateStrings {
   generatedFile: string;
   showDeclaration: string;
+  associationTable: string;
   metadataPartial: string;
   declarationPartial: string;
 }
 
-export interface Widget<TDefinition, TFact> {
+export interface Widget<TDefinition, TState, TFact> {
   metadata: ProjectMetadata;
   definition: TDefinition;
+  state: TState;
   facts: TFact[];
 }
 
@@ -23,6 +28,13 @@ export interface Templates {
     ids: string[];
   }>;
   showDeclaration: HandlebarsTemplateDelegate<
-    Widget<ShowDeclarationDefinition, ShowDeclarationFact>
+    Widget<ShowDeclarationDefinition, void, ShowDeclarationFact>
+  >;
+  associationTable: HandlebarsTemplateDelegate<
+    Widget<
+      AssociationTableDefinition,
+      AssociationTableState,
+      AssociationTableFact
+    >
   >;
 }

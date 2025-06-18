@@ -16,4 +16,7 @@ export const templates: TemplateStrings = {
   ),
   metadataPartial: readPartial("metadata.partial"),
   declarationPartial: readPartial("declaration.partial"),
+  associationTable: readTemplate(
+    "widgets/association-table/save/associationTable.template",
+  ),
 };

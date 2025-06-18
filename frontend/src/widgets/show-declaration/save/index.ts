@@ -24,6 +24,7 @@ export function useRenderShowDeclaration(
     });
 
     return templates.showDeclaration({
+      state: undefined,
       metadata,
       definition,
       facts,

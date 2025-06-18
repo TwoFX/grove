@@ -21,3 +21,4 @@ def restoreState : RestoreStateM Unit := do
 {{#each facts}}
   addShowDeclarationFact «{{factId}}»
 {{/each}}
+  return ()

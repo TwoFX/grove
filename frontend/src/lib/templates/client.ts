@@ -1,4 +1,4 @@
-import { Declaration, FactStatus } from "@/lib/transfer/project";
+import { DataKind, Declaration, FactStatus } from "@/lib/transfer/project";
 import { Templates, TemplateStrings } from ".";
 import Handlebars from "handlebars";
 
@@ -53,11 +53,21 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
     }
   });
 
+  Handlebars.registerHelper("dataKind", function (dataKind: DataKind): string {
+    switch (dataKind) {
+      case DataKind.Declaration:
+        return ".declaration";
+      case DataKind.Subexpression:
+        return ".subexpression";
+    }
+  });
+
   Handlebars.registerPartial("metadata", templateStrings.metadataPartial);
   Handlebars.registerPartial("declaration", templateStrings.declarationPartial);
 
   return {
     generatedFile: Handlebars.compile(templateStrings.generatedFile),
     showDeclaration: Handlebars.compile(templateStrings.showDeclaration),
+    associationTable: Handlebars.compile(templateStrings.associationTable),
   };
 }

@@ -78,16 +78,9 @@ export interface AssociationTableState {
   rows: AssociationTableRow[];
 }
 
-export type DataKind = DataKindDeclaration | DataKindSubexpression;
-
-export interface DataKindDeclaration {
-  constructor: "declaration";
-  dummy?: string;
-}
-
-export interface DataKindSubexpression {
-  constructor: "subexpression";
-  dummy?: string;
+export enum DataKind {
+  Declaration = "declaration",
+  Subexpression = "subexpression",
 }
 
 export type Declaration = DeclarationDef | DeclarationMissing | DeclarationThm;

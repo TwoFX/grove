@@ -13,15 +13,16 @@ def «0» : ShowDeclaration.Fact where
   widgetId := "show-option-mapa"
   factId := "0"
   metadata := {
-    status := .done
+    status := .believedGood
     comment := "Nice"
   }
   state := .def {
     name := `Option.mapA
-    renderedStatement := "hello :)"
+    renderedStatement := "Option.mapA.{u_1, u_2, u_3} {m : Type u_1 → Type u_2} {α : Type u_3} {β : Type u_1} [Applicative m] (f : α → m β) :\n  Option α → m (Option β)"
     isDeprecated := false
   }
 
 
 def restoreState : RestoreStateM Unit := do
   addShowDeclarationFact «0»
+  return ()

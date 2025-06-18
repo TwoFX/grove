@@ -21,10 +21,13 @@ inductive DataKind where
   | subexpression : DataKind
 deriving DecidableEq
 
+instance : ToString DataKind where
+  toString
+    | .declaration => "declaration"
+    | .subexpression => "subexpression"
+
 instance : SchemaFor DataKind :=
-  .inductive "dataKind"
-    [.nullary "declaration" (fun | .declaration => true | _ => false),
-     .nullary "subexpression" (fun | .subexpression => true | _ => false)]
+  .enum "dataKind" [.declaration, .subexpression]
 
 abbrev DataKind.Key : DataKind → Type
   | .declaration => Name

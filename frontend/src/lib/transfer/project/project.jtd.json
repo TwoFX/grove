@@ -107,17 +107,7 @@
       },
       "discriminator": "constructor"
     },
-    "dataKind": {
-      "mapping": {
-        "subexpression": {
-          "optionalProperties": { "dummy": { "type": "string" } }
-        },
-        "declaration": {
-          "optionalProperties": { "dummy": { "type": "string" } }
-        }
-      },
-      "discriminator": "constructor"
-    },
+    "dataKind": { "enum": ["declaration", "subexpression"] },
     "associationTableState": {
       "properties": { "rows": { "elements": { "ref": "associationTableRow" } } }
     },

@@ -47,7 +47,7 @@ export function useRenderers(
 ): Renderers {
   const renderShowDeclaration = useRenderShowDeclaration(metadata, templates);
   const renderGeneratedFile = useRenderGeneratedFile(metadata, templates);
-  const renderAssociationTable = useRenderAssociationTable();
+  const renderAssociationTable = useRenderAssociationTable(metadata, templates);
 
   return {
     renderShowDeclaration,
