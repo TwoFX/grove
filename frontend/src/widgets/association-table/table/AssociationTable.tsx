@@ -65,13 +65,24 @@ function updateRow(
   newValue: string,
 ): AssociationTableRow {
   // TODO: performance
-  return produce(row, (draft) => {
+  console.log(newValue);
+  const result = produce(row, (draft) => {
+    let found = false;
     for (const col of draft.columns) {
       if (col.columnIdentifier === columnIdent) {
         col.cellValue = newValue;
+        found = true;
       }
     }
+    if (!found) {
+      draft.columns.push({
+        columnIdentifier: columnIdent,
+        cellValue: newValue,
+      });
+    }
   });
+  console.log(result);
+  return result;
 }
 
 export function AssociationTable({
