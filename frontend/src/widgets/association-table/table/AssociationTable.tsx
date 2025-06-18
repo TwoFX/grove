@@ -175,10 +175,6 @@ export function AssociationTable({
     setSelectedRows(rows);
   };
 
-  const copyRowsToClipboard = () => {
-    navigator.clipboard.writeText(JSON.stringify(tableRows, null, 2));
-  };
-
   return (
     <div className="flex flex-col flex-grow">
       <div className="flex-grow">
@@ -208,12 +204,6 @@ export function AssociationTable({
           className="mb-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           Delete Selected Rows
-        </button>
-        <button
-          onClick={copyRowsToClipboard}
-          className="mb-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-        >
-          Copy JSON
         </button>
       </div>
     </div>
