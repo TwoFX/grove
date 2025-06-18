@@ -4,7 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Grove.Framework.Backend.Data
-import Grove.Framework.Backend.RenderM
+import Grove.Framework.Backend.RenderM.RenderInfo
 import Grove.Framework.Reference
 import Std.Data.Iterators
 
@@ -34,19 +34,29 @@ instance : SchemaFor AssociationTable.Row :=
     [.single "uiid" AssociationTable.Row.uuid,
      .arr "columns" AssociationTable.Row.columns]
 
-structure AssociationTable.CellOption where
+structure AssociationTable.CellOption.Other where
   value : String
   shortDescription : String
   longDescription : String
   reference : Reference
   stateRepr : String
 
+instance : SchemaFor AssociationTable.CellOption.Other :=
+  .structure "associationTableCellOptionOther"
+    [.single "value" AssociationTable.CellOption.Other.value,
+     .single "shortDescription" AssociationTable.CellOption.Other.shortDescription,
+     .single "longDescription" AssociationTable.CellOption.Other.longDescription,
+     .single "reference" AssociationTable.CellOption.Other.reference,
+     .single "stateRepr" AssociationTable.CellOption.Other.stateRepr]
+
+inductive AssociationTable.CellOption where
+  | declaration : String → AssociationTable.CellOption
+  | other : AssociationTable.CellOption.Other → AssociationTable.CellOption
+
 instance : SchemaFor AssociationTable.CellOption :=
-  .structure "associationTableCellOption"
-    [.single "value" AssociationTable.CellOption.value,
-     .single "shortDescription" AssociationTable.CellOption.shortDescription,
-     .single "longDescription" AssociationTable.CellOption.longDescription,
-     .single "reference" AssociationTable.CellOption.reference]
+  .inductive "associationTableCellOption"
+    [.unary "declaration" String (fun | .declaration d => some d | _ => none),
+     .unary "other" AssociationTable.CellOption.Other (fun | .other o => some o | _ => none)]
 
 structure AssociationTable.ColumnDiscription where
   identifier : String
@@ -102,6 +112,7 @@ structure AssociationTable where
 instance : SchemaFor AssociationTable :=
   .structure "associationTable"
     [.single "widgetId" AssociationTable.widgetId,
+     .single "dataKind" AssociationTable.dataKind,
      .arr "columns" AssociationTable.columns,
      .arr "rows" AssociationTable.rows,
      .arr "facts" AssociationTable.facts]
@@ -110,10 +121,12 @@ end Data
 
 namespace AssociationTable
 
-def processCellOption {kind : DataKind} (key : kind.Key) : RenderM Data.AssociationTable.CellOption := do
-  let s ← kind.getState key
-  let renderInfo := kind.renderInfo s
-  return { renderInfo with }
+def processRenderInfo : RenderInfo → Data.AssociationTable.CellOption
+  | .decl n => .declaration n.toString
+  | .other o => .other { o with }
+
+def processCellOption {kind : DataKind} (key : kind.Key) : RenderM Data.AssociationTable.CellOption :=
+  processRenderInfo <$> kind.renderInfo key
 
 def processColumnDescription [HasId β] [DisplayShort β] {kind : DataKind} (b : β)
     (dataSource : DataSource kind) : RenderM Data.AssociationTable.ColumnDiscription := do

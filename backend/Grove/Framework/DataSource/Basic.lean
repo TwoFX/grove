@@ -8,7 +8,7 @@ import Grove.Framework.HasId
 import Grove.Framework.Declaration
 import Grove.Framework.Subexpression
 import Grove.JTD.Basic
-import Grove.Framework.RenderInfo
+import Grove.Framework.Declaration.Name
 
 open Lean
 
@@ -50,10 +50,6 @@ def DataKind.reprState : (kind : DataKind) → kind.State → String
   | .declaration, s => s.repr
   | .subexpression, s => s.repr
 
-def DataKind.renderInfo : (kind : DataKind) → kind.State → RenderInfo
-  | .declaration, s => s.renderInfo
-  | .subexpression, s => s.renderInfo
-
 structure DataSource (kind : DataKind) where
   getAll : MetaM (Array kind.Key)
   getById? : String → MetaM (Option kind.Key)
@@ -81,7 +77,8 @@ def declarationsInNamespace (n : Name) : DataSource .declaration where
     let mut ans := #[]
     for (constName, _) in env.constants do
       if n.isPrefixOf constName then
-        ans := ans.push constName
+        if ! (← Name.isAutoDecl constName) then
+          ans := ans.push constName
     return ans
   getById? id := pure (some id.toName)
 

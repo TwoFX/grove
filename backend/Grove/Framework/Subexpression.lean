@@ -20,13 +20,6 @@ structure PredicateSubexpression.State where
   displayShort : String
 deriving BEq, Repr
 
-def PredicateSubexpression.State.renderInfo (p : PredicateSubexpression.State) : RenderInfo where
-  value := p.key
-  shortDescription := p.displayShort
-  longDescription := p.displayShort
-  reference := .none
-  stateRepr := p.key
-
 inductive Subexpression where
   | declaration : Name → Subexpression
   | predicate : PredicateSubexpression → Subexpression
@@ -59,9 +52,5 @@ def Subexpression.toString : Subexpression → String
 
 def Subexpression.State.repr (s : Subexpression.State) : String :=
   (_root_.repr s).pretty
-
-def Subexpression.State.renderInfo : Subexpression.State → RenderInfo
-  | .declaration d => d.renderInfo
-  | .predicate p => p.renderInfo
 
 end Grove.Framework

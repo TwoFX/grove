@@ -27,7 +27,7 @@ def optionMapALooksNice : ShowDeclaration where
   id := "show-option-mapa"
   name := `Option.mapA
 
-def listArrayOperations : AssociationTable .declaration [`List, `Array] where
+def listArrayOperations : AssociationTable .declaration [`TestProject.List, `TestProject.Array] where
   id := "list-array-operations"
   dataSources n := DataSource.declarationsInNamespace n
 

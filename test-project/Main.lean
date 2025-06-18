@@ -6,6 +6,7 @@ Authors: Markus Himmel
 import Grove.Framework
 import TestProject.Grove.Structure.Basic
 import TestProject.Grove.Generated
+import TestProject
 
 def config : Grove.Framework.Project.Configuration where
   projectNamespace := `TestProject.Grove
@@ -16,4 +17,4 @@ def project : Grove.Framework.Project where
   restoreState := TestProject.Grove.Generated.restoreState
 
 def main (args : List String) : IO UInt32 :=
-  Grove.Framework.main project #[`Init, `Std, `Lean] args
+  Grove.Framework.main project #[`Init, `Std, `Lean, `TestProject] args
