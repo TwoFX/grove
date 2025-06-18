@@ -20,4 +20,5 @@ export const GroveContext = createContext<GroveContextData>({
   showDeclarationFact: emptyFactRegistry(),
   associationTableFact: emptyFactRegistry(),
   associationTableState: emptyStateRegistry(),
+  associationTableDefinition: emptyStateRegistry(),
 });

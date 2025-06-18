@@ -13,7 +13,7 @@ function getPossibleFactIds(state: AssociationTableState): string[] {
   return state.rows.map((row) => row.uuid);
 }
 
-function emptyState(): AssociationTableState {
+export function emptyAssociationTableState(): AssociationTableState {
   return {
     rows: [],
   };
@@ -27,7 +27,7 @@ export function useRenderAssociationTable(
   const getState = usePendingAssociationTableState();
 
   return (definition) => {
-    const state = getState(definition.widgetId) ?? emptyState();
+    const state = getState(definition.widgetId) ?? emptyAssociationTableState();
 
     const facts = getPossibleFactIds(state).flatMap((factId) => {
       const pendingFact = getFact(definition.widgetId, factId);

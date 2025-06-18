@@ -1,3 +1,5 @@
+"use client";
+
 import "react-data-grid/lib/styles.css";
 import {
   Column,
@@ -72,7 +74,7 @@ function updateRow(
   });
 }
 
-export function OperationsTable({
+export function AssociationTable({
   columnDefinitions,
   tableRows,
   setTableRows,

@@ -83,6 +83,7 @@ function createContextData(): GroveContextData {
     showDeclarationFact: emptyFactRegistry(),
     associationTableFact: emptyFactRegistry(),
     associationTableState: emptyStateRegistry(),
+    associationTableDefinition: emptyStateRegistry(),
   };
 
   function traverse(node: Node) {
@@ -99,6 +100,11 @@ function createContextData(): GroveContextData {
         );
       });
     } else if (node.constructor === "associationTable") {
+      addToStateRegistry(
+        contextData.associationTableDefinition,
+        node.associationTable.definition.widgetId,
+        node.associationTable.definition,
+      );
       addToStateRegistry(
         contextData.associationTableState,
         node.associationTable.definition.widgetId,
