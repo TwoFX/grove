@@ -13,6 +13,8 @@ namespace TestProject.Grove.Generated.«list-array-operations»
 def table : AssociationTable.Data .declaration where
   widgetId := "list-array-operations"
   rows := #[
+    ⟨"0718bfdc-33c5-4e18-9e23-df93b8b04dcc", #[⟨"List", "List.instLawfulGetElemNatLtLength"⟩,⟨"Array", "Array.getElem?_map"⟩,]⟩,
+    ⟨"c706170f-c51d-4838-abf5-569bdef242a2", #[⟨"Array", "Array.map_uncurry_zip_eq_zipWith"⟩,]⟩,
   ]
   facts := #[
   ]

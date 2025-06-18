@@ -13,8 +13,8 @@ def «0» : ShowDeclaration.Fact where
   widgetId := "show-option-mapa"
   factId := "0"
   metadata := {
-    status := .believedGood
-    comment := "Nice"
+    status := .bad
+    comment := "Nicesadas"
   }
   state := .def {
     name := `Option.mapA
