@@ -11,6 +11,17 @@ export function declarationName(declaration: Declaration): string {
   }
 }
 
+export function declarationDisplayShort(declaration: Declaration): string {
+  switch (declaration.constructor) {
+    case "def":
+      return declaration.def.name;
+    case "missing":
+      return declaration.missing;
+    case "thm":
+      return declaration.thm.name;
+  }
+}
+
 export function nodeKey(node: Node): string {
   switch (node.constructor) {
     case "assertion":
