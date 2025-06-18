@@ -9,6 +9,79 @@ export interface Assertion {
   title: string;
 }
 
+export interface AssociationTable {
+  columns: AssociationTableColumnDescription[];
+  dataKind: DataKind;
+  facts: AssociationTableFact[];
+  rows: AssociationTableRow[];
+  widgetId: string;
+}
+
+export interface AssociationTableCell {
+  cellValue: string;
+  columnIdentifier: string;
+}
+
+export type AssociationTableCellOption =
+  | AssociationTableCellOptionDeclaration
+  | AssociationTableCellOptionOther0;
+
+export interface AssociationTableCellOptionDeclaration {
+  constructor: "declaration";
+  declaration: string;
+}
+
+export interface AssociationTableCellOptionOther0 {
+  constructor: "other";
+  other: AssociationTableCellOptionOther;
+}
+
+export interface AssociationTableCellOptionOther {
+  longDescription: string;
+  reference: Reference;
+  shortDescription: string;
+  stateRepr: string;
+  value: string;
+}
+
+export interface AssociationTableColumnDescription {
+  identifier: string;
+  options: AssociationTableCellOption[];
+  shortDescription: string;
+}
+
+export interface AssociationTableFact {
+  factId: string;
+  metadata: FactMetadata;
+  rowId: string;
+  state: AssociationTableFactCellState[];
+  validationResult: FactValidationResult;
+  widgetId: string;
+}
+
+export interface AssociationTableFactCellState {
+  cellValue: string;
+  columnIdentifier: string;
+  stateRepr: string;
+}
+
+export interface AssociationTableRow {
+  columns: AssociationTableCell[];
+  uiid: string;
+}
+
+export type DataKind = DataKindDeclaration | DataKindSubexpression;
+
+export interface DataKindDeclaration {
+  constructor: "declaration";
+  dummy?: string;
+}
+
+export interface DataKindSubexpression {
+  constructor: "subexpression";
+  dummy?: string;
+}
+
 export type Declaration = DeclarationDef | DeclarationMissing | DeclarationThm;
 
 export interface DeclarationDef {
@@ -72,6 +145,7 @@ export interface Invalidation {
 
 export type Node =
   | NodeAssertion
+  | NodeAssociationTable
   | NodeNamespace
   | NodeSection
   | NodeShowDeclaration
@@ -80,6 +154,11 @@ export type Node =
 export interface NodeAssertion {
   constructor: "assertion";
   assertion: Assertion;
+}
+
+export interface NodeAssociationTable {
+  constructor: "associationTable";
+  associationTable: AssociationTable;
 }
 
 export interface NodeNamespace {
@@ -107,6 +186,13 @@ export interface Project0 {
   hash: string;
   projectNamespace: string;
   rootNode: Node;
+}
+
+export type Reference = ReferenceNone;
+
+export interface ReferenceNone {
+  constructor: "none";
+  dummy?: string;
 }
 
 export interface Section {

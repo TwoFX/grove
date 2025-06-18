@@ -28,7 +28,12 @@ const parseInvalidatedFacts = ajv.compileParser<InvalidatedFacts>(
 const serverData = readFileSync(serverDataFileLocation, "utf8");
 const parsedProject = parseProject(serverData);
 if (!parsedProject) {
-  throw new Error("Invalid metadata: " + parseProject.message);
+  throw new Error(
+    "Invalid metadata at " +
+      parseProject.position +
+      ": " +
+      parseProject.message,
+  );
 }
 
 let upstreamInvalidatedFacts: InvalidatedFacts | undefined = undefined;

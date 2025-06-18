@@ -1,7 +1,12 @@
 import { useRenderShowDeclaration } from "@/widgets/show-declaration/save";
 import { Templates } from "../templates";
-import { Node, ShowDeclarationDefinition } from "@/lib/transfer/project";
+import {
+  AssociationTable,
+  Node,
+  ShowDeclarationDefinition,
+} from "@/lib/transfer/project";
 import { ProjectMetadata } from "../transfer/contextdata";
+import { useRenderAssociationTable } from "@/widgets/association-table/save";
 
 async function writeWidget<T>(
   dirHandle: FileSystemDirectoryHandle,
@@ -31,6 +36,7 @@ export function useRenderGeneratedFile(
 export interface Renderers {
   renderShowDeclaration: (definition: ShowDeclarationDefinition) => string;
   renderGeneratedFile: (ids: string[]) => string;
+  renderAssociationTable: (associationTable: AssociationTable) => string;
 }
 
 export function useRenderers(
@@ -39,10 +45,12 @@ export function useRenderers(
 ): Renderers {
   const renderShowDeclaration = useRenderShowDeclaration(metadata, templates);
   const renderGeneratedFile = useRenderGeneratedFile(metadata, templates);
+  const renderAssociationTable = useRenderAssociationTable();
 
   return {
     renderShowDeclaration,
     renderGeneratedFile,
+    renderAssociationTable,
   };
 }
 
@@ -70,13 +78,21 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
         );
         return childResults.flat();
       case "showDeclaration":
-        const id = await writeWidget(
+        const showDeclarationId = await writeWidget(
           dirHandle,
           node.showDeclaration.definition,
           node.showDeclaration.definition.id,
           renderers.renderShowDeclaration,
         );
-        return [id];
+        return [showDeclarationId];
+      case "associationTable":
+        const associationTableId = await writeWidget(
+          dirHandle,
+          node.associationTable,
+          node.associationTable.widgetId,
+          renderers.renderAssociationTable,
+        );
+        return [associationTableId];
       case "text":
         return [];
     }

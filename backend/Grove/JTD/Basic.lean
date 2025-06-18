@@ -169,7 +169,7 @@ def Constructor.toDiscriminatorCase {α : Type u} : Constructor α → Discrimin
   | .unary name β _ _ => ⟨name, some (SchemaFor.schema β)⟩
 
 def JsonConstructor.toJson? {α : Type u} : JsonConstructor α → α → Option Json
-  | .nullary name is?, a => if is? a then some (.mkObj [("constructor", name), (name, .mkObj [])]) else none
+  | .nullary name is?, a => if is? a then some (.mkObj [("constructor", name)]) else none
   | .unary name _ get? toJson, a => (get? a).map (fun b => .mkObj [("constructor", name), (name, toJson b)])
 
 def SchemaFor.inductive.toJson {α : Type u} (constructors : List (JsonConstructor α)) (a : α) : Json := Id.run do

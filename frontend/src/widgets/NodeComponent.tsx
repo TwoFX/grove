@@ -4,6 +4,7 @@ import { SectionComponent } from "./section/SectionComponent";
 import { TextComponent } from "./text/TextComponent";
 import { ShowDeclarationComponent } from "./show-declaration/ShowDeclarationComponent";
 import { AssertionComponent } from "./assertion/AssertionComponent";
+import { AssociationTableComponent } from "./association-table/AssociationTableComponent";
 
 export function NodeComponent({
   node,
@@ -25,5 +26,9 @@ export function NodeComponent({
       );
     case "text":
       return <TextComponent text={node.text} />;
+    case "associationTable":
+      return (
+        <AssociationTableComponent associationTable={node.associationTable} />
+      );
   }
 }

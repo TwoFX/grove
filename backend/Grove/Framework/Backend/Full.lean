@@ -60,6 +60,7 @@ instance : SchemaFor Section :=
 instance : SchemaFor Node :=
   .inductive "node"
     [.unary "section" Section (fun | .section s => some s | _ => none),
+     .unary "associationTable" AssociationTable (fun | .associationTable a => some a | _ => none),
      .unary "namespace" String (fun | .namespace s => some s | _ => none),
      .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),

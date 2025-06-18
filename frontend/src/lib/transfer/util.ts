@@ -23,5 +23,7 @@ export function nodeKey(node: Node): string {
       return node.showDeclaration.definition.id;
     case "text":
       return node.text; // TODO
+    case "associationTable":
+      return node.associationTable.widgetId;
   }
 }

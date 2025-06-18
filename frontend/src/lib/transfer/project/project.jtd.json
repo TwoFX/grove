@@ -38,6 +38,12 @@
         "children": { "elements": { "ref": "node" } }
       }
     },
+    "reference": {
+      "mapping": {
+        "none": { "optionalProperties": { "dummy": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
+    },
     "project": {
       "properties": {
         "rootNode": { "ref": "node" },
@@ -54,6 +60,9 @@
         },
         "section": { "properties": { "section": { "ref": "section" } } },
         "namespace": { "properties": { "namespace": { "type": "string" } } },
+        "associationTable": {
+          "properties": { "associationTable": { "ref": "associationTable" } }
+        },
         "assertion": { "properties": { "assertion": { "ref": "assertion" } } }
       },
       "discriminator": "constructor"
@@ -97,6 +106,84 @@
         "def": { "properties": { "def": { "ref": "definition" } } }
       },
       "discriminator": "constructor"
+    },
+    "dataKind": {
+      "mapping": {
+        "subexpression": {
+          "optionalProperties": { "dummy": { "type": "string" } }
+        },
+        "declaration": {
+          "optionalProperties": { "dummy": { "type": "string" } }
+        }
+      },
+      "discriminator": "constructor"
+    },
+    "associationTableRow": {
+      "properties": {
+        "uiid": { "type": "string" },
+        "columns": { "elements": { "ref": "associationTableCell" } }
+      }
+    },
+    "associationTableFactCellState": {
+      "properties": {
+        "stateRepr": { "type": "string" },
+        "columnIdentifier": { "type": "string" },
+        "cellValue": { "type": "string" }
+      }
+    },
+    "associationTableFact": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "validationResult": { "ref": "factValidationResult" },
+        "state": { "elements": { "ref": "associationTableFactCellState" } },
+        "rowId": { "type": "string" },
+        "metadata": { "ref": "factMetadata" },
+        "factId": { "type": "string" }
+      }
+    },
+    "associationTableColumnDescription": {
+      "properties": {
+        "shortDescription": { "type": "string" },
+        "options": { "elements": { "ref": "associationTableCellOption" } },
+        "identifier": { "type": "string" }
+      }
+    },
+    "associationTableCellOptionOther": {
+      "properties": {
+        "value": { "type": "string" },
+        "stateRepr": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "reference": { "ref": "reference" },
+        "longDescription": { "type": "string" }
+      }
+    },
+    "associationTableCellOption": {
+      "mapping": {
+        "other": {
+          "properties": {
+            "other": { "ref": "associationTableCellOptionOther" }
+          }
+        },
+        "declaration": { "properties": { "declaration": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
+    },
+    "associationTableCell": {
+      "properties": {
+        "columnIdentifier": { "type": "string" },
+        "cellValue": { "type": "string" }
+      }
+    },
+    "associationTable": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "rows": { "elements": { "ref": "associationTableRow" } },
+        "facts": { "elements": { "ref": "associationTableFact" } },
+        "dataKind": { "ref": "dataKind" },
+        "columns": {
+          "elements": { "ref": "associationTableColumnDescription" }
+        }
+      }
     },
     "assertion": {
       "properties": {
