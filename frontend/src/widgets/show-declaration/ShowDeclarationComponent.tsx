@@ -19,8 +19,12 @@ import {
   BsExclamationLg,
   BsStar,
 } from "react-icons/bs";
-import { usePendingShowDeclarationFact } from "./state/pending";
+import {
+  computeShowDeclarationFactSummary,
+  usePendingShowDeclarationFact,
+} from "./state/pending";
 import { GroveContext } from "@/lib/transfer/context";
+import { FactSummary } from "@/lib/fact/summary";
 
 function FactStatusIcon({
   factStatus,
@@ -66,7 +70,7 @@ function FactMetadataBar({
       className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium border ${getStatusClasses(factMetadata.status)}`}
     >
       <FactStatusIcon factStatus={factMetadata.status} />
-      <span>{factMetadata.comment}</span>
+      {factMetadata.comment && <span>{factMetadata.comment}</span>}
     </div>
   );
 }
@@ -101,7 +105,7 @@ function FactValidationBar({
   }
 }
 
-function FactBar({ fact }: { fact: ShowDeclarationFact }): JSX.Element {
+function FactBar({ fact }: { fact: FactSummary }): JSX.Element {
   const isInvalidated = fact.validationResult.constructor === "invalidated";
 
   return (
@@ -218,37 +222,16 @@ function FactDialog({
 }
 
 export function Fact({
-  widgetId,
-  factId,
-  newState,
+  fact,
+  onAssert,
 }: {
-  widgetId: string;
-  factId: string;
-  newState: Declaration;
+  fact: FactSummary | undefined;
+  onAssert: (status: FactStatus, message: string) => void;
 }): JSX.Element {
-  const fact = usePendingShowDeclarationFact()(widgetId, factId);
-  const setPendingFact = useGroveStore(
-    (state) => state.setPendingShowDeclarationFact,
-  );
-
   const [diagOpen, setDiagOpen] = useState(false);
 
   const initialStatus: FactStatus = fact?.metadata.status ?? FactStatus.Done;
   const initialMessage: string = fact?.metadata.comment ?? "Blub";
-
-  const onAssert: (status: FactStatus, message: string) => void = (
-    status,
-    message,
-  ) =>
-    setPendingFact(widgetId, factId, {
-      widgetId: widgetId,
-      factId: factId,
-      metadata: { status: status, comment: message },
-      state: newState,
-      validationResult: {
-        constructor: "new",
-      },
-    });
 
   return (
     <>
@@ -282,6 +265,42 @@ export function Fact({
   );
 }
 
+function ShowDeclarationFactComponent({
+  widgetId,
+  factId,
+  newState,
+}: {
+  widgetId: string;
+  factId: string;
+  newState: Declaration;
+}): JSX.Element {
+  const fact = usePendingShowDeclarationFact()(widgetId, factId);
+  const setPendingFact = useGroveStore(
+    (state) => state.setPendingShowDeclarationFact,
+  );
+
+  const onAssert: (status: FactStatus, message: string) => void = (
+    status,
+    message,
+  ) =>
+    setPendingFact(widgetId, factId, {
+      widgetId: widgetId,
+      factId: factId,
+      metadata: { status: status, comment: message },
+      state: newState,
+      validationResult: {
+        constructor: "new",
+      },
+    });
+
+  return (
+    <Fact
+      fact={fact && computeShowDeclarationFactSummary(fact)}
+      onAssert={onAssert}
+    />
+  );
+}
+
 function statement(declaration: Declaration): string {
   switch (declaration.constructor) {
     case "def":
@@ -312,13 +331,13 @@ export function ShowDeclarationComponent({
             context.declarations[showDeclaration.definition.declarationKey],
           )}
         </p>
-        <Fact
+        <ShowDeclarationFactComponent
           factId="0"
           widgetId={showDeclaration.definition.id}
           newState={
             context.declarations[showDeclaration.definition.declarationKey]
           }
-        ></Fact>
+        />
       </div>
     </LeafWidget>
   );

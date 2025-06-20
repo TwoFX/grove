@@ -24,7 +24,9 @@ export function useCountPendingShowDeclarationFacts(): number {
   );
 }
 
-function computeSummary(fact: ShowDeclarationFact): FactSummary {
+export function computeShowDeclarationFactSummary(
+  fact: ShowDeclarationFact,
+): FactSummary {
   return {
     widgetId: fact.widgetId,
     factId: fact.factId,
@@ -45,5 +47,5 @@ export function useShowDeclarationFactSummaries(): FactSummary[] {
     .map((fact) => {
       return pendingFact[fact.widgetId]?.[fact.factId] ?? fact;
     })
-    .map(computeSummary);
+    .map(computeShowDeclarationFactSummary);
 }
