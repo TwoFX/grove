@@ -142,6 +142,15 @@ export function AssociationTable({
         ),
       };
     }),
+    {
+      key: "__grove_fact_column",
+      name: "Fact",
+      editable: false,
+      maxWidth: 50,
+      renderCell: ({}) => {
+        return <button>Click</button>;
+      },
+    },
   ];
 
   const renderRow = useCallback(

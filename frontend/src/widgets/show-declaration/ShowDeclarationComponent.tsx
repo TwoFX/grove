@@ -46,8 +46,25 @@ function FactMetadataBar({
 }: {
   factMetadata: FactMetadata;
 }): JSX.Element {
+  const getStatusClasses = (status: FactStatus): string => {
+    switch (status) {
+      case FactStatus.Done:
+        return "bg-green-100 text-green-800 border-green-200";
+      case FactStatus.Bad:
+        return "bg-red-100 text-red-800 border-red-200";
+      case FactStatus.BelievedGood:
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case FactStatus.NothingToDo:
+        return "bg-gray-100 text-gray-800 border-gray-200";
+      case FactStatus.Postponed:
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+    }
+  };
+
   return (
-    <div className="flex items-center space-x-1">
+    <div
+      className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium border ${getStatusClasses(factMetadata.status)}`}
+    >
       <FactStatusIcon factStatus={factMetadata.status} />
       <span>{factMetadata.comment}</span>
     </div>
@@ -62,23 +79,44 @@ function FactValidationBar({
   switch (validationResult.constructor) {
     case "invalidated":
       return (
-        <div className="flex items-center">
+        <div className="inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200">
           <BsExclamationLg />
           <span>{validationResult.invalidated.shortDescription}</span>
         </div>
       );
     case "new":
-      return <BsStar />;
+      return (
+        <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
+          <BsStar />
+          <span className="ml-1">New</span>
+        </div>
+      );
     case "ok":
-      return <BsCheckLg />;
+      return (
+        <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+          <BsCheckLg />
+          <span className="ml-1">Ok</span>
+        </div>
+      );
   }
 }
 
 function FactBar({ fact }: { fact: ShowDeclarationFact }): JSX.Element {
+  const isInvalidated = fact.validationResult.constructor === "invalidated";
+
   return (
-    <div className="flex items-center">
-      <FactMetadataBar factMetadata={fact.metadata} />
-      <FactValidationBar validationResult={fact.validationResult} />
+    <div className="flex items-center space-x-2">
+      {isInvalidated ? (
+        <>
+          <FactValidationBar validationResult={fact.validationResult} />
+          <FactMetadataBar factMetadata={fact.metadata} />
+        </>
+      ) : (
+        <>
+          <FactMetadataBar factMetadata={fact.metadata} />
+          <FactValidationBar validationResult={fact.validationResult} />
+        </>
+      )}
     </div>
   );
 }
@@ -215,11 +253,15 @@ export function Fact({
   return (
     <>
       <div
-        className="hover:bg-gray-100 cursor-pointer"
+        className="hover:bg-gray-50 cursor-pointer p-2 rounded-md transition-colors"
         onClick={() => setDiagOpen(true)}
       >
         {fact && <FactBar fact={fact} />}
-        {!fact && <span>Click here to assert fact</span>}
+        {!fact && (
+          <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-colors">
+            <span>Click here to assert fact</span>
+          </div>
+        )}
       </div>
       <FactDialog
         initialStatus={initialStatus}

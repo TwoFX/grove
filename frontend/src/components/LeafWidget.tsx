@@ -25,10 +25,12 @@ export function LeafWidget({
         onClick={() => toggleCollapsed(id)}
       >
         <BsChevronDown className={!isCollapsed ? "" : "-rotate-90"} />
-        <span className="font-bold">{widgetType}:</span>
-        <span className="font-mono">{title}</span>
+        <div className="flex items-baseline gap-1 mt-0.5">
+          <span className="font-bold">{widgetType}:</span>
+          <span className="font-mono">{title}</span>
+        </div>
       </div>
-      {!isCollapsed && children}
+      {!isCollapsed && <div className="pl-6 pt-2 pb-2">{children}</div>}
     </div>
   );
 }
