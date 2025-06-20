@@ -17,11 +17,9 @@ export function usePendingAssociationTableFact(): (
   );
 
   return (widgetId, factId) => {
-    console.log("looking up at " + widgetId + " and " + factId);
     const result =
       pendingFact[widgetId]?.[factId] ??
       groveContextData.associationTableFact.byId[widgetId]?.[factId];
-    console.log("result is " + JSON.stringify(result));
     return result;
   };
 }

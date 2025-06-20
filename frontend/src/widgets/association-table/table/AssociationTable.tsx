@@ -153,7 +153,6 @@ function updateRow(
       });
     }
   });
-  console.log(result);
   return result;
 }
 

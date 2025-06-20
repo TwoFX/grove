@@ -29,13 +29,9 @@ export function useRenderAssociationTable(
   return (definition) => {
     const state = getState(definition.widgetId) ?? emptyAssociationTableState();
 
-    console.log("have state: " + JSON.stringify(state));
-
     const facts = getPossibleFactIds(state).flatMap((factId) => {
-      console.log("have potential fact: " + factId);
       const pendingFact = getFact(definition.widgetId, factId);
       if (pendingFact) {
-        console.log("have fact: " + JSON.stringify(pendingFact));
         return [pendingFact];
       } else {
         return [];
