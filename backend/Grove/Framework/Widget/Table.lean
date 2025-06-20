@@ -5,3 +5,4 @@ Authors: Markus Himmel
 -/
 import Grove.Framework.Widget.Table.Basic
 import Grove.Framework.Widget.Table.CellDataProvider
+import Grove.Framework.Widget.Table.ClassicProvider
