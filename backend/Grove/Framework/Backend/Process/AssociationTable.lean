@@ -194,7 +194,7 @@ def processFact [HasId β] {kind : DataKind} (l : List β) (f : AssociationTable
   }
 
 def processFacts [HasId β] {kind : DataKind} (l : List β) (facts : Array (AssociationTable.Fact kind))
-    (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind): RenderM (Array Data.AssociationTable.Fact) :=
+    (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) : RenderM (Array Data.AssociationTable.Fact) :=
   facts.filterMapM (processFact l · cellValueMap dataSources)
 
 end AssociationTable

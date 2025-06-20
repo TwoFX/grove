@@ -289,6 +289,12 @@ def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [
   let some savedData ← RenderM.findTable? rowKind columnKind cellKind t.id
     | return ⟨definition, ⟨#[], #[], #[]⟩, #[]⟩
 
+  let state : Data.Table.State := {
+    selectedRowAssociations := savedData.selectedRowAssociations
+    selectedColumnAssociations := savedData.selectedColumnAssociations
+    selectedCellOptions := savedData.selectedCellOptions.map (fun o => { o with })
+  }
+
   return sorry
 
 
