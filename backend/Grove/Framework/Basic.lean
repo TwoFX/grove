@@ -19,8 +19,10 @@ open Widget
 inductive Node where
   | «section» : String → String → Array Node → Node
   | «namespace» : Name → Node
-  | associationTable {β : Type} [HasId β] [DisplayShort β] {columnIdentifiers : List β} :
-      AssociationTable kind columnIdentifiers → Node
+  | associationTable {kind : DataKind} {β : Type} [HasId β] [DisplayShort β]
+      {columnIdentifiers : List β} : AssociationTable kind columnIdentifiers → Node
+  | table {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
+      {layerIdentifiers : List δ} : Table rowKind columnKind cellKind layerIdentifiers → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
   | text : String → Node

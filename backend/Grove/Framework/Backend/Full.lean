@@ -25,6 +25,7 @@ structure Section where
 inductive Node where
   | «section» : Section → Node
   | associationTable : AssociationTable → Node
+  | table : Table → Node
   | «namespace» : String → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
@@ -44,6 +45,7 @@ partial def Node.toJson (n : Node) : Json :=
   SchemaFor.inductive.toJson
     [.unary "section" Section (fun | .section s => some s | _ => none) Section.toJson,
      .unary "associationTable" AssociationTable (fun | .associationTable a => some a | _ => none),
+     .unary "table" Table (fun | .table t => some t | _ => none),
      .unary "namespace" String (fun | .namespace s => some s | _ => none),
      .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
@@ -61,6 +63,7 @@ instance : SchemaFor Node :=
   .inductive "node"
     [.unary "section" Section (fun | .section s => some s | _ => none),
      .unary "associationTable" AssociationTable (fun | .associationTable a => some a | _ => none),
+     .unary "table" Table (fun | .table t => some t | _ => none),
      .unary "namespace" String (fun | .namespace s => some s | _ => none),
      .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
@@ -143,6 +146,7 @@ where
 partial def processNode : Node → RenderM Data.Node
   | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM processNode
   | Node.associationTable t => Data.Node.associationTable <$> processAssociationTable t
+  | Node.table t => Data.Node.table <$> processTable t
   | .namespace n => pure <| .namespace n.toString
   | .assertion a => Data.Node.assertion <$> processAssertion a
   | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration s
@@ -169,6 +173,7 @@ where
     match n with
     | .section s => s.children.forM explore
     | .associationTable t => exploreFacts t.facts
+    | .table t => exploreFacts t.facts
     | .namespace _ => return ()
     | .assertion _ => return ()
     | .showDeclaration s => s.facts.forM (exploreShowDeclarationFact s.definition.id)
@@ -178,6 +183,7 @@ where
     if ValidatedFact.validationResult f matches .invalidated _ then
       modify (·.push ⟨ValidatedFact.widgetId f, ValidatedFact.factId f⟩)
 
+  -- TODO: switch over to exploreFacts
   exploreShowDeclarationFact (widgetId : String) (s : Data.ShowDeclaration.Fact) : StateM (Array InvalidatedFact) PUnit := do
     if s.validationResult matches .invalidated _ then
       modify (·.push ⟨widgetId, s.factId⟩)
