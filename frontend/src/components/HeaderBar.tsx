@@ -1,16 +1,11 @@
 "use client";
 
-import { TemplateStrings } from "@/lib/templates";
 import { JSX } from "react";
 import Image from "next/image";
 import { SaveButton } from "./SaveButton";
 import { ClearButton } from "./ClearButton";
 
-export function HeaderBar({
-  templateStrings,
-}: {
-  templateStrings: TemplateStrings;
-}): JSX.Element {
+export function HeaderBar(): JSX.Element {
   return (
     <div className="flex items-center justify-between gap-4 p-2 border-b">
       <div className="flex gap-4">
@@ -25,7 +20,7 @@ export function HeaderBar({
       </div>
       <div className="flex gap-2">
         <ClearButton />
-        <SaveButton templateStrings={templateStrings} />
+        <SaveButton />
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import {
   AssociationTableDefinition,
   AssociationTableFact,
   AssociationTableState,
+  Declaration,
   ShowDeclarationDefinition,
   ShowDeclarationFact,
 } from "@/lib/transfer/project";
@@ -11,6 +12,7 @@ export interface TemplateStrings {
   generatedFile: string;
   showDeclaration: string;
   associationTable: string;
+  declaration: string;
   metadataPartial: string;
   declarationPartial: string;
 }
@@ -37,4 +39,5 @@ export interface Templates {
       AssociationTableFact
     >
   >;
+  declaration: HandlebarsTemplateDelegate<Declaration>;
 }

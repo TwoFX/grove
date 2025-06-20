@@ -18,9 +18,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <GroveClient groveContext={groveContextData}>
+        <GroveClient
+          groveContext={groveContextData}
+          templateStrings={templates}
+        >
           <header>
-            <HeaderBar templateStrings={templates} />
+            <HeaderBar />
           </header>
           <main>{children}</main>
         </GroveClient>

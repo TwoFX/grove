@@ -19,4 +19,5 @@ export const templates: TemplateStrings = {
   associationTable: readTemplate(
     "widgets/association-table/save/associationTable.template",
   ),
+  declaration: readTemplate("lib/templates/declaration.template"),
 };

@@ -1,4 +1,5 @@
 import { Declaration, Node } from "@/lib/transfer/project/index";
+import { Templates } from "../templates";
 
 export function declarationName(declaration: Declaration): string {
   switch (declaration.constructor) {
@@ -20,6 +21,13 @@ export function declarationDisplayShort(declaration: Declaration): string {
     case "thm":
       return declaration.thm.name;
   }
+}
+
+export function declarationStateRepr(
+  templates: Templates,
+  declaration: Declaration,
+): string {
+  return templates.declaration(declaration);
 }
 
 export function nodeKey(node: Node): string {

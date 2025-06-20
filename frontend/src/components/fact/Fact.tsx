@@ -1,8 +1,18 @@
 import { FactSummary } from "@/lib/fact/summary";
-import { FactMetadata, FactStatus, FactValidationResult } from "@/lib/transfer/project";
+import {
+  FactMetadata,
+  FactStatus,
+  FactValidationResult,
+} from "@/lib/transfer/project";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { JSX, ReactElement, useState } from "react";
-import { BsCheckLg, BsClock, BsEmojiSmile, BsExclamationLg, BsStar } from "react-icons/bs";
+import {
+  BsCheckLg,
+  BsClock,
+  BsEmojiSmile,
+  BsExclamationLg,
+  BsStar,
+} from "react-icons/bs";
 
 function FactStatusIcon({
   factStatus,
@@ -45,7 +55,7 @@ function FactMetadataBar({
 
   return (
     <div
-      className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium border ${getStatusClasses(factMetadata.status)}`}
+      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${getStatusClasses(factMetadata.status)}`}
     >
       <FactStatusIcon factStatus={factMetadata.status} />
       {factMetadata.comment && <span>{factMetadata.comment}</span>}
@@ -61,21 +71,21 @@ function FactValidationBar({
   switch (validationResult.constructor) {
     case "invalidated":
       return (
-        <div className="inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200">
+        <div className="inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200">
           <BsExclamationLg />
           <span>{validationResult.invalidated.shortDescription}</span>
         </div>
       );
     case "new":
       return (
-        <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
+        <div className="inline-flex items-center px-2 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
           <BsStar />
           <span className="ml-1">New</span>
         </div>
       );
     case "ok":
       return (
-        <div className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
+        <div className="inline-flex items-center px-2 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
           <BsCheckLg />
           <span className="ml-1">Ok</span>
         </div>
@@ -214,12 +224,12 @@ export function Fact({
   return (
     <>
       <div
-        className="hover:bg-gray-50 cursor-pointer p-2 rounded-md transition-colors"
+        className="cursor-pointer p-1 rounded-md transition-colors"
         onClick={() => setDiagOpen(true)}
       >
         {fact && <FactBar fact={fact} />}
         {!fact && (
-          <div className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-colors">
+          <div className="inline-flex items-center px-3 rounded-full text-sm font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-colors">
             <span>Click here to assert fact</span>
           </div>
         )}

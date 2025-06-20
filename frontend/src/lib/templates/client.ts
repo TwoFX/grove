@@ -69,5 +69,6 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
     generatedFile: Handlebars.compile(templateStrings.generatedFile),
     showDeclaration: Handlebars.compile(templateStrings.showDeclaration),
     associationTable: Handlebars.compile(templateStrings.associationTable),
+    declaration: Handlebars.compile(templateStrings.declaration),
   };
 }

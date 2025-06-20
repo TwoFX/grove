@@ -10,7 +10,7 @@
     name := {{leanName thm/name}}
     renderedStatement := {{leanString thm/renderedStatement}}
     isDeprecated := {{thm/isDeprecated}}
-    isSimp := {{isSimp}}
+    isSimp := {{thm/isSimp}}
   }
 {{/if}}
 {{#if (declarationIsMissing this)}}

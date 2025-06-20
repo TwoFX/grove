@@ -16,15 +16,44 @@ import {
   AssociationTableCell,
   AssociationTableCellOption,
   AssociationTableColumnDescription,
+  AssociationTableFactCellState,
   AssociationTableRow,
 } from "@/lib/transfer/project";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
-import { declarationDisplayShort, declarationName } from "@/lib/transfer/util";
+import {
+  declarationDisplayShort,
+  declarationName,
+  declarationStateRepr,
+} from "@/lib/transfer/util";
 import { produce } from "immer";
+import { AssociationTableFactComponent } from "../AssociationTableFactComponent";
+import { Templates } from "@/lib/templates";
+import { GroveTemplateContext } from "@/lib/templates/context";
 
 function rowKeyGetter(row: AssociationTableRow) {
   return row.uuid;
+}
+
+function columnDescriptionFor(
+  columnDescriptions: AssociationTableColumnDescription[],
+  columnIdentifier: string,
+): AssociationTableColumnDescription | undefined {
+  // TODO: performance
+  return columnDescriptions.find(
+    (descr) => descr.identifier === columnIdentifier,
+  );
+}
+
+function optionFor(
+  context: GroveContextData,
+  columnDescription: AssociationTableColumnDescription,
+  cellValue: string,
+): AssociationTableCellOption | undefined {
+  // TODO: performance
+  return columnDescription.options.find(
+    (opt) => optionKey(context, opt) === cellValue,
+  );
 }
 
 function optionKey(
@@ -51,6 +80,22 @@ function optionDisplayShort(
   }
 }
 
+function optionStateRepr(
+  context: GroveContextData,
+  templates: Templates,
+  opt: AssociationTableCellOption,
+): string {
+  switch (opt.constructor) {
+    case "declaration":
+      return declarationStateRepr(
+        templates,
+        context.declarations[opt.declaration],
+      );
+    case "other":
+      return opt.other.stateRepr;
+  }
+}
+
 function cellFor(
   row: AssociationTableRow,
   columnIdent: string,
@@ -59,13 +104,40 @@ function cellFor(
   return row.columns.find((col) => col.columnIdentifier === columnIdent);
 }
 
+function rowFactState(
+  context: GroveContextData,
+  templates: Templates,
+  columnDefinitions: AssociationTableColumnDescription[],
+  row: AssociationTableRow,
+): AssociationTableFactCellState[] {
+  return row.columns.flatMap((cell) => {
+    const columnDescription = columnDescriptionFor(
+      columnDefinitions,
+      cell.columnIdentifier,
+    );
+    if (!columnDescription) {
+      return [];
+    }
+    const option = optionFor(context, columnDescription, cell.cellValue);
+    if (!option) {
+      return [];
+    }
+    return [
+      {
+        cellValue: cell.cellValue,
+        columnIdentifier: cell.columnIdentifier,
+        stateRepr: optionStateRepr(context, templates, option),
+      },
+    ];
+  });
+}
+
 function updateRow(
   row: AssociationTableRow,
   columnIdent: string,
   newValue: string,
 ): AssociationTableRow {
   // TODO: performance
-  console.log(newValue);
   const result = produce(row, (draft) => {
     let found = false;
     for (const col of draft.columns) {
@@ -86,15 +158,18 @@ function updateRow(
 }
 
 export function AssociationTable({
+  widgetId,
   columnDefinitions,
   tableRows,
   setTableRows,
 }: {
+  widgetId: string;
   columnDefinitions: AssociationTableColumnDescription[];
   tableRows: AssociationTableRow[];
   setTableRows: (rows: AssociationTableRow[]) => void;
 }): JSX.Element {
   const context = useContext(GroveContext);
+  const templates = useContext(GroveTemplateContext);
   const [selectedRows, setSelectedRows] = useState<ReadonlySet<string>>(
     new Set(),
   );
@@ -108,9 +183,7 @@ export function AssociationTable({
         renderCell: ({ row }: { row: AssociationTableRow }) => {
           const cell = cellFor(row, columnDescription.identifier);
           if (!cell) return null;
-          const option = columnDescription.options.find(
-            (opt) => optionKey(context, opt) === cell.cellValue,
-          );
+          const option = optionFor(context, columnDescription, cell.cellValue);
           return option ? optionDisplayShort(context, option) : cell.cellValue;
         },
         renderEditCell: ({
@@ -146,9 +219,17 @@ export function AssociationTable({
       key: "__grove_fact_column",
       name: "Fact",
       editable: false,
-      maxWidth: 50,
-      renderCell: ({}) => {
-        return <button>Click</button>;
+      renderCell: ({ row }) => {
+        return (
+          <AssociationTableFactComponent
+            widgetId={widgetId}
+            rowId={row.uuid}
+            factId={row.uuid}
+            newState={() =>
+              rowFactState(context, templates, columnDefinitions, row)
+            }
+          />
+        );
       },
     },
   ];

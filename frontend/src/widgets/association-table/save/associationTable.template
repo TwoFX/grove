@@ -14,7 +14,7 @@ def «{{factId}}» : AssociationTable.Fact {{dataKind ../definition/dataKind}} w
   widgetId := {{leanString ../definition/widgetId}}
   factId := {{leanString factId}}
   rowId := {{leanString rowId}}
-  rowState := #[{{#each state}}⟨{{leanString columnIdentifier}}, {{leanString cellValue}}, {{stateRepr}}⟩{{/each}}]
+  rowState := #[{{#each state}}⟨{{leanString columnIdentifier}}, {{leanString cellValue}}, {{{stateRepr}}}⟩,{{/each}}]
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
 {{/each}}
 

@@ -25,6 +25,7 @@ export function AssociationTablePage({
 
   return (
     <AssociationTable
+      widgetId={widgetId}
       columnDefinitions={
         context.associationTableDefinition.byId[widgetId].columns
       }

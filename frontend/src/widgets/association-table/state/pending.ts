@@ -16,9 +16,14 @@ export function usePendingAssociationTableFact(): (
     (state) => state.pendingAssociationTableFacts,
   );
 
-  return (widgetId, factId) =>
-    pendingFact[widgetId]?.[factId] ??
-    groveContextData.associationTableFact.byId[widgetId]?.[factId];
+  return (widgetId, factId) => {
+    console.log("looking up at " + widgetId + " and " + factId);
+    const result =
+      pendingFact[widgetId]?.[factId] ??
+      groveContextData.associationTableFact.byId[widgetId]?.[factId];
+    console.log("result is " + JSON.stringify(result));
+    return result;
+  };
 }
 
 export function useCountPendingAssociationTableFacts(): number {
@@ -46,7 +51,9 @@ export function useCountPendingAssociationTableStates(): number {
   );
 }
 
-function computeSummary(fact: AssociationTableFact): FactSummary {
+export function computeAssociationTableFactSummary(
+  fact: AssociationTableFact,
+): FactSummary {
   return {
     widgetId: fact.widgetId,
     factId: fact.factId,
@@ -67,5 +74,5 @@ export function useAssociationTableFactSummaries(): FactSummary[] {
     .map((fact) => {
       return pendingFact[fact.widgetId]?.[fact.factId] ?? fact;
     })
-    .map(computeSummary);
+    .map(computeAssociationTableFactSummary);
 }
