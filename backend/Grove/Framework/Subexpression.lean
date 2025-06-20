@@ -24,6 +24,9 @@ inductive Subexpression where
   | declaration : Name → Subexpression
   | predicate : PredicateSubexpression → Subexpression
 
+instance : Inhabited Subexpression where
+  default := .declaration .anonymous
+
 def Subexpression.searchKey : Subexpression → SearchKey
   | declaration n => .byName n
   | predicate p => .byExpr p.predicate

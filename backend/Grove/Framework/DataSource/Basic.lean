@@ -41,6 +41,10 @@ instance : (kind : DataKind) → BEq kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
 
+instance : (kind : DataKind) → Inhabited kind.Key
+  | .declaration => inferInstance
+  | .subexpression => inferInstance
+
 def DataKind.getState : (kind : DataKind) → kind.Key → MetaM kind.State
   | .declaration, n => Declaration.ofName n
   | .subexpression, s => s.state

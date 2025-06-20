@@ -166,17 +166,24 @@ instance : SchemaFor Table.CellEntry :=
      .arr "options" Table.CellEntry.options]
 
 structure Table.CellDataForRowValue where
-  sourceLayerIdentifier : String
   rowKey : String
   targetLayerIdentifier : String
-  options : Array Table.CellOption
+  options : Array Table.CellEntry
 
 instance : SchemaFor Table.CellDataForRowValue :=
   .structure "tableCellDataForRowValue"
-    [.single "sourceLayerIdentifier" Table.CellDataForRowValue.sourceLayerIdentifier,
-     .single "rowKey" Table.CellDataForRowValue.rowKey,
+    [.single "rowKey" Table.CellDataForRowValue.rowKey,
      .single "targetLayerIdentifier" Table.CellDataForRowValue.targetLayerIdentifier,
      .arr "options" Table.CellDataForRowValue.options]
+
+structure Table.CellDataForLayer where
+  sourceLayerIdentifier : String
+  rows : Array Table.CellDataForRowValue
+
+instance : SchemaFor Table.CellDataForLayer :=
+  .structure "tableCellDataForLayer"
+    [.single "sourceLayerIdentifier" Table.CellDataForLayer.sourceLayerIdentifier,
+     .arr "rows" Table.CellDataForLayer.rows]
 
 structure Table.Definition where
   widgetId : String
@@ -185,7 +192,7 @@ structure Table.Definition where
   cellKind : DataKind
   rowSource : Table.AssociationSource
   columnSource : Table.AssociationSource
-  cells : Array CellDataForRowValue
+  cells : Array CellDataForLayer
 
 instance schemaTableDefinition : SchemaFor Table.Definition :=
   .structure "tableDefinition"
@@ -214,7 +221,77 @@ namespace Table
 
 end Table
 
-def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
-    {l : List δ} (t : Table rowKind columnKind cellKind l) : RenderM Data.Table := sorry
+def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {layerIdentifiers : List β}
+    (s : Table.AssociationSource kind layerIdentifiers) :
+    RenderM (Data.Table.AssociationSource × Vector (Array kind.Key) layerIdentifiers.length) :=
+  match s with
+  | .const a => do
+    let arr ← a
+    let source : Data.Table.AssociationSource := .const ⟨arr.map (fun assoc =>
+      ⟨assoc.id,
+       assoc.layers.map (fun l => ⟨HasId.getId l.layerIdentifier, kind.keyString l.layerValue⟩)⟩)⟩
+
+    let possibleValues : Vector (Array kind.Key) layerIdentifiers.length := Vector.ofFn (fun idx =>
+      arr.flatMap (fun assoc =>
+        assoc.layers.filterMap (fun layer =>
+          -- TODO: performance
+          if layer.layerIdentifier == layerIdentifiers[idx] then some layer.layerValue else none)))
+
+    return (source, possibleValues)
+  | .table t => do
+    let possibleValues : Vector (Array kind.Key) layerIdentifiers.length ←
+      Vector.ofFnM (fun idx => (t.dataSources layerIdentifiers[idx]).getAll)
+    return (.table t.id, possibleValues)
+
+def processCellDataProvider {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ]
+    {layerIdentifiers : List δ}
+    (rowValues : Vector (Array rowKind.Key) layerIdentifiers.length)
+    (columnValues : Vector (Array columnKind.Key) layerIdentifiers.length)
+    (p : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers) :
+    RenderM (Array Data.Table.CellDataForLayer) := do
+  let cells ← p.getCells rowValues columnValues
+  let layers ← cells.mapFinIdxM (fun idx layer hidx => do return {
+    sourceLayerIdentifier := HasId.getId layerIdentifiers[idx]
+    rows := ← layer.mapIdxM (fun ridx cellData => mapCellDataForRowValue idx hidx ridx cellData)
+  })
+  return layers.toArray
+where
+  mapCellDataForRowValue (idx : Nat) (hidx : idx < layerIdentifiers.length) (ridx : Nat)
+      (d : Table.CellDataForRowValue columnKind cellKind layerIdentifiers columnValues) :
+      RenderM Data.Table.CellDataForRowValue := do return {
+    rowKey := rowKind.keyString (rowValues[idx][ridx]!)
+    targetLayerIdentifier := HasId.getId layerIdentifiers[d.targetLayerIndex]
+    options := Vector.toArray <| ← d.cells.mapFinIdxM (fun cidx cell hcidx => do return {
+      columnKey := columnKind.keyString columnValues[d.targetLayerIndex][cidx]
+      options := ← cell.mapM (fun k => mapRenderInfo <$> cellKind.renderInfo k)
+    })
+  }
+  mapRenderInfo : RenderInfo → Data.Table.CellOption
+    | .decl n => .declaration n.toString
+    | .other o => .other { o with }
+
+def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [HasId δ] [DisplayShort δ]
+    {l : List δ} (t : Table rowKind columnKind cellKind l) : RenderM Data.Table := do
+  let (rowSource, rowValues) ← processAssociationSource t.rowsFrom
+  let (columnSource, columnValues) ← processAssociationSource t.columnsFrom
+  let cells ← processCellDataProvider rowValues columnValues t.cellData
+
+  let definition : Data.Table.Definition := {
+    widgetId := t.id
+    rowKind
+    columnKind
+    cellKind
+    rowSource
+    columnSource
+    cells
+  }
+
+  let some savedData ← RenderM.findTable? rowKind columnKind cellKind t.id
+    | return ⟨definition, ⟨#[], #[], #[]⟩, #[]⟩
+
+  return sorry
+
+
+
 
 end Grove.Framework.Backend.Full
