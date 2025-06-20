@@ -6,11 +6,14 @@ Authors: Markus Himmel
 import Grove.Framework.Widget.Table.CellDataProvider
 import Grove.Framework.Subexpression
 
+open Lean
+
 namespace Grove.Framework.Widget.Table
 
 namespace CellDataProvider
 
-def classic (layerIdentifiers : List Name) : CellDataProvider Subexpression Subexpression Declaration layerIdentifiers where
+def classic (layerIdentifiers : List Name) :
+    CellDataProvider .subexpression .subexpression .declaration layerIdentifiers where
   getCells possibleRowValues possibleColValues := do
     sorry
 

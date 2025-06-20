@@ -11,17 +11,26 @@ open Lean
 
 namespace Grove.Framework
 
--- inductive AssociationSource (α : Type) {β : Type} (layerIdentifiers : List β) where
---   | table : Widget.AssociationTable α layerIdentifiers → AssociationSource α layerIdentifiers
---   | const : MetaM (Array (Vector α layerIdentifiers.length)) → AssociationSource α layerIdentifiers
 
 namespace Widget
 
--- structure Table (α β γ : Type) {δ : Type} [DisplayShort δ] (layerIdentifiers : List δ) : Type where
---   id : String
---   rowsFrom : AssociationSource α layerIdentifiers
---   columnsFrom : AssociationSource β layerIdentifiers
---   cellData : Table.CellDataProvider α β γ layerIdentifiers
+namespace Table
+
+structure AssociationLayer (kind : DataKind) (β : Type) where
+  layerIdentifier : β
+  layerValue : kind.Key
+
+inductive AssociationSource (kind : DataKind) {β : Type} (layerIdentifiers : List β) where
+  | table : Widget.AssociationTable kind layerIdentifiers → AssociationSource kind layerIdentifiers
+  | const : MetaM (Array (Array (AssociationLayer kind β))) → AssociationSource kind layerIdentifiers
+
+end Table
+
+structure Table (rowKind columnKind cellKind : DataKind) {δ : Type} (layerIdentifiers : List δ) : Type where
+  id : String
+  rowsFrom : Table.AssociationSource rowKind layerIdentifiers
+  columnsFrom : Table.AssociationSource columnKind layerIdentifiers
+  cellData : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers
 
 end Widget
 

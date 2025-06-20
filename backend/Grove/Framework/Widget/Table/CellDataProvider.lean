@@ -4,20 +4,28 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Lean.Meta.Basic
+import Grove.Framework.DataSource.Basic
 
 open Lean
 
 namespace Grove.Framework.Widget.Table
 
-structure CellDataForRow {δ : Type} (layerIdentifiers : List δ)
-    (possibleValuesForColumns : Vector (Array β) layerIdentifiers.length) (γ : Type) where
-  selectedLayer : δ
-  cells : Array γ
+/-- Here you should imagine that we have fixed a source layer `d` and a possible value `r` for
+    the row value. Then we still need to give a target layer `d'`, and for every possible column
+    value `c` of `d'`, a collection of cells.
+     -/
+structure CellDataForRowValue (columnKind cellKind : DataKind) {δ : Type} (layerIdentifiers : List δ)
+    (possibleValuesForColumns : Vector (Array columnKind.Key) layerIdentifiers.length) where
+  targetLayerIndex : Fin layerIdentifiers.length
+  cells : Vector (Array cellKind.Key) possibleValuesForColumns[targetLayerIndex].size
 
-structure CellDataProvider (α β γ : Type) (layerIdentifiers : List δ) where
+structure CellDataProvider (rowKind columnKind cellKind : DataKind) {δ : Type} (layerIdentifiers : List δ) : Type where
   getCells :
-    (possibleRowValues : Vector (Array α) layerIdentifiers.length) →
-    (possibleColValues : Vector (Array β) layerIdentifiers.length) →
-      MetaM (Vector (Array (CellDataForRow layerIdentifiers possibleColValues γ)) layerIdentifiers.length)
+    -- For every layer, get a list of possible row and column values
+    (possibleRowValues : Vector (Array rowKind.Key) layerIdentifiers.length) →
+    (possibleColValues : Vector (Array columnKind.Key) layerIdentifiers.length) →
+      -- The array ranges over all possible row values in the given layer (we cannot express this in
+      -- types because there is no `DVector`).
+      MetaM (Vector (Array (CellDataForRowValue columnKind cellKind layerIdentifiers possibleColValues)) layerIdentifiers.length)
 
 end Grove.Framework.Widget.Table
