@@ -27,13 +27,19 @@ def optionMapALooksNice : ShowDeclaration where
   id := "show-option-mapa"
   name := `Option.mapA
 
-def listArrayOperations : AssociationTable .declaration [`List, `Array] where
+def listArrayOperations : AssociationTable .subexpression [`List, `Array] where
   id := "list-array-operations"
-  dataSources n := DataSource.declarationsInNamespace n .definitionsOnly
+  dataSources n := DataSource.declarationsInNamespace n .definitionsOnly |>.map .declaration
+
+def listArrayLemmas : Table .subexpression .subexpression .declaration [`List, `Array] where
+  id := "list-array-lemmas"
+  rowsFrom := .table listArrayOperations
+  columnsFrom := .table listArrayOperations
+  cellData := .classic _
 
 def root : Node :=
   .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice,
-    .associationTable listArrayOperations]
+    .associationTable listArrayOperations, .table listArrayLemmas]
 
 end Containers
 

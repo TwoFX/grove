@@ -14,20 +14,31 @@ namespace CellDataProvider
 
 namespace Classic
 
-abbrev ColumnCache (layerIdentifiers : List Name)
-    (possibleColValues : Vector (Array Subexpression) layerIdentifiers.length) :=
-  (Std.HashMap Name (Std.DHashMap (Fin layerIdentifiers.length) (fun layerIndex => Array (Fin possibleColValues[layerIndex].size))))
+structure RelevantConstant where
+  name : Name
+  type : Expr
+  usedConstants : NameSet
+
+structure ColumnCache (layerIdentifiers : List Name)
+    (possibleColValues : Vector (Array Subexpression) layerIdentifiers.length) where
+  columnCache : Std.HashMap Name (Std.DHashMap (Fin layerIdentifiers.length) (fun layerIndex => Array (Fin possibleColValues[layerIndex].size)))
+  relevantConstants : Array RelevantConstant
 
 def buildColumnCache (layerIdentifiers : List Name) (possibleColValues : Vector (Array Subexpression) layerIdentifiers.length) :
     MetaM (ColumnCache layerIdentifiers possibleColValues) := do
-  let mut result := ∅
+  let mut columnCache := ∅
+  let mut relevantConstants := #[]
 
   for (name, constantInfo) in (← getEnv).constants do
     if ← Name.isAutoDecl name then
       continue
 
+    if !layerIdentifiers.any (fun pref => pref.isPrefixOf name) then
+      continue
+
     let e := constantInfo.type
     let usedConstants := e.getUsedConstantsAsSet
+    relevantConstants := relevantConstants.push ⟨name, e, usedConstants⟩
     let mut cacheForName := ∅
     for hi : i in [0:layerIdentifiers.length] do
       for hj : j in [0:possibleColValues[i].size] do
@@ -36,9 +47,11 @@ def buildColumnCache (layerIdentifiers : List Name) (possibleColValues : Vector 
           cacheForName := cacheForName.alter ⟨i, hi.upper⟩
             (fun arr => (arr.getD #[]).push ⟨j, hj.upper⟩)
     if !cacheForName.isEmpty then
-      result := result.insert name cacheForName
+      columnCache := columnCache.insert name cacheForName
 
-  return result
+  IO.println s!"{relevantConstants.size}"
+
+  return ⟨columnCache, relevantConstants⟩
 
 @[inline]
 def _root_.Vector.modify (v : Vector α n) (i : Nat) (f : α → α) : Vector α n :=
@@ -53,15 +66,9 @@ def cellDataForSourceExpression {layerIdentifiers : List Name} {possibleColValue
 
   let mut cells : Vector (Array Name) possibleColValues[targetLayerIndex].size := Vector.replicate _ #[]
 
-  for (name, constantInfo) in (← getEnv).constants do
-    if ← Name.isAutoDecl name then
-      continue
-
-    let e := constantInfo.type
-    -- TODO: performance, by looping over constants outside we could skip building this set multiple times.
-    let usedConstants := e.getUsedConstantsAsSet
+  for ⟨name, e, usedConstants⟩ in columnCache.relevantConstants do
     if sourceExpression.matches e usedConstants then
-      if let some cacheForName := columnCache[name]? then
+      if let some cacheForName := columnCache.columnCache[name]? then
         if let some cacheForLayer := cacheForName.get? targetLayerIndex then
           for columnIndex in cacheForLayer do
             cells := cells.modify columnIndex (·.push name)
