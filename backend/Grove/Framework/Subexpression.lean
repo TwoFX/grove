@@ -6,7 +6,7 @@ Authors: Markus Himmel
 import Grove.Framework.Declaration
 import Grove.Framework.Search
 
-open Lean
+open Lean Meta
 
 namespace Grove.Framework
 
@@ -14,6 +14,7 @@ structure PredicateSubexpression where
   key : String
   displayShort : String
   predicate : ExprPred
+  computeTargetNamespace : (sourceNamespace : Name) → (allowedTargetNamespaces : List Name) → MetaM Name
 
 structure PredicateSubexpression.State where
   key : String
@@ -55,5 +56,14 @@ def Subexpression.toString : Subexpression → String
 
 def Subexpression.State.repr (s : Subexpression.State) : String :=
   (_root_.repr s).pretty
+
+def Subexpression.computeTargetNamespace (s : Subexpression) (sourceNamespace : Name)
+    (allowedTargetNamespaces : List Name) : MetaM Name :=
+  match s with
+  | .predicate p => p.computeTargetNamespace sourceNamespace allowedTargetNamespaces
+  | .declaration n => do
+    let some info := (← getEnv).find? n | return sourceNamespace
+    let usedConstants := info.getUsedConstantsAsSet
+    return allowedTargetNamespaces.find? usedConstants.contains |>.getD sourceNamespace
 
 end Grove.Framework
