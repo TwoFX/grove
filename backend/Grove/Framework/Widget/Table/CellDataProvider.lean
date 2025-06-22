@@ -20,6 +20,7 @@ structure CellDataForRowValue (columnKind cellKind : DataKind) {δ : Type} (laye
   cells : Vector (Array cellKind.Key) possibleValuesForColumns[targetLayerIndex].size
 
 structure CellDataProvider (rowKind columnKind cellKind : DataKind) {δ : Type} (layerIdentifiers : List δ) : Type where
+  getById? : String → MetaM (Option cellKind.Key)
   getCells :
     -- For every layer, get a list of possible row and column values
     (possibleRowValues : Vector (Array rowKind.Key) layerIdentifiers.length) →

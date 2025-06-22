@@ -14,6 +14,7 @@ namespace CellDataProvider
 
 def classic (layerIdentifiers : List Name) :
     CellDataProvider .subexpression .subexpression .declaration layerIdentifiers where
+  getById? := sorry
   getCells possibleRowValues possibleColValues := do
     sorry
 

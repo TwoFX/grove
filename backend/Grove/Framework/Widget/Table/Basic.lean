@@ -40,8 +40,8 @@ deriving BEq
 
 structure Table.Fact.LayerState (rowKind columnKind cellKind : DataKind) where
   layerIdentifier : String
-  rowState : SingleState rowKind
-  columnState : SingleState columnKind
+  rowState : Option (SingleState rowKind)
+  columnState : Option (SingleState columnKind)
   selectedCellStates : Array (SingleState cellKind)
 deriving BEq
 
@@ -56,6 +56,7 @@ structure Table.Fact (rowKind columnKind cellKind : DataKind) where
   metadata : Fact.Metadata
 
 structure Table.Data.SelectedCellOptions where
+  layerIdentifier : String
   rowValue : String
   columnValue : String
   selectedCellOptions : Array String

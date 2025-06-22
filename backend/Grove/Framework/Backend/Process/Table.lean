@@ -6,6 +6,7 @@ Authors: Markus Himmel
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
 import Grove.Framework.Reference
+import Std.Data.Iterators
 
 namespace Grove.Framework.Backend.Full
 
@@ -14,6 +15,7 @@ open Widget JTD
 namespace Data
 
 structure Table.SelectedCellOptions where
+  layerIdentifier : String
   rowValue : String
   columnValue : String
   selectedCellOptions : Array String
@@ -56,10 +58,19 @@ instance : SchemaFor Table.Fact.SingleState :=
     [.single "value" Table.Fact.SingleState.value,
      .single "stateRepr" Table.Fact.SingleState.stateRepr]
 
+inductive Table.Fact.OptionalSingleState where
+  | none : Table.Fact.OptionalSingleState
+  | some : Table.Fact.SingleState → Table.Fact.OptionalSingleState
+
+instance : SchemaFor Table.Fact.OptionalSingleState :=
+  .inductive "tableFactOptionalSingleState"
+    [.nullary "none" (fun | .none => true | _ => false),
+     .unary "some" Table.Fact.SingleState (fun | .some s => some s | _ => none)]
+
 structure Table.Fact.LayerState where
   layerIdentifier : String
-  rowState : Table.Fact.SingleState
-  columnState : Table.Fact.SingleState
+  rowState : Table.Fact.OptionalSingleState
+  columnState : Table.Fact.OptionalSingleState
   selectedCellStates : Array Table.Fact.SingleState
 
 instance : SchemaFor Table.Fact.LayerState :=
@@ -219,11 +230,14 @@ end Data
 
 namespace Table
 
-end Table
+structure ProcessAssociationSourceResult (kind : DataKind) {β : Type} (layerIdentifiers : List β) where
+  associationSource : Data.Table.AssociationSource
+  possibleKeys : Vector (Array kind.Key) layerIdentifiers.length
+  associations : Std.HashMap (/- (associationId, layerId) -/ String × String) kind.Key
 
 def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {layerIdentifiers : List β}
     (s : Table.AssociationSource kind layerIdentifiers) :
-    RenderM (Data.Table.AssociationSource × Vector (Array kind.Key) layerIdentifiers.length) :=
+    RenderM (ProcessAssociationSourceResult kind layerIdentifiers) :=
   match s with
   | .const a => do
     let arr ← a
@@ -237,11 +251,25 @@ def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {
           -- TODO: performance
           if layer.layerIdentifier == layerIdentifiers[idx] then some layer.layerValue else none)))
 
-    return (source, possibleValues)
+    let associations := arr.foldl (init := ∅) (fun sofar assoc =>
+      assoc.layers.foldl (init := sofar) (fun sofar layer => sofar.insert (assoc.id, HasId.getId layer.layerIdentifier) layer.layerValue))
+
+    return ⟨source, possibleValues, associations⟩
   | .table t => do
     let possibleValues : Vector (Array kind.Key) layerIdentifiers.length ←
       Vector.ofFnM (fun idx => (t.dataSources layerIdentifiers[idx]).getAll)
-    return (.table t.id, possibleValues)
+
+    let some tableData ← RenderM.findAssociationTable? kind t.id
+      | return ⟨.table t.id, possibleValues, ∅⟩
+
+    let associations ← tableData.rows.foldlM (init := ∅) (fun sofar row => row.columns.foldlM (init := sofar) (fun sofar cell => do
+      -- TODO: this is terrible.
+      let some layer := layerIdentifiers.find? (fun b => HasId.getId b == cell.columnIdentifier) | return sofar
+      let dataSource := t.dataSources layer
+      let some key ← dataSource.getById? cell.cellValue | return sofar
+      return sofar.insert (row.uuid, cell.columnIdentifier) key))
+
+    return ⟨.table t.id, possibleValues, associations⟩
 
 def processCellDataProvider {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ]
     {layerIdentifiers : List δ}
@@ -270,11 +298,89 @@ where
     | .decl n => .declaration n.toString
     | .other o => .other { o with }
 
+def transformLayerState {rowKind columnKind cellKind : DataKind}
+    (f : Table.Fact.LayerState rowKind columnKind cellKind) : RenderM Data.Table.Fact.LayerState := do
+  return {
+    layerIdentifier := f.layerIdentifier
+    rowState := transformOptionSingleState f.rowState
+    columnState := transformOptionSingleState f.columnState
+    selectedCellStates := f.selectedCellStates.map (fun cell =>
+      ⟨cell.value, cellKind.reprState cell.state⟩)
+  }
+where
+  transformOptionSingleState {kind : DataKind} : Option (Table.Fact.SingleState kind) → Data.Table.Fact.OptionalSingleState
+    | none => .none
+    | some s => .some ⟨s.value, kind.reprState s.state⟩
+
+def transformState {rowKind columnKind cellKind : DataKind}
+    (f : Table.Fact rowKind columnKind cellKind) : RenderM Data.Table.Fact.State :=
+  Data.Table.Fact.State.mk <$> f.layerStates.mapM transformLayerState
+
+def currentLayerState {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
+    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
+    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
+    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
+    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
+    (rowAssociationId : String) (columnAssociationId : String) (layerIdentifier : String) :
+    RenderM (Table.Fact.LayerState rowKind columnKind cellKind) := do
+  let rowAssoc ← currentRCState rowAssociations rowAssociationId
+  let colAssoc ← currentRCState columnAssociations columnAssociationId
+  let cellOpts := selectedCellOptions.getD (layerIdentifier, rowAssociationId, columnAssociationId) #[]
+  let cellStates : Array (Table.Fact.SingleState cellKind) ←
+    cellOpts.iter
+      |>.filterMapM (cellDataProvider.getById? ·)
+      |>.mapM st
+      |>.toArray
+  return ⟨layerIdentifier, rowAssoc, colAssoc, cellStates⟩
+where
+  currentRCState {kind : DataKind} (associations : Std.HashMap (String × String) kind.Key)
+      (associationId : String) : RenderM (Option (Table.Fact.SingleState kind)) :=
+    associations[(associationId, layerIdentifier)]?.mapM st
+  st {kind : DataKind} (k : kind.Key) : RenderM (Table.Fact.SingleState kind) :=
+    return ⟨kind.keyString k, ← kind.getState k⟩
+
+def currentFactState {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
+    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
+    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
+    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
+    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
+    (rowAssociationId : String) (columnAssociationId : String) (selectedLayers : Array String) :
+    RenderM (Array (Table.Fact.LayerState rowKind columnKind cellKind)) :=
+  selectedLayers.mapM (fun layer => currentLayerState cellDataProvider rowAssociations columnAssociations selectedCellOptions rowAssociationId columnAssociationId layer)
+
+def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
+    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
+    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
+    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
+    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
+    (f : Table.Fact rowKind columnKind cellKind) : RenderM Data.Table.Fact := do
+  let newState ← currentFactState cellDataProvider rowAssociations columnAssociations selectedCellOptions f.rowAssociationId f.columnAssociationId
+    f.selectedLayers
+
+  let validationResult : Fact.ValidationResult := if newState == f.layerStates then .ok else
+    .invalidated ⟨"borked", "states do not match"⟩
+
+  return {
+    widgetId := f.widgetId
+    factId := f.factId
+    identifier := {
+      rowAssociationId := f.rowAssociationId
+      columnAssociationId := f.columnAssociationId
+      selectedLayers := f.selectedLayers
+    }
+    state := ← transformState f
+    metadata := f.metadata
+    validationResult
+  }
+
+end Table
+
+
 def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [HasId δ] [DisplayShort δ]
     {l : List δ} (t : Table rowKind columnKind cellKind l) : RenderM Data.Table := do
-  let (rowSource, rowValues) ← processAssociationSource t.rowsFrom
-  let (columnSource, columnValues) ← processAssociationSource t.columnsFrom
-  let cells ← processCellDataProvider rowValues columnValues t.cellData
+  let ⟨rowSource, rowValues, rowAssociations⟩ ← Table.processAssociationSource t.rowsFrom
+  let ⟨columnSource, columnValues, columnAssociations⟩ ← Table.processAssociationSource t.columnsFrom
+  let cells ← Table.processCellDataProvider rowValues columnValues t.cellData
 
   let definition : Data.Table.Definition := {
     widgetId := t.id
@@ -295,9 +401,12 @@ def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [
     selectedCellOptions := savedData.selectedCellOptions.map (fun o => { o with })
   }
 
-  return sorry
+  let selectedCellOptionMap : Std.HashMap (String × String × String) (Array String) :=
+    state.selectedCellOptions.foldl (init := ∅) (fun sofar o =>
+      sofar.insert (o.layerIdentifier, o.rowValue, o.columnValue) o.selectedCellOptions)
 
+  let facts ← savedData.facts.mapM (Table.processFact t.cellData rowAssociations columnAssociations selectedCellOptionMap)
 
-
+  return { definition, state, facts }
 
 end Grove.Framework.Backend.Full
