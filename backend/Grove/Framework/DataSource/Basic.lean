@@ -10,7 +10,7 @@ import Grove.Framework.Subexpression
 import Grove.JTD.Basic
 import Grove.Framework.Declaration.Name
 
-open Lean
+open Lean Meta
 
 namespace Grove.Framework
 
@@ -78,14 +78,37 @@ def ofArray {kind : DataKind} (l : Array kind.Key) : DataSource kind :=
     getById? := (pure m[·]?)
   }
 
-def declarationsInNamespace (n : Name) : DataSource .declaration where
+-- TODO: duplicated in Declaration/Basic.lean
+private def isTheorem (c : ConstantInfo) : MetaM Bool := do
+  if getOriginalConstKind? (← getEnv) c.name == some .thm then
+    return true
+
+  try
+    let t ← inferType c.type
+    return t.isProp
+  catch
+    | _ => return false
+
+inductive DeclarationFilter where
+  | all
+  | definitionsOnly
+  | theoremsOnly
+
+def DeclarationFilter.check (f : DeclarationFilter) (c : ConstantInfo) : MetaM Bool :=
+  match f with
+  | .all => pure true
+  | .definitionsOnly => (!·) <$> isTheorem c
+  | .theoremsOnly => isTheorem c
+
+def declarationsInNamespace (n : Name) (f : DeclarationFilter) : DataSource .declaration where
   getAll := do
     let env ← getEnv
     let mut ans := #[]
-    for (constName, _) in env.constants do
+    for (constName, info) in env.constants do
       if n.isPrefixOf constName then
         if ! (← Name.isAutoDecl constName) then
-          ans := ans.push constName
+          if ← f.check info then
+            ans := ans.push constName
     return ans
   getById? id := pure (some id.toName)
 

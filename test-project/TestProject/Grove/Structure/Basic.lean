@@ -29,7 +29,7 @@ def optionMapALooksNice : ShowDeclaration where
 
 def listArrayOperations : AssociationTable .declaration [`List, `Array] where
   id := "list-array-operations"
-  dataSources n := DataSource.declarationsInNamespace n
+  dataSources n := DataSource.declarationsInNamespace n .definitionsOnly
 
 def root : Node :=
   .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice,
