@@ -49,8 +49,6 @@ def buildColumnCache (layerIdentifiers : List Name) (possibleColValues : Vector 
     if !cacheForName.isEmpty then
       columnCache := columnCache.insert name cacheForName
 
-  IO.println s!"{relevantConstants.size}"
-
   return ⟨columnCache, relevantConstants⟩
 
 @[inline]

@@ -179,13 +179,13 @@ instance : SchemaFor Table.CellEntry :=
 structure Table.CellDataForRowValue where
   rowKey : String
   targetLayerIdentifier : String
-  options : Array Table.CellEntry
+  cellEntries : Array Table.CellEntry
 
 instance : SchemaFor Table.CellDataForRowValue :=
   .structure "tableCellDataForRowValue"
     [.single "rowKey" Table.CellDataForRowValue.rowKey,
      .single "targetLayerIdentifier" Table.CellDataForRowValue.targetLayerIdentifier,
-     .arr "options" Table.CellDataForRowValue.options]
+     .arr "cellEntries" Table.CellDataForRowValue.cellEntries]
 
 structure Table.CellDataForLayer where
   sourceLayerIdentifier : String
@@ -289,10 +289,10 @@ where
       RenderM Data.Table.CellDataForRowValue := do return {
     rowKey := rowKind.keyString (rowValues[idx][ridx]!)
     targetLayerIdentifier := HasId.getId layerIdentifiers[d.targetLayerIndex]
-    options := Vector.toArray <| ← d.cells.mapFinIdxM (fun cidx cell hcidx => do return {
+    cellEntries := (Vector.toArray <| ← d.cells.mapFinIdxM (fun cidx cell hcidx => do return {
       columnKey := columnKind.keyString columnValues[d.targetLayerIndex][cidx]
       options := ← cell.mapM (fun k => mapRenderInfo <$> cellKind.renderInfo k)
-    })
+    })).filter (fun cellEntry => !cellEntry.options.isEmpty)
   }
   mapRenderInfo : RenderInfo → Data.Table.CellOption
     | .decl n => .declaration n.toString
