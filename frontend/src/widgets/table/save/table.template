@@ -55,6 +55,7 @@ def table : Table.Data {{dataKind definition/rowKind}} {{dataKind definition/col
 {{#with state}}
   selectedRowAssociations := #[{{#each selectedRowAssociations}}{{leanString this}}, {{/each}}]
   selectedColumnAssociations := #[{{#each selectedColumnAssociations}}{{leanString this}}, {{/each}}]
+  selectedLayers := #[{{#each selectedLayers}}{{leanString this}}, {{/each}}]
   selectedCellOptions := #[
 {{#each selectedCellOptions}}
     {

@@ -12,6 +12,7 @@
     "tableState": {
       "properties": {
         "selectedRowAssociations": { "elements": { "type": "string" } },
+        "selectedLayers": { "elements": { "type": "string" } },
         "selectedColumnAssociations": { "elements": { "type": "string" } },
         "selectedCellOptions": {
           "elements": { "ref": "tableSelectedCellOptions" }
@@ -73,6 +74,7 @@
         "widgetId": { "type": "string" },
         "rowSource": { "ref": "tableAssociationSource" },
         "rowKind": { "ref": "dataKind" },
+        "layerIdentifiers": { "elements": { "type": "string" } },
         "columnSource": { "ref": "tableAssociationSource" },
         "columnKind": { "ref": "dataKind" },
         "cells": { "elements": { "ref": "tableCellDataForLayer" } },

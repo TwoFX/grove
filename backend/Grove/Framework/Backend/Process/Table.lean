@@ -30,12 +30,14 @@ structure Table.State where
   selectedRowAssociations : Array String
   selectedColumnAssociations : Array String
   selectedCellOptions : Array Table.SelectedCellOptions
+  selectedLayers : Array String
 
 instance schemaTableState : SchemaFor Table.State :=
   .structure "tableState"
     [.arr "selectedRowAssociations" Table.State.selectedRowAssociations,
      .arr "selectedColumnAssociations" Table.State.selectedColumnAssociations,
-     .arr "selectedCellOptions" Table.State.selectedCellOptions]
+     .arr "selectedCellOptions" Table.State.selectedCellOptions,
+     .arr "selectedLayers" Table.State.selectedLayers]
 
 structure Table.Fact.Identifier where
   rowAssociationId : String
@@ -212,6 +214,7 @@ instance schemaTableDefinition : SchemaFor Table.Definition :=
      .single "rowKind" Table.Definition.rowKind,
      .single "columnKind" Table.Definition.columnKind,
      .single "cellKind" Table.Definition.cellKind,
+     .arr "layerIdentifiers" Table.Definition.layerIdentifiers,
      .single "rowSource" Table.Definition.rowSource,
      .single "columnSource" Table.Definition.columnSource,
      .arr "cells" Table.Definition.cells]
@@ -395,12 +398,13 @@ def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [
   }
 
   let some savedData ← RenderM.findTable? rowKind columnKind cellKind t.id
-    | return ⟨definition, ⟨#[], #[], #[]⟩, #[]⟩
+    | return ⟨definition, ⟨#[], #[], #[], #[]⟩, #[]⟩
 
   let state : Data.Table.State := {
     selectedRowAssociations := savedData.selectedRowAssociations
     selectedColumnAssociations := savedData.selectedColumnAssociations
     selectedCellOptions := savedData.selectedCellOptions.map (fun o => { o with })
+    selectedLayers := savedData.selectedLayers
   }
 
   let selectedCellOptionMap : Std.HashMap (String × String × String) (Array String) :=

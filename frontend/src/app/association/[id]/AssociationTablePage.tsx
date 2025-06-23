@@ -2,7 +2,6 @@
 
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
-import { emptyAssociationTableState } from "@/widgets/association-table/save";
 import { usePendingAssociationTableState } from "@/widgets/association-table/state/pending";
 import { AssociationTable } from "@/widgets/association-table/table/AssociationTable";
 import { JSX, useContext } from "react";
@@ -13,8 +12,7 @@ export function AssociationTablePage({
   widgetId: string;
 }): JSX.Element {
   const context = useContext(GroveContext);
-  const tableState =
-    usePendingAssociationTableState()(widgetId) ?? emptyAssociationTableState();
+  const tableState = usePendingAssociationTableState()(widgetId);
   const setTableState = useGroveStore(
     (state) => state.setPendingAssociationTableState,
   );

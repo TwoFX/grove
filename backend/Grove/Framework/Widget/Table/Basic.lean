@@ -66,6 +66,7 @@ structure Table.Data (rowKind columnKind cellKind : DataKind) where
   selectedRowAssociations : Array String
   selectedColumnAssociations : Array String
   selectedCellOptions : Array Table.Data.SelectedCellOptions
+  selectedLayers : Array String
   facts : Array (Table.Fact rowKind columnKind cellKind)
 
 end Grove.Framework.Widget

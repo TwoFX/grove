@@ -304,6 +304,7 @@ export interface TableDefinition {
   cells: TableCellDataForLayer[];
   columnKind: DataKind;
   columnSource: TableAssociationSource;
+  layerIdentifiers: string[];
   rowKind: DataKind;
   rowSource: TableAssociationSource;
   widgetId: string;
@@ -363,6 +364,7 @@ export interface TableSelectedCellOptions {
 export interface TableState {
   selectedCellOptions: TableSelectedCellOptions[];
   selectedColumnAssociations: string[];
+  selectedLayers: string[];
   selectedRowAssociations: string[];
 }
 

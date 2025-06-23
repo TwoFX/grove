@@ -16,6 +16,7 @@ def table : Table.Data .subexpression .subexpression .declaration where
   widgetId := "list-array-lemmas"
   selectedRowAssociations := #[]
   selectedColumnAssociations := #[]
+  selectedLayers := #[]
   selectedCellOptions := #[
   ]
   facts := #[
