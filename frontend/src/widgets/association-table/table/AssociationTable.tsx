@@ -6,6 +6,7 @@ import {
   DataGrid,
   RenderRowProps,
   SelectColumn,
+  textEditor,
 } from "react-data-grid";
 import { JSX, useCallback, useContext, useState } from "react";
 import { DraggableRowRenderer } from "./DraggableRowRenderer";
@@ -181,6 +182,11 @@ export function AssociationTable({
 
   const columns: Column<AssociationTableRow>[] = [
     SelectColumn,
+    {
+      key: "title",
+      name: "Title",
+      renderEditCell: textEditor,
+    },
     ...columnDefinitions.map((columnDescription) => {
       return {
         key: columnDescription.identifier,
@@ -261,6 +267,7 @@ export function AssociationTable({
   const addEmptyRow = () => {
     const emptyRow: AssociationTableRow = {
       uuid: uuidv4(),
+      title: "",
       columns: [],
     };
 

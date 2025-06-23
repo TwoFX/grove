@@ -28,6 +28,7 @@ structure AssociationTable.Data.Cell where
 
 structure AssociationTable.Data.Row where
   uuid : String
+  title : String
   columns : Array AssociationTable.Data.Cell
 
 structure AssociationTable.Fact.CellState (cellKind : DataKind) where

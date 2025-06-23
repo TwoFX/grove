@@ -7,6 +7,7 @@ import { useGroveStore } from "@/lib/state/state";
 
 export function emptyTableState(): TableState {
   return {
+    selectedLayers: [],
     selectedCellOptions: [],
     selectedColumnAssociations: [],
     selectedRowAssociations: [],

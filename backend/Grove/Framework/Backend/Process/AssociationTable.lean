@@ -27,11 +27,13 @@ instance : SchemaFor AssociationTable.Cell :=
 
 structure AssociationTable.Row where
   uuid : String
+  title : String
   columns : Array AssociationTable.Cell
 
 instance : SchemaFor AssociationTable.Row :=
   .structure "associationTableRow"
     [.single "uuid" AssociationTable.Row.uuid,
+     .single "title" AssociationTable.Row.title,
      .arr "columns" AssociationTable.Row.columns]
 
 structure AssociationTable.CellOption.Other where
@@ -156,7 +158,7 @@ def processColumnDescriptions {kind : DataKind} {β : Type} [HasId β] [DisplayS
   l.iter.mapM (fun b => processColumnDescription b (dataSources b)) |>.toArray
 
 def processRows {kind : DataKind} (savedData : AssociationTable.Data kind) : Array Data.AssociationTable.Row :=
-  savedData.rows.map (fun r => ⟨r.uuid, r.columns.map (fun c => { c with })⟩)
+  savedData.rows.map (fun r => ⟨r.uuid, r.title, r.columns.map (fun c => { c with })⟩)
 
 def computeCellState [HasId β] (b : β) (kind : DataKind) (rowId : String)
     (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) :

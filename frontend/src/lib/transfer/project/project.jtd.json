@@ -257,6 +257,7 @@
     "associationTableRow": {
       "properties": {
         "uuid": { "type": "string" },
+        "title": { "type": "string" },
         "columns": { "elements": { "ref": "associationTableCell" } }
       }
     },

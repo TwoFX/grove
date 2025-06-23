@@ -22,7 +22,7 @@ def table : AssociationTable.Data {{dataKind definition/dataKind}} where
   widgetId := {{leanString definition/widgetId}}
   rows := #[
 {{#each state/rows}}
-    ⟨{{leanString uuid}}, #[{{#each columns}}⟨{{leanString columnIdentifier}}, {{leanString cellValue}}⟩,{{/each}}]⟩,
+    ⟨{{leanString uuid}}, {{leanString title}}, #[{{#each columns}}⟨{{leanString columnIdentifier}}, {{leanString cellValue}}⟩,{{/each}}]⟩,
 {{/each}}
   ]
   facts := #[

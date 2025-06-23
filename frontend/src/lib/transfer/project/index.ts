@@ -71,6 +71,7 @@ export interface AssociationTableFactCellState {
 
 export interface AssociationTableRow {
   columns: AssociationTableCell[];
+  title: string;
   uuid: string;
 }
 
