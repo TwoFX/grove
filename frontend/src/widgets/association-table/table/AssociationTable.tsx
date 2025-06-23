@@ -18,6 +18,7 @@ import {
   AssociationTableColumnDescription,
   AssociationTableFactCellState,
   AssociationTableRow,
+  DataKind,
 } from "@/lib/transfer/project";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
@@ -84,12 +85,14 @@ function optionStateRepr(
   context: GroveContextData,
   templates: Templates,
   opt: AssociationTableCellOption,
+  dataKind: DataKind,
 ): string {
   switch (opt.constructor) {
     case "declaration":
       return declarationStateRepr(
         templates,
         context.declarations[opt.declaration],
+        dataKind,
       );
     case "other":
       return opt.other.stateRepr;
@@ -109,6 +112,7 @@ function rowFactState(
   templates: Templates,
   columnDefinitions: AssociationTableColumnDescription[],
   row: AssociationTableRow,
+  dataKind: DataKind,
 ): AssociationTableFactCellState[] {
   return row.columns.flatMap((cell) => {
     const columnDescription = columnDescriptionFor(
@@ -126,7 +130,7 @@ function rowFactState(
       {
         cellValue: cell.cellValue,
         columnIdentifier: cell.columnIdentifier,
-        stateRepr: optionStateRepr(context, templates, option),
+        stateRepr: optionStateRepr(context, templates, option, dataKind),
       },
     ];
   });
@@ -161,11 +165,13 @@ export function AssociationTable({
   columnDefinitions,
   tableRows,
   setTableRows,
+  dataKind,
 }: {
   widgetId: string;
   columnDefinitions: AssociationTableColumnDescription[];
   tableRows: AssociationTableRow[];
   setTableRows: (rows: AssociationTableRow[]) => void;
+  dataKind: DataKind;
 }): JSX.Element {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
@@ -225,7 +231,7 @@ export function AssociationTable({
             rowId={row.uuid}
             factId={row.uuid}
             newState={() =>
-              rowFactState(context, templates, columnDefinitions, row)
+              rowFactState(context, templates, columnDefinitions, row, dataKind)
             }
           />
         );

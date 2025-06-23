@@ -23,14 +23,15 @@ export function AssociationTablePage({
     throw new Error("Unknown association table");
   }
 
+  const tableDefinition = context.associationTableDefinition.byId[widgetId];
+
   return (
     <AssociationTable
       widgetId={widgetId}
-      columnDefinitions={
-        context.associationTableDefinition.byId[widgetId].columns
-      }
+      columnDefinitions={tableDefinition.columns}
       tableRows={tableState.rows}
       setTableRows={(rows) => setTableState(widgetId, { rows })}
+      dataKind={tableDefinition.dataKind}
     />
   );
 }

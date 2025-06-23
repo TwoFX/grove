@@ -1,4 +1,4 @@
-import { Declaration, Node } from "@/lib/transfer/project/index";
+import { DataKind, Declaration, Node } from "@/lib/transfer/project/index";
 import { Templates } from "../templates";
 
 export function declarationName(declaration: Declaration): string {
@@ -26,8 +26,23 @@ export function declarationDisplayShort(declaration: Declaration): string {
 export function declarationStateRepr(
   templates: Templates,
   declaration: Declaration,
+  targetDataKind: DataKind,
 ): string {
-  return templates.declaration(declaration);
+  /*
+  This is an optimization. When a table mentions a declaration, we want the data about the declaration
+  to be transmitted exactly once in the global declarations object. However, this means that in the
+  places where we need it, we do not have access to the relevant "stateRepr" object to put the
+  declaration back into a fact state. So we build something equivalent to it here in the frontend.
+  This duplicates backend logic and doesn't even generate an equivalent result (because the formatting
+  is different), but it's a necessary optimization to keep the JSON small.
+  */
+  const declarationStr = templates.declaration(declaration);
+  switch (targetDataKind) {
+    case DataKind.Declaration:
+      return declarationStr;
+    case DataKind.Subexpression:
+      return ".declaration <| " + declarationStr;
+  }
 }
 
 export function nodeKey(node: Node): string {
