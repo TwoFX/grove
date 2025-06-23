@@ -237,6 +237,7 @@ export interface Table {
 export interface TableAssociation {
   id: string;
   layers: TableAssociationLayer[];
+  title: string;
 }
 
 export interface TableAssociationLayer {

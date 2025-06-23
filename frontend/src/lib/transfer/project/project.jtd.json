@@ -140,6 +140,7 @@
     },
     "tableAssociation": {
       "properties": {
+        "title": { "type": "string" },
         "layers": { "elements": { "ref": "tableAssociationLayer" } },
         "id": { "type": "string" }
       }

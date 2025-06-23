@@ -14,9 +14,9 @@ namespace TestProject.Grove.Generated.«list-array-lemmas»
 
 def table : Table.Data .subexpression .subexpression .declaration where
   widgetId := "list-array-lemmas"
-  selectedRowAssociations := #[]
+  selectedRowAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", ]
   selectedColumnAssociations := #[]
-  selectedLayers := #[]
+  selectedLayers := #["List", "Array", ]
   selectedCellOptions := #[
   ]
   facts := #[

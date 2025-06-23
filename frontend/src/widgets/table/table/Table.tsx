@@ -1,4 +1,14 @@
-import { TableDefinition, TableState } from "@/lib/transfer/project";
+import {
+  AssociationTableRow,
+  TableAssociation,
+  TableAssociationSource,
+  TableDefinition,
+  TableState,
+} from "@/lib/transfer/project";
+import {
+  usePendingAssociationTableFact,
+  usePendingAssociationTableState,
+} from "@/widgets/association-table/state/pending";
 import {
   Listbox,
   ListboxButton,
@@ -47,7 +57,7 @@ function TableListbox({
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-w-[300px]">
       <Listbox value={selectedOptions} onChange={setSelectedOptions} multiple>
         <ListboxButton className="relative w-full cursor-pointer rounded border border-gray-300 bg-white py-2 pl-3 pr-8 text-left focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
           <span className="block truncate text-gray-900">{displayText}</span>
@@ -91,6 +101,33 @@ function TableListbox({
   );
 }
 
+function convertRow(source: AssociationTableRow): TableAssociation {
+  return {
+    id: source.uuid,
+    title: source.title,
+    layers: source.columns.map((cell) => ({
+      layerIdentifier: cell.columnIdentifier,
+      layerValue: cell.cellValue,
+    })),
+  };
+}
+
+function useAssociations(source: TableAssociationSource): TableAssociation[] {
+  const pendingTableState = usePendingAssociationTableState();
+
+  switch (source.constructor) {
+    case "table":
+      const state = pendingTableState(source.table);
+      if (state) {
+        return state.rows.map(convertRow);
+      } else {
+        return [];
+      }
+    case "const":
+      return source.const.associations;
+  }
+}
+
 export function Table({
   definition,
   state,
@@ -100,8 +137,20 @@ export function Table({
   state: TableState;
   setState: (state: TableState) => void;
 }): JSX.Element {
+  const rowAssociations = useAssociations(definition.rowSource);
+  const columnAssociations = useAssociations(definition.columnSource);
+
+  const possibleRows: ListboxOption[] = rowAssociations.map((assoc) => ({
+    key: assoc.id,
+    displayShort: assoc.title,
+  }));
+  const possibleCols: ListboxOption[] = columnAssociations.map((assoc) => ({
+    key: assoc.id,
+    displayShort: assoc.title,
+  }));
+
   return (
-    <div>
+    <div className="flex flex-row gap-4">
       <TableListbox
         title="Layers"
         options={definition.layerIdentifiers.map((id) => ({
@@ -117,6 +166,32 @@ export function Table({
           )
         }
         displayMode="list"
+      />
+      <TableListbox
+        title="Rows"
+        options={possibleRows}
+        selectedOptions={state.selectedRowAssociations}
+        setSelectedOptions={(newSelectedRows) =>
+          setState(
+            produce(state, (draft) => {
+              draft.selectedRowAssociations = newSelectedRows;
+            }),
+          )
+        }
+        displayMode="title"
+      />
+      <TableListbox
+        title="Columns"
+        options={possibleCols}
+        selectedOptions={state.selectedColumnAssociations}
+        setSelectedOptions={(newSelectedColumns) =>
+          setState(
+            produce(state, (draft) => {
+              draft.selectedColumnAssociations = newSelectedColumns;
+            }),
+          )
+        }
+        displayMode="title"
       />
     </div>
   );

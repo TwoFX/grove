@@ -122,11 +122,13 @@ instance : SchemaFor Table.AssociationLayer :=
 
 structure Table.Association where
   id : String
+  title : String
   layers : Array Table.AssociationLayer
 
 instance : SchemaFor Table.Association :=
   .structure "tableAssociation"
     [.single "id" Table.Association.id,
+      .single "title" Table.Association.title,
      .arr "layers" Table.Association.layers]
 
 structure Table.ConstantAssociationSource where
@@ -247,6 +249,7 @@ def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {
     let arr ← a
     let source : Data.Table.AssociationSource := .const ⟨arr.map (fun assoc =>
       ⟨assoc.id,
+       assoc.title,
        assoc.layers.map (fun l => ⟨HasId.getId l.layerIdentifier, kind.keyString l.layerValue⟩)⟩)⟩
 
     let possibleValues : Vector (Array kind.Key) layerIdentifiers.length := Vector.ofFn (fun idx =>

@@ -19,6 +19,7 @@ structure AssociationLayer (kind : DataKind) (β : Type) where
 
 structure Association (kind : DataKind) (β : Type) where
   id : String
+  title : String
   layers : Array (AssociationLayer kind β)
 
 inductive AssociationSource (kind : DataKind) {β : Type} (layerIdentifiers : List β) where
