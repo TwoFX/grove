@@ -5,10 +5,7 @@ import {
   TableDefinition,
   TableState,
 } from "@/lib/transfer/project";
-import {
-  usePendingAssociationTableFact,
-  usePendingAssociationTableState,
-} from "@/widgets/association-table/state/pending";
+import { usePendingAssociationTableState } from "@/widgets/association-table/state/pending";
 import {
   Listbox,
   ListboxButton,
