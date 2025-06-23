@@ -44,5 +44,7 @@ export function nodeKey(node: Node): string {
       return node.text; // TODO
     case "associationTable":
       return node.associationTable.definition.widgetId;
+    case "table":
+      return node.table.definition.widgetId;
   }
 }

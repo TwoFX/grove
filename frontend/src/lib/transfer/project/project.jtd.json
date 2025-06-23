@@ -9,6 +9,146 @@
         "isDeprecated": { "type": "boolean" }
       }
     },
+    "tableState": {
+      "properties": {
+        "selectedRowAssociations": { "elements": { "type": "string" } },
+        "selectedColumnAssociations": { "elements": { "type": "string" } },
+        "selectedCellOptions": {
+          "elements": { "ref": "tableSelectedCellOptions" }
+        }
+      }
+    },
+    "tableSelectedCellOptions": {
+      "properties": {
+        "selectedCellOptions": { "elements": { "type": "string" } },
+        "rowValue": { "type": "string" },
+        "columnValue": { "type": "string" }
+      }
+    },
+    "tableFactState": {
+      "properties": {
+        "layerStates": { "elements": { "ref": "tableFactLayerState" } }
+      }
+    },
+    "tableFactSingleState": {
+      "properties": {
+        "value": { "type": "string" },
+        "stateRepr": { "type": "string" }
+      }
+    },
+    "tableFactOptionalSingleState": {
+      "mapping": {
+        "some": { "properties": { "some": { "ref": "tableFactSingleState" } } },
+        "none": { "optionalProperties": { "dummy": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
+    },
+    "tableFactLayerState": {
+      "properties": {
+        "selectedCellStates": { "elements": { "ref": "tableFactSingleState" } },
+        "rowState": { "ref": "tableFactOptionalSingleState" },
+        "layerIdentifier": { "type": "string" },
+        "columnState": { "ref": "tableFactOptionalSingleState" }
+      }
+    },
+    "tableFactIdentifier": {
+      "properties": {
+        "selectedLayers": { "elements": { "type": "string" } },
+        "rowAssociationId": { "type": "string" },
+        "columnAssociationId": { "type": "string" }
+      }
+    },
+    "tableFact": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "validationResult": { "ref": "factValidationResult" },
+        "state": { "ref": "tableFactState" },
+        "metadata": { "ref": "factMetadata" },
+        "identifier": { "ref": "tableFactIdentifier" },
+        "factId": { "type": "string" }
+      }
+    },
+    "tableDefinition": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "rowSource": { "ref": "tableAssociationSource" },
+        "rowKind": { "ref": "dataKind" },
+        "columnSource": { "ref": "tableAssociationSource" },
+        "columnKind": { "ref": "dataKind" },
+        "cells": { "elements": { "ref": "tableCellDataForLayer" } },
+        "cellKind": { "ref": "dataKind" }
+      }
+    },
+    "tableConstantAssociationSource": {
+      "properties": {
+        "associations": { "elements": { "ref": "tableAssociation" } }
+      }
+    },
+    "tableCellOptionOther": {
+      "properties": {
+        "value": { "type": "string" },
+        "stateRepr": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "reference": { "ref": "reference" },
+        "longDescription": { "type": "string" }
+      }
+    },
+    "tableCellOption": {
+      "mapping": {
+        "other": {
+          "properties": { "other": { "ref": "tableCellOptionOther" } }
+        },
+        "declaration": { "properties": { "declaration": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
+    },
+    "tableCellEntry": {
+      "properties": {
+        "options": { "elements": { "ref": "tableCellOption" } },
+        "columnKey": { "type": "string" }
+      }
+    },
+    "tableCellDataForRowValue": {
+      "properties": {
+        "targetLayerIdentifier": { "type": "string" },
+        "rowKey": { "type": "string" },
+        "cellEntries": { "elements": { "ref": "tableCellEntry" } }
+      }
+    },
+    "tableCellDataForLayer": {
+      "properties": {
+        "sourceLayerIdentifier": { "type": "string" },
+        "rows": { "elements": { "ref": "tableCellDataForRowValue" } }
+      }
+    },
+    "tableAssociationSource": {
+      "mapping": {
+        "table": { "properties": { "table": { "type": "string" } } },
+        "const": {
+          "properties": { "const": { "ref": "tableConstantAssociationSource" } }
+        }
+      },
+      "discriminator": "constructor"
+    },
+    "tableAssociationLayer": {
+      "properties": {
+        "layerValue": { "type": "string" },
+        "layerIdentifier": { "type": "string" }
+      }
+    },
+    "tableAssociation": {
+      "properties": {
+        "layers": { "elements": { "ref": "tableAssociationLayer" } },
+        "id": { "type": "string" }
+      }
+    },
+    "table": {
+      "properties": {
+        "state": { "ref": "tableState" },
+        "facts": { "elements": { "ref": "tableFact" } },
+        "definition": { "ref": "tableDefinition" }
+      }
+    },
     "showDeclarationFact": {
       "properties": {
         "widgetId": { "type": "string" },
@@ -55,6 +195,7 @@
     "node": {
       "mapping": {
         "text": { "properties": { "text": { "type": "string" } } },
+        "table": { "properties": { "table": { "ref": "table" } } },
         "showDeclaration": {
           "properties": { "showDeclaration": { "ref": "showDeclaration" } }
         },

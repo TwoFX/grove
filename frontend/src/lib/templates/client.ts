@@ -62,6 +62,20 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
     }
   });
 
+  Handlebars.registerHelper(
+    "isSome",
+    function (state: { constructor: string }): boolean {
+      return state.constructor === "some";
+    },
+  );
+
+  Handlebars.registerHelper(
+    "isNone",
+    function (state: { constructor: string }): boolean {
+      return state.constructor === "none";
+    },
+  );
+
   Handlebars.registerPartial("metadata", templateStrings.metadataPartial);
   Handlebars.registerPartial("declaration", templateStrings.declarationPartial);
 
@@ -69,6 +83,7 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
     generatedFile: Handlebars.compile(templateStrings.generatedFile),
     showDeclaration: Handlebars.compile(templateStrings.showDeclaration),
     associationTable: Handlebars.compile(templateStrings.associationTable),
+    table: Handlebars.compile(templateStrings.table),
     declaration: Handlebars.compile(templateStrings.declaration),
   };
 }

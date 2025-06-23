@@ -1,12 +1,15 @@
 import { useRenderShowDeclaration } from "@/widgets/show-declaration/save";
-import { Templates } from "../templates";
 import {
   AssociationTableDefinition,
   Node,
   ShowDeclarationDefinition,
+  TableDefinition,
 } from "@/lib/transfer/project";
-import { ProjectMetadata } from "../transfer/contextdata";
 import { useRenderAssociationTable } from "@/widgets/association-table/save";
+import { GroveTemplateContext } from "../templates/context";
+import { GroveContext } from "../transfer/context";
+import { useContext } from "react";
+import { useRenderTable } from "@/widgets/table/save";
 
 async function writeWidget<T>(
   dirHandle: FileSystemDirectoryHandle,
@@ -24,12 +27,12 @@ async function writeWidget<T>(
   return id;
 }
 
-export function useRenderGeneratedFile(
-  metadata: ProjectMetadata,
-  templates: Templates,
-): (ids: string[]) => string {
+export function useRenderGeneratedFile(): (ids: string[]) => string {
+  const context = useContext(GroveContext);
+  const templates = useContext(GroveTemplateContext);
+
   return (ids) => {
-    return templates.generatedFile({ metadata, ids });
+    return templates.generatedFile({ metadata: context.projectMetadata, ids });
   };
 }
 
@@ -39,20 +42,20 @@ export interface Renderers {
   renderAssociationTable: (
     associationTable: AssociationTableDefinition,
   ) => string;
+  renderTable: (table: TableDefinition) => string;
 }
 
-export function useRenderers(
-  metadata: ProjectMetadata,
-  templates: Templates,
-): Renderers {
-  const renderShowDeclaration = useRenderShowDeclaration(metadata, templates);
-  const renderGeneratedFile = useRenderGeneratedFile(metadata, templates);
-  const renderAssociationTable = useRenderAssociationTable(metadata, templates);
+export function useRenderers(): Renderers {
+  const renderShowDeclaration = useRenderShowDeclaration();
+  const renderGeneratedFile = useRenderGeneratedFile();
+  const renderAssociationTable = useRenderAssociationTable();
+  const renderTable = useRenderTable();
 
   return {
     renderShowDeclaration,
     renderGeneratedFile,
     renderAssociationTable,
+    renderTable,
   };
 }
 
@@ -95,6 +98,14 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
           renderers.renderAssociationTable,
         );
         return [associationTableId];
+      case "table":
+        const tableId = await writeWidget(
+          dirHandle,
+          node.table.definition,
+          node.table.definition.widgetId,
+          renderers.renderTable,
+        );
+        return [tableId];
       case "text":
         return [];
     }

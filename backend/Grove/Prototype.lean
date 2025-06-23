@@ -4,7 +4,6 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Grove.Prototype.DeclarationInfo
--- import Std.import Std.Dat
 import Lean
 
 set_option autoImplicit false

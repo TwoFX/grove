@@ -150,6 +150,7 @@ export type Node =
   | NodeNamespace
   | NodeSection
   | NodeShowDeclaration
+  | NodeTable
   | NodeText;
 
 export interface NodeAssertion {
@@ -175,6 +176,11 @@ export interface NodeSection {
 export interface NodeShowDeclaration {
   constructor: "showDeclaration";
   showDeclaration: ShowDeclaration;
+}
+
+export interface NodeTable {
+  constructor: "table";
+  table: Table;
 }
 
 export interface NodeText {
@@ -219,6 +225,145 @@ export interface ShowDeclarationFact {
   state: Declaration;
   validationResult: FactValidationResult;
   widgetId: string;
+}
+
+export interface Table {
+  definition: TableDefinition;
+  facts: TableFact[];
+  state: TableState;
+}
+
+export interface TableAssociation {
+  id: string;
+  layers: TableAssociationLayer[];
+}
+
+export interface TableAssociationLayer {
+  layerIdentifier: string;
+  layerValue: string;
+}
+
+export type TableAssociationSource =
+  | TableAssociationSourceConst
+  | TableAssociationSourceTable;
+
+export interface TableAssociationSourceConst {
+  constructor: "const";
+  const: TableConstantAssociationSource;
+}
+
+export interface TableAssociationSourceTable {
+  constructor: "table";
+  table: string;
+}
+
+export interface TableCellDataForLayer {
+  rows: TableCellDataForRowValue[];
+  sourceLayerIdentifier: string;
+}
+
+export interface TableCellDataForRowValue {
+  cellEntries: TableCellEntry[];
+  rowKey: string;
+  targetLayerIdentifier: string;
+}
+
+export interface TableCellEntry {
+  columnKey: string;
+  options: TableCellOption[];
+}
+
+export type TableCellOption =
+  | TableCellOptionDeclaration
+  | TableCellOptionOther0;
+
+export interface TableCellOptionDeclaration {
+  constructor: "declaration";
+  declaration: string;
+}
+
+export interface TableCellOptionOther0 {
+  constructor: "other";
+  other: TableCellOptionOther;
+}
+
+export interface TableCellOptionOther {
+  longDescription: string;
+  reference: Reference;
+  shortDescription: string;
+  stateRepr: string;
+  value: string;
+}
+
+export interface TableConstantAssociationSource {
+  associations: TableAssociation[];
+}
+
+export interface TableDefinition {
+  cellKind: DataKind;
+  cells: TableCellDataForLayer[];
+  columnKind: DataKind;
+  columnSource: TableAssociationSource;
+  rowKind: DataKind;
+  rowSource: TableAssociationSource;
+  widgetId: string;
+}
+
+export interface TableFact {
+  factId: string;
+  identifier: TableFactIdentifier;
+  metadata: FactMetadata;
+  state: TableFactState;
+  validationResult: FactValidationResult;
+  widgetId: string;
+}
+
+export interface TableFactIdentifier {
+  columnAssociationId: string;
+  rowAssociationId: string;
+  selectedLayers: string[];
+}
+
+export interface TableFactLayerState {
+  columnState: TableFactOptionalSingleState;
+  layerIdentifier: string;
+  rowState: TableFactOptionalSingleState;
+  selectedCellStates: TableFactSingleState[];
+}
+
+export type TableFactOptionalSingleState =
+  | TableFactOptionalSingleStateNone
+  | TableFactOptionalSingleStateSome;
+
+export interface TableFactOptionalSingleStateNone {
+  constructor: "none";
+  dummy?: string;
+}
+
+export interface TableFactOptionalSingleStateSome {
+  constructor: "some";
+  some: TableFactSingleState;
+}
+
+export interface TableFactSingleState {
+  stateRepr: string;
+  value: string;
+}
+
+export interface TableFactState {
+  layerStates: TableFactLayerState[];
+}
+
+export interface TableSelectedCellOptions {
+  columnValue: string;
+  rowValue: string;
+  selectedCellOptions: string[];
+}
+
+export interface TableState {
+  selectedCellOptions: TableSelectedCellOptions[];
+  selectedColumnAssociations: string[];
+  selectedRowAssociations: string[];
 }
 
 export interface Theorem {

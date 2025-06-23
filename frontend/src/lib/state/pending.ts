@@ -9,36 +9,50 @@ import {
   useCountPendingAssociationTableFacts,
   useCountPendingAssociationTableStates,
 } from "@/widgets/association-table/state/pending";
+import {
+  useCountPendingTableFacts,
+  useCountPendingTableStates,
+  useTableFactSummaries,
+} from "@/widgets/table/state/pending";
 
 export function useCountPendingChanges(): number {
   const showDeclarationFact = useCountPendingShowDeclarationFacts();
   const associationTableState = useCountPendingAssociationTableStates();
   const associationTableFact = useCountPendingAssociationTableFacts();
+  const tableState = useCountPendingTableStates();
+  const tableFact = useCountPendingTableFacts();
 
-  return showDeclarationFact + associationTableState + associationTableFact;
+  return (
+    showDeclarationFact +
+    associationTableState +
+    associationTableFact +
+    tableState +
+    tableFact
+  );
 }
 
 export function useClearPendingChanges(): () => void {
-  const clearPendingShowDeclarationFacts = useGroveStore(
-    (store) => store.clearPendingShowDeclarationFacts,
-  );
-  const clearPendingAssociationTableFacts = useGroveStore(
-    (store) => store.clearPendingAssociationTableFacts,
-  );
-  const clearPendingAssociationTableStates = useGroveStore(
-    (store) => store.clearPendingAssociationTableStates,
-  );
+  const {
+    clearPendingShowDeclarationFacts,
+    clearPendingAssociationTableFacts,
+    clearPendingAssociationTableStates,
+    clearPendingTableFacts,
+    clearPendingTableStates,
+  } = useGroveStore();
 
   return () => {
     clearPendingShowDeclarationFacts();
     clearPendingAssociationTableFacts();
     clearPendingAssociationTableStates();
+    clearPendingTableFacts();
+    clearPendingTableStates();
   };
 }
 
 export function useFactSummaries(): FactSummary[] {
   const showDeclaration = useShowDeclarationFactSummaries();
   const associationTable = useAssociationTableFactSummaries();
+  const table = useTableFactSummaries();
 
-  return [...showDeclaration, ...associationTable];
+  return [...showDeclaration, ...associationTable, ...table];
 }

@@ -4,14 +4,11 @@ import { saveFiles, useRenderers } from "@/lib/save/save";
 import { useCountPendingChanges } from "@/lib/state/pending";
 import { JSX, useContext } from "react";
 import { GroveContext } from "@/lib/transfer/context";
-import { GroveTemplateContext } from "@/lib/templates/context";
 
 export function SaveButton(): JSX.Element {
   const context = useContext(GroveContext);
-  const templates = useContext(GroveTemplateContext);
   const numFacts = useCountPendingChanges();
-
-  const renderers = useRenderers(context.projectMetadata, templates);
+  const renderers = useRenderers();
 
   return (
     <button

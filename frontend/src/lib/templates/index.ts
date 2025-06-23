@@ -5,6 +5,9 @@ import {
   Declaration,
   ShowDeclarationDefinition,
   ShowDeclarationFact,
+  TableDefinition,
+  TableFact,
+  TableState,
 } from "@/lib/transfer/project";
 import { ProjectMetadata } from "../transfer/contextdata";
 
@@ -12,6 +15,7 @@ export interface TemplateStrings {
   generatedFile: string;
   showDeclaration: string;
   associationTable: string;
+  table: string;
   declaration: string;
   metadataPartial: string;
   declarationPartial: string;
@@ -38,6 +42,9 @@ export interface Templates {
       AssociationTableState,
       AssociationTableFact
     >
+  >;
+  table: HandlebarsTemplateDelegate<
+    Widget<TableDefinition, TableState, TableFact>
   >;
   declaration: HandlebarsTemplateDelegate<Declaration>;
 }

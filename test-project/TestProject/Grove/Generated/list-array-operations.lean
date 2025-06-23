@@ -9,32 +9,14 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«list-array-operations»
 
-def «0718bfdc-33c5-4e18-9e23-df93b8b04dcc» : AssociationTable.Fact .declaration where
-  widgetId := "list-array-operations"
-  factId := "0718bfdc-33c5-4e18-9e23-df93b8b04dcc"
-  rowId := "0718bfdc-33c5-4e18-9e23-df93b8b04dcc"
-  rowState := #[⟨"List", "List.instLawfulGetElemNatLtLength", Grove.Framework.Declaration.thm
-  { name := `List.instLawfulGetElemNatLtLength,
-    renderedStatement := "List.instLawfulGetElemNatLtLength.{u_1} {α : Type u_1} : LawfulGetElem (List α) Nat α fun as i => i < as.length",
-    isSimp := false,
-    isDeprecated := false }⟩,⟨"Array", "Array.getElem?_map", Grove.Framework.Declaration.thm
-  { name := `Array.getElem?_map,
-    renderedStatement := "Array.getElem?_map.{u_1, u_2} {α : Type u_1} {β : Type u_2} {f : α → β} {xs : Array α} {i : Nat} :\n  (Array.map f xs)[i]? = Option.map f xs[i]?",
-    isSimp := true,
-    isDeprecated := false }⟩,]
-  metadata := {
-    status := .done
-    comment := "Blub"
-  }
 
-def table : AssociationTable.Data .declaration where
+def table : AssociationTable.Data .subexpression where
   widgetId := "list-array-operations"
   rows := #[
     ⟨"0718bfdc-33c5-4e18-9e23-df93b8b04dcc", #[⟨"List", "List.instLawfulGetElemNatLtLength"⟩,⟨"Array", "Array.isNone_finIdxOf?"⟩,]⟩,
     ⟨"c706170f-c51d-4838-abf5-569bdef242a2", #[⟨"Array", "Array.map_uncurry_zip_eq_zipWith"⟩,]⟩,
   ]
   facts := #[
-    «0718bfdc-33c5-4e18-9e23-df93b8b04dcc»,
   ]
 
 def restoreState : RestoreStateM Unit := do

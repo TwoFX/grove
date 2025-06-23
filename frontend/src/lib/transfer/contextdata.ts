@@ -6,6 +6,9 @@ import {
   Declaration,
   Section,
   ShowDeclarationFact,
+  TableDefinition,
+  TableFact,
+  TableState,
 } from "./project";
 import { Node } from "@/lib/transfer/project/index";
 
@@ -72,4 +75,7 @@ export interface GroveContextData {
   associationTableFact: FactRegistry<AssociationTableFact>;
   associationTableState: StateRegistry<AssociationTableState>;
   associationTableDefinition: StateRegistry<AssociationTableDefinition>;
+  tableFact: FactRegistry<TableFact>;
+  tableState: StateRegistry<TableState>;
+  tableDefinition: StateRegistry<TableDefinition>;
 }

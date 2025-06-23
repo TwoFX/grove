@@ -6,8 +6,9 @@ import {
   usePendingAssociationTableFact,
   usePendingAssociationTableState,
 } from "../state/pending";
-import { ProjectMetadata } from "@/lib/transfer/contextdata";
-import { Templates } from "@/lib/templates";
+import { useContext } from "react";
+import { GroveContext } from "@/lib/transfer/context";
+import { GroveTemplateContext } from "@/lib/templates/context";
 
 function getPossibleFactIds(state: AssociationTableState): string[] {
   return state.rows.map((row) => row.uuid);
@@ -19,10 +20,11 @@ export function emptyAssociationTableState(): AssociationTableState {
   };
 }
 
-export function useRenderAssociationTable(
-  metadata: ProjectMetadata,
-  templates: Templates,
-): (associationTable: AssociationTableDefinition) => string {
+export function useRenderAssociationTable(): (
+  associationTable: AssociationTableDefinition,
+) => string {
+  const context = useContext(GroveContext);
+  const templates = useContext(GroveTemplateContext);
   const getFact = usePendingAssociationTableFact();
   const getState = usePendingAssociationTableState();
 
@@ -40,7 +42,7 @@ export function useRenderAssociationTable(
 
     return templates.associationTable({
       state,
-      metadata,
+      metadata: context.projectMetadata,
       definition,
       facts,
     });

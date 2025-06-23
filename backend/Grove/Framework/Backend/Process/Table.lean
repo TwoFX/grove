@@ -201,6 +201,7 @@ structure Table.Definition where
   rowKind : DataKind
   columnKind : DataKind
   cellKind : DataKind
+  layerIdentifiers : Array String
   rowSource : Table.AssociationSource
   columnSource : Table.AssociationSource
   cells : Array CellDataForLayer
@@ -384,6 +385,7 @@ def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [
 
   let definition : Data.Table.Definition := {
     widgetId := t.id
+    layerIdentifiers := l.iter.map HasId.getId |>.toArray
     rowKind
     columnKind
     cellKind

@@ -1,16 +1,18 @@
-import { Templates } from "@/lib/templates";
 import { ShowDeclarationDefinition } from "@/lib/transfer/project";
 import { usePendingShowDeclarationFact } from "../state/pending";
-import { ProjectMetadata } from "@/lib/transfer/contextdata";
+import { useContext } from "react";
+import { GroveContext } from "@/lib/transfer/context";
+import { GroveTemplateContext } from "@/lib/templates/context";
 
 function getPossibleFactIds(): string[] {
   return ["0"];
 }
 
-export function useRenderShowDeclaration(
-  metadata: ProjectMetadata,
-  templates: Templates,
-): (definition: ShowDeclarationDefinition) => string {
+export function useRenderShowDeclaration(): (
+  definition: ShowDeclarationDefinition,
+) => string {
+  const context = useContext(GroveContext);
+  const templates = useContext(GroveTemplateContext);
   const getFact = usePendingShowDeclarationFact();
 
   return (definition) => {
@@ -25,7 +27,7 @@ export function useRenderShowDeclaration(
 
     return templates.showDeclaration({
       state: undefined,
-      metadata,
+      metadata: context.projectMetadata,
       definition,
       facts,
     });

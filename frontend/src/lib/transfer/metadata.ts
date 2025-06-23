@@ -84,6 +84,9 @@ function createContextData(): GroveContextData {
     associationTableFact: emptyFactRegistry(),
     associationTableState: emptyStateRegistry(),
     associationTableDefinition: emptyStateRegistry(),
+    tableFact: emptyFactRegistry(),
+    tableState: emptyStateRegistry(),
+    tableDefinition: emptyStateRegistry(),
   };
 
   function traverse(node: Node) {
@@ -114,6 +117,25 @@ function createContextData(): GroveContextData {
         addToFactRegistry(
           contextData.associationTableFact,
           node.associationTable.definition.widgetId,
+          fact.factId,
+          fact,
+        );
+      });
+    } else if (node.constructor === "table") {
+      addToStateRegistry(
+        contextData.tableDefinition,
+        node.table.definition.widgetId,
+        node.table.definition,
+      );
+      addToStateRegistry(
+        contextData.tableState,
+        node.table.definition.widgetId,
+        node.table.state,
+      );
+      node.table.facts.forEach((fact) => {
+        addToFactRegistry(
+          contextData.tableFact,
+          node.table.definition.widgetId,
           fact.factId,
           fact,
         );
