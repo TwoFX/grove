@@ -38,11 +38,11 @@ function TableListbox({
 
   let displayText: string;
   if (displayMode === "title") {
-    displayText = title;
+    displayText = `${selectedCount} ${title}${selectedCount === 1 ? "" : "s"}`;
   } else {
     // "list" mode
     if (selectedCount === 0) {
-      displayText = `Select ${title}`;
+      displayText = `Select ${title}s`;
     } else {
       const selectedDisplayValues = selectedOptions
         .map(
@@ -149,7 +149,7 @@ export function Table({
   return (
     <div className="flex flex-row gap-4">
       <TableListbox
-        title="Layers"
+        title="Layer"
         options={definition.layerIdentifiers.map((id) => ({
           key: id,
           displayShort: id,
@@ -165,7 +165,7 @@ export function Table({
         displayMode="list"
       />
       <TableListbox
-        title="Rows"
+        title="Row"
         options={possibleRows}
         selectedOptions={state.selectedRowAssociations}
         setSelectedOptions={(newSelectedRows) =>
@@ -178,7 +178,7 @@ export function Table({
         displayMode="title"
       />
       <TableListbox
-        title="Columns"
+        title="Column"
         options={possibleCols}
         selectedOptions={state.selectedColumnAssociations}
         setSelectedOptions={(newSelectedColumns) =>
