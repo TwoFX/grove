@@ -4,7 +4,7 @@ import { TableDefinition, TableState } from "@/lib/transfer/project";
 import { produce } from "immer";
 import { JSX } from "react";
 
-export function Table({
+export function LayerRowColumnSelector({
   definition,
   state,
   setState,
@@ -73,5 +73,4 @@ export function Table({
       />
     </div>
   );
-  // Top bar: three dropdowns (rows, columns, layers)
 }

@@ -2,7 +2,7 @@ import { LeafWidget } from "@/components/LeafWidget";
 import { Table } from "@/lib/transfer/project";
 import { JSX } from "react";
 
-export function TableComponent({ table }: { table: Table }): JSX.Element {
+export function TableWidget({ table }: { table: Table }): JSX.Element {
   return (
     <LeafWidget
       id={table.definition.widgetId}

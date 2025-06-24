@@ -5,7 +5,7 @@ import { TextComponent } from "./text/TextComponent";
 import { ShowDeclarationComponent } from "./show-declaration/ShowDeclarationComponent";
 import { AssertionComponent } from "./assertion/AssertionComponent";
 import { AssociationTableComponent } from "./association-table/AssociationTableComponent";
-import { TableComponent } from "./table/TableComponent";
+import { TableWidget } from "./table/TableWidget";
 
 export function NodeComponent({
   node,
@@ -32,6 +32,6 @@ export function NodeComponent({
         <AssociationTableComponent associationTable={node.associationTable} />
       );
     case "table":
-      return <TableComponent table={node.table} />;
+      return <TableWidget table={node.table} />;
   }
 }

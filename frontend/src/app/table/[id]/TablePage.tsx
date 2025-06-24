@@ -3,7 +3,7 @@
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
 import { usePendingTableState } from "@/widgets/table/state/pending";
-import { Table } from "@/widgets/table/table/Table";
+import { TableComponent } from "@/widgets/table/table/TableComponent";
 import { JSX, useContext } from "react";
 
 export function TablePage({ widgetId }: { widgetId: string }): JSX.Element {
@@ -18,7 +18,7 @@ export function TablePage({ widgetId }: { widgetId: string }): JSX.Element {
   const tableDefinition = context.tableDefinition.byId[widgetId];
 
   return (
-    <Table
+    <TableComponent
       definition={tableDefinition}
       state={tableState}
       setState={(state) => setTableState(widgetId, state)}
