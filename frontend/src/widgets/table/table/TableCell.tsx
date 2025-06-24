@@ -4,7 +4,7 @@ import { buildFactId, buildFactIdentifier } from "./fact";
 import {
   FactStatus,
   TableAssociation,
-  TableCellOption,
+  TableAssociationLayerData,
 } from "@/lib/transfer/project";
 import { usePendingTableFact } from "../state/pending";
 
