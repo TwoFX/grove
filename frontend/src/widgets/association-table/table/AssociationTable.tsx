@@ -14,8 +14,6 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import {
-  AssociationTableCell,
-  AssociationTableCellOption,
   AssociationTableColumnDescription,
   AssociationTableFactCellState,
   AssociationTableRow,
@@ -23,89 +21,21 @@ import {
 } from "@/lib/transfer/project";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
-import {
-  declarationDisplayShort,
-  declarationName,
-  declarationStateRepr,
-} from "@/lib/transfer/util";
 import { produce } from "immer";
 import { AssociationTableFactComponent } from "../AssociationTableFactComponent";
 import { Templates } from "@/lib/templates";
 import { GroveTemplateContext } from "@/lib/templates/context";
+import {
+  columnDescriptionFor,
+  optionFor,
+  optionStateRepr,
+  cellFor,
+  optionDisplayShort,
+  optionKey,
+} from "../state/navigate";
 
 function rowKeyGetter(row: AssociationTableRow) {
   return row.uuid;
-}
-
-function columnDescriptionFor(
-  columnDescriptions: AssociationTableColumnDescription[],
-  columnIdentifier: string,
-): AssociationTableColumnDescription | undefined {
-  // TODO: performance
-  return columnDescriptions.find(
-    (descr) => descr.identifier === columnIdentifier,
-  );
-}
-
-function optionFor(
-  context: GroveContextData,
-  columnDescription: AssociationTableColumnDescription,
-  cellValue: string,
-): AssociationTableCellOption | undefined {
-  // TODO: performance
-  return columnDescription.options.find(
-    (opt) => optionKey(context, opt) === cellValue,
-  );
-}
-
-function optionKey(
-  context: GroveContextData,
-  opt: AssociationTableCellOption,
-): string {
-  switch (opt.constructor) {
-    case "declaration":
-      return declarationName(context.declarations[opt.declaration]);
-    case "other":
-      return opt.other.value;
-  }
-}
-
-function optionDisplayShort(
-  context: GroveContextData,
-  opt: AssociationTableCellOption,
-): string {
-  switch (opt.constructor) {
-    case "declaration":
-      return declarationDisplayShort(context.declarations[opt.declaration]);
-    case "other":
-      return opt.other.shortDescription;
-  }
-}
-
-function optionStateRepr(
-  context: GroveContextData,
-  templates: Templates,
-  opt: AssociationTableCellOption,
-  dataKind: DataKind,
-): string {
-  switch (opt.constructor) {
-    case "declaration":
-      return declarationStateRepr(
-        templates,
-        context.declarations[opt.declaration],
-        dataKind,
-      );
-    case "other":
-      return opt.other.stateRepr;
-  }
-}
-
-function cellFor(
-  row: AssociationTableRow,
-  columnIdent: string,
-): AssociationTableCell | undefined {
-  // TODO: performance
-  return row.columns.find((col) => col.columnIdentifier === columnIdent);
 }
 
 function rowFactState(

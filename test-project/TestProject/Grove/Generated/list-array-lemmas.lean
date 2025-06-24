@@ -11,15 +11,133 @@ namespace TestProject.Grove.Generated.«list-array-lemmas»
 
 
 
+def «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array» : Table.Fact .subexpression .subexpression .declaration where
+  widgetId := "list-array-lemmas"
+  factId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array"
+  rowAssociationId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+  columnAssociationId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+  selectedLayers := #["List", "Array", ]
+  layerStates := #[
+    {
+      layerIdentifier := "List"
+      rowState := 
+        
+        some ⟨"List.leftpadTR", .declaration (Declaration.def {
+            name := `List.leftpadTR
+            renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      columnState := 
+        
+        some ⟨"List.leftpadTR", .declaration (Declaration.def {
+            name := `List.leftpadTR
+            renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+    {
+      layerIdentifier := "Array"
+      rowState := 
+        
+        some ⟨"Array.mkArray6", .declaration (Declaration.def {
+            name := `Array.mkArray6
+            renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      columnState := 
+        
+        some ⟨"Array.mkArray6", .declaration (Declaration.def {
+            name := `Array.mkArray6
+            renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+  ]
+  metadata := {
+    status := .done
+    comment := "Blubxcxc"
+  }
+def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array» : Table.Fact .subexpression .subexpression .declaration where
+  widgetId := "list-array-lemmas"
+  factId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array"
+  rowAssociationId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+  columnAssociationId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+  selectedLayers := #["List", "Array", ]
+  layerStates := #[
+    {
+      layerIdentifier := "List"
+      rowState := 
+        
+        some ⟨"List.getD", .declaration (Declaration.def {
+            name := `List.getD
+            renderedStatement := "List.getD.{u_1} {α : Type u_1} (as : List α) (i : Nat) (fallback : α) : α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      columnState := 
+        
+        some ⟨"List.leftpadTR", .declaration (Declaration.def {
+            name := `List.leftpadTR
+            renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+    {
+      layerIdentifier := "Array"
+      rowState := 
+        
+        some ⟨"Array.idxOf?", .declaration (Declaration.def {
+            name := `Array.idxOf?
+            renderedStatement := "Array.idxOf?.{u} {α : Type u} [BEq α] (xs : Array α) (v : α) : Option Nat"
+            isDeprecated := false
+          }
+        )⟩
+        
+      columnState := 
+        
+        some ⟨"Array.mkArray6", .declaration (Declaration.def {
+            name := `Array.mkArray6
+            renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α"
+            isDeprecated := false
+          }
+        )⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+  ]
+  metadata := {
+    status := .postponed
+    comment := "Blubxcxcddd"
+  }
 
 def table : Table.Data .subexpression .subexpression .declaration where
   widgetId := "list-array-lemmas"
   selectedRowAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", ]
-  selectedColumnAssociations := #[]
+  selectedColumnAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", ]
   selectedLayers := #["List", "Array", ]
   selectedCellOptions := #[
   ]
   facts := #[
+    «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
+    «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
   ]
 
 def restoreState : RestoreStateM Unit := do

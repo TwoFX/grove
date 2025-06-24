@@ -241,8 +241,30 @@ export interface TableAssociation {
 }
 
 export interface TableAssociationLayer {
+  data: TableAssociationLayerData;
   layerIdentifier: string;
-  layerValue: string;
+}
+
+export type TableAssociationLayerData =
+  | TableAssociationLayerDataDeclaration
+  | TableAssociationLayerDataOther0;
+
+export interface TableAssociationLayerDataDeclaration {
+  constructor: "declaration";
+  declaration: string;
+}
+
+export interface TableAssociationLayerDataOther0 {
+  constructor: "other";
+  other: TableAssociationLayerDataOther;
+}
+
+export interface TableAssociationLayerDataOther {
+  longDescription: string;
+  reference: Reference;
+  shortDescription: string;
+  stateRepr: string;
+  value: string;
 }
 
 export type TableAssociationSource =
@@ -359,6 +381,7 @@ export interface TableFactState {
 
 export interface TableSelectedCellOptions {
   columnValue: string;
+  layerIdentifier: string;
   rowValue: string;
   selectedCellOptions: string[];
 }

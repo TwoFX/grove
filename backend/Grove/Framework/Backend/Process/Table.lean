@@ -22,7 +22,8 @@ structure Table.SelectedCellOptions where
 
 instance : SchemaFor Table.SelectedCellOptions :=
   .structure "tableSelectedCellOptions"
-    [.single "rowValue" Table.SelectedCellOptions.rowValue,
+    [.single "layerIdentifier" Table.SelectedCellOptions.layerIdentifier,
+     .single "rowValue" Table.SelectedCellOptions.rowValue,
      .single "columnValue" Table.SelectedCellOptions.columnValue,
      .arr "selectedCellOptions" Table.SelectedCellOptions.selectedCellOptions]
 
@@ -111,14 +112,38 @@ instance schemaTableFact : SchemaFor Table.Fact :=
      .single "metadata" Table.Fact.metadata,
      .single "validationResult" Table.Fact.validationResult]
 
+structure Table.AssociationLayer.Data.Other where
+  value : String
+  shortDescription : String
+  longDescription : String
+  reference : Reference
+  stateRepr : String
+
+instance schemaTableAssociationLayerDataOther : SchemaFor Table.AssociationLayer.Data.Other :=
+  .structure "tableAssociationLayerDataOther"
+    [.single "value" Table.AssociationLayer.Data.Other.value,
+     .single "shortDescription" Table.AssociationLayer.Data.Other.shortDescription,
+     .single "longDescription" Table.AssociationLayer.Data.Other.longDescription,
+     .single "reference" Table.AssociationLayer.Data.Other.reference,
+     .single "stateRepr" Table.AssociationLayer.Data.Other.stateRepr]
+
+inductive Table.AssociationLayer.Data where
+  | declaration : String → Table.AssociationLayer.Data
+  | other : Table.AssociationLayer.Data.Other → Table.AssociationLayer.Data
+
+instance : SchemaFor Table.AssociationLayer.Data :=
+  .inductive "tableAssociationLayerData"
+    [.unary "declaration" String (fun | .declaration d => some d | _ => none),
+     .unary "other" Table.AssociationLayer.Data.Other (fun | .other o => some o | _ => none)]
+
 structure Table.AssociationLayer where
   layerIdentifier : String
-  layerValue : String
+  data : Table.AssociationLayer.Data
 
 instance : SchemaFor Table.AssociationLayer :=
   .structure "tableAssociationLayer"
     [.single "layerIdentifier" Table.AssociationLayer.layerIdentifier,
-     .single "layerValue" Table.AssociationLayer.layerValue]
+     .single "data" Table.AssociationLayer.data]
 
 structure Table.Association where
   id : String
@@ -241,16 +266,22 @@ structure ProcessAssociationSourceResult (kind : DataKind) {β : Type} (layerIde
   possibleKeys : Vector (Array kind.Key) layerIdentifiers.length
   associations : Std.HashMap (/- (associationId, layerId) -/ String × String) kind.Key
 
+def processAssociationLayer {kind : DataKind} {β : Type} [HasId β] (l : Table.AssociationLayer kind β) :
+    RenderM Data.Table.AssociationLayer := do
+  let renderInfo ← kind.renderInfo l.layerValue
+  let layerIdentifier := HasId.getId l.layerIdentifier
+  match renderInfo with
+  | .decl n => return ⟨layerIdentifier, .declaration n.toString⟩
+  | .other o => return ⟨layerIdentifier, .other { o with }⟩
+
 def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {layerIdentifiers : List β}
     (s : Table.AssociationSource kind layerIdentifiers) :
     RenderM (ProcessAssociationSourceResult kind layerIdentifiers) :=
   match s with
   | .const a => do
     let arr ← a
-    let source : Data.Table.AssociationSource := .const ⟨arr.map (fun assoc =>
-      ⟨assoc.id,
-       assoc.title,
-       assoc.layers.map (fun l => ⟨HasId.getId l.layerIdentifier, kind.keyString l.layerValue⟩)⟩)⟩
+    let source : Data.Table.AssociationSource := .const ⟨← arr.mapM
+      (fun assoc => return ⟨assoc.id, assoc.title, ← assoc.layers.mapM processAssociationLayer⟩)⟩
 
     let possibleValues : Vector (Array kind.Key) layerIdentifiers.length := Vector.ofFn (fun idx =>
       arr.flatMap (fun assoc =>

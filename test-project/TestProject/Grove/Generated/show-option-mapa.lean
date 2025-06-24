@@ -16,7 +16,7 @@ def «0» : ShowDeclaration.Fact where
     status := .bad
     comment := "f should be explicit"
   }
-  state := .def {
+  state := Declaration.def {
     name := `Option.mapA
     renderedStatement := "Option.mapA.{u_1, u_2, u_3} {m : Type u_1 → Type u_2} {α : Type u_3} {β : Type u_1} [Applicative m] {f : α → m β} :\n  Option α → m (Option β)"
     isDeprecated := false

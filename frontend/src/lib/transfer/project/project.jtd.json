@@ -23,6 +23,7 @@
       "properties": {
         "selectedCellOptions": { "elements": { "type": "string" } },
         "rowValue": { "type": "string" },
+        "layerIdentifier": { "type": "string" },
         "columnValue": { "type": "string" }
       }
     },
@@ -132,10 +133,28 @@
       },
       "discriminator": "constructor"
     },
+    "tableAssociationLayerDataOther": {
+      "properties": {
+        "value": { "type": "string" },
+        "stateRepr": { "type": "string" },
+        "shortDescription": { "type": "string" },
+        "reference": { "ref": "reference" },
+        "longDescription": { "type": "string" }
+      }
+    },
+    "tableAssociationLayerData": {
+      "mapping": {
+        "other": {
+          "properties": { "other": { "ref": "tableAssociationLayerDataOther" } }
+        },
+        "declaration": { "properties": { "declaration": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
+    },
     "tableAssociationLayer": {
       "properties": {
-        "layerValue": { "type": "string" },
-        "layerIdentifier": { "type": "string" }
+        "layerIdentifier": { "type": "string" },
+        "data": { "ref": "tableAssociationLayerData" }
       }
     },
     "tableAssociation": {

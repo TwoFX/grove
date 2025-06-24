@@ -47,7 +47,7 @@ export function StyledListbox({
   return (
     <div className="relative min-w-[300px]">
       <Listbox value={selectedOptions} onChange={setSelectedOptions} multiple>
-        <ListboxButton className="relative w-full cursor-pointer rounded border border-gray-300 bg-white py-2 pl-3 pr-8 text-left focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+        <ListboxButton className="relative w-full cursor-pointer rounded border border-gray-300 bg-white pl-3 pr-8 text-left focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
           <span className="block truncate text-gray-900">{displayText}</span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2">
             <BsChevronDown className="h-4 w-4 text-gray-400" />

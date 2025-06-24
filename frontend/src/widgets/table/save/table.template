@@ -19,33 +19,33 @@ namespace {{metadata/projectNamespace}}.Generated.«{{definition/widgetId}}»
 {{/inline}}
 
 {{#each facts}}
-def «{{factId}}» : Fact {{dataKind ../definition/rowKind}} {{dataKind ../definition/columnKind}} {{dataKind ../definition/cellKind}} where
+def «{{factId}}» : Table.Fact {{dataKind ../definition/rowKind}} {{dataKind ../definition/columnKind}} {{dataKind ../definition/cellKind}} where
   widgetId := {{leanString ../definition/widgetId}}
   factId := {{leanString factId}}
-  identifier := {
 {{#with identifier}}
-    rowAssociationId := {{rowAssociationId}}
-    columnAssociationId := {{columnAssociationId}}
-    selectedLayers := #[{{#each selectedLayers}}{{leanString this}}, {{/each}}]
+  rowAssociationId := {{leanString rowAssociationId}}
+  columnAssociationId := {{leanString columnAssociationId}}
+  selectedLayers := #[{{#each selectedLayers}}{{leanString this}}, {{/each}}]
 {{/with}}
-  }
-  state := {
 {{#with state}}
-    layerStates := #[
+  layerStates := #[
 {{#each layerStates}}
-      {
-        layerIdentifier := {{leanString layerIdentifier}}
-        rowState := {{#with rowState}}{{> optstate}}{{/with}}
-        columnState := {{#with columnState}}{{> optstate}}{{/with}}
-        selectedCellStates := #[
+    {
+      layerIdentifier := {{leanString layerIdentifier}}
+      rowState := {{#with rowState}}
+        {{> optstate}}
+{{/with}}
+      columnState := {{#with columnState}}
+        {{> optstate}}
+{{/with}}
+      selectedCellStates := #[
 {{#each selectedCellStates}}
-          {{> leanState}},
+        {{> leanState}},
 {{/each}}
-        ]
-      },
+      ]
+    },
 {{/each}}
-    ]
-  }
+  ]
 {{/with}}
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
 {{/each}}

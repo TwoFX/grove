@@ -28,7 +28,7 @@ export function LayerRowColumnSelector({
   );
 
   return (
-    <div className="flex flex-row gap-4">
+    <div className="flex flex-row gap-2">
       <StyledListbox
         title="Layer"
         options={definition.layerIdentifiers.map((id) => ({

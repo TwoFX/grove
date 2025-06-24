@@ -1,12 +1,12 @@
 {{#if (declarationIsDefinition this)}}
-.def {
+Declaration.def {
     name := {{leanName def/name}}
     renderedStatement := {{leanString def/renderedStatement}}
     isDeprecated := {{def/isDeprecated}}
   }
 {{/if}}
 {{#if (declarationIsTheorem this)}}
-.thm {
+Declaration.thm {
     name := {{leanName thm/name}}
     renderedStatement := {{leanString thm/renderedStatement}}
     isDeprecated := {{thm/isDeprecated}}

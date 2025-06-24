@@ -41,7 +41,7 @@ export function declarationStateRepr(
     case DataKind.Declaration:
       return declarationStr;
     case DataKind.Subexpression:
-      return ".declaration <| " + declarationStr;
+      return ".declaration (" + declarationStr + ")";
   }
 }
 
