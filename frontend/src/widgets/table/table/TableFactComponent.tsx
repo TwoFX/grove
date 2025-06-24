@@ -19,7 +19,7 @@ import { GroveContextData } from "@/lib/transfer/contextdata";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveTemplateContext } from "@/lib/templates/context";
 import { Templates } from "@/lib/templates";
-import { declarationName, declarationStateRepr } from "@/lib/transfer/util";
+import { declarationStateRepr } from "@/lib/transfer/util";
 import { Fact } from "@/components/fact/Fact";
 import { buildFactId, buildFactIdentifier } from "./fact";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
