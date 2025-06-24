@@ -12,12 +12,10 @@ namespace {{metadata/projectNamespace}}.Generated.«{{definition/widgetId}}»
 {{#*inline "leanState"}}
 ⟨{{leanString value}}, {{{stateRepr}}}⟩
 {{/inline}}
-
 {{#*inline "optstate"}}
 {{#if (isNone this)}}none{{/if}}
 {{#if (isSome this)}}some {{#with some}}{{> leanState}}{{/with}}{{/if}}
 {{/inline}}
-
 {{#each facts}}
 def «{{factId}}» : Table.Fact {{dataKind ../definition/rowKind}} {{dataKind ../definition/columnKind}} {{dataKind ../definition/cellKind}} where
   widgetId := {{leanString ../definition/widgetId}}
@@ -48,8 +46,8 @@ def «{{factId}}» : Table.Fact {{dataKind ../definition/rowKind}} {{dataKind ..
   ]
 {{/with}}
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
-{{/each}}
 
+{{/each}}
 def table : Table.Data {{dataKind definition/rowKind}} {{dataKind definition/columnKind}} {{dataKind definition/cellKind}} where
   widgetId := {{leanString definition/widgetId}}
 {{#with state}}

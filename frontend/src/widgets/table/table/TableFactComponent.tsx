@@ -4,7 +4,6 @@ import {
   TableAssociation,
   TableCellOption,
   TableDefinition,
-  TableFactIdentifier,
   TableFactLayerState,
   TableFactOptionalSingleState,
   TableFactSingleState,
@@ -22,28 +21,7 @@ import { GroveTemplateContext } from "@/lib/templates/context";
 import { Templates } from "@/lib/templates";
 import { declarationName, declarationStateRepr } from "@/lib/transfer/util";
 import { Fact } from "@/components/fact/Fact";
-
-function buildFactId(identifier: TableFactIdentifier): string {
-  return (
-    identifier.rowAssociationId +
-    ":::" +
-    identifier.columnAssociationId +
-    ":::" +
-    identifier.selectedLayers.join("::")
-  );
-}
-
-function buildFactIdentifier(
-  rowAssociationId: string,
-  columnAssociationId: string,
-  state: TableState,
-): TableFactIdentifier {
-  return {
-    rowAssociationId,
-    columnAssociationId,
-    selectedLayers: state.selectedLayers,
-  };
-}
+import { buildFactId, buildFactIdentifier } from "./fact";
 
 function buildAssociationState(
   context: GroveContextData,
@@ -216,7 +194,7 @@ export function TableFactComponent({
   const identifier = buildFactIdentifier(
     selectedCell.rowAssociationId,
     selectedCell.columnAssociationId,
-    state,
+    state.selectedLayers,
   );
 
   const factId = buildFactId(identifier);

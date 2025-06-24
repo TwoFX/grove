@@ -1,12 +1,11 @@
 import { useAssociations } from "@/lib/state/association";
 import "react-data-grid/lib/styles.css";
-import {
-  TableAssociation,
-  TableDefinition,
-  TableState,
-} from "@/lib/transfer/project";
+import "./table-overrides.css";
+import { TableDefinition, TableState } from "@/lib/transfer/project";
 import { JSX } from "react";
 import { Column, DataGrid, RenderCellProps } from "react-data-grid";
+import { computeIndexableCellData } from "./preprocess";
+import { TableCell } from "./TableCell";
 
 interface Row {
   rowAssociationId: string;
@@ -40,6 +39,8 @@ export function Table({
     state.selectedColumnAssociations,
   );
 
+  const indexableCellData = computeIndexableCellData(definition.cells);
+
   const columns: Column<Row>[] = [
     { name: "", key: "left-hand", resizable: true },
     ...columnAssociations
@@ -53,20 +54,18 @@ export function Table({
           return <div className="rotate-90">{column.name}</div>;
         },
         renderCell({ row, column }: RenderCellProps<Row>) {
-          const left: TableAssociation | undefined = rowAssociationsById.get(
-            row.rowAssociationId,
+          const rowAssociation = rowAssociationsById.get(row.rowAssociationId);
+          const columnAssociation = columnAssociationsById.get(column.key);
+
+          return (
+            <TableCell
+              widgetId={definition.widgetId}
+              selectedLayers={state.selectedLayers}
+              cellData={indexableCellData}
+              rowAssociation={rowAssociation}
+              columnAssociation={columnAssociation}
+            />
           );
-          const right: TableAssociation | undefined =
-            columnAssociationsById.get(column.key);
-          if (left && right) {
-            return (
-              <div className="h-full w-full justify-center items-center flex">
-                <span>a</span>
-              </div>
-            );
-          } else {
-            return <div className="h-full w-full bg-amber-300 flex">b</div>;
-          }
         },
       })),
   ];
