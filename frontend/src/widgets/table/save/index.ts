@@ -23,13 +23,23 @@ export function useRenderTable(): (table: TableDefinition) => string {
   return (definition) => {
     const state = getState(definition.widgetId) ?? emptyTableState();
 
-    const facts = Object.values(pendingFacts[definition.widgetId] ?? {});
+    const baseFacts = context.tableFact.byId[definition.widgetId];
+    const pendings = Object.values(pendingFacts[definition.widgetId] ?? {});
+
+    const pendingFactIds = new Set(pendings.map((fact) => fact.factId));
+
+    const allFacts = [
+      ...Object.values(baseFacts).filter(
+        (fact) => !pendingFactIds.has(fact.factId),
+      ),
+      ...pendings,
+    ];
 
     return templates.table({
       state,
       metadata: context.projectMetadata,
       definition,
-      facts,
+      facts: allFacts,
     });
   };
 }

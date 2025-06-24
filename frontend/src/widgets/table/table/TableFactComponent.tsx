@@ -22,6 +22,7 @@ import { Templates } from "@/lib/templates";
 import { declarationName, declarationStateRepr } from "@/lib/transfer/util";
 import { Fact } from "@/components/fact/Fact";
 import { buildFactId, buildFactIdentifier } from "./fact";
+import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 
 function buildAssociationState(
   context: GroveContextData,
@@ -62,10 +63,10 @@ function buildAssociationState(
   }
 }
 
-function optionKey(context: GroveContextData, opt: TableCellOption): string {
+function optionKey(opt: TableCellOption): string {
   switch (opt.constructor) {
     case "declaration":
-      return declarationName(context.declarations[opt.declaration]);
+      return opt.declaration;
     case "other":
       return opt.other.value;
   }
@@ -99,31 +100,30 @@ function buildLayerState(
   context: GroveContextData,
   templates: Templates,
   definition: TableDefinition,
+  cellData: IndexableCellData,
   layerIdentifier: string,
   rowAssociation: TableAssociation,
   columnAssociation: TableAssociation,
   selectedCellOptions: TableSelectedCellOptions[],
 ): TableFactLayerState {
-  const relevantOptions: TableCellOption[] = definition.cells
-    .filter((forLayer) => forLayer.sourceLayerIdentifier === layerIdentifier)
-    .flatMap((forLayer) =>
-      forLayer.rows.filter(
-        (forRowValue) => forRowValue.rowKey === rowAssociation.id,
-      ),
-    )
-    .flatMap((forRowValue) =>
-      forRowValue.cellEntries.filter(
-        (cellEntry) => cellEntry.columnKey === columnAssociation.id,
-      ),
-    )
-    .flatMap((cellEntry) => cellEntry.options);
+  const [rowLayer, , colLayer] = extractLayers(
+    cellData,
+    layerIdentifier,
+    rowAssociation,
+    columnAssociation,
+  )!;
+
+  const relevantOptions =
+    cellData.cellOptions[layerDataKey(rowLayer.data)][
+      layerDataKey(colLayer.data)
+    ][layerIdentifier];
 
   const relevantSelectedCellOptionIds =
     selectedCellOptions.find((opt) => opt.layerIdentifier === layerIdentifier)
       ?.selectedCellOptions ?? [];
 
   const relevantTableCellOptions = relevantSelectedCellOptionIds.map(
-    (id) => relevantOptions.find((opt) => optionKey(context, opt) === id)!,
+    (id) => relevantOptions.find((opt) => optionKey(opt) === id)!,
   );
 
   return {
@@ -152,6 +152,7 @@ function buildFactState(
   context: GroveContextData,
   templates: Templates,
   definition: TableDefinition,
+  cellData: IndexableCellData,
   rowAssociation: TableAssociation,
   columnAssociation: TableAssociation,
   selectedCellOptions: TableSelectedCellOptions[],
@@ -163,6 +164,7 @@ function buildFactState(
         context,
         templates,
         definition,
+        cellData,
         layer,
         rowAssociation,
         columnAssociation,
@@ -174,10 +176,12 @@ function buildFactState(
 
 export function TableFactComponent({
   definition,
+  cellData,
   state,
   selectedCell,
 }: {
   definition: TableDefinition;
+  cellData: IndexableCellData;
   state: TableState;
   selectedCell: {
     rowAssociationId: string;
@@ -232,6 +236,7 @@ export function TableFactComponent({
         context,
         templates,
         definition,
+        cellData,
         rowAssociation,
         columnAssociation,
         selectedCellOptions,

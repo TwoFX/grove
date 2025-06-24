@@ -30,8 +30,8 @@ def «22ed4b1e-3ee6-484f-a948-56430d51fbeb» : AssociationTable.Fact .subexpress
 def table : AssociationTable.Data .subexpression where
   widgetId := "list-array-operations"
   rows := #[
-    ⟨"22ed4b1e-3ee6-484f-a948-56430d51fbeb", "12312aaaa", #[⟨"List", "List.leftpadTR"⟩,⟨"Array", "Array.mkArray6"⟩,]⟩,
-    ⟨"f31e9b71-4ac3-4bb4-8385-198fb1174c81", "bla2", #[⟨"List", "List.getD"⟩,⟨"Array", "Array.idxOf?"⟩,]⟩,
+    ⟨"22ed4b1e-3ee6-484f-a948-56430d51fbeb", "isEmpty", #[⟨"List", "List.isEmpty"⟩,⟨"Array", "Array.isEmpty"⟩,]⟩,
+    ⟨"f31e9b71-4ac3-4bb4-8385-198fb1174c81", "filter", #[⟨"List", "List.filter"⟩,⟨"Array", "Array.filter"⟩,]⟩,
   ]
   facts := #[
     «22ed4b1e-3ee6-484f-a948-56430d51fbeb»,

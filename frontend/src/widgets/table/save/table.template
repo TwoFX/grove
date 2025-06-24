@@ -57,6 +57,7 @@ def table : Table.Data {{dataKind definition/rowKind}} {{dataKind definition/col
   selectedCellOptions := #[
 {{#each selectedCellOptions}}
     {
+      layerIdentifier := {{leanString layerIdentifier}}
       rowValue := {{leanString rowValue}}
       columnValue := {{leanString columnValue}}
       selectedCellOptions := #[{{#each selectedCellOptions}}{{leanString this}}, {{/each}}]

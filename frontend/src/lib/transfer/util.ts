@@ -23,6 +23,17 @@ export function declarationDisplayShort(declaration: Declaration): string {
   }
 }
 
+export function declarationDisplayLong(declaration: Declaration): string {
+  switch (declaration.constructor) {
+    case "def":
+      return declaration.def.renderedStatement;
+    case "missing":
+      return declaration.missing;
+    case "thm":
+      return declaration.thm.renderedStatement;
+  }
+}
+
 export function declarationStateRepr(
   templates: Templates,
   declaration: Declaration,

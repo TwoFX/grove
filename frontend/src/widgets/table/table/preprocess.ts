@@ -1,4 +1,15 @@
-import { TableCellDataForLayer, TableCellOption } from "@/lib/transfer/project";
+import { GroveContextData } from "@/lib/transfer/contextdata";
+import {
+  TableAssociation,
+  TableAssociationLayer,
+  TableAssociationLayerData,
+  TableCellDataForLayer,
+  TableCellOption,
+} from "@/lib/transfer/project";
+import {
+  declarationDisplayLong,
+  declarationDisplayShort,
+} from "@/lib/transfer/util";
 
 export interface IndexableCellData {
   cellOptions: {
@@ -60,4 +71,68 @@ export function computeIndexableCellData(
   }
 
   return result;
+}
+
+// TODO: there are by now many variants of this I suppose
+export function layerDataKey(option: TableAssociationLayerData): string {
+  switch (option.constructor) {
+    case "declaration":
+      return option.declaration;
+    case "other":
+      return option.other.value;
+  }
+}
+
+export function optionDisplayShort(
+  context: GroveContextData,
+  option: TableAssociationLayerData,
+): string {
+  switch (option.constructor) {
+    case "declaration":
+      return declarationDisplayShort(context.declarations[option.declaration]);
+    case "other":
+      return option.other.shortDescription;
+  }
+}
+
+export function optionDisplayLong(
+  context: GroveContextData,
+  option: TableAssociationLayerData,
+): string {
+  switch (option.constructor) {
+    case "declaration":
+      return declarationDisplayLong(context.declarations[option.declaration]);
+    case "other":
+      return option.other.longDescription;
+  }
+}
+
+export function extractLayers(
+  cellData: IndexableCellData,
+  layerIdentifier: string,
+  rowAssociation: TableAssociation,
+  columnAssociation: TableAssociation,
+): [TableAssociationLayer, string, TableAssociationLayer] | undefined {
+  const rowLayer = rowAssociation.layers.find(
+    (lay) => lay.layerIdentifier === layerIdentifier,
+  );
+
+  if (!rowLayer) {
+    return undefined;
+  }
+
+  const rowKey = layerDataKey(rowLayer.data);
+
+  const targetLayerIdentifier =
+    cellData.targetLayerIdentifier[rowKey]?.[layerIdentifier];
+
+  const columnLayer = columnAssociation.layers.find(
+    (lay) => lay.layerIdentifier === targetLayerIdentifier,
+  );
+
+  if (!columnLayer) {
+    return undefined;
+  }
+
+  return [rowLayer, targetLayerIdentifier, columnLayer];
 }

@@ -4,7 +4,7 @@ import "./table-overrides.css";
 import { TableDefinition, TableState } from "@/lib/transfer/project";
 import { JSX } from "react";
 import { Column, DataGrid, RenderCellProps } from "react-data-grid";
-import { computeIndexableCellData } from "./preprocess";
+import { IndexableCellData } from "./preprocess";
 import { TableCell } from "./TableCell";
 
 interface Row {
@@ -14,10 +14,12 @@ interface Row {
 
 export function Table({
   definition,
+  cellData,
   state,
   setSelectedCell,
 }: {
   definition: TableDefinition;
+  cellData: IndexableCellData;
   state: TableState;
   setSelectedCell: (selectedCell: {
     rowAssociationId: string;
@@ -39,8 +41,6 @@ export function Table({
     state.selectedColumnAssociations,
   );
 
-  const indexableCellData = computeIndexableCellData(definition.cells);
-
   const columns: Column<Row>[] = [
     { name: "", key: "left-hand", resizable: true },
     ...columnAssociations
@@ -61,7 +61,7 @@ export function Table({
             <TableCell
               widgetId={definition.widgetId}
               selectedLayers={state.selectedLayers}
-              cellData={indexableCellData}
+              cellData={cellData}
               rowAssociation={rowAssociation}
               columnAssociation={columnAssociation}
             />

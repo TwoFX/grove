@@ -1,22 +1,8 @@
 import { JSX } from "react";
-import { IndexableCellData } from "./preprocess";
+import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 import { buildFactId, buildFactIdentifier } from "./fact";
-import {
-  FactStatus,
-  TableAssociation,
-  TableAssociationLayerData,
-} from "@/lib/transfer/project";
+import { FactStatus, TableAssociation } from "@/lib/transfer/project";
 import { usePendingTableFact } from "../state/pending";
-
-// TODO: there are by now many variants of this I suppose
-function optionKey(option: TableAssociationLayerData): string {
-  switch (option.constructor) {
-    case "declaration":
-      return option.declaration;
-    case "other":
-      return option.other.value;
-  }
-}
 
 function TableCellEntry({
   rowAssociation,
@@ -29,33 +15,27 @@ function TableCellEntry({
   layerIdentifier: string;
   cellData: IndexableCellData;
 }): JSX.Element {
-  const invalidResult = <span className="text-gray-500">·</span>;
-
-  const rowLayer = rowAssociation.layers.find(
-    (lay) => lay.layerIdentifier === layerIdentifier,
+  const rowCol = extractLayers(
+    cellData,
+    layerIdentifier,
+    rowAssociation,
+    columnAssociation,
   );
 
-  if (!rowLayer) {
-    return invalidResult;
+  if (!rowCol) {
+    return <span className="text-gray-500">·</span>;
   }
 
-  const rowKey = optionKey(rowLayer.data);
+  const [rowLayer, , columnLayer] = rowCol;
 
-  const targetLayerIdentifier =
-    cellData.targetLayerIdentifier[rowKey]?.[layerIdentifier];
-
-  const columnLayer = columnAssociation.layers.find(
-    (lay) => lay.layerIdentifier === targetLayerIdentifier,
-  );
-
-  if (!columnLayer) {
-    return invalidResult;
-  }
-
-  const colKey = optionKey(columnLayer.data);
+  const colKey = layerDataKey(columnLayer.data);
 
   return (
-    <span>{cellData.cellOptions[rowKey][colKey][layerIdentifier].length}</span>
+    <span>
+      {cellData.cellOptions[layerDataKey(rowLayer.data)][colKey]?.[
+        layerIdentifier
+      ]?.length ?? 0}
+    </span>
   );
 }
 
