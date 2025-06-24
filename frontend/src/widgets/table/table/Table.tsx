@@ -1,41 +1,8 @@
 import { StyledListbox, StyledListboxOption } from "@/components/StyledListbox";
-import {
-  AssociationTableRow,
-  TableAssociation,
-  TableAssociationSource,
-  TableDefinition,
-  TableState,
-} from "@/lib/transfer/project";
-import { usePendingAssociationTableState } from "@/widgets/association-table/state/pending";
+import { useAssociations } from "@/lib/state/association";
+import { TableDefinition, TableState } from "@/lib/transfer/project";
 import { produce } from "immer";
 import { JSX } from "react";
-
-function convertRow(source: AssociationTableRow): TableAssociation {
-  return {
-    id: source.uuid,
-    title: source.title,
-    layers: source.columns.map((cell) => ({
-      layerIdentifier: cell.columnIdentifier,
-      layerValue: cell.cellValue,
-    })),
-  };
-}
-
-function useAssociations(source: TableAssociationSource): TableAssociation[] {
-  const pendingTableState = usePendingAssociationTableState();
-
-  switch (source.constructor) {
-    case "table":
-      const state = pendingTableState(source.table);
-      if (state) {
-        return state.rows.map(convertRow);
-      } else {
-        return [];
-      }
-    case "const":
-      return source.const.associations;
-  }
-}
 
 export function Table({
   definition,
