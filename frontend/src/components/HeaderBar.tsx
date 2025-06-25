@@ -16,7 +16,7 @@ export function HeaderBar(): JSX.Element {
           height={40}
           priority
         />
-        <span className="text-2xl flex items-center">Grove</span>
+        <span className="text-2xl flex items-center">Grove alpha</span>
       </div>
       <div className="flex gap-2">
         <ClearButton />

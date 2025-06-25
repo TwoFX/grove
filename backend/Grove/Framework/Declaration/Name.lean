@@ -23,7 +23,7 @@ def isAutoDecl (decl : Name) : MetaM Bool := do
     if let ConstantInfo.inductInfo _ := (← getEnv).find? n then
       if s.startsWith "brecOn_" || s.startsWith "below_" || s.startsWith "binductionOn_"
         || s.startsWith "ibelow_" then return true
-      if [casesOnSuffix, recOnSuffix, brecOnSuffix, binductionOnSuffix, belowSuffix, "ibelow",
+      if [casesOnSuffix, recOnSuffix, brecOnSuffix, belowSuffix, "ibelow",
           "ndrec", "ndrecOn", "noConfusionType", "noConfusion", "toCtorIdx", "rec"
         ].any (· == s) then
         return true
