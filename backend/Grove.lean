@@ -6,4 +6,3 @@ Authors: Markus Himmel
 import Grove.Cli
 import Grove.Framework
 import Grove.JTD
-import Grove.Prototype
