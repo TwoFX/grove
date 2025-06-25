@@ -134,49 +134,58 @@ function TableCellDetailForLayer({
   );
 
   return (
-    <div className="border border-gray-200">
+    <div className="border border-gray-200 flex flex-col gap-4">
       Expect: {optionDisplayShort(context, rowLayer.data)} to{" "}
       {optionDisplayShort(context, colLayer.data)}
-      {options &&
-        options
-          .filter((opt) => selectedCellsSet.has(layerDataKey(opt)))
-          .map((opt, index: number) => (
-            <div
-              key={layerDataKey(opt)}
-              className={index % 2 === 0 ? "bg-gray-100" : ""}
-            >
-              <TableDetailEntry
-                cellOption={opt}
-                state={state}
-                setState={setState}
-                selectedCellOptionsIndex={selectedCellOptionsIndex}
-                rowAssociationId={rowAssociation.id}
-                columnAssociationId={columnAssociation.id}
-                layerIdentifier={layerIdentifier}
-                contained={true}
-              />
-            </div>
-          ))}
-      {options &&
-        options
-          .filter((opt) => !selectedCellsSet.has(layerDataKey(opt)))
-          .map((opt, index: number) => (
-            <div
-              key={layerDataKey(opt)}
-              className={index % 2 === 0 ? "bg-gray-100" : ""}
-            >
-              <TableDetailEntry
-                cellOption={opt}
-                state={state}
-                setState={setState}
-                selectedCellOptionsIndex={selectedCellOptionsIndex}
-                rowAssociationId={rowAssociation.id}
-                columnAssociationId={columnAssociation.id}
-                layerIdentifier={layerIdentifier}
-                contained={false}
-              />
-            </div>
-          ))}
+      {options && (
+        <>
+          <div>
+            Selected:
+            {options
+              .filter((opt) => selectedCellsSet.has(layerDataKey(opt)))
+              .map((opt, index: number) => (
+                <div
+                  key={layerDataKey(opt)}
+                  className={index % 2 === 0 ? "bg-gray-100" : ""}
+                >
+                  <TableDetailEntry
+                    cellOption={opt}
+                    state={state}
+                    setState={setState}
+                    selectedCellOptionsIndex={selectedCellOptionsIndex}
+                    rowAssociationId={rowAssociation.id}
+                    columnAssociationId={columnAssociation.id}
+                    layerIdentifier={layerIdentifier}
+                    contained={true}
+                  />
+                </div>
+              ))}
+          </div>
+          <div>
+            Not selected:
+            {options &&
+              options
+                .filter((opt) => !selectedCellsSet.has(layerDataKey(opt)))
+                .map((opt, index: number) => (
+                  <div
+                    key={layerDataKey(opt)}
+                    className={index % 2 === 0 ? "bg-gray-100" : ""}
+                  >
+                    <TableDetailEntry
+                      cellOption={opt}
+                      state={state}
+                      setState={setState}
+                      selectedCellOptionsIndex={selectedCellOptionsIndex}
+                      rowAssociationId={rowAssociation.id}
+                      columnAssociationId={columnAssociation.id}
+                      layerIdentifier={layerIdentifier}
+                      contained={false}
+                    />
+                  </div>
+                ))}
+          </div>
+        </>
+      )}
     </div>
   );
 }
