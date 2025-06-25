@@ -18,7 +18,7 @@ def cartesian (l₁ : List α) (l₂ : List β) : List (α × β) :=
   l₁.flatMap (fun a => l₂.map ((a, ·)))
 
 @[grind]
-theorem cartesian_cons_left (x : α) (l₁ : List α) (l₂ : List β) :
+theorem cartesian_cons_left (x : α) (l₁ : List α) {l₂ : List β} :
   cartesian (x :: l₁) l₂ = l₂.map ((x, ·)) ++ cartesian l₁ l₂ := rfl
 
 @[simp, grind] theorem cartesian_nil_left (l₂ : List β) : cartesian ([] : List α) l₂ = [] := rfl
