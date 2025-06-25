@@ -14,6 +14,10 @@ namespace CellDataProvider
 
 namespace Classic
 
+-- Target namespace overrides, ...
+structure Configuration where
+  relevantNamespaces : Option (List Name) := none
+
 structure RelevantConstant where
   name : Name
   type : Expr
@@ -24,16 +28,18 @@ structure ColumnCache (layerIdentifiers : List Name)
   columnCache : Std.HashMap Name (Std.DHashMap (Fin layerIdentifiers.length) (fun layerIndex => Array (Fin possibleColValues[layerIndex].size)))
   relevantConstants : Array RelevantConstant
 
-def buildColumnCache (layerIdentifiers : List Name) (possibleColValues : Vector (Array Subexpression) layerIdentifiers.length) :
+def buildColumnCache (config : Configuration) (layerIdentifiers : List Name) (possibleColValues : Vector (Array Subexpression) layerIdentifiers.length) :
     MetaM (ColumnCache layerIdentifiers possibleColValues) := do
   let mut columnCache := ∅
   let mut relevantConstants := #[]
+
+  let relevantNamespaces := config.relevantNamespaces.getD layerIdentifiers
 
   for (name, constantInfo) in (← getEnv).constants do
     if ← Name.isAutoDecl name then
       continue
 
-    if !layerIdentifiers.any (fun pref => pref.isPrefixOf name) then
+    if !relevantNamespaces.any (fun pref => pref.isPrefixOf name) then
       continue
 
     let e := constantInfo.type
@@ -82,11 +88,11 @@ def cellDataForSourceLayer {layerIdentifiers : List Name}
 
 end Classic
 
-def classic (layerIdentifiers : List Name) :
+def classic (layerIdentifiers : List Name) (config : Classic.Configuration := {}) :
     CellDataProvider .subexpression .subexpression .declaration layerIdentifiers where
   getById? id := pure (some id.toName)
   getCells possibleRowValues possibleColValues := do
-    let columnCache ← Classic.buildColumnCache layerIdentifiers possibleColValues
+    let columnCache ← Classic.buildColumnCache config layerIdentifiers possibleColValues
     possibleRowValues.mapFinIdxM (fun idx rowValues hidx =>
       Classic.cellDataForSourceLayer columnCache rowValues layerIdentifiers[idx])
 

@@ -9,6 +9,73 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«list-array-lemmas»
 
+def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array» : Table.Fact .subexpression .subexpression .declaration where
+  widgetId := "list-array-lemmas"
+  factId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array"
+  rowAssociationId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+  columnAssociationId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+  selectedLayers := #["List", "Array", ]
+  layerStates := #[
+    {
+      layerIdentifier := "List"
+      rowState := 
+        
+        some ⟨"List.filter", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `List.filter,
+              renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+              isDeprecated := false })⟩
+        
+      columnState := 
+        
+        some ⟨"List.filter", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `List.filter,
+              renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+              isDeprecated := false })⟩
+        
+      selectedCellStates := #[
+        ⟨"List.filter_filter", Grove.Framework.Declaration.thm
+  { name := `List.filter_filter,
+    renderedStatement := "List.filter_filter.{u_1} {α✝ : Type u_1} {p q : α✝ → Bool} {l : List α✝} :\n  List.filter p (List.filter q l) = List.filter (fun a => p a && q a) l",
+    isSimp := true,
+    isDeprecated := false }⟩
+,
+      ]
+    },
+    {
+      layerIdentifier := "Array"
+      rowState := 
+        
+        some ⟨"Array.filter", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `Array.filter,
+              renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+              isDeprecated := false })⟩
+        
+      columnState := 
+        
+        some ⟨"Array.filter", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `Array.filter,
+              renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+              isDeprecated := false })⟩
+        
+      selectedCellStates := #[
+        ⟨"Array.filter_filter", Grove.Framework.Declaration.thm
+  { name := `Array.filter_filter,
+    renderedStatement := "Array.filter_filter.{u_1} {α : Type u_1} {p q : α → Bool} {xs : Array α} :\n  Array.filter p (Array.filter q xs) = Array.filter (fun a => p a && q a) xs",
+    isSimp := true,
+    isDeprecated := false }⟩
+,
+      ]
+    },
+  ]
+  metadata := {
+    status := .done
+    comment := "Blub"
+  }
+
 def «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array» : Table.Fact .subexpression .subexpression .declaration where
   widgetId := "list-array-lemmas"
   factId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array"
@@ -20,18 +87,18 @@ def «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbe
       layerIdentifier := "List"
       rowState := 
         
-        some ⟨"List.leftpadTR", Grove.Framework.Subexpression.State.declaration
+        some ⟨"List.isEmpty", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `List.leftpadTR,
-              renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α",
+            { name := `List.isEmpty,
+              renderedStatement := "List.isEmpty.{u} {α : Type u} : List α → Bool",
               isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"List.leftpadTR", Grove.Framework.Subexpression.State.declaration
+        some ⟨"List.isEmpty", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `List.leftpadTR,
-              renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α",
+            { name := `List.isEmpty,
+              renderedStatement := "List.isEmpty.{u} {α : Type u} : List α → Bool",
               isDeprecated := false })⟩
         
       selectedCellStates := #[
@@ -41,18 +108,18 @@ def «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbe
       layerIdentifier := "Array"
       rowState := 
         
-        some ⟨"Array.mkArray6", Grove.Framework.Subexpression.State.declaration
+        some ⟨"Array.isEmpty", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `Array.mkArray6,
-              renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α",
+            { name := `Array.isEmpty,
+              renderedStatement := "Array.isEmpty.{u} {α : Type u} (xs : Array α) : Bool",
               isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"Array.mkArray6", Grove.Framework.Subexpression.State.declaration
+        some ⟨"Array.isEmpty", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `Array.mkArray6,
-              renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α",
+            { name := `Array.isEmpty,
+              renderedStatement := "Array.isEmpty.{u} {α : Type u} (xs : Array α) : Bool",
               isDeprecated := false })⟩
         
       selectedCellStates := #[
@@ -75,18 +142,18 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbe
       layerIdentifier := "List"
       rowState := 
         
-        some ⟨"List.getD", Grove.Framework.Subexpression.State.declaration
+        some ⟨"List.filter", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `List.getD,
-              renderedStatement := "List.getD.{u_1} {α : Type u_1} (as : List α) (i : Nat) (fallback : α) : α",
+            { name := `List.filter,
+              renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
               isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"List.leftpadTR", Grove.Framework.Subexpression.State.declaration
+        some ⟨"List.isEmpty", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `List.leftpadTR,
-              renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α",
+            { name := `List.isEmpty,
+              renderedStatement := "List.isEmpty.{u} {α : Type u} : List α → Bool",
               isDeprecated := false })⟩
         
       selectedCellStates := #[
@@ -96,18 +163,18 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbe
       layerIdentifier := "Array"
       rowState := 
         
-        some ⟨"Array.idxOf?", Grove.Framework.Subexpression.State.declaration
+        some ⟨"Array.filter", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `Array.idxOf?,
-              renderedStatement := "Array.idxOf?.{u} {α : Type u} [BEq α] (xs : Array α) (v : α) : Option Nat",
+            { name := `Array.filter,
+              renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
               isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"Array.mkArray6", Grove.Framework.Subexpression.State.declaration
+        some ⟨"Array.isEmpty", Grove.Framework.Subexpression.State.declaration
           (Grove.Framework.Declaration.def
-            { name := `Array.mkArray6,
-              renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α",
+            { name := `Array.isEmpty,
+              renderedStatement := "Array.isEmpty.{u} {α : Type u} (xs : Array α) : Bool",
               isDeprecated := false })⟩
         
       selectedCellStates := #[
@@ -116,73 +183,42 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbe
   ]
   metadata := {
     status := .postponed
-    comment := "Blubxcxcddd"
+    comment := "Blubxcxc"
   }
 
-def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array» : Table.Fact .subexpression .subexpression .declaration where
+def «1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d507669:::List::Array» : Table.Fact .subexpression .subexpression .declaration where
   widgetId := "list-array-lemmas"
-  factId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array"
-  rowAssociationId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
-  columnAssociationId := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+  factId := "1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d507669:::List::Array"
+  rowAssociationId := "1f04bde9-477c-46cb-a08a-34e35a3be931"
+  columnAssociationId := "805094ea-a106-4230-abba-a67f2d507669"
   selectedLayers := #["List", "Array", ]
   layerStates := #[
     {
       layerIdentifier := "List"
       rowState := 
         
-        some ⟨"List.filter", .declaration (Declaration.def {
-            name := `List.filter
-            renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α"
+        some ⟨"List.cons", .declaration (Declaration.def {
+            name := `List.cons
+            renderedStatement := "List.cons.{u} {α : Type u} (head : α) (tail : List α) : List α"
             isDeprecated := false
           }
         )⟩
         
       columnState := 
         
-        some ⟨"List.filter", .declaration (Declaration.def {
-            name := `List.filter
-            renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α"
+        some ⟨"TestProject.List.cartesian", .declaration (Declaration.def {
+            name := `TestProject.List.cartesian
+            renderedStatement := "TestProject.List.cartesian.{u_1, u_2} {α : Type u_1} {β : Type u_2} (l₁ : List α) (l₂ : List β) : List (α × β)"
             isDeprecated := false
           }
         )⟩
         
       selectedCellStates := #[
-        ⟨"List.filter_filter", Declaration.thm {
-    name := `List.filter_filter
-    renderedStatement := "List.filter_filter.{u_1} {α✝ : Type u_1} {p q : α✝ → Bool} {l : List α✝} :\n  List.filter p (List.filter q l) = List.filter (fun a => p a && q a) l"
+        ⟨"TestProject.List.cartesian_cons_left", Declaration.thm {
+    name := `TestProject.List.cartesian_cons_left
+    renderedStatement := "TestProject.List.cartesian_cons_left.{u_1, u_2} {α : Type u_1} {β : Type u_2} (x : α) (l₁ : List α) (l₂ : List β) :\n  TestProject.List.cartesian (x :: l₁) l₂ = List.map (fun x_1 => (x, x_1)) l₂ ++ TestProject.List.cartesian l₁ l₂"
     isDeprecated := false
-    isSimp := true
-  }
-⟩
-,
-      ]
-    },
-    {
-      layerIdentifier := "Array"
-      rowState := 
-        
-        some ⟨"Array.filter", .declaration (Declaration.def {
-            name := `Array.filter
-            renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α"
-            isDeprecated := false
-          }
-        )⟩
-        
-      columnState := 
-        
-        some ⟨"Array.filter", .declaration (Declaration.def {
-            name := `Array.filter
-            renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α"
-            isDeprecated := false
-          }
-        )⟩
-        
-      selectedCellStates := #[
-        ⟨"Array.filter_filter", Declaration.thm {
-    name := `Array.filter_filter
-    renderedStatement := "Array.filter_filter.{u_1} {α : Type u_1} {p q : α → Bool} {xs : Array α} :\n  Array.filter p (Array.filter q xs) = Array.filter (fun a => p a && q a) xs"
-    isDeprecated := false
-    isSimp := true
+    isSimp := false
   }
 ⟩
 ,
@@ -191,13 +227,13 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c8
   ]
   metadata := {
     status := .done
-    comment := "Blub"
+    comment := "Looks nice :)"
   }
 
 def table : Table.Data .subexpression .subexpression .declaration where
   widgetId := "list-array-lemmas"
-  selectedRowAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", ]
-  selectedColumnAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", ]
+  selectedRowAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", "1f04bde9-477c-46cb-a08a-34e35a3be931", ]
+  selectedColumnAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", "805094ea-a106-4230-abba-a67f2d507669", ]
   selectedLayers := #["List", "Array", ]
   selectedCellOptions := #[
     {
@@ -218,11 +254,18 @@ def table : Table.Data .subexpression .subexpression .declaration where
       columnValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
       selectedCellOptions := #["Array.filter_filter", ]
     },
+    {
+      layerIdentifier := "List"
+      rowValue := "1f04bde9-477c-46cb-a08a-34e35a3be931"
+      columnValue := "805094ea-a106-4230-abba-a67f2d507669"
+      selectedCellOptions := #["TestProject.List.cartesian_cons_left", ]
+    },
   ]
   facts := #[
+    «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array»,
     «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
     «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
-    «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array»,
+    «1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d507669:::List::Array»,
   ]
 
 def restoreState : RestoreStateM Unit := do

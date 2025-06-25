@@ -105,13 +105,17 @@ function buildLayerState(
   rowAssociation: TableAssociation,
   columnAssociation: TableAssociation,
   selectedCellOptions: TableSelectedCellOptions[],
-): TableFactLayerState {
-  const [rowLayer, , colLayer] = extractLayers(
+): TableFactLayerState | undefined {
+  const rowCol = extractLayers(
     cellData,
     layerIdentifier,
     rowAssociation,
     columnAssociation,
-  )!;
+  );
+
+  if (!rowCol) return undefined;
+
+  const [rowLayer, , colLayer] = rowCol;
 
   const relevantOptions =
     cellData.cellOptions[layerDataKey(rowLayer.data)][
@@ -159,8 +163,8 @@ function buildFactState(
   selectedLayers: string[],
 ): TableFactState {
   return {
-    layerStates: selectedLayers.map((layer) =>
-      buildLayerState(
+    layerStates: selectedLayers.flatMap((layer) => {
+      const layerState = buildLayerState(
         context,
         templates,
         definition,
@@ -169,8 +173,9 @@ function buildFactState(
         rowAssociation,
         columnAssociation,
         selectedCellOptions,
-      ),
-    ),
+      );
+      return layerState ? [layerState] : [];
+    }),
   };
 }
 

@@ -29,13 +29,18 @@ def optionMapALooksNice : ShowDeclaration where
 
 def listArrayOperations : AssociationTable .subexpression [`List, `Array] where
   id := "list-array-operations"
-  dataSources n := DataSource.declarationsInNamespace n .definitionsOnly |>.map .declaration
+  dataSources n :=
+    (DataSource.declarationsInNamespace n .definitionsOnly)
+    |>.or (DataSource.declarationsInNamespace (`TestProject ++ n) .definitionsOnly)
+    |>.map .declaration
 
 def listArrayLemmas : Table .subexpression .subexpression .declaration [`List, `Array] where
   id := "list-array-lemmas"
   rowsFrom := .table listArrayOperations
   columnsFrom := .table listArrayOperations
-  cellData := .classic _
+  cellData := .classic _ {
+    relevantNamespaces := [`List, `Array, `TestProject.List]
+  }
 
 def root : Node :=
   .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice,
