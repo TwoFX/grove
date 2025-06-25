@@ -1,15 +1,18 @@
 import { JSX } from "react";
 import { TablePage } from "./TablePage";
 import { groveContextData } from "@/lib/transfer/metadata";
+import { redirect } from "next/navigation";
 
 export async function generateStaticParams(): Promise<{ id: string }[]> {
-  const result = groveContextData.tableDefinition.all.map((def) => {
-    return {
-      id: def.widgetId,
-    };
-  });
-  console.log(result);
-  return result;
+  return [
+    // Workaround for https://github.com/vercel/next.js/issues/71862
+    { id: "__grove_dummy" },
+    ...groveContextData.tableDefinition.all.map((def) => {
+      return {
+        id: def.widgetId,
+      };
+    }),
+  ];
 }
 
 export default async function Home({
@@ -18,6 +21,10 @@ export default async function Home({
   params: Promise<{ id: string }>;
 }): Promise<JSX.Element> {
   const { id } = await params;
+
+  if (id === "__grove_dummy") {
+    redirect("https://www.youtube.com/watch?v=94JDIBZhSBM");
+  }
 
   return <TablePage widgetId={id} />;
 }
