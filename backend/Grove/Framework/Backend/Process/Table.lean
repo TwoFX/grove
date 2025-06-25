@@ -360,16 +360,22 @@ def currentLayerState {rowKind columnKind cellKind : DataKind} {δ : Type} {laye
     (columnAssociations : Std.HashMap (String × String) columnKind.Key)
     (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
     (rowAssociationId : String) (columnAssociationId : String) (layerIdentifier : String) :
-    RenderM (Table.Fact.LayerState rowKind columnKind cellKind) := do
+    RenderM (Option (Table.Fact.LayerState rowKind columnKind cellKind)) := do
   let rowAssoc ← currentRCState rowAssociations rowAssociationId
+  -- TODO: the line below is critically flawed. It looks up in the column association by the
+  -- source layer ID, but it should be looking up by the target layer id. It looks like this information
+  -- is not available at this point, so it needs to be extracted from the `CellDataForLayer` and passed
+  -- into here.
   let colAssoc ← currentRCState columnAssociations columnAssociationId
+  if rowAssoc.isNone || colAssoc.isNone then
+    return none
   let cellOpts := selectedCellOptions.getD (layerIdentifier, rowAssociationId, columnAssociationId) #[]
   let cellStates : Array (Table.Fact.SingleState cellKind) ←
     cellOpts.iter
       |>.filterMapM (cellDataProvider.getById? ·)
       |>.mapM st
       |>.toArray
-  return ⟨layerIdentifier, rowAssoc, colAssoc, cellStates⟩
+  return some ⟨layerIdentifier, rowAssoc, colAssoc, cellStates⟩
 where
   currentRCState {kind : DataKind} (associations : Std.HashMap (String × String) kind.Key)
       (associationId : String) : RenderM (Option (Table.Fact.SingleState kind)) :=
@@ -384,7 +390,7 @@ def currentFactState {rowKind columnKind cellKind : DataKind} {δ : Type} {layer
     (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
     (rowAssociationId : String) (columnAssociationId : String) (selectedLayers : Array String) :
     RenderM (Array (Table.Fact.LayerState rowKind columnKind cellKind)) :=
-  selectedLayers.mapM (fun layer => currentLayerState cellDataProvider rowAssociations columnAssociations selectedCellOptions rowAssociationId columnAssociationId layer)
+  selectedLayers.filterMapM (fun layer => currentLayerState cellDataProvider rowAssociations columnAssociations selectedCellOptions rowAssociationId columnAssociationId layer)
 
 def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
     (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
