@@ -3,6 +3,7 @@ import { TablePage } from "./TablePage";
 import { groveContextData } from "@/lib/transfer/metadata";
 
 export async function generateStaticParams() {
+  console.log("Hello");
   return groveContextData.tableDefinition.all.map((def) => {
     return {
       id: def.widgetId,
