@@ -32,7 +32,8 @@ def listArrayOperations : AssociationTable .subexpression [`List, `Array] where
   dataSources n :=
     (DataSource.declarationsInNamespace n .definitionsOnly)
     |>.or (DataSource.declarationsInNamespace (`TestProject ++ n) .definitionsOnly)
-    |>.map .declaration
+    |>.map Subexpression.declaration
+    |>.or (DataSource.getElem n)
 
 def listArrayLemmas : Table .subexpression .subexpression .declaration [`List, `Array] where
   id := "list-array-lemmas"

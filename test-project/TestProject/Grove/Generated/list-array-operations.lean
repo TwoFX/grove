@@ -34,6 +34,7 @@ def table : AssociationTable.Data .subexpression where
     ⟨"f31e9b71-4ac3-4bb4-8385-198fb1174c81", "filter", #[⟨"List", "List.filter"⟩,⟨"Array", "Array.filter"⟩,]⟩,
     ⟨"805094ea-a106-4230-abba-a67f2d507669", "cartesian", #[⟨"List", "TestProject.List.cartesian"⟩,]⟩,
     ⟨"1f04bde9-477c-46cb-a08a-34e35a3be931", "cons", #[⟨"List", "List.cons"⟩,]⟩,
+    ⟨"e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df", "GetElem", #[⟨"List", "app (GetElem.getElem) (List*)"⟩,⟨"Array", "app (GetElem.getElem) (Array*)"⟩,]⟩,
   ]
   facts := #[
     «22ed4b1e-3ee6-484f-a948-56430d51fbeb»,

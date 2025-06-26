@@ -332,7 +332,7 @@ where
       options := ← cell.mapM (fun k => mapRenderInfo <$> cellKind.renderInfo k)
     })).filter (fun cellEntry => !cellEntry.options.isEmpty)
   }
-  mapRenderInfo : RenderInfo → Data.Table.CellOption
+  mapRenderInfo : RenderInfo cellKind → Data.Table.CellOption
     | .decl n => .declaration n.toString
     | .other o => .other { o with }
 
@@ -402,7 +402,7 @@ def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdent
     f.selectedLayers
 
   let validationResult : Fact.ValidationResult := if newState == f.layerStates then .ok else
-    .invalidated ⟨"borked", "states do not match"⟩
+    .invalidated ⟨"borked", s!"Old state is\n\n{repr f.layerStates}\n\nnew state is \n\n{repr newState}"⟩
 
   return {
     widgetId := f.widgetId

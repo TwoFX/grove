@@ -6,7 +6,7 @@ Authors: Markus Himmel
 import Lean.Meta.Basic
 import Grove.Framework.HasId
 import Grove.Framework.Declaration
-import Grove.Framework.Subexpression
+import Grove.Framework.Subexpression.Basic
 import Grove.JTD.Basic
 import Grove.Framework.Declaration.Name
 
@@ -42,6 +42,10 @@ instance : (kind : DataKind) → BEq kind.State
   | .subexpression => inferInstance
 
 instance : (kind : DataKind) → Inhabited kind.Key
+  | .declaration => inferInstance
+  | .subexpression => inferInstance
+
+instance : (kind : DataKind) → Repr kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
 
@@ -110,7 +114,7 @@ def declarationsInNamespace (n : Name) (f : DeclarationFilter) : DataSource .dec
           if ← f.check info then
             ans := ans.push constName
     return ans
-  getById? id := pure (some id.toName)
+  getById? id := pure (Option.guard n.isPrefixOf id.toName)
 
 end DataSource
 

@@ -37,14 +37,14 @@ structure Table (rowKind columnKind cellKind : DataKind) {δ : Type} (layerIdent
 structure Table.Fact.SingleState (kind : DataKind) where
   value : String
   state : kind.State
-deriving BEq
+deriving BEq, Repr
 
 structure Table.Fact.LayerState (rowKind columnKind cellKind : DataKind) where
   layerIdentifier : String
   rowState : Option (SingleState rowKind)
   columnState : Option (SingleState columnKind)
   selectedCellStates : Array (SingleState cellKind)
-deriving BEq
+deriving BEq, Repr
 
 -- Selected cell options look good and are consistent
 structure Table.Fact (rowKind columnKind cellKind : DataKind) where

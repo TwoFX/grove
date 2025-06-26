@@ -137,7 +137,7 @@ end Data
 
 namespace AssociationTable
 
-def processRenderInfo : RenderInfo → Data.AssociationTable.CellOption
+def processRenderInfo {kind : DataKind} : RenderInfo kind → Data.AssociationTable.CellOption
   | .decl n => .declaration n.toString
   | .other o => .other { o with }
 
