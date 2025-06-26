@@ -15,22 +15,22 @@ export function LeafWidget({
   title: string;
   children: ReactElement;
 }): JSX.Element {
-  const isCollapsed = useGroveStore((state) => state.collapsed[id]);
-  const toggleCollapsed = useGroveStore((state) => state.toggleCollapsed);
+  const isExpanded = useGroveStore((state) => state.expanded[id]);
+  const toggleExpanded = useGroveStore((state) => state.toggleExpanded);
 
   return (
-    <div className={!isCollapsed ? "border-gray-200 border-1" : ""}>
+    <div className={isExpanded ? "border-gray-200 border-1" : ""}>
       <div
         className="flex items-center cursor-pointer hover:bg-gray-100 gap-1 rounded"
-        onClick={() => toggleCollapsed(id)}
+        onClick={() => toggleExpanded(id)}
       >
-        <BsChevronDown className={!isCollapsed ? "" : "-rotate-90"} />
+        <BsChevronDown className={isExpanded ? "" : "-rotate-90"} />
         <div className="flex items-baseline gap-1 mt-0.5">
           <span className="font-bold">{widgetType}:</span>
           <span className="font-mono">{title}</span>
         </div>
       </div>
-      {!isCollapsed && <div className="pl-6 pt-2 pb-2">{children}</div>}
+      {isExpanded && <div className="pl-6 pt-2 pb-2">{children}</div>}
     </div>
   );
 }

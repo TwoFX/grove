@@ -2,16 +2,16 @@ import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface UISlice {
-  collapsed: { [key: string]: boolean };
-  toggleCollapsed: (key: string) => void;
+  expanded: { [key: string]: boolean };
+  toggleExpanded: (key: string) => void;
 }
 
 export const createUISlice: StateCreator<UISlice, [], [], UISlice> = (set) => ({
-  collapsed: {},
-  toggleCollapsed: (key) =>
+  expanded: {},
+  toggleExpanded: (key) =>
     set((state) =>
       produce(state, (draft) => {
-        draft.collapsed[key] = !draft.collapsed[key];
+        draft.expanded[key] = !draft.expanded[key];
       }),
     ),
 });

@@ -10,13 +10,15 @@ import { useGroveStore } from "@/lib/state/state";
 function SectionHeader({
   text,
   depth,
-  isCollapsed,
+  isExpanded,
   onToggle,
+  alwaysExpand,
 }: {
   text: string;
   depth: number;
-  isCollapsed: boolean;
+  isExpanded: boolean;
   onToggle: () => void;
+  alwaysExpand: boolean;
 }): JSX.Element {
   const headerContent = () => {
     if (depth === 0) {
@@ -33,13 +35,19 @@ function SectionHeader({
   return (
     <div
       className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 p-1 rounded"
-      onClick={onToggle}
+      onClick={() => {
+        if (!alwaysExpand) {
+          onToggle();
+        }
+      }}
     >
-      <BsChevronDown
-        className={`${!isCollapsed ? "" : "-rotate-90"} ${
-          depth === 0 ? "text-xl" : depth === 1 ? "text-lg" : "text-base"
-        }`}
-      />
+      {!alwaysExpand && (
+        <BsChevronDown
+          className={`${isExpanded ? "" : "-rotate-90"} ${
+            depth === 0 ? "text-xl" : depth === 1 ? "text-lg" : "text-base"
+          }`}
+        />
+      )}
       {headerContent()}
     </div>
   );
@@ -52,18 +60,21 @@ export function SectionComponent({
   section: Section;
   depth: number;
 }): JSX.Element {
-  const isCollapsed = useGroveStore((state) => state.collapsed[section.id]);
-  const toggleCollapsed = useGroveStore((state) => state.toggleCollapsed);
+  const isExpanded = useGroveStore((state) => state.expanded[section.id]);
+  const toggleExpanded = useGroveStore((state) => state.toggleExpanded);
+
+  const alwaysExpand = depth === 0;
 
   return (
     <div className="m-1">
       <SectionHeader
         text={section.title}
         depth={depth}
-        isCollapsed={isCollapsed}
-        onToggle={() => toggleCollapsed(section.id)}
+        isExpanded={isExpanded}
+        onToggle={() => toggleExpanded(section.id)}
+        alwaysExpand={alwaysExpand}
       />
-      {!isCollapsed && (
+      {(alwaysExpand || isExpanded) && (
         <div className="border-1 border-gray-300 p-2 space-y-1">
           {section.children.map((node) => (
             <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />
