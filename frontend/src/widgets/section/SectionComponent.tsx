@@ -24,9 +24,9 @@ function SectionHeader({
     } else if (depth === 1) {
       return <span className="text-lg">{text}</span>;
     } else if (depth === 2) {
-      return <span className="font-bold">h3: {text}</span>;
+      return <span className="font-bold">{text}</span>;
     } else {
-      return <span className="font-bold">h4: {text}</span>;
+      return <span className="font-bold">{text}</span>;
     }
   };
 
