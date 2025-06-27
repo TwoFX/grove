@@ -106,12 +106,16 @@ instance : SchemaFor AssociationTable.Fact :=
 
 structure AssociationTable.Definition where
   widgetId : String
+  title : String
+  description : String
   dataKind : DataKind
   columns : Array AssociationTable.ColumnDiscription
 
 instance : SchemaFor AssociationTable.Definition :=
   .structure "associationTableDefinition"
     [.single "widgetId" AssociationTable.Definition.widgetId,
+     .single "title" AssociationTable.Definition.title,
+     .single "description" AssociationTable.Definition.description,
      .single "dataKind" AssociationTable.Definition.dataKind,
      .arr "columns" AssociationTable.Definition.columns]
 
@@ -212,6 +216,8 @@ def processAssociationTable {kind : DataKind} {β : Type} [HasId β] [DisplaySho
 
   let definition : Data.AssociationTable.Definition := {
     widgetId := t.id
+    title := t.title
+    description := t.description
     dataKind := kind
     columns := columns
   }

@@ -20,6 +20,8 @@ definitions in that namespace, and there are rows like `(List.map, Array.map, ..
 -- TODO: assume things about α and β to give them identity.
 structure AssociationTable (cellKind : DataKind) {β : Type} (columnIdentifiers : List β) : Type where
   id : String
+  title : String
+  description : String := ""
   dataSources : β → DataSource cellKind
 
 structure AssociationTable.Data.Cell where

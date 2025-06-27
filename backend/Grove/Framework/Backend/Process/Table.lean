@@ -227,6 +227,8 @@ instance : SchemaFor Table.CellDataForLayer :=
 
 structure Table.Definition where
   widgetId : String
+  title : String
+  description : String
   rowKind : DataKind
   columnKind : DataKind
   cellKind : DataKind
@@ -238,6 +240,8 @@ structure Table.Definition where
 instance schemaTableDefinition : SchemaFor Table.Definition :=
   .structure "tableDefinition"
     [.single "widgetId" Table.Definition.widgetId,
+     .single "title" Table.Definition.title,
+     .single "description" Table.Definition.description,
      .single "rowKind" Table.Definition.rowKind,
      .single "columnKind" Table.Definition.columnKind,
      .single "cellKind" Table.Definition.cellKind,
@@ -428,6 +432,8 @@ def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [
 
   let definition : Data.Table.Definition := {
     widgetId := t.id
+    title := t.title
+    description := t.description
     layerIdentifiers := l.iter.map HasId.getId |>.toArray
     rowKind
     columnKind

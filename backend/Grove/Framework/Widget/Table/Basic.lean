@@ -30,6 +30,8 @@ end Table
 
 structure Table (rowKind columnKind cellKind : DataKind) {δ : Type} (layerIdentifiers : List δ) : Type where
   id : String
+  title : String
+  description : String := ""
   rowsFrom : Table.AssociationSource rowKind layerIdentifiers
   columnsFrom : Table.AssociationSource columnKind layerIdentifiers
   cellData : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers

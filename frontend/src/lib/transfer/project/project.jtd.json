@@ -73,9 +73,11 @@
     "tableDefinition": {
       "properties": {
         "widgetId": { "type": "string" },
+        "title": { "type": "string" },
         "rowSource": { "ref": "tableAssociationSource" },
         "rowKind": { "ref": "dataKind" },
         "layerIdentifiers": { "elements": { "type": "string" } },
+        "description": { "type": "string" },
         "columnSource": { "ref": "tableAssociationSource" },
         "columnKind": { "ref": "dataKind" },
         "cells": { "elements": { "ref": "tableCellDataForLayer" } },
@@ -301,6 +303,8 @@
     "associationTableDefinition": {
       "properties": {
         "widgetId": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
         "dataKind": { "ref": "dataKind" },
         "columns": {
           "elements": { "ref": "associationTableColumnDescription" }

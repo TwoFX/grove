@@ -29,6 +29,8 @@ def optionMapALooksNice : ShowDeclaration where
 
 def listArrayOperations : AssociationTable .subexpression [`List, `Array] where
   id := "list-array-operations"
+  title := "List and array operations"
+  description := "This table associates list operations with array operations"
   dataSources n :=
     (DataSource.declarationsInNamespace n .definitionsOnly)
     |>.or (DataSource.declarationsInNamespace (`TestProject ++ n) .definitionsOnly)
@@ -37,6 +39,8 @@ def listArrayOperations : AssociationTable .subexpression [`List, `Array] where
 
 def listArrayLemmas : Table .subexpression .subexpression .declaration [`List, `Array] where
   id := "list-array-lemmas"
+  title := "List and array lemmas"
+  description := "This table checks that lemmas are there relating list and array operations among each other"
   rowsFrom := .table listArrayOperations
   columnsFrom := .table listArrayOperations
   cellData := .classic _ {

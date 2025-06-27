@@ -51,6 +51,8 @@ export interface AssociationTableColumnDescription {
 export interface AssociationTableDefinition {
   columns: AssociationTableColumnDescription[];
   dataKind: DataKind;
+  description: string;
+  title: string;
   widgetId: string;
 }
 
@@ -328,9 +330,11 @@ export interface TableDefinition {
   cells: TableCellDataForLayer[];
   columnKind: DataKind;
   columnSource: TableAssociationSource;
+  description: string;
   layerIdentifiers: string[];
   rowKind: DataKind;
   rowSource: TableAssociationSource;
+  title: string;
   widgetId: string;
 }
 
