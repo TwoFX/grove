@@ -141,16 +141,19 @@ def processRenderInfo {kind : DataKind} : RenderInfo kind → Data.AssociationTa
   | .decl n => .declaration n.toString
   | .other o => .other { o with }
 
-def processCellOption {kind : DataKind} (key : kind.Key) : RenderM Data.AssociationTable.CellOption :=
-  processRenderInfo <$> kind.renderInfo key
+def processCellOption {kind : DataKind} (key : kind.Key) : RenderM (String × Data.AssociationTable.CellOption) := do
+  let r ← kind.renderInfo key
+  return (r.displayShort, processRenderInfo r)
 
 def processColumnDescription [HasId β] [DisplayShort β] {kind : DataKind} (b : β)
     (dataSource : DataSource kind) : RenderM Data.AssociationTable.ColumnDiscription := do
   let all ← dataSource.getAll
+  let pairs ← all.mapM processCellOption
+  let pairs := pairs.qsort (fun a b => a.1 < b.1)
   return {
     identifier := HasId.getId b
     shortDescription := DisplayShort.displayShort b
-    options := ← all.mapM processCellOption
+    options := pairs.map (·.2)
   }
 
 def processColumnDescriptions {kind : DataKind} {β : Type} [HasId β] [DisplayShort β] (l : List β)

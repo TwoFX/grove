@@ -40,6 +40,10 @@ def RenderInfo.ofName {kind : DataKind} (n : Name) : RenderM (RenderInfo kind) :
   discard <| getDeclaration n
   return .decl n
 
+def RenderInfo.displayShort {kind : DataKind} : RenderInfo kind → String
+  | .decl n => n.toString
+  | .other o => o.shortDescription
+
 def _root_.Grove.Framework.Subexpression.renderInfo : Subexpression → RenderM (RenderInfo .subexpression)
   | .declaration d => RenderInfo.ofName d
   | .predicate p => p.renderInfo
