@@ -5,10 +5,7 @@ import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import {
-  AssociationTableCellOption,
-  AssociationTableColumnDescription,
   AssociationTableDefinition,
-  AssociationTableRow,
   AssociationTableState,
   Reference,
 } from "@/lib/transfer/project";
@@ -16,7 +13,6 @@ import {
   cellFor,
   columnDescriptionFor,
   optionFor,
-  optionKey,
   optionReference,
 } from "@/widgets/association-table/state/navigate";
 import { usePendingAssociationTableState } from "@/widgets/association-table/state/pending";

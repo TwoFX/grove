@@ -10,7 +10,6 @@ import {
 import { GroveContext } from "../transfer/context";
 import { useContext } from "react";
 import { optionFor } from "@/widgets/association-table/state/navigate";
-import { GroveContextData } from "../transfer/contextdata";
 
 function convertOption(
   opt: AssociationTableCellOption,
@@ -19,7 +18,6 @@ function convertOption(
 }
 
 function convertRow(
-  context: GroveContextData,
   definition: AssociationTableDefinition,
   source: AssociationTableRow,
 ): TableAssociation {
@@ -34,7 +32,6 @@ function convertRow(
       layerIdentifier: cell.columnIdentifier,
       data: convertOption(
         optionFor(
-          context,
           descriptionByIdentifier.get(cell.columnIdentifier)!,
           cell.cellValue,
         )!,
@@ -54,7 +51,7 @@ export function useAssociations(
       const state = pendingTableState(source.table);
       const definition = context.associationTableDefinition.byId[source.table];
       if (state && definition) {
-        return state.rows.map((row) => convertRow(context, definition, row));
+        return state.rows.map((row) => convertRow(definition, row));
       } else {
         return [];
       }
