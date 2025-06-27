@@ -15,8 +15,11 @@ might show additional information about the declaration in a side bar and the us
 facts about the declaration there. -/
 inductive Reference where
   | none : Reference
+  | declaration : String → Reference
 
 instance : SchemaFor Reference :=
-  .inductive "reference" [.nullary "none" (fun _ => true)]
+  .inductive "reference"
+    [.nullary "none" (fun | .none => true | _ => false),
+     .unary "declaration" String (fun | .declaration n => some n | _ => none)]
 
 end Grove.Framework

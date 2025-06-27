@@ -204,7 +204,8 @@
     },
     "reference": {
       "mapping": {
-        "none": { "optionalProperties": { "dummy": { "type": "string" } } }
+        "none": { "optionalProperties": { "dummy": { "type": "string" } } },
+        "declaration": { "properties": { "declaration": { "type": "string" } } }
       },
       "discriminator": "constructor"
     },

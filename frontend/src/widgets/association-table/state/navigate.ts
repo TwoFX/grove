@@ -6,9 +6,9 @@ import {
   DataKind,
   AssociationTableRow,
   AssociationTableCell,
+  Reference,
 } from "@/lib/transfer/project";
 import {
-  declarationName,
   declarationDisplayShort,
   declarationStateRepr,
 } from "@/lib/transfer/util";
@@ -24,23 +24,17 @@ export function columnDescriptionFor(
 }
 
 export function optionFor(
-  context: GroveContextData,
   columnDescription: AssociationTableColumnDescription,
   cellValue: string,
 ): AssociationTableCellOption | undefined {
   // TODO: performance
-  return columnDescription.options.find(
-    (opt) => optionKey(context, opt) === cellValue,
-  );
+  return columnDescription.options.find((opt) => optionKey(opt) === cellValue);
 }
 
-export function optionKey(
-  context: GroveContextData,
-  opt: AssociationTableCellOption,
-): string {
+export function optionKey(opt: AssociationTableCellOption): string {
   switch (opt.constructor) {
     case "declaration":
-      return declarationName(context.declarations[opt.declaration]);
+      return opt.declaration;
     case "other":
       return opt.other.value;
   }
@@ -73,6 +67,18 @@ export function optionStateRepr(
       );
     case "other":
       return opt.other.stateRepr;
+  }
+}
+
+export function optionReference(option: AssociationTableCellOption): Reference {
+  switch (option.constructor) {
+    case "declaration":
+      return {
+        constructor: "declaration",
+        declaration: option.declaration,
+      };
+    case "other":
+      return option.other.reference;
   }
 }
 

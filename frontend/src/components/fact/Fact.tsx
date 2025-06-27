@@ -229,7 +229,7 @@ export function Fact({
       >
         {fact && <FactBar fact={fact} />}
         {!fact && (
-          <div className="inline-flex items-center px-3 rounded-full text-sm font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-colors">
+          <div className="inline-flex items-center px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-colors">
             <span>Click here to assert fact</span>
           </div>
         )}

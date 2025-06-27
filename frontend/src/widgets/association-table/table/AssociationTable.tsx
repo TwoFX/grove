@@ -53,7 +53,7 @@ function rowFactState(
     if (!columnDescription) {
       return [];
     }
-    const option = optionFor(context, columnDescription, cell.cellValue);
+    const option = optionFor(columnDescription, cell.cellValue);
     if (!option) {
       return [];
     }
@@ -97,12 +97,17 @@ export function AssociationTable({
   tableRows,
   setTableRows,
   dataKind,
+  setSelectedCell,
 }: {
   widgetId: string;
   columnDefinitions: AssociationTableColumnDescription[];
   tableRows: AssociationTableRow[];
   setTableRows: (rows: AssociationTableRow[]) => void;
   dataKind: DataKind;
+  setSelectedCell: (selectedCell: {
+    rowIdentifier: string;
+    columnIdentifier: string;
+  }) => void;
 }): JSX.Element {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
@@ -124,7 +129,7 @@ export function AssociationTable({
         renderCell: ({ row }: { row: AssociationTableRow }) => {
           const cell = cellFor(row, columnDescription.identifier);
           if (!cell) return null;
-          const option = optionFor(context, columnDescription, cell.cellValue);
+          const option = optionFor(columnDescription, cell.cellValue);
           return option ? optionDisplayShort(context, option) : cell.cellValue;
         },
         renderEditCell: ({
@@ -145,10 +150,7 @@ export function AssociationTable({
           >
             <option value=""></option>
             {columnDescription.options.map((option) => (
-              <option
-                key={optionKey(context, option)}
-                value={optionKey(context, option)}
-              >
+              <option key={optionKey(option)} value={optionKey(option)}>
                 {optionDisplayShort(context, option)}
               </option>
             ))}
@@ -231,6 +233,14 @@ export function AssociationTable({
             onSelectedRowsChange={handleSelectionChange}
             rowKeyGetter={rowKeyGetter}
             className="h-full"
+            onSelectedCellChange={({ row, column }) => {
+              if (row) {
+                setSelectedCell({
+                  rowIdentifier: row.uuid,
+                  columnIdentifier: column.key,
+                });
+              }
+            }}
           />
         </DndProvider>
       </div>

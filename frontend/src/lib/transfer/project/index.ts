@@ -198,7 +198,12 @@ export interface Project0 {
   rootNode: Node;
 }
 
-export type Reference = ReferenceNone;
+export type Reference = ReferenceDeclaration | ReferenceNone;
+
+export interface ReferenceDeclaration {
+  constructor: "declaration";
+  declaration: string;
+}
 
 export interface ReferenceNone {
   constructor: "none";
