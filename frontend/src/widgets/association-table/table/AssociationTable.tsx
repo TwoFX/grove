@@ -14,6 +14,7 @@ import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import {
+  AssociationTableCell,
   AssociationTableColumnDescription,
   AssociationTableFactCellState,
   AssociationTableRow,
@@ -212,6 +213,48 @@ export function AssociationTable({
     setTableRows(newRows);
   };
 
+  const autofillRow: (row: AssociationTableRow) => AssociationTableRow = (
+    row,
+  ) => {
+    const columns: AssociationTableCell[] = columnDefinitions.flatMap((col) => {
+      const existingCell = row.columns.find(
+        (cell) => cell.columnIdentifier === col.identifier,
+      );
+      if (existingCell) {
+        return [existingCell];
+      }
+
+      const candidate = col.options.find(
+        (opt) => optionKey(opt) === col.identifier + "." + row.title,
+      );
+
+      return candidate
+        ? [
+            {
+              columnIdentifier: col.identifier,
+              cellValue: optionKey(candidate),
+            },
+          ]
+        : [];
+    });
+    return {
+      uuid: row.uuid,
+      title: row.title,
+      columns: columns,
+    };
+  };
+
+  const autofillSelectedRows = () => {
+    const newRows = tableRows.map((row) => {
+      if (selectedRows.has(row.uuid)) {
+        return autofillRow(row);
+      } else {
+        return row;
+      }
+    });
+    setTableRows(newRows);
+  };
+
   const handleRowsChange = (rows: AssociationTableRow[]) => {
     setTableRows(rows);
   };
@@ -257,6 +300,13 @@ export function AssociationTable({
           className="mb-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           Delete Selected Rows
+        </button>
+        <button
+          onClick={autofillSelectedRows}
+          disabled={selectedRows.size === 0}
+          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          Autofill selected rows
         </button>
       </div>
     </div>
