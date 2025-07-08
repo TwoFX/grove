@@ -1,9 +1,5 @@
 import { FactSummary } from "@/lib/fact/summary";
-import {
-  FactMetadata,
-  FactStatus,
-  FactValidationResult,
-} from "@/lib/transfer/project";
+import { FactMetadata, FactStatus } from "@/lib/transfer/project";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { JSX, ReactElement, useState } from "react";
 import {
@@ -11,7 +7,6 @@ import {
   BsClock,
   BsEmojiSmile,
   BsExclamationLg,
-  BsStar,
 } from "react-icons/bs";
 
 function FactStatusIcon({
@@ -33,82 +28,73 @@ function FactStatusIcon({
   }
 }
 
-function FactMetadataBar({
+function factColor(fact: FactSummary): string {
+  if (fact.validationResult.constructor === "invalidated") {
+    return "bg-orange-100 text-orange-800 border-orange-200";
+  }
+
+  switch (fact.metadata.status) {
+    case FactStatus.Done:
+      return "bg-green-100 text-green-800 border-green-200";
+    case FactStatus.Bad:
+      return "bg-red-100 text-red-800 border-red-200";
+    case FactStatus.BelievedGood:
+      return "bg-blue-100 text-blue-800 border-blue-200";
+    case FactStatus.NothingToDo:
+      return "bg-gray-100 text-gray-800 border-gray-200";
+    case FactStatus.Postponed:
+      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+  }
+}
+
+function FactMetadataContent({
   factMetadata,
 }: {
   factMetadata: FactMetadata;
 }): JSX.Element {
-  const getStatusClasses = (status: FactStatus): string => {
-    switch (status) {
-      case FactStatus.Done:
-        return "bg-green-100 text-green-800 border-green-200";
-      case FactStatus.Bad:
-        return "bg-red-100 text-red-800 border-red-200";
-      case FactStatus.BelievedGood:
-        return "bg-blue-100 text-blue-800 border-blue-200";
-      case FactStatus.NothingToDo:
-        return "bg-gray-100 text-gray-800 border-gray-200";
-      case FactStatus.Postponed:
-        return "bg-yellow-100 text-yellow-800 border-yellow-200";
-    }
-  };
-
   return (
-    <div
-      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${getStatusClasses(factMetadata.status)}`}
-    >
+    <div className="inline-flex items-center space-x-1">
       <FactStatusIcon factStatus={factMetadata.status} />
       {factMetadata.comment && <span>{factMetadata.comment}</span>}
     </div>
   );
 }
 
-function FactValidationBar({
-  validationResult,
-}: {
-  validationResult: FactValidationResult;
-}): JSX.Element {
-  switch (validationResult.constructor) {
+function FactContent({ fact }: { fact: FactSummary }): JSX.Element {
+  switch (fact.validationResult.constructor) {
     case "invalidated":
       return (
-        <div className="inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium bg-orange-100 text-orange-800 border border-orange-200">
+        <>
           <BsExclamationLg />
-          <span>{validationResult.invalidated.shortDescription}</span>
-        </div>
+          <span>{fact.validationResult.invalidated.shortDescription}</span>
+          <div className="inline-flex items-center">
+            <span>(</span>
+            <div className="inline-flex items-center space-x-1">
+              <span>was:</span>
+              <FactMetadataContent factMetadata={fact.metadata} />
+            </div>
+            <span>)</span>
+          </div>
+        </>
       );
     case "new":
       return (
-        <div className="inline-flex items-center px-2 rounded-full text-xs font-medium bg-purple-100 text-purple-800 border border-purple-200">
-          <BsStar />
-          <span className="ml-1">New</span>
+        <div className="inline-flex items-center space-x-1">
+          <FactMetadataContent factMetadata={fact.metadata} />
+          <span>(New)</span>
         </div>
       );
     case "ok":
-      return (
-        <div className="inline-flex items-center px-2 rounded-full text-xs font-medium bg-green-100 text-green-800 border border-green-200">
-          <BsCheckLg />
-          <span className="ml-1">Ok</span>
-        </div>
-      );
+      return <FactMetadataContent factMetadata={fact.metadata} />;
   }
 }
 
 function FactBar({ fact }: { fact: FactSummary }): JSX.Element {
-  const isInvalidated = fact.validationResult.constructor === "invalidated";
-
   return (
-    <div className="flex items-center space-x-2">
-      {isInvalidated ? (
-        <>
-          <FactValidationBar validationResult={fact.validationResult} />
-          <FactMetadataBar factMetadata={fact.metadata} />
-        </>
-      ) : (
-        <>
-          <FactMetadataBar factMetadata={fact.metadata} />
-          <FactValidationBar validationResult={fact.validationResult} />
-        </>
-      )}
+    <div
+      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${factColor(fact)}`}
+    >
+      <FactContent fact={fact} />
     </div>
   );
 }
