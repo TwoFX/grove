@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { groveContextData } from "@/lib/transfer/metadata";
 import { templates } from "@/lib/templates/server";
-import { HeaderBar } from "@/components/HeaderBar";
+import { HeaderBar } from "@/components/header/HeaderBar";
 import { GroveClient } from "@/components/GroveClient";
 
 export const metadata: Metadata = {

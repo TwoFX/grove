@@ -87,13 +87,19 @@ function createContextData(): GroveContextData {
     tableFact: emptyFactRegistry(),
     tableState: emptyStateRegistry(),
     tableDefinition: emptyStateRegistry(),
+    parentSection: {},
   };
 
-  function traverse(node: Node) {
+  function traverse(node: Node, parent: string | undefined) {
+    let id: string | undefined = undefined;
     if (node.constructor === "section") {
+      id = node.section.id;
       contextData.section[node.section.id] = node.section;
-      node.section.children.forEach(traverse);
+      node.section.children.forEach((child) =>
+        traverse(child, node.section.id),
+      );
     } else if (node.constructor === "showDeclaration") {
+      id = node.showDeclaration.definition.id;
       node.showDeclaration.facts.forEach((fact) => {
         addToFactRegistry(
           contextData.showDeclarationFact,
@@ -103,6 +109,7 @@ function createContextData(): GroveContextData {
         );
       });
     } else if (node.constructor === "associationTable") {
+      id = node.associationTable.definition.widgetId;
       addToStateRegistry(
         contextData.associationTableDefinition,
         node.associationTable.definition.widgetId,
@@ -122,6 +129,7 @@ function createContextData(): GroveContextData {
         );
       });
     } else if (node.constructor === "table") {
+      id = node.table.definition.widgetId;
       addToStateRegistry(
         contextData.tableDefinition,
         node.table.definition.widgetId,
@@ -141,9 +149,12 @@ function createContextData(): GroveContextData {
         );
       });
     }
+    if (id && parent) {
+      contextData.parentSection[id] = parent;
+    }
   }
 
-  traverse(project.rootNode);
+  traverse(project.rootNode, undefined);
 
   return contextData;
 }

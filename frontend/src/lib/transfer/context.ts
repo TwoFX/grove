@@ -24,4 +24,5 @@ export const GroveContext = createContext<GroveContextData>({
   tableFact: emptyFactRegistry(),
   tableState: emptyStateRegistry(),
   tableDefinition: emptyStateRegistry(),
+  parentSection: {},
 });

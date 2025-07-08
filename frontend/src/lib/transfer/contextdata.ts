@@ -78,4 +78,7 @@ export interface GroveContextData {
   tableFact: FactRegistry<TableFact>;
   tableState: StateRegistry<TableState>;
   tableDefinition: StateRegistry<TableDefinition>;
+  parentSection: {
+    [id: string]: string;
+  };
 }
