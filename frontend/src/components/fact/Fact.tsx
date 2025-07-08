@@ -8,6 +8,7 @@ import {
   BsEmojiSmile,
   BsExclamationLg,
 } from "react-icons/bs";
+import Markdown from "react-markdown";
 
 function FactStatusIcon({
   factStatus,
@@ -55,7 +56,7 @@ function FactMetadataContent({
   return (
     <div className="inline-flex items-center space-x-1">
       <FactStatusIcon factStatus={factMetadata.status} />
-      {factMetadata.comment && <span>{factMetadata.comment}</span>}
+      {factMetadata.comment && <Markdown>{factMetadata.comment}</Markdown>}
     </div>
   );
 }
