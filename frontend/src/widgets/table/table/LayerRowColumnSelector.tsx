@@ -36,13 +36,17 @@ export function LayerRowColumnSelector({
           displayShort: id,
         }))}
         selectedOptions={state.selectedLayers}
-        setSelectedOptions={(newSelectedLayers) =>
+        setSelectedOptions={(newSelectedLayers) => {
+          const uniqueLayers = new Set(newSelectedLayers);
           setState(
             produce(state, (draft) => {
-              draft.selectedLayers = newSelectedLayers;
+              // Make sure that selectedLayers always has the same order as layerIdentifiers
+              draft.selectedLayers = definition.layerIdentifiers.filter((id) =>
+                uniqueLayers.has(id),
+              );
             }),
-          )
-        }
+          );
+        }}
         displayMode="list"
       />
       <StyledListbox
