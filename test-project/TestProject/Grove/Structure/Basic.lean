@@ -12,7 +12,7 @@ namespace TestProject.Grove.Structure
 namespace Containers
 
 def designNotes : Node :=
-  .text "Here I can put design notes about the containers library."
+  .text "Here I can put design notes about the *containers library*."
 
 def noOptionToVector : Assertion where
   id := "no-option-to-vector"
@@ -54,7 +54,9 @@ def root : Node :=
 end Containers
 
 def introduction : Node :=
-  .text "Welcome to the test project for Grove, a quality assurance system for Lean libraries."
+  .text "Welcome to the test project for Grove, a quality assurance system for Lean libraries.\n\
+  \n\
+  These text elements are `Markdown`, so in particular they can be multiple lines."
 
 def root : Node :=
   .section "test-project" "The Grove test project" #[introduction, Containers.root]
