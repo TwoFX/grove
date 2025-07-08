@@ -272,7 +272,7 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2d
   ]
   metadata := {
     status := .bad
-    comment := "Seems like List.getElem_zero_filter is missing."
+    comment := "Seems like `List.getElem_zero_filter` is missing."
   }
 
 def table : Table.Data .subexpression .subexpression .declaration where

@@ -1,12 +1,21 @@
 import { FactSummary } from "@/lib/fact/summary";
 import { FactMetadata, FactStatus } from "@/lib/transfer/project";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
+import {
+  Dialog,
+  DialogPanel,
+  DialogTitle,
+  Listbox,
+  ListboxButton,
+  ListboxOption,
+  ListboxOptions,
+} from "@headlessui/react";
 import { JSX, ReactElement, useState } from "react";
 import {
   BsCheckLg,
   BsClock,
   BsEmojiSmile,
   BsExclamationLg,
+  BsChevronDown,
 } from "react-icons/bs";
 import Markdown from "react-markdown";
 
@@ -34,7 +43,11 @@ function factColor(fact: FactSummary): string {
     return "bg-orange-100 text-orange-800 border-orange-200";
   }
 
-  switch (fact.metadata.status) {
+  return getStatusColors(fact.metadata.status);
+}
+
+function getStatusColors(status: FactStatus): string {
+  switch (status) {
     case FactStatus.Done:
       return "bg-green-100 text-green-800 border-green-200";
     case FactStatus.Bad:
@@ -141,20 +154,43 @@ function FactDialog({
               >
                 Status
               </label>
-              <select
-                id="status"
-                value={selectedStatus}
-                onChange={(e) =>
-                  setSelectedStatus(e.target.value as FactStatus)
-                }
-                className="mt-1 block w-full rounded-sm border-gray-300 border-1 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
-              >
-                {Object.values(FactStatus).map((status) => (
-                  <option key={status} value={status}>
-                    {status}
-                  </option>
-                ))}
-              </select>
+              <Listbox value={selectedStatus} onChange={setSelectedStatus}>
+                <div className="relative mt-1">
+                  <ListboxButton
+                    className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left border focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${getStatusColors(selectedStatus)}`}
+                  >
+                    <span className="flex items-center space-x-2">
+                      <FactStatusIcon factStatus={selectedStatus} />
+                      <span className="block truncate">{selectedStatus}</span>
+                    </span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <BsChevronDown className="h-4 w-4" aria-hidden="true" />
+                    </span>
+                  </ListboxButton>
+                  <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-gray-500 ring-opacity-5 focus:outline-none sm:text-sm">
+                    {Object.values(FactStatus).map((status) => (
+                      <ListboxOption
+                        key={status}
+                        value={status}
+                        className={({ focus }) =>
+                          `relative cursor-default select-none py-1 ${
+                            focus ? "bg-blue-100" : ""
+                          }`
+                        }
+                      >
+                        {({ selected }) => (
+                          <div
+                            className={`flex items-center space-x-2 px-2 py-1 text-xs font-medium border ${getStatusColors(status)} ${selected ? "ring-2 ring-blue-500" : ""}`}
+                          >
+                            <FactStatusIcon factStatus={status} />
+                            <span className="block truncate">{status}</span>
+                          </div>
+                        )}
+                      </ListboxOption>
+                    ))}
+                  </ListboxOptions>
+                </div>
+              </Listbox>
             </div>
             <div>
               <label
@@ -168,7 +204,7 @@ function FactDialog({
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
                 rows={4}
-                className="mt-1 block w-full border-gray-300 border-1 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                className="mt-1 block w-full border-gray-300 border-1 focus:border-blue-500 focus:ring-blue-500 sm:text-sm font-mono"
               />
             </div>
           </div>
@@ -206,7 +242,7 @@ export function Fact({
   const [diagOpen, setDiagOpen] = useState(false);
 
   const initialStatus: FactStatus = fact?.metadata.status ?? FactStatus.Done;
-  const initialMessage: string = fact?.metadata.comment ?? "Blub";
+  const initialMessage: string = fact?.metadata.comment ?? "";
 
   return (
     <>
@@ -230,9 +266,11 @@ export function Fact({
       >
         <>
           {fact && fact.validationResult.constructor === "invalidated" && (
-            <pre className="font-mono bg-gray-50 p-4 rounded-md border border-gray-200 overflow-x-auto whitespace-pre">
-              {fact.validationResult.invalidated.longDescription}
-            </pre>
+            <div className="overflow-y-auto space-y-4">
+              <Markdown>
+                {fact.validationResult.invalidated.longDescription}
+              </Markdown>
+            </div>
           )}
         </>
       </FactDialog>
