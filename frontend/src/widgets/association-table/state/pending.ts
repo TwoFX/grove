@@ -25,8 +25,11 @@ export function usePendingAssociationTableFact(): (
 }
 
 export function useCountPendingAssociationTableFacts(): number {
-  return useGroveStore(
-    (state) => Object.keys(state.pendingAssociationTableFacts).length,
+  return useGroveStore((state) =>
+    Object.values(state.pendingAssociationTableFacts).reduce(
+      (sofar, entry) => sofar + Object.keys(entry).length,
+      0,
+    ),
   );
 }
 

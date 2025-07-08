@@ -20,7 +20,12 @@ export function usePendingTableFact(): (
 }
 
 export function useCountPendingTableFacts(): number {
-  return useGroveStore((state) => Object.keys(state.pendingTableFacts).length);
+  return useGroveStore((state) =>
+    Object.values(state.pendingTableFacts).reduce(
+      (sofar, entry) => sofar + Object.keys(entry).length,
+      0,
+    ),
+  );
 }
 
 export function usePendingTableState(): (
