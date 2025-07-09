@@ -6,6 +6,7 @@ Authors: Markus Himmel
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
 import Grove.Framework.Reference
+import Grove.Framework.Widget.AssociationTable.Compare
 import Std.Data.Iterators
 
 open Lean
@@ -186,13 +187,17 @@ def transformCellState {kind : DataKind} (s : AssociationTable.Fact.CellState ki
   cellValue := s.cellValue
   stateRepr := kind.reprState s.cellState
 
-def processFact [HasId β] {kind : DataKind} (l : List β) (f : AssociationTable.Fact kind)
+def processFact [HasId β] [DisplayShort β] {kind : DataKind} (l : List β) (f : AssociationTable.Fact kind)
     (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) :
     RenderM (Option Data.AssociationTable.Fact) := do
   -- TODO: if the rowId doesn't even exist any more, we shouldn't return this as invalidated, but
   -- drop the fact here.
   let currentState ← computeRowState kind l f.rowId cellValueMap dataSources
-  let validationResult : Fact.ValidationResult := if currentState == f.rowState then .ok else .invalidated ⟨"borked", "The states differ, yo"⟩
+  let validationResult : Fact.ValidationResult :=
+    match AssociationTable.Fact.describeDifferences l f.rowState currentState with
+    | none => .ok
+    | some s => .invalidated ⟨"Row has changed", s⟩
+
   return some {
     widgetId := f.widgetId
     factId := f.factId
@@ -202,7 +207,7 @@ def processFact [HasId β] {kind : DataKind} (l : List β) (f : AssociationTable
     validationResult
   }
 
-def processFacts [HasId β] {kind : DataKind} (l : List β) (facts : Array (AssociationTable.Fact kind))
+def processFacts [HasId β] [DisplayShort β] {kind : DataKind} (l : List β) (facts : Array (AssociationTable.Fact kind))
     (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) : RenderM (Array Data.AssociationTable.Fact) :=
   facts.filterMapM (processFact l · cellValueMap dataSources)
 

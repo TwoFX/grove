@@ -59,6 +59,14 @@ def Subexpression.toString : Subexpression → String
 def Subexpression.State.repr (s : Subexpression.State) : String :=
   (_root_.repr s).pretty
 
+def Subexpression.State.displayShort : Subexpression.State → String
+  | .declaration d => d.name.toString
+  | .predicate p => p.displayShort
+
+def Subexpression.State.describeDifferences : Subexpression.State → Subexpression.State → Option String
+  | .declaration old, .declaration new  => Declaration.describeDifferences old new
+  | old, new => if old == new then none else some s!"Used to be {displayShort old}, but now is {displayShort new}."
+
 def Subexpression.computeTargetNamespace (s : Subexpression) (sourceNamespace : Name)
     (allowedTargetNamespaces : List Name) : MetaM Name :=
   match s with

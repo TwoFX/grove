@@ -61,6 +61,14 @@ def DataKind.reprState : (kind : DataKind) → kind.State → String
   | .declaration, s => s.repr
   | .subexpression, s => s.repr
 
+def DataKind.displayShort : (kind : DataKind) → kind.State → String
+  | .declaration, s => s.name.toString
+  | .subexpression, p => p.displayShort
+
+def DataKind.describeDifferences : (kind : DataKind) → kind.State → kind.State → Option String
+  | .declaration, old, new => Declaration.describeDifferences old new
+  | .subexpression, old, new => Subexpression.State.describeDifferences old new
+
 structure DataSource (kind : DataKind) where
   getAll : MetaM (Array kind.Key)
   getById? : String → MetaM (Option kind.Key)
