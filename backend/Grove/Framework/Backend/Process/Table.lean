@@ -6,6 +6,7 @@ Authors: Markus Himmel
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
 import Grove.Framework.Reference
+import Grove.Framework.Widget.Table.Compare
 import Std.Data.Iterators
 
 namespace Grove.Framework.Backend.Full
@@ -396,7 +397,8 @@ def currentFactState {rowKind columnKind cellKind : DataKind} {δ : Type} {layer
     RenderM (Array (Table.Fact.LayerState rowKind columnKind cellKind)) :=
   selectedLayers.filterMapM (fun layer => currentLayerState cellDataProvider rowAssociations columnAssociations selectedCellOptions rowAssociationId columnAssociationId layer)
 
-def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
+def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
+    {layerIdentifiers : List δ}
     (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
     (rowAssociations : Std.HashMap (String × String) rowKind.Key)
     (columnAssociations : Std.HashMap (String × String) columnKind.Key)
@@ -405,8 +407,10 @@ def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdent
   let newState ← currentFactState cellDataProvider rowAssociations columnAssociations selectedCellOptions f.rowAssociationId f.columnAssociationId
     f.selectedLayers
 
-  let validationResult : Fact.ValidationResult := if newState == f.layerStates then .ok else
-    .invalidated ⟨"borked", s!"Old state is\n\n{repr f.layerStates}\n\nnew state is \n\n{repr newState}"⟩
+  let validationResult : Fact.ValidationResult :=
+    match Table.Fact.describeDifferences layerIdentifiers f.layerStates newState with
+    | none => .ok
+    | some s => .invalidated ⟨"Cell has changed", s⟩
 
   return {
     widgetId := f.widgetId

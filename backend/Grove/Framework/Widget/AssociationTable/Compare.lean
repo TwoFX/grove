@@ -23,6 +23,6 @@ where
     | some old, some new =>
         match kind.describeDifferences old.cellState new.cellState with
         | none => []
-        | some desc => [s!"**Colum {DisplayShort.displayShort l}:**", desc]
+        | some desc => [s!"**Column {DisplayShort.displayShort l}:**", desc]
 
 end Grove.Framework.Widget.AssociationTable.Fact
