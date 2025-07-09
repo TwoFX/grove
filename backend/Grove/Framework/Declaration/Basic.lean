@@ -4,6 +4,7 @@ Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
 import Grove.Framework.HasId
+import Grove.Markdown.Basic
 import Lean.Meta.Basic
 import Lean.AddDecl
 import Lean.PrettyPrinter
@@ -67,7 +68,7 @@ def ofName (n : Name) : MetaM Declaration := do
   let c? := (← getEnv).find? n
 
   if let some c := c? then
-    let renderedStatement := (← Lean.PrettyPrinter.ppSignature n).fmt.pretty
+    let renderedStatement := (← Lean.PrettyPrinter.ppSignature n).fmt.pretty (width := 100)
     let isDeprecated := Lean.Linter.isDeprecated (← getEnv) n
 
     if ← isTheorem c then
@@ -87,8 +88,37 @@ def ofName (n : Name) : MetaM Declaration := do
   else
     return .missing n
 
-def describeDifferences (d₁ d₂ : Declaration) : String :=
-  s!"Used to be\n\n\n```lean\n  {repr d₁}\n```\n\nBut now is\n\n```lean\n  {repr d₂}\n```\n"
+def describeType : Declaration → String
+  | .thm _ => "theorem"
+  | .def _ => "definition"
+  | .missing _  => "missing"
+
+def describeDifferences : Declaration → Declaration → Option String
+  | .thm t₁, .thm t₂ =>
+      let differences :=
+        compareName t₁.name.toString t₂.name.toString
+        ++ compareStatement t₁.renderedStatement t₂.renderedStatement
+        ++ compareBool "simp" t₁.isSimp t₂.isSimp
+        ++ compareBool "deprecated" t₁.isDeprecated t₂.isDeprecated
+      if differences.isEmpty then none else some (Markdown.render differences)
+  | .def d₁, .def d₂ =>
+      let differences :=
+        compareName d₁.name.toString d₂.name.toString
+        ++ compareStatement d₁.renderedStatement d₂.renderedStatement
+        ++ compareBool "deprecated" d₁.isDeprecated d₂.isDeprecated
+      if differences.isEmpty then none else some (Markdown.render differences)
+  | .missing m₁, .missing m₂ =>
+      let differences := compareName m₁.toString m₂.toString
+      if differences.isEmpty then none else some (Markdown.render differences)
+  | d₁, d₂ => some s!"Used to be {d₁.describeType}, but now is {d₂.describeType}."
+where
+  compareName (n₁ n₂ : String) : List Markdown.Paragraph :=
+    if n₁ = n₂ then [] else [s!"Name used to be `{n₁}` but now is `{n₂}`."]
+  compareStatement (s₁ s₂ : String) : List Markdown.Paragraph :=
+    if s₁ = s₂ then [] else ["Statement used to be", .codeBlock s₁, "but now is", .codeBlock s₂]
+  compareBool (name : String) (b₁ b₂ : Bool) : List Markdown.Paragraph :=
+    if b₁ = b₂ then [] else
+      [s!"Used to be {if b₁ then "" else "not "}{name} but now is {if b₂ then "" else "not "}{name}."]
 
 end Declaration
 

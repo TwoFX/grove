@@ -24,11 +24,10 @@ structure Fact where
 
 namespace Fact
 
-def validate (currentState : Declaration) (f : Fact) : MetaM Fact.ValidationResult := do
-  if f.state == currentState then
-    return .ok
-
-  return .invalidated ⟨"Declaration has changed", Declaration.describeDifferences f.state currentState⟩
+def validate (currentState : Declaration) (f : Fact) : Fact.ValidationResult :=
+  match Declaration.describeDifferences f.state currentState with
+  | none => .ok
+  | some message => .invalidated ⟨"Declaration has changed", message⟩
 
 end Fact
 

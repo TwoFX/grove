@@ -134,7 +134,7 @@ def processShowDeclaration (s : ShowDeclaration) : RenderM Data.ShowDeclaration 
   }
 where
   processFact (widgetId : String) (decl : Declaration) (f : ShowDeclaration.Fact) : RenderM Data.ShowDeclaration.Fact := do
-    let validationResult ← f.validate decl
+    let validationResult := f.validate decl
     return {
       widgetId := widgetId
       factId := f.factId
