@@ -1,4 +1,4 @@
-import { InvalidatedFacts } from "./invalidated";
+import { InvalidatedFact } from "./invalidated";
 import {
   AssociationTableDefinition,
   AssociationTableFact,
@@ -65,7 +65,7 @@ export interface ProjectMetadata {
 }
 
 export interface GroveContextData {
-  upstreamInvalidatedFacts: InvalidatedFacts | undefined;
+  upstreamInvalidatedFacts: Set<InvalidatedFact> | undefined;
   rootNode: Node;
   projectMetadata: ProjectMetadata;
   declarations: { [key: string]: Declaration };

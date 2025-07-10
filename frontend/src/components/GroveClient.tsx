@@ -12,6 +12,21 @@ import {
   BreadcrumbData,
   BreadcrumbState,
 } from "@/lib/navigate/breadcrumb";
+import {
+  FactCountContext,
+  useComputeFactCounts,
+} from "@/lib/navigate/factcount";
+
+function InnerGroveClient({ children }: { children: ReactNode }): JSX.Element {
+  // Requires GroveContext
+  const invalidatedFactCounts = useComputeFactCounts();
+
+  return (
+    <FactCountContext value={invalidatedFactCounts}>
+      <HashCheck>{children}</HashCheck>
+    </FactCountContext>
+  );
+}
 
 export function GroveClient({
   children,
@@ -37,7 +52,7 @@ export function GroveClient({
     <GroveContext value={groveContext}>
       <GroveTemplateContext value={templates}>
         <BreadcrumbContext value={breadcrumbState}>
-          <HashCheck>{children}</HashCheck>
+          <InnerGroveClient>{children}</InnerGroveClient>
         </BreadcrumbContext>
       </GroveTemplateContext>
     </GroveContext>

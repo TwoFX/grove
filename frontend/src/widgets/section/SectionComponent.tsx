@@ -1,13 +1,39 @@
 "use client";
 
 import { Section } from "@/lib/transfer/project";
-import { JSX, useState } from "react";
+import { JSX, useContext, useState } from "react";
 import { NodeComponent } from "../NodeComponent";
 import { nodeKey } from "@/lib/transfer/util";
 import { BsChevronDown } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { useGroveStore } from "@/lib/state/state";
 import Link from "next/link";
+import {
+  FactCountContext,
+  InvalidatedFactCounts,
+} from "@/lib/navigate/factcount";
+
+function InvalidatedFactCountComponent({
+  invalidatedFacts,
+}: {
+  invalidatedFacts: InvalidatedFactCounts;
+}): JSX.Element {
+  return (
+    <span className="text-lg">
+      <span
+        className={`font-bold ${invalidatedFacts.newlyInvalidatedFacts > 0 ? "text-red-700" : "text-gray-500"}`}
+      >
+        {invalidatedFacts.newlyInvalidatedFacts}
+      </span>
+      <span className="text-gray-500">|</span>
+      <span
+        className={`font-bold ${invalidatedFacts.invalidatedFacts > 0 ? "text-orange-700" : "text-gray-500"}`}
+      >
+        {invalidatedFacts.invalidatedFacts}
+      </span>
+    </span>
+  );
+}
 
 function SectionHeader({
   text,
@@ -25,6 +51,9 @@ function SectionHeader({
   sectionId: string;
 }): JSX.Element {
   const [isHovered, setIsHovered] = useState(false);
+  const factCounts = useContext(FactCountContext);
+
+  const invalidatedFacts = factCounts.factCount[sectionId];
 
   const headerContent = () => {
     if (depth === 0) {
@@ -40,7 +69,7 @@ function SectionHeader({
 
   return (
     <div
-      className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 p-1 rounded"
+      className="flex items-baseline gap-2 cursor-pointer hover:bg-gray-100 p-1 rounded"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => {
@@ -57,6 +86,11 @@ function SectionHeader({
         />
       )}
       {headerContent()}
+      {invalidatedFacts && (
+        <a href={`/facts/${sectionId}`}>
+          <InvalidatedFactCountComponent invalidatedFacts={invalidatedFacts} />
+        </a>
+      )}
       {isHovered && (
         <Link
           href={`/section/${sectionId}`}
