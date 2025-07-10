@@ -2,13 +2,15 @@ import {
   AssociationTableFactCellState,
   FactStatus,
 } from "@/lib/transfer/project";
-import { JSX } from "react";
+import { JSX, useContext } from "react";
 import {
   computeAssociationTableFactSummary,
   usePendingAssociationTableFact,
+  usePendingAssociationTableState,
 } from "./state/pending";
 import { useGroveStore } from "@/lib/state/state";
 import { Fact } from "@/components/fact/Fact";
+import { GroveContext } from "@/lib/transfer/context";
 
 export function AssociationTableFactComponent({
   widgetId,
@@ -21,6 +23,8 @@ export function AssociationTableFactComponent({
   factId: string;
   newState: () => AssociationTableFactCellState[];
 }): JSX.Element {
+  const context = useContext(GroveContext);
+  const pendingState = usePendingAssociationTableState();
   const fact = usePendingAssociationTableFact()(widgetId, factId);
   const setPendingFact = useGroveStore(
     (state) => state.setPendingAssociationTableFact,
@@ -43,7 +47,14 @@ export function AssociationTableFactComponent({
 
   return (
     <Fact
-      fact={fact && computeAssociationTableFactSummary(fact)}
+      fact={
+        fact &&
+        computeAssociationTableFactSummary(
+          context,
+          pendingState(fact.widgetId),
+          fact,
+        )
+      }
       onAssert={onAssert}
     />
   );

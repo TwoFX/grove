@@ -26,8 +26,10 @@ export function Table({
     columnAssociationId: string;
   }) => void;
 }): JSX.Element {
-  const rowAssociations = useAssociations(definition.rowSource);
-  const columnAssociations = useAssociations(definition.columnSource);
+  const associations = useAssociations();
+
+  const rowAssociations = associations(definition.rowSource);
+  const columnAssociations = associations(definition.columnSource);
 
   const rowAssociationsById = new Map(
     rowAssociations.map((row) => [row.id, row]),

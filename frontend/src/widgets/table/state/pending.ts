@@ -1,7 +1,14 @@
 import { FactSummary } from "@/lib/fact/summary";
+import { useAssociations } from "@/lib/state/association";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
-import { TableFact, TableState } from "@/lib/transfer/project";
+import { GroveContextData } from "@/lib/transfer/contextdata";
+import {
+  TableAssociation,
+  TableAssociationSource,
+  TableFact,
+  TableState,
+} from "@/lib/transfer/project";
 import { useContext } from "react";
 
 export function usePendingTableFact(): (
@@ -42,12 +49,30 @@ export function useCountPendingTableStates(): number {
   return useGroveStore((state) => Object.keys(state.pendingTableStates).length);
 }
 
-export function computeTableFactSummary(fact: TableFact): FactSummary {
+export function computeTableFactSummary(
+  context: GroveContextData,
+  associations: (source: TableAssociationSource) => TableAssociation[],
+  fact: TableFact,
+): FactSummary {
+  const definition = context.tableDefinition.byId[fact.widgetId];
+  const rowAssociations = associations(definition.rowSource);
+  const columnAssociatßions = associations(definition.columnSource);
+
+  const rowTitle =
+    rowAssociations.find(
+      (assoc) => assoc.id === fact.identifier.rowAssociationId,
+    )?.title ?? "Unknown";
+  const colTitle =
+    columnAssociatßions.find(
+      (assoc) => assoc.id === fact.identifier.columnAssociationId,
+    )?.title ?? "Unknown";
+
   return {
     widgetId: fact.widgetId,
+    widgetTitle: definition.title,
     factId: fact.factId,
-    href: "",
-    summary: "Summary",
+    href: `/table/${fact.widgetId}`,
+    summary: `${rowTitle}/${colTitle}`,
     metadata: fact.metadata,
     validationResult: fact.validationResult,
   };
@@ -56,10 +81,13 @@ export function computeTableFactSummary(fact: TableFact): FactSummary {
 export function useTableFactSummaries(): FactSummary[] {
   const groveContextData = useContext(GroveContext);
   const pendingFact = useGroveStore((state) => state.pendingTableFacts);
+  const associations = useAssociations();
 
-  return groveContextData.tableFact.all
-    .map((fact) => {
-      return pendingFact[fact.widgetId]?.[fact.factId] ?? fact;
-    })
-    .map(computeTableFactSummary);
+  return groveContextData.tableFact.all.map((fact) => {
+    return computeTableFactSummary(
+      groveContextData,
+      associations,
+      pendingFact[fact.widgetId]?.[fact.factId] ?? fact,
+    );
+  });
 }

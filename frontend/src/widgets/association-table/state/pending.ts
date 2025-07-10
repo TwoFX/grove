@@ -1,6 +1,7 @@
 import { FactSummary } from "@/lib/fact/summary";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
+import { GroveContextData } from "@/lib/transfer/contextdata";
 import {
   AssociationTableFact,
   AssociationTableState,
@@ -53,13 +54,19 @@ export function useCountPendingAssociationTableStates(): number {
 }
 
 export function computeAssociationTableFactSummary(
+  context: GroveContextData,
+  pendingState: AssociationTableState | undefined,
   fact: AssociationTableFact,
 ): FactSummary {
+  const rowTitle: string | undefined = pendingState?.rows.find(
+    (row) => row.uuid === fact.rowId,
+  )?.title;
   return {
+    widgetTitle: context.associationTableDefinition.byId[fact.widgetId].title,
     widgetId: fact.widgetId,
     factId: fact.factId,
-    href: "",
-    summary: "Summary",
+    href: `/association/${fact.widgetId}`,
+    summary: rowTitle ?? "Unknown",
     metadata: fact.metadata,
     validationResult: fact.validationResult,
   };
@@ -67,13 +74,17 @@ export function computeAssociationTableFactSummary(
 
 export function useAssociationTableFactSummaries(): FactSummary[] {
   const groveContextData = useContext(GroveContext);
+  const pendingState = usePendingAssociationTableState();
   const pendingFact = useGroveStore(
     (state) => state.pendingAssociationTableFacts,
   );
 
-  return groveContextData.associationTableFact.all
-    .map((fact) => {
-      return pendingFact[fact.widgetId]?.[fact.factId] ?? fact;
-    })
-    .map(computeAssociationTableFactSummary);
+  return groveContextData.associationTableFact.all.map((fact) => {
+    const f = pendingFact[fact.widgetId]?.[fact.factId] ?? fact;
+    return computeAssociationTableFactSummary(
+      groveContextData,
+      pendingState(f.widgetId),
+      f,
+    );
+  });
 }

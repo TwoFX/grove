@@ -5,6 +5,7 @@ import {
   AssociationTableState,
   Declaration,
   Section,
+  ShowDeclarationDefinition,
   ShowDeclarationFact,
   TableDefinition,
   TableFact,
@@ -71,6 +72,7 @@ export interface GroveContextData {
   section: {
     [sectionId: string]: Section;
   };
+  showDeclarationDefinition: StateRegistry<ShowDeclarationDefinition>;
   showDeclarationFact: FactRegistry<ShowDeclarationFact>;
   associationTableFact: FactRegistry<AssociationTableFact>;
   associationTableState: StateRegistry<AssociationTableState>;

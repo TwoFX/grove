@@ -40,22 +40,25 @@ function convertRow(
   };
 }
 
-export function useAssociations(
+export function useAssociations(): (
   source: TableAssociationSource,
-): TableAssociation[] {
+) => TableAssociation[] {
   const context = useContext(GroveContext);
   const pendingTableState = usePendingAssociationTableState();
 
-  switch (source.constructor) {
-    case "table":
-      const state = pendingTableState(source.table);
-      const definition = context.associationTableDefinition.byId[source.table];
-      if (state && definition) {
-        return state.rows.map((row) => convertRow(definition, row));
-      } else {
-        return [];
-      }
-    case "const":
-      return source.const.associations;
-  }
+  return (source) => {
+    switch (source.constructor) {
+      case "table":
+        const state = pendingTableState(source.table);
+        const definition =
+          context.associationTableDefinition.byId[source.table];
+        if (state && definition) {
+          return state.rows.map((row) => convertRow(definition, row));
+        } else {
+          return [];
+        }
+      case "const":
+        return source.const.associations;
+    }
+  };
 }

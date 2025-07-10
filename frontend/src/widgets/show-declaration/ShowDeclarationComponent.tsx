@@ -24,6 +24,7 @@ function ShowDeclarationFactComponent({
   factId: string;
   newState: Declaration;
 }): JSX.Element {
+  const context = useContext(GroveContext);
   const fact = usePendingShowDeclarationFact()(widgetId, factId);
   const setPendingFact = useGroveStore(
     (state) => state.setPendingShowDeclarationFact,
@@ -45,7 +46,7 @@ function ShowDeclarationFactComponent({
 
   return (
     <Fact
-      fact={fact && computeShowDeclarationFactSummary(fact)}
+      fact={fact && computeShowDeclarationFactSummary(context, fact)}
       onAssert={onAssert}
     />
   );

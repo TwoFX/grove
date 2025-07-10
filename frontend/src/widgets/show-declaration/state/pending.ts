@@ -3,6 +3,7 @@ import { ShowDeclarationFact } from "@/lib/transfer/project";
 import { GroveContext } from "@/lib/transfer/context";
 import { useContext } from "react";
 import { FactSummary } from "@/lib/fact/summary";
+import { GroveContextData } from "@/lib/transfer/contextdata";
 
 export function usePendingShowDeclarationFact(): (
   widgetId: string,
@@ -25,13 +26,15 @@ export function useCountPendingShowDeclarationFacts(): number {
 }
 
 export function computeShowDeclarationFactSummary(
+  context: GroveContextData,
   fact: ShowDeclarationFact,
 ): FactSummary {
   return {
     widgetId: fact.widgetId,
+    widgetTitle: context.showDeclarationDefinition.byId[fact.widgetId].name,
     factId: fact.factId,
-    href: "",
-    summary: "Summary",
+    href: `/section/${context.parentSection[fact.widgetId]}`,
+    summary: "n/A",
     metadata: fact.metadata,
     validationResult: fact.validationResult,
   };
@@ -43,9 +46,10 @@ export function useShowDeclarationFactSummaries(): FactSummary[] {
     (state) => state.pendingShowDeclarationFacts,
   );
 
-  return groveContextData.showDeclarationFact.all
-    .map((fact) => {
-      return pendingFact[fact.widgetId]?.[fact.factId] ?? fact;
-    })
-    .map(computeShowDeclarationFactSummary);
+  return groveContextData.showDeclarationFact.all.map((fact) => {
+    return computeShowDeclarationFactSummary(
+      groveContextData,
+      pendingFact[fact.widgetId]?.[fact.factId] ?? fact,
+    );
+  });
 }

@@ -197,8 +197,10 @@ export function TableFactComponent({
   const templates = useContext(GroveTemplateContext);
   const pendingFact = usePendingTableFact();
   const setPendingFact = useGroveStore((state) => state.setPendingTableFact);
-  const rowAssociations = useAssociations(definition.rowSource);
-  const columnAssociations = useAssociations(definition.columnSource);
+  const associations = useAssociations();
+
+  const rowAssociations = associations(definition.rowSource);
+  const columnAssociations = associations(definition.columnSource);
 
   const identifier = buildFactIdentifier(
     selectedCell.rowAssociationId,
@@ -253,6 +255,9 @@ export function TableFactComponent({
     });
 
   return (
-    <Fact fact={fact && computeTableFactSummary(fact)} onAssert={onAssert} />
+    <Fact
+      fact={fact && computeTableFactSummary(context, associations, fact)}
+      onAssert={onAssert}
+    />
   );
 }

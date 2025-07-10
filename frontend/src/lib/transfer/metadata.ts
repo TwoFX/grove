@@ -80,6 +80,7 @@ function createContextData(): GroveContextData {
     rootNode: rootNode,
     projectMetadata: projectMetadata,
     section: {},
+    showDeclarationDefinition: emptyStateRegistry(),
     showDeclarationFact: emptyFactRegistry(),
     associationTableFact: emptyFactRegistry(),
     associationTableState: emptyStateRegistry(),
@@ -100,6 +101,11 @@ function createContextData(): GroveContextData {
       );
     } else if (node.constructor === "showDeclaration") {
       id = node.showDeclaration.definition.id;
+      addToStateRegistry(
+        contextData.showDeclarationDefinition,
+        node.showDeclaration.definition.id,
+        node.showDeclaration.definition,
+      );
       node.showDeclaration.facts.forEach((fact) => {
         addToFactRegistry(
           contextData.showDeclarationFact,

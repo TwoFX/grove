@@ -13,8 +13,10 @@ export function LayerRowColumnSelector({
   state: TableState;
   setState: (state: TableState) => void;
 }): JSX.Element {
-  const rowAssociations = useAssociations(definition.rowSource);
-  const columnAssociations = useAssociations(definition.columnSource);
+  const associations = useAssociations();
+
+  const rowAssociations = associations(definition.rowSource);
+  const columnAssociations = associations(definition.columnSource);
 
   const possibleRows: StyledListboxOption[] = rowAssociations.map((assoc) => ({
     key: assoc.id,

@@ -45,8 +45,7 @@ where
       | some old, some new =>
           match kind.describeDifferences old.state new.state with
           | none => #[]
-          | some descr => #[s!"Selected value `{kind.displayShort old.state}:", descr]
-      ) |>.toList
+          | some descr => #[s!"Selected value `{kind.displayShort old.state}`:", descr]) |>.toList
   describeSingleStateDifference (name : String) {kind : DataKind} (old new : Option (SingleState kind)) :
       List Markdown.Paragraph :=
     match old, new with
