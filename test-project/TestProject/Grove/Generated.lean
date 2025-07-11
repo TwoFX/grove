@@ -1,4 +1,5 @@
 import Grove.Framework
+import TestProject.Grove.Generated.«no-option-to-vector»
 import TestProject.Grove.Generated.«show-option-mapa»
 import TestProject.Grove.Generated.«list-array-operations»
 import TestProject.Grove.Generated.«list-array-lemmas»
@@ -13,6 +14,7 @@ open Grove.Framework Widget
 namespace TestProject.Grove.Generated
 
 def restoreState : RestoreStateM Unit := do
+  «no-option-to-vector».restoreState
   «show-option-mapa».restoreState
   «list-array-operations».restoreState
   «list-array-lemmas».restoreState

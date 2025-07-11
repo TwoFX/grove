@@ -15,7 +15,7 @@ def «{{factId}}» : Assertion.Fact where
   factId := {{leanString factId}}
   assertionId := {{leanString assertionId}}
   state := {
-{{#with result}}
+{{#with state}}
     assertionId := {{leanString assertionId}}
     description := {{leanString description}}
     passed := {{passed}}
@@ -25,7 +25,7 @@ def «{{factId}}» : Assertion.Fact where
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
 {{/each}}
 
-def table : AssociationTable.Data {{dataKind definition/dataKind}} where
+def table : Assertion.Data {{dataKind definition/dataKind}} where
   widgetId := {{leanString definition/widgetId}}
   facts := #[
 {{#each facts}}

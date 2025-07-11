@@ -237,12 +237,11 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2d
       layerIdentifier := "List"
       rowState := 
         
-        some ⟨"List.filter", .declaration (Declaration.def {
-            name := `List.filter
-            renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"List.filter", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `List.filter,
+              renderedStatement := "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+              isDeprecated := false })⟩
         
       columnState := 
         
@@ -255,12 +254,11 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2d
       layerIdentifier := "Array"
       rowState := 
         
-        some ⟨"Array.filter", .declaration (Declaration.def {
-            name := `Array.filter
-            renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"Array.filter", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `Array.filter,
+              renderedStatement := "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+              isDeprecated := false })⟩
         
       columnState := 
         

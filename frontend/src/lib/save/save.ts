@@ -78,8 +78,6 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
     node: Node,
   ): Promise<string[]> {
     switch (node.constructor) {
-      case "assertion":
-        return [];
       case "namespace":
         return [];
       case "section":

@@ -12,6 +12,7 @@ export function AssertionComponent({
       id={assertion.definition.widgetId}
       widgetType="Assertion"
       title={assertion.definition.title}
+      link="assertion"
     >
       <>
         <div>{assertion.definition.description}</div>
