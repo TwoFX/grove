@@ -59,7 +59,7 @@ export function declarationStateRepr(
 export function nodeKey(node: Node): string {
   switch (node.constructor) {
     case "assertion":
-      return node.assertion.id;
+      return node.assertion.definition.widgetId;
     case "namespace":
       return node.namespace; //  TODO
     case "section":

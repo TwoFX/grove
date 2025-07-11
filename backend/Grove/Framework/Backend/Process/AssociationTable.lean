@@ -227,7 +227,7 @@ def processAssociationTable {kind : DataKind} {β : Type} [HasId β] [DisplaySho
     columns := columns
   }
 
-  let some savedData ← RenderM.findAssociationTable? kind t.id
+  let some savedData ← findAssociationTable? kind t.id
     | return ⟨definition, ⟨#[]⟩, #[]⟩
 
   let cellValueMap : Std.HashMap (String × String) String :=

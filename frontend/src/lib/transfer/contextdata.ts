@@ -1,5 +1,7 @@
 import { InvalidatedFact } from "./invalidated";
 import {
+  AssertionDefinition,
+  AssertionFact,
   AssociationTableDefinition,
   AssociationTableFact,
   AssociationTableState,
@@ -77,6 +79,8 @@ export interface GroveContextData {
   associationTableFact: FactRegistry<AssociationTableFact>;
   associationTableState: StateRegistry<AssociationTableState>;
   associationTableDefinition: StateRegistry<AssociationTableDefinition>;
+  assertionDefinition: StateRegistry<AssertionDefinition>;
+  assertionFact: FactRegistry<AssertionFact>;
   tableFact: FactRegistry<TableFact>;
   tableState: StateRegistry<TableState>;
   tableDefinition: StateRegistry<TableDefinition>;

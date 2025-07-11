@@ -9,15 +9,16 @@ export function AssertionComponent({
 }): JSX.Element {
   return (
     <LeafWidget
-      id={assertion.id}
+      id={assertion.definition.widgetId}
       widgetType="Assertion"
-      title={assertion.title}
+      title={assertion.definition.title}
     >
       <>
-        <span className="font-bold">
-          {assertion.success ? "Success: " : "Failure: "}
-        </span>
-        <span>{assertion.message}</span>
+        <div>{assertion.definition.description}</div>
+        <div>
+          {assertion.definition.results.filter((res) => res.passed).length}/
+          {assertion.definition.results.length} assertions pass.
+        </div>
       </>
     </LeafWidget>
   );

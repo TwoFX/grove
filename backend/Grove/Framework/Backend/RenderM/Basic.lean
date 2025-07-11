@@ -37,23 +37,6 @@ def RenderM.modifyGetM {α β : Type} (f : RenderState → α → MetaM (RenderS
 def getDeclaration (n : Name) : RenderM Declaration :=
   RenderM.modifyGetM RenderState.getDeclaration n
 
-def getSavedState : RenderM SavedState :=
-  readThe SavedState
-
-def RenderM.findAssociationTable? (kind : DataKind) (widgetId : String) :
-    RenderM (Option (AssociationTable.Data kind)) := do
-  let savedData := (← getSavedState).getAssociationTable widgetId kind
-  match savedData with
-  | .error .incompatibleDataKind => return none -- could warn here :shrug:
-  | .ok maybeTable => return maybeTable
-
-def RenderM.findTable? (rowKind columnKind cellKind : DataKind) (widgetId : String) :
-    RenderM (Option (Table.Data rowKind columnKind cellKind)) := do
-  let savedData := (← getSavedState).getTable widgetId rowKind columnKind cellKind
-  match savedData with
-  | .error .incompatibleDataKind => return none -- could warn here :shrug:
-  | .ok maybeTable => return maybeTable
-
 def RenderM.run {α : Type} (s : SavedState) (r : RenderM α) : MetaM (α × RenderState) :=
   (StateRefT'.run r { }).run s
 

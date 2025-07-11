@@ -302,7 +302,7 @@ def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {
     let possibleValues : Vector (Array kind.Key) layerIdentifiers.length ←
       Vector.ofFnM (fun idx => (t.dataSources layerIdentifiers[idx]).getAll)
 
-    let some tableData ← RenderM.findAssociationTable? kind t.id
+    let some tableData ← findAssociationTable? kind t.id
       | return ⟨.table t.id, possibleValues, ∅⟩
 
     let associations ← tableData.rows.foldlM (init := ∅) (fun sofar row => row.columns.foldlM (init := sofar) (fun sofar cell => do
@@ -447,7 +447,7 @@ def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [
     cells
   }
 
-  let some savedData ← RenderM.findTable? rowKind columnKind cellKind t.id
+  let some savedData ← findTable? rowKind columnKind cellKind t.id
     | return ⟨definition, ⟨#[], #[], #[], #[]⟩, #[]⟩
 
   let state : Data.Table.State := {

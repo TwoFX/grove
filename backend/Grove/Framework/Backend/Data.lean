@@ -14,19 +14,6 @@ open Widget JTD
 
 namespace Data
 
-structure Assertion where
-  id : String
-  title : String
-  success : Bool
-  message : String
-
-instance : SchemaFor Assertion :=
-  .structure "assertion"
-    [.single "id" Assertion.id,
-     .single "title" Assertion.title,
-     .single "success" Assertion.success,
-     .single "message" Assertion.message]
-
 structure Theorem where
   name : String
   renderedStatement : String

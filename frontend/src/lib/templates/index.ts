@@ -1,4 +1,6 @@
 import {
+  AssertionDefinition,
+  AssertionFact,
   AssociationTableDefinition,
   AssociationTableFact,
   AssociationTableState,
@@ -19,6 +21,7 @@ export interface TemplateStrings {
   declaration: string;
   metadataPartial: string;
   declarationPartial: string;
+  assertion: string;
 }
 
 export interface Widget<TDefinition, TState, TFact> {
@@ -47,4 +50,7 @@ export interface Templates {
     Widget<TableDefinition, TableState, TableFact>
   >;
   declaration: HandlebarsTemplateDelegate<Declaration>;
+  assertion: HandlebarsTemplateDelegate<
+    Widget<AssertionDefinition, void, AssertionFact>
+  >;
 }

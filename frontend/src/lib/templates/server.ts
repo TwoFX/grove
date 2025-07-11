@@ -21,4 +21,5 @@ export const templates: TemplateStrings = {
   ),
   table: readTemplate("widgets/table/save/table.template"),
   declaration: readTemplate("lib/templates/declaration.template"),
+  assertion: readTemplate("widgets/assertion/save/assertion.template"),
 };

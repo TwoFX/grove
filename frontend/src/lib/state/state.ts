@@ -12,6 +12,10 @@ import {
   createAssociationTableSlice,
 } from "@/widgets/association-table/state/create";
 import { createTableSlice, TableSlice } from "@/widgets/table/state/create";
+import {
+  AssertionSlice,
+  createAssertionSlice,
+} from "@/widgets/assertion/state/create";
 
 export interface HasHydratedSlice {
   hasHydrated: boolean;
@@ -38,6 +42,7 @@ export type GroveState = HasHydratedSlice &
   UISlice &
   ShowDeclarationSlice &
   AssociationTableSlice &
+  AssertionSlice &
   TableSlice;
 
 export const useGroveStore = create<GroveState>()(
@@ -48,6 +53,7 @@ export const useGroveStore = create<GroveState>()(
       ...createUISlice(...a),
       ...createShowDeclarationSlice(...a),
       ...createAssociationTableSlice(...a),
+      ...createAssertionSlice(...a),
       ...createTableSlice(...a),
     }),
     {

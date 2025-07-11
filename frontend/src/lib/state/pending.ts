@@ -14,6 +14,10 @@ import {
   useCountPendingTableStates,
   useTableFactSummaries,
 } from "@/widgets/table/state/pending";
+import {
+  useAssertionFactSummaries,
+  useCountPendingAssertionFacts,
+} from "@/widgets/assertion/state/pending";
 
 export function useCountPendingChanges(): number {
   const showDeclarationFact = useCountPendingShowDeclarationFacts();
@@ -21,13 +25,15 @@ export function useCountPendingChanges(): number {
   const associationTableFact = useCountPendingAssociationTableFacts();
   const tableState = useCountPendingTableStates();
   const tableFact = useCountPendingTableFacts();
+  const assertionFact = useCountPendingAssertionFacts();
 
   return (
     showDeclarationFact +
     associationTableState +
     associationTableFact +
     tableState +
-    tableFact
+    tableFact +
+    assertionFact
   );
 }
 
@@ -38,6 +44,7 @@ export function useClearPendingChanges(): () => void {
     clearPendingAssociationTableStates,
     clearPendingTableFacts,
     clearPendingTableStates,
+    clearPendingAssertionFacts,
   } = useGroveStore();
 
   return () => {
@@ -46,6 +53,7 @@ export function useClearPendingChanges(): () => void {
     clearPendingAssociationTableStates();
     clearPendingTableFacts();
     clearPendingTableStates();
+    clearPendingAssertionFacts();
   };
 }
 
@@ -53,6 +61,7 @@ export function useFactSummaries(): FactSummary[] {
   const showDeclaration = useShowDeclarationFactSummaries();
   const associationTable = useAssociationTableFactSummaries();
   const table = useTableFactSummaries();
+  const assertion = useAssertionFactSummaries();
 
-  return [...showDeclaration, ...associationTable, ...table];
+  return [...showDeclaration, ...associationTable, ...table, ...assertion];
 }

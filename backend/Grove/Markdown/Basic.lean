@@ -9,6 +9,7 @@ namespace Grove.Markdown
 inductive Paragraph where
   | text : String → Paragraph
   | codeBlock : String → Paragraph
+  | blockQuote : String → Paragraph
 
 instance : Coe String Paragraph where
   coe := .text
@@ -16,6 +17,7 @@ instance : Coe String Paragraph where
 def Paragraph.render : Paragraph → String
   | text t => t
   | codeBlock c => s!"```\n{c}{if c.endsWith "\n" then "" else "\n"}```"
+  | blockQuote b => String.intercalate "\n" <| List.map ("> " ++ ·) <| b.splitOn "\n"
 
 def render (l : List Paragraph) : String :=
   String.intercalate "\n\n" (l.map Paragraph.render)

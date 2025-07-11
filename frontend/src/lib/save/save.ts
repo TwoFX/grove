@@ -1,5 +1,6 @@
 import { useRenderShowDeclaration } from "@/widgets/show-declaration/save";
 import {
+  AssertionDefinition,
   AssociationTableDefinition,
   Node,
   ShowDeclarationDefinition,
@@ -10,6 +11,7 @@ import { GroveTemplateContext } from "../templates/context";
 import { GroveContext } from "../transfer/context";
 import { useContext } from "react";
 import { useRenderTable } from "@/widgets/table/save";
+import { useRenderAssertion } from "@/widgets/assertion/save";
 
 async function writeWidget<T>(
   dirHandle: FileSystemDirectoryHandle,
@@ -43,6 +45,7 @@ export interface Renderers {
     associationTable: AssociationTableDefinition,
   ) => string;
   renderTable: (table: TableDefinition) => string;
+  renderAssertion: (assertion: AssertionDefinition) => string;
 }
 
 export function useRenderers(): Renderers {
@@ -50,12 +53,14 @@ export function useRenderers(): Renderers {
   const renderGeneratedFile = useRenderGeneratedFile();
   const renderAssociationTable = useRenderAssociationTable();
   const renderTable = useRenderTable();
+  const renderAssertion = useRenderAssertion();
 
   return {
     renderShowDeclaration,
     renderGeneratedFile,
     renderAssociationTable,
     renderTable,
+    renderAssertion,
   };
 }
 
@@ -98,6 +103,14 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
           renderers.renderAssociationTable,
         );
         return [associationTableId];
+      case "assertion":
+        const assertionId = await writeWidget(
+          dirHandle,
+          node.assertion.definition,
+          node.assertion.definition.widgetId,
+          renderers.renderAssertion,
+        );
+        return [assertionId];
       case "table":
         const tableId = await writeWidget(
           dirHandle,

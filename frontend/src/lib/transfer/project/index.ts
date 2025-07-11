@@ -3,10 +3,31 @@
 export type Project = Project0;
 
 export interface Assertion {
-  id: string;
-  message: string;
-  success: boolean;
+  definition: AssertionDefinition;
+  facts: AssertionFact[];
+}
+
+export interface AssertionDefinition {
+  description: string;
+  results: AssertionResult[];
   title: string;
+  widgetId: string;
+}
+
+export interface AssertionFact {
+  assertionId: string;
+  factId: string;
+  metadata: FactMetadata;
+  state: AssertionResult;
+  validationResult: FactValidationResult;
+  widgetId: string;
+}
+
+export interface AssertionResult {
+  assertionId: string;
+  description: string;
+  message: string;
+  passed: boolean;
 }
 
 export interface AssociationTable {

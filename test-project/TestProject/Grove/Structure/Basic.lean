@@ -15,13 +15,14 @@ def designNotes : Node :=
   .text "Here I can put design notes about the *containers library*."
 
 def noOptionToVector : Assertion where
-  id := "no-option-to-vector"
-  title := "There is no declaration called 'Option.toVector'"
+  widgetId := "no-option-to-vector"
+  title := "No Option.toVector"
+  description := "There is no declaration called 'Option.toVector'"
   check := do
     if (← getEnv).contains `Option.toVector then
-      return .failure "Oh no, there is something called 'Option.toVector'!"
+      return #[.failure "0" "n/A" "Oh no, there is something called 'Option.toVector'!"]
     else
-      return .success "As expected, 'Option.toVector' does not exist."
+      return #[.success "0" "n/A" "As expected, 'Option.toVector' does not exist."]
 
 def optionMapALooksNice : ShowDeclaration where
   id := "show-option-mapa"

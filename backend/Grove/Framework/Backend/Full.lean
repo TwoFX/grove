@@ -100,16 +100,6 @@ instance : SchemaFor InvalidatedFacts :=
 
 end Data
 
-
-def processAssertion (a : Assertion) : RenderM Data.Assertion := do
-  let result ← a.check
-  return {
-    id := a.id
-    title := a.title
-    success := result.passed
-    message := result.message
-  }
-
 def processTheorem (t : Theorem) : Data.Theorem :=
   { t with name := t.name.toString }
 
@@ -175,7 +165,7 @@ where
     | .associationTable t => exploreFacts t.facts
     | .table t => exploreFacts t.facts
     | .namespace _ => return ()
-    | .assertion _ => return ()
+    | .assertion a => exploreFacts a.facts
     | .showDeclaration s => s.facts.forM (exploreShowDeclarationFact s.definition.id)
     | .text _ => return ()
   exploreFacts {α : Type} [ValidatedFact α] (facts : Array α) :

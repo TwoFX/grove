@@ -229,7 +229,7 @@
         "associationTable": {
           "properties": { "associationTable": { "ref": "associationTable" } }
         },
-        "assertion": { "properties": { "assertion": { "ref": "assertion" } } }
+        "assertion": { "properties": { "assertion": { "ref": "Assertion" } } }
       },
       "discriminator": "constructor"
     },
@@ -352,12 +352,36 @@
         "definition": { "ref": "associationTableDefinition" }
       }
     },
-    "assertion": {
+    "AssertionResult": {
       "properties": {
-        "title": { "type": "string" },
-        "success": { "type": "boolean" },
+        "passed": { "type": "boolean" },
         "message": { "type": "string" },
-        "id": { "type": "string" }
+        "description": { "type": "string" },
+        "assertionId": { "type": "string" }
+      }
+    },
+    "AssertionFact": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "validationResult": { "ref": "factValidationResult" },
+        "state": { "ref": "AssertionResult" },
+        "metadata": { "ref": "factMetadata" },
+        "factId": { "type": "string" },
+        "assertionId": { "type": "string" }
+      }
+    },
+    "AssertionDefinition": {
+      "properties": {
+        "widgetId": { "type": "string" },
+        "title": { "type": "string" },
+        "results": { "elements": { "ref": "AssertionResult" } },
+        "description": { "type": "string" }
+      }
+    },
+    "Assertion": {
+      "properties": {
+        "facts": { "elements": { "ref": "AssertionFact" } },
+        "definition": { "ref": "AssertionDefinition" }
       }
     }
   }

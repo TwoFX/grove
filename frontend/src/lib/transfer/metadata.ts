@@ -87,6 +87,8 @@ function createContextData(): GroveContextData {
     associationTableFact: emptyFactRegistry(),
     associationTableState: emptyStateRegistry(),
     associationTableDefinition: emptyStateRegistry(),
+    assertionDefinition: emptyStateRegistry(),
+    assertionFact: emptyFactRegistry(),
     tableFact: emptyFactRegistry(),
     tableState: emptyStateRegistry(),
     tableDefinition: emptyStateRegistry(),
@@ -112,6 +114,21 @@ function createContextData(): GroveContextData {
         addToFactRegistry(
           contextData.showDeclarationFact,
           node.showDeclaration.definition.id,
+          fact.factId,
+          fact,
+        );
+      });
+    } else if (node.constructor === "assertion") {
+      id = node.assertion.definition.widgetId;
+      addToStateRegistry(
+        contextData.assertionDefinition,
+        node.assertion.definition.widgetId,
+        node.assertion.definition,
+      );
+      node.assertion.facts.forEach((fact) => {
+        addToFactRegistry(
+          contextData.assertionFact,
+          node.assertion.definition.widgetId,
           fact.factId,
           fact,
         );
