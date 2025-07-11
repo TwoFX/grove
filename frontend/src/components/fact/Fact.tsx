@@ -1,4 +1,7 @@
+import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
 import { FactSummary } from "@/lib/fact/summary";
+import { GroveContext } from "@/lib/transfer/context";
+import { GroveContextData } from "@/lib/transfer/contextdata";
 import { FactMetadata, FactStatus } from "@/lib/transfer/project";
 import {
   Dialog,
@@ -9,7 +12,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { JSX, ReactElement, useState } from "react";
+import { JSX, ReactElement, useContext, useState } from "react";
 import {
   BsCheckLg,
   BsClock,
@@ -38,8 +41,10 @@ function FactStatusIcon({
   }
 }
 
-function factColor(fact: FactSummary): string {
-  if (fact.validationResult.constructor === "invalidated") {
+function factColor(context: GroveContextData, fact: FactSummary): string {
+  if (isNewlyInvalidatedFact(context, fact)) {
+    return "bg-red-100 text-red-800 border-red-200";
+  } else if (fact.validationResult.constructor === "invalidated") {
     return "bg-orange-100 text-orange-800 border-orange-200";
   }
 
@@ -104,9 +109,11 @@ function FactContent({ fact }: { fact: FactSummary }): JSX.Element {
 }
 
 function FactBar({ fact }: { fact: FactSummary }): JSX.Element {
+  const context = useContext(GroveContext);
+
   return (
     <div
-      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${factColor(fact)}`}
+      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${factColor(context, fact)}`}
     >
       <FactContent fact={fact} />
     </div>
