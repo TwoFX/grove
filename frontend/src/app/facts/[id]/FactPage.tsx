@@ -34,13 +34,13 @@ export function FactPage({ sectionId }: { sectionId: string }): JSX.Element {
   const newlyInvalidatedFacts = factSummaries.filter(
     (fact) =>
       fact.validationResult.constructor === "invalidated" &&
-      isNewlyInvalidatedFact(context, fact) &&
+      isNewlyInvalidatedFact(context, fact.widgetId, fact.factId) &&
       isFactInSection(context, fact, sectionId),
   );
   const invalidatedFacts = factSummaries.filter(
     (fact) =>
       fact.validationResult.constructor === "invalidated" &&
-      !isNewlyInvalidatedFact(context, fact) &&
+      !isNewlyInvalidatedFact(context, fact.widgetId, fact.factId) &&
       isFactInSection(context, fact, sectionId),
   );
 

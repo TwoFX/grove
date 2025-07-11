@@ -1,8 +1,7 @@
-import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
 import { FactSummary } from "@/lib/fact/summary";
 import { GroveContext } from "@/lib/transfer/context";
-import { GroveContextData } from "@/lib/transfer/contextdata";
 import { FactMetadata, FactStatus } from "@/lib/transfer/project";
+import { factColor, getStatusColors } from "@/lib/fact/color";
 import {
   Dialog,
   DialogPanel,
@@ -38,31 +37,6 @@ function FactStatusIcon({
       return <BsCheckLg />;
     case FactStatus.Postponed:
       return <BsClock />;
-  }
-}
-
-function factColor(context: GroveContextData, fact: FactSummary): string {
-  if (isNewlyInvalidatedFact(context, fact)) {
-    return "bg-red-100 text-red-800 border-red-200";
-  } else if (fact.validationResult.constructor === "invalidated") {
-    return "bg-orange-100 text-orange-800 border-orange-200";
-  }
-
-  return getStatusColors(fact.metadata.status);
-}
-
-function getStatusColors(status: FactStatus): string {
-  switch (status) {
-    case FactStatus.Done:
-      return "bg-green-100 text-green-800 border-green-200";
-    case FactStatus.Bad:
-      return "bg-red-100 text-red-800 border-red-200";
-    case FactStatus.BelievedGood:
-      return "bg-blue-100 text-blue-800 border-blue-200";
-    case FactStatus.NothingToDo:
-      return "bg-gray-100 text-gray-800 border-gray-200";
-    case FactStatus.Postponed:
-      return "bg-yellow-100 text-yellow-800 border-yellow-200";
   }
 }
 
@@ -113,7 +87,13 @@ function FactBar({ fact }: { fact: FactSummary }): JSX.Element {
 
   return (
     <div
-      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${factColor(context, fact)}`}
+      className={`inline-flex items-center space-x-1 px-2 rounded-full text-xs font-medium border ${factColor(
+        context,
+        fact.widgetId,
+        fact.factId,
+        fact.validationResult,
+        fact.metadata.status,
+      )}`}
     >
       <FactContent fact={fact} />
     </div>

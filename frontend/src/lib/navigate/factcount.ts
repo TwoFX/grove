@@ -22,7 +22,11 @@ export function useComputeFactCounts(): FactCountContextData {
     if (fact.validationResult.constructor !== "invalidated") {
       continue;
     }
-    const newlyInvalidated = isNewlyInvalidatedFact(context, fact);
+    const newlyInvalidated = isNewlyInvalidatedFact(
+      context,
+      fact.widgetId,
+      fact.factId,
+    );
 
     let section: string | undefined = fact.widgetId;
     while (section) {

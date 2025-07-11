@@ -1,8 +1,10 @@
-import { JSX } from "react";
+import { JSX, useContext } from "react";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 import { buildFactId, buildFactIdentifier } from "./fact";
-import { FactStatus, TableAssociation } from "@/lib/transfer/project";
+import { TableAssociation } from "@/lib/transfer/project";
 import { usePendingTableFact } from "../state/pending";
+import { GroveContext } from "@/lib/transfer/context";
+import { factBackgroundColor } from "@/lib/fact/color";
 
 function TableCellEntry({
   rowAssociation,
@@ -53,6 +55,7 @@ export function TableCell({
   columnAssociation: TableAssociation | undefined;
 }): JSX.Element {
   const pendingTableFact = usePendingTableFact();
+  const context = useContext(GroveContext);
 
   if (!rowAssociation || !columnAssociation) {
     return (
@@ -68,28 +71,15 @@ export function TableCell({
     ),
   );
   const fact = pendingTableFact(widgetId, factId);
-  let color: string;
-  if (!fact) {
-    color = "";
-  } else {
-    switch (fact.metadata.status) {
-      case FactStatus.Done:
-        color = "bg-green-100";
-        break;
-      case FactStatus.Bad:
-        color = "bg-red-100";
-        break;
-      case FactStatus.BelievedGood:
-        color = "bg-blue-100";
-        break;
-      case FactStatus.NothingToDo:
-        color = "bg-gray-100";
-        break;
-      case FactStatus.Postponed:
-        color = "bg-yellow-100";
-        break;
-    }
-  }
+  const color = fact
+    ? factBackgroundColor(
+        context,
+        fact.widgetId,
+        fact.factId,
+        fact.validationResult,
+        fact.metadata.status,
+      )
+    : "";
 
   return (
     <div className={`flex h-full w-full justify-center items-center ${color}`}>
