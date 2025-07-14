@@ -23,7 +23,7 @@ export function useRenderTable(): (table: TableDefinition) => string {
   return (definition) => {
     const state = getState(definition.widgetId) ?? emptyTableState();
 
-    const baseFacts = context.tableFact.byId[definition.widgetId];
+    const baseFacts = context.tableFact.byId[definition.widgetId] ?? {};
     const pendings = Object.values(pendingFacts[definition.widgetId] ?? {});
 
     const pendingFactIds = new Set(pendings.map((fact) => fact.factId));
