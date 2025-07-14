@@ -23,6 +23,9 @@ def getElem (containerType : Name) (indexType : Option Name := none) : DataSourc
     Subexpression.getElem! containerType indexType,
   ]
 
+def emptyCollection (containerType : Name) : DataSource .subexpression :=
+  .ofArray #[Subexpression.emptyCollection containerType]
+
 end DataSource
 
 end Grove.Framework

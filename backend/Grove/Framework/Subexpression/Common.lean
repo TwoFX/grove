@@ -34,6 +34,13 @@ def getElem? (containerType : Name) (indexType : Option Name := none) : Subexpre
 def getElem! (containerType : Name) (indexType : Option Name := none) : Subexpression :=
   .predicate <| getElemGeneric ``GetElem?.getElem! "!" containerType indexType
 
+def emptyCollection (containerType : Name) : Subexpression :=
+  .predicate {
+    displayShort := "∅"
+    predicate := .app (.const ``EmptyCollection.emptyCollection) (.appOf containerType)
+    computeTargetNamespace n _ := pure n
+  }
+
 end Subexpression
 
 end Grove.Framework
