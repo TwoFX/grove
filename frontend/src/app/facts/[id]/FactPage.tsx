@@ -4,12 +4,13 @@ import "react-data-grid/lib/styles.css";
 import { Fact } from "@/components/fact/Fact";
 import { FactSummary } from "@/lib/fact/summary";
 import { useFactSummaries } from "@/lib/state/pending";
-import { JSX, useContext } from "react";
+import { JSX, useContext, useEffect } from "react";
 import { Column, DataGrid } from "react-data-grid";
 import { FiExternalLink } from "react-icons/fi";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { GroveContext } from "@/lib/transfer/context";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
+import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 
 function isFactInSection(
   context: GroveContextData,
@@ -30,6 +31,7 @@ function isFactInSection(
 export function FactPage({ sectionId }: { sectionId: string }): JSX.Element {
   const context = useContext(GroveContext);
   const factSummaries = useFactSummaries();
+  const { setBreadcrumb } = useContext(BreadcrumbContext);
 
   const newlyInvalidatedFacts = factSummaries.filter(
     (fact) =>
@@ -43,6 +45,15 @@ export function FactPage({ sectionId }: { sectionId: string }): JSX.Element {
       !isNewlyInvalidatedFact(context, fact.widgetId, fact.factId) &&
       isFactInSection(context, fact, sectionId),
   );
+
+  const sectionTitle = context.section[sectionId].title;
+
+  useEffect(() => {
+    setBreadcrumb({
+      id: sectionId,
+      title: `Facts: ${sectionTitle}`,
+    });
+  }, [setBreadcrumb, sectionTitle, sectionId]);
 
   const facts = [...newlyInvalidatedFacts, ...invalidatedFacts];
 
