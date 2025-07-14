@@ -25,6 +25,7 @@ def perform (p : Project) (imports : Array Name) (fullFileName? invalidatedFileN
     openDecls := [],     -- No 'open' directives needed
     fileName := "<stdin>",
     fileMap := { source := "", positions := #[0] }
+    maxHeartbeats := 0
   }
   match ← ((Grove.Framework.Backend.Full.render p).run'.run' coreContext { env }).toBaseIO with
   | .error exception =>
