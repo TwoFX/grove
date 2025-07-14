@@ -118,9 +118,9 @@ function buildLayerState(
   const [rowLayer, , colLayer] = rowCol;
 
   const relevantOptions =
-    cellData.cellOptions[layerDataKey(rowLayer.data)][
+    cellData.cellOptions[layerDataKey(rowLayer.data)]?.[
       layerDataKey(colLayer.data)
-    ][layerIdentifier];
+    ]?.[layerIdentifier] ?? [];
 
   const relevantSelectedCellOptionIds =
     selectedCellOptions.find((opt) => opt.layerIdentifier === layerIdentifier)
