@@ -88,6 +88,13 @@ def findTable? {m : Type → Type} [Monad m] [MonadReaderOf SavedState m]
   | .error .incompatibleDataKind => return none -- could warn here :shrug:
   | .ok maybeTable => return maybeTable
 
+-- TODO: make this more type-safe
+def valuesInAssociationTable {m : Type → Type} [Monad m] [MonadReaderOf SavedState m]
+    {β : Type} {columnIdentifiers : List β}
+    {kind : DataKind} (table : AssociationTable kind columnIdentifiers) : m (Array String) := do
+  let some table ← findAssociationTable? kind table.id | return #[]
+  return table.rows.flatMap (fun row => row.columns.map (·.cellValue))
+
 def findAssertion? {m : Type → Type} [Monad m] [MonadReaderOf SavedState m] (widgetId : String) :
     m (Option Assertion.Data) :=
   return (← getSavedState).getAssertion widgetId
