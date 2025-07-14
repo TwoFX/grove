@@ -131,7 +131,7 @@ function FactDialog({
             {onAssert ? "Edit fact" : "View fact"}
           </DialogTitle>
           <hr className="border-gray-200" />
-          {children}
+          <div className="max-h-[70vh] overflow-y-auto">{children}</div>
           <hr className="border-gray-200" />
           {onAssert && (
             <>
