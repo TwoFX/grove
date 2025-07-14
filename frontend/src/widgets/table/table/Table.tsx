@@ -50,7 +50,8 @@ export function Table({
       .map((assoc) => ({
         key: assoc.id,
         minWidth: 60,
-        maxWidth: 60,
+        maxWidth: 100,
+        resizable: true,
         name: assoc.title,
         renderHeaderCell({ column }: { column: Column<Row> }) {
           return <div className="rotate-90">{column.name}</div>;
