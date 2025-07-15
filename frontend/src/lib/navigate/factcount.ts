@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import { useFactSummaries } from "../state/pending";
 import { isNewlyInvalidatedFact } from "../fact/invalidated";
 import { GroveContext } from "../transfer/context";
+import { InvalidatedFactsContext } from "../fact/invalidated/context";
 
 export interface InvalidatedFactCounts {
   newlyInvalidatedFacts: number;
@@ -14,6 +15,7 @@ export interface FactCountContextData {
 
 export function useComputeFactCounts(): FactCountContextData {
   const context = useContext(GroveContext);
+  const invalidated = useContext(InvalidatedFactsContext);
   const factSummaries = useFactSummaries();
 
   const result: FactCountContextData = { factCount: {} };
@@ -23,7 +25,7 @@ export function useComputeFactCounts(): FactCountContextData {
       continue;
     }
     const newlyInvalidated = isNewlyInvalidatedFact(
-      context,
+      invalidated,
       fact.widgetId,
       fact.factId,
     );

@@ -1,6 +1,7 @@
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { FactStatus, FactValidationResult } from "@/lib/transfer/project";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
+import { InvalidatedFactSet } from "./invalidated/context";
 
 export function getStatusColors(status: FactStatus): string {
   switch (status) {
@@ -33,7 +34,7 @@ export function getStatusBackgroundColor(status: FactStatus): string {
 }
 
 export function factColor(
-  context: GroveContextData,
+  context: InvalidatedFactSet,
   widgetId: string,
   factId: string,
   validationResult: FactValidationResult,
@@ -49,7 +50,7 @@ export function factColor(
 }
 
 export function factBackgroundColor(
-  context: GroveContextData,
+  context: InvalidatedFactSet,
   widgetId: string,
   factId: string,
   validationResult: FactValidationResult,

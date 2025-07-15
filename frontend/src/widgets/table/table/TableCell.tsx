@@ -3,8 +3,8 @@ import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 import { buildFactId, buildFactIdentifier } from "./fact";
 import { TableAssociation } from "@/lib/transfer/project";
 import { usePendingTableFact } from "../state/pending";
-import { GroveContext } from "@/lib/transfer/context";
 import { factBackgroundColor } from "@/lib/fact/color";
+import { InvalidatedFactsContext } from "@/lib/fact/invalidated/context";
 
 function TableCellEntry({
   rowAssociation,
@@ -55,7 +55,7 @@ export function TableCell({
   columnAssociation: TableAssociation | undefined;
 }): JSX.Element {
   const pendingTableFact = usePendingTableFact();
-  const context = useContext(GroveContext);
+  const context = useContext(InvalidatedFactsContext);
 
   if (!rowAssociation || !columnAssociation) {
     return (

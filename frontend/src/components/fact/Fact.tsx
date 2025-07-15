@@ -1,5 +1,4 @@
 import { FactSummary } from "@/lib/fact/summary";
-import { GroveContext } from "@/lib/transfer/context";
 import { FactMetadata, FactStatus } from "@/lib/transfer/project";
 import { factColor, getStatusColors } from "@/lib/fact/color";
 import {
@@ -20,6 +19,7 @@ import {
   BsChevronDown,
 } from "react-icons/bs";
 import Markdown from "react-markdown";
+import { InvalidatedFactsContext } from "@/lib/fact/invalidated/context";
 
 function FactStatusIcon({
   factStatus,
@@ -83,7 +83,7 @@ function FactContent({ fact }: { fact: FactSummary }): JSX.Element {
 }
 
 function FactBar({ fact }: { fact: FactSummary }): JSX.Element {
-  const context = useContext(GroveContext);
+  const context = useContext(InvalidatedFactsContext);
 
   return (
     <div

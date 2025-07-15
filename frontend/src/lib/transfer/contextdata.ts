@@ -14,6 +14,7 @@ import {
   TableState,
 } from "./project";
 import { Node } from "@/lib/transfer/project/index";
+import { Set } from "immutable";
 
 export interface FactRegistry<T> {
   byId: { [widgetId: string]: { [factId: string]: T } };
@@ -67,7 +68,7 @@ export interface ProjectMetadata {
 }
 
 export interface GroveContextData {
-  upstreamInvalidatedFacts: Set<InvalidatedFact> | undefined;
+  upstreamInvalidatedFacts: InvalidatedFact[] | undefined;
   rootNode: Node;
   projectMetadata: ProjectMetadata;
   declarations: { [key: string]: Declaration };

@@ -13,6 +13,7 @@ import {
   ProjectMetadata,
 } from "./contextdata";
 import { declarationName } from "./util";
+import { Set } from "immutable";
 
 const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
 if (!serverDataFileLocation) {
@@ -76,9 +77,7 @@ function collectDeclarations(decls: Declaration[]): {
 function createContextData(): GroveContextData {
   const contextData: GroveContextData = {
     declarations: collectDeclarations(project.declarations),
-    upstreamInvalidatedFacts: upstreamInvalidatedFacts
-      ? new Set(upstreamInvalidatedFacts.invalidatedFacts)
-      : undefined,
+    upstreamInvalidatedFacts: upstreamInvalidatedFacts?.invalidatedFacts,
     rootNode: rootNode,
     projectMetadata: projectMetadata,
     section: {},

@@ -11,6 +11,7 @@ import { GroveContextData } from "@/lib/transfer/contextdata";
 import { GroveContext } from "@/lib/transfer/context";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
+import { InvalidatedFactsContext } from "@/lib/fact/invalidated/context";
 
 function isFactInSection(
   context: GroveContextData,
@@ -30,19 +31,20 @@ function isFactInSection(
 
 export function FactPage({ sectionId }: { sectionId: string }): JSX.Element {
   const context = useContext(GroveContext);
+  const invalidated = useContext(InvalidatedFactsContext);
   const factSummaries = useFactSummaries();
   const { setBreadcrumb } = useContext(BreadcrumbContext);
 
   const newlyInvalidatedFacts = factSummaries.filter(
     (fact) =>
       fact.validationResult.constructor === "invalidated" &&
-      isNewlyInvalidatedFact(context, fact.widgetId, fact.factId) &&
+      isNewlyInvalidatedFact(invalidated, fact.widgetId, fact.factId) &&
       isFactInSection(context, fact, sectionId),
   );
   const invalidatedFacts = factSummaries.filter(
     (fact) =>
       fact.validationResult.constructor === "invalidated" &&
-      !isNewlyInvalidatedFact(context, fact.widgetId, fact.factId) &&
+      !isNewlyInvalidatedFact(invalidated, fact.widgetId, fact.factId) &&
       isFactInSection(context, fact, sectionId),
   );
 

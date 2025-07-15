@@ -16,6 +16,12 @@ import {
   FactCountContext,
   useComputeFactCounts,
 } from "@/lib/navigate/factcount";
+import { Set } from "immutable";
+import {
+  InvalidatedFactsContext,
+  InvalidatedFactSet,
+  makeInvalidatedFact,
+} from "@/lib/fact/invalidated/context";
 
 function InnerGroveClient({ children }: { children: ReactNode }): JSX.Element {
   // Requires GroveContext
@@ -47,14 +53,22 @@ export function GroveClient({
     setBreadcrumb,
   };
 
+  const invalidatedFactSet: InvalidatedFactSet = {
+    upstreamInvalidatedFacts: groveContext.upstreamInvalidatedFacts
+      ? Set(groveContext.upstreamInvalidatedFacts.map(makeInvalidatedFact))
+      : undefined,
+  };
+
   const templates = setupTemplates(templateStrings);
   return (
     <GroveContext value={groveContext}>
-      <GroveTemplateContext value={templates}>
-        <BreadcrumbContext value={breadcrumbState}>
-          <InnerGroveClient>{children}</InnerGroveClient>
-        </BreadcrumbContext>
-      </GroveTemplateContext>
+      <InvalidatedFactsContext value={invalidatedFactSet}>
+        <GroveTemplateContext value={templates}>
+          <BreadcrumbContext value={breadcrumbState}>
+            <InnerGroveClient>{children}</InnerGroveClient>
+          </BreadcrumbContext>
+        </GroveTemplateContext>
+      </InvalidatedFactsContext>
     </GroveContext>
   );
 }
