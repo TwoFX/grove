@@ -13,7 +13,6 @@ import {
   ProjectMetadata,
 } from "./contextdata";
 import { declarationName } from "./util";
-import { Set } from "immutable";
 
 const serverDataFileLocation = process.env.GROVE_DATA_LOCATION;
 if (!serverDataFileLocation) {

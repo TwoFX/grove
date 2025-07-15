@@ -14,7 +14,6 @@ import {
   TableState,
 } from "./project";
 import { Node } from "@/lib/transfer/project/index";
-import { Set } from "immutable";
 
 export interface FactRegistry<T> {
   byId: { [widgetId: string]: { [factId: string]: T } };

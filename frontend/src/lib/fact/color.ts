@@ -1,4 +1,3 @@
-import { GroveContextData } from "@/lib/transfer/contextdata";
 import { FactStatus, FactValidationResult } from "@/lib/transfer/project";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
 import { InvalidatedFactSet } from "./invalidated/context";
