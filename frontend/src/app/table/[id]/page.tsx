@@ -1,13 +1,13 @@
 import { JSX } from "react";
 import { TablePage } from "./TablePage";
-import { groveContextData } from "@/lib/transfer/metadata";
 import { redirect } from "next/navigation";
+import { serverContextData } from "@/lib/transfer/server";
 
 export async function generateStaticParams(): Promise<{ id: string }[]> {
   return [
     // Workaround for https://github.com/vercel/next.js/issues/71862
     { id: "__grove_dummy" },
-    ...groveContextData.tableDefinition.all.map((def) => {
+    ...serverContextData.tableDefinition.all.map((def) => {
       return {
         id: def.widgetId,
       };

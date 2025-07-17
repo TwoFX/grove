@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { groveContextData } from "@/lib/transfer/metadata";
 import { templates } from "@/lib/templates/server";
 import { HeaderBar } from "@/components/header/HeaderBar";
 import { GroveClient } from "@/components/GroveClient";
@@ -15,11 +14,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const haveUpstreamInvalidatedFacts = process.env
+    .GROVE_UPSTREAM_INVALIDATED_FACTS_LOCATION
+    ? true
+    : false;
+
   return (
     <html lang="en">
       <body>
         <GroveClient
-          groveContext={groveContextData}
+          haveUpstreamInvalidatedFacts={haveUpstreamInvalidatedFacts}
           templateStrings={templates}
         >
           <header>

@@ -1,12 +1,12 @@
-import { groveContextData } from "@/lib/transfer/metadata";
 import { redirect } from "next/navigation";
 import { SectionPage } from "./SectionPage";
+import { serverContextData } from "@/lib/transfer/server";
 
 export async function generateStaticParams() {
   return [
     // Workaround for https://github.com/vercel/next.js/issues/71862
     { id: "__grove_dummy" },
-    ...Object.keys(groveContextData.section).map((key) => ({ id: key })),
+    ...Object.keys(serverContextData.section).map((key) => ({ id: key })),
   ];
 }
 

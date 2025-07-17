@@ -1,13 +1,13 @@
-import { groveContextData } from "@/lib/transfer/metadata";
 import { redirect } from "next/navigation";
 import { JSX } from "react";
 import { AssertionPage } from "./AssertionPage";
+import { serverContextData } from "@/lib/transfer/server";
 
 export async function generateStaticParams() {
   return [
     // Workaround for https://github.com/vercel/next.js/issues/71862
     { id: "__grove_dummy" },
-    ...groveContextData.assertionDefinition.all.map((def) => {
+    ...serverContextData.assertionDefinition.all.map((def) => {
       return {
         id: def.widgetId,
       };

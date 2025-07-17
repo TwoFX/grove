@@ -1,13 +1,13 @@
-import { groveContextData } from "@/lib/transfer/metadata";
 import { JSX } from "react";
 import { AssociationTablePage } from "./AssociationTablePage";
 import { redirect } from "next/navigation";
+import { serverContextData } from "@/lib/transfer/server";
 
 export async function generateStaticParams() {
   return [
     // Workaround for https://github.com/vercel/next.js/issues/71862
     { id: "__grove_dummy" },
-    ...groveContextData.associationTableDefinition.all.map((def) => {
+    ...serverContextData.associationTableDefinition.all.map((def) => {
       return {
         id: def.widgetId,
       };

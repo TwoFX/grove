@@ -3,7 +3,6 @@
 import { GroveContext } from "@/lib/transfer/context";
 import { JSX, ReactNode, useState } from "react";
 import { HashCheck } from "./HashCheck";
-import { GroveContextData } from "@/lib/transfer/contextdata";
 import { TemplateStrings } from "@/lib/templates";
 import { setupTemplates } from "@/lib/templates/client";
 import { GroveTemplateContext } from "@/lib/templates/context";
@@ -22,6 +21,7 @@ import {
   InvalidatedFactSet,
   makeInvalidatedFact,
 } from "@/lib/fact/invalidated/context";
+import { useFetchGroveContextData } from "@/lib/transfer/client";
 
 function InnerGroveClient({ children }: { children: ReactNode }): JSX.Element {
   // Requires GroveContext
@@ -36,17 +36,28 @@ function InnerGroveClient({ children }: { children: ReactNode }): JSX.Element {
 
 export function GroveClient({
   children,
-  groveContext,
+  haveUpstreamInvalidatedFacts,
   templateStrings,
 }: {
   children: ReactNode;
-  groveContext: GroveContextData;
+  haveUpstreamInvalidatedFacts: boolean;
   templateStrings: TemplateStrings;
 }): JSX.Element {
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbData>({
     id: "",
     title: "",
   });
+  const { data, isLoading } = useFetchGroveContextData(
+    haveUpstreamInvalidatedFacts,
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!data) {
+    throw new Error("Received invalid data");
+  }
 
   const breadcrumbState: BreadcrumbState = {
     breadcrumb,
@@ -54,14 +65,14 @@ export function GroveClient({
   };
 
   const invalidatedFactSet: InvalidatedFactSet = {
-    upstreamInvalidatedFacts: groveContext.upstreamInvalidatedFacts
-      ? Set(groveContext.upstreamInvalidatedFacts.map(makeInvalidatedFact))
+    upstreamInvalidatedFacts: data.upstreamInvalidatedFacts
+      ? Set(data.upstreamInvalidatedFacts.map(makeInvalidatedFact))
       : undefined,
   };
 
   const templates = setupTemplates(templateStrings);
   return (
-    <GroveContext value={groveContext}>
+    <GroveContext value={data}>
       <InvalidatedFactsContext value={invalidatedFactSet}>
         <GroveTemplateContext value={templates}>
           <BreadcrumbContext value={breadcrumbState}>
@@ -72,3 +83,7 @@ export function GroveClient({
     </GroveContext>
   );
 }
+
+// export const GroveClient = dynamic(() => Promise.resolve(GroveClientX), {
+//   ssr: false,
+// });
