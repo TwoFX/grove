@@ -1,2 +1,5 @@
 metadata.json
 invalidated.json
+metadata.json.gz
+json-to-profile.py
+profile

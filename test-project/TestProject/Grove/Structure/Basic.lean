@@ -5,7 +5,7 @@ Authors: Markus Himmel
 -/
 import Grove.Framework
 
-open Lean Grove.Framework Widget
+open Lean Grove.Framework Widget DataSource
 
 namespace TestProject.Grove.Structure
 
@@ -33,8 +33,8 @@ def listArrayOperations : AssociationTable .subexpression [`List, `Array] where
   title := "List and array operations"
   description := "This table associates list operations with array operations"
   dataSources n :=
-    (DataSource.declarationsInNamespace n .definitionsOnly)
-    |>.or (DataSource.declarationsInNamespace (`TestProject ++ n) .definitionsOnly)
+    (DataSource.definitionsInNamespace n)
+    |>.or (DataSource.definitionsInNamespace (`TestProject ++ n))
     |>.map Subexpression.declaration
     |>.or (DataSource.getElem n)
 
@@ -54,12 +54,69 @@ def root : Node :=
 
 end Containers
 
+namespace SizeIssue
+
+def associativeContainers : List Lean.Name :=
+  [`Std.DHashMap, `Std.DHashMap.Raw, `Std.ExtDHashMap, `Std.DTreeMap, `Std.DTreeMap.Raw, `Std.ExtDTreeMap, `Std.HashMap,
+   `Std.HashMap.Raw, `Std.ExtHashMap, `Std.TreeMap, `Std.TreeMap.Raw, `Std.ExtTreeMap, `Std.HashSet, `Std.HashSet.Raw, `Std.ExtHashSet,
+   `Std.TreeSet, `Std.TreeSet.Raw, `Std.ExtTreeSet]
+
+def exceptions (namesp : Lean.Name) : DeclarationPredicate :=
+  .disallow [`Std.DHashMap.Raw.buckets, namesp]
+
+def associativeExceptions (namesp : Lean.Name) : DeclarationPredicate :=
+  DeclarationPredicate.all
+    [.notInNamespace (namesp ++ `Const),
+     .notInNamespace (namesp ++ `Raw),
+     exceptions namesp]
+
+def associativeQueryOperations : AssociationTable .subexpression associativeContainers where
+  id := "associative-query-operations"
+  title := "Associative query operations"
+  description := "Operations that take as input an associative container and return a 'single' piece of information (e.g., `GetElem` or `isEmpty`, but not `toList`)."
+  dataSources n :=
+    (DataSource.definitionsInNamespace n (associativeExceptions n))
+      |>.map Subexpression.declaration
+      |>.or (DataSource.getElem n)
+
+def associativeCreationOperations : AssociationTable .subexpression associativeContainers where
+  id := "associative-creation-operations"
+  title := "Associative creation operations"
+  description := "Operations that create a new associative container"
+  dataSources n :=
+    (DataSource.definitionsInNamespace n (associativeExceptions n))
+      |>.map Subexpression.declaration
+      |>.or (DataSource.emptyCollection n)
+
+def associativeModificationOperations : AssociationTable .subexpression associativeContainers where
+  id := "associative-modification-operations"
+  title := "Associative modification operations"
+  description := "Operations that both accept and return an associative container"
+  dataSources n :=
+    (DataSource.definitionsInNamespace n (associativeExceptions n))
+      |>.map Subexpression.declaration
+
+def associativeCreateThenQuery : Table .subexpression .subexpression .declaration associativeContainers where
+  id := "associative-create-then-query"
+  title := "Associative create then query"
+  description := "Lemmas that say what happens when creating a new associative container and then immediately querying from it"
+  rowsFrom := .table associativeCreationOperations
+  columnsFrom := .table associativeQueryOperations
+  cellData := .classic _ { relevantNamespaces := associativeContainers }
+
+def root : Node :=
+  .section "size-issue" "Size Issue" #[.associationTable associativeQueryOperations,
+    .associationTable associativeCreationOperations, .associationTable associativeModificationOperations,
+    .table associativeCreateThenQuery]
+
+end SizeIssue
+
 def introduction : Node :=
   .text "Welcome to the test project for Grove, a quality assurance system for Lean libraries.\n\
   \n\
   These text elements are `Markdown`, so in particular they can be multiple lines."
 
 def root : Node :=
-  .section "test-project" "The Grove test project" #[introduction, Containers.root]
+  .section "test-project" "The Grove test project" #[introduction, Containers.root, SizeIssue.root]
 
 end TestProject.Grove.Structure

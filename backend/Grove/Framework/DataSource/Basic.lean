@@ -90,39 +90,83 @@ def ofArray {kind : DataKind} (l : Array kind.Key) : DataSource kind :=
     getById? := (pure m[·]?)
   }
 
--- TODO: duplicated in Declaration/Basic.lean
-private def isTheorem (c : ConstantInfo) : MetaM Bool := do
-  if getOriginalConstKind? (← getEnv) c.name == some .thm then
-    return true
+structure DeclarationPredicate where
+  check : Name → ConstantInfo → MetaM Bool
 
-  try
-    let t ← inferType c.type
-    return t.isProp
-  catch
-    | _ => return false
+namespace DeclarationPredicate
 
-inductive DeclarationFilter where
-  | all
-  | definitionsOnly
-  | theoremsOnly
+protected def true : DeclarationPredicate where
+  check _ _ := pure true
 
-def DeclarationFilter.check (f : DeclarationFilter) (c : ConstantInfo) : MetaM Bool :=
-  match f with
-  | .all => pure true
-  | .definitionsOnly => (!·) <$> isTheorem c
-  | .theoremsOnly => isTheorem c
+def and (p₁ p₂ : DeclarationPredicate) : DeclarationPredicate where
+  check n c := p₁.check n c <&&> p₂.check n c
 
-def declarationsInNamespace (n : Name) (f : DeclarationFilter) : DataSource .declaration where
-  getAll := do
-    let env ← getEnv
-    let mut ans := #[]
-    for (constName, info) in env.constants do
-      if n.isPrefixOf constName then
-        if ! (← Name.isAutoDecl constName) then
-          if ← f.check info then
-            ans := ans.push constName
-    return ans
-  getById? id := pure (Option.guard n.isPrefixOf id.toName)
+def all (p : List DeclarationPredicate) : DeclarationPredicate where
+  check n c := p.allM (·.check n c)
+
+def not (p : DeclarationPredicate) : DeclarationPredicate where
+  check n c := (!·) <$> p.check n c
+
+def notAutoDecl : DeclarationPredicate where
+  check n _ := (!·) <$> Name.isAutoDecl n
+
+def notInternalName : DeclarationPredicate where
+  check n _ := pure (!n.anyS (·.endsWith "Internal"))
+
+def notInternal : DeclarationPredicate :=
+  notAutoDecl.and notInternalName
+
+def inNamespace (namesp : Name) : DeclarationPredicate where
+  check n _ := pure <| namesp.isPrefixOf n
+
+def notInNamespace (namesp : Name) : DeclarationPredicate :=
+  not (inNamespace namesp)
+
+def disallow (names : List Name) : DeclarationPredicate :=
+  let set : NameSet := .ofList names
+  ⟨fun n _ => pure <| !set.contains n⟩
+
+def isTheorem : DeclarationPredicate where
+  check _ c := checkConstant c
+where
+  -- TODO: duplicated in Declaration/Basic.lean
+  checkConstant (c : ConstantInfo) : MetaM Bool := do
+    if getOriginalConstKind? (← getEnv) c.name == some .thm then
+      return true
+
+    try
+      let t ← inferType c.type
+      return t.isProp
+    catch
+      | _ => return false
+
+def isDefinition : DeclarationPredicate :=
+  not isTheorem
+
+end DeclarationPredicate
+
+def declarationsMatching (pred : DeclarationPredicate) (allowInternal : Bool := false) :
+    DataSource .declaration :=
+  let pred := if allowInternal then pred else DeclarationPredicate.notInternal.and pred
+  { getAll := do
+      let env ← getEnv
+      let mut ans := #[]
+      for (constName, info) in env.constants do
+        if ← pred.check constName info then
+          ans := ans.push constName
+      return ans
+    getById? id := do
+      let env ← getEnv
+      let name := id.toName
+      let some decl := env.find? name | return none
+      match ← pred.check name decl with
+      | false => pure none
+      | true => pure (some name) }
+
+def definitionsInNamespace (namesp : Name)
+    (additionalCheck : DeclarationPredicate := DeclarationPredicate.true) : DataSource .declaration :=
+  declarationsMatching <| DeclarationPredicate.all
+    [DeclarationPredicate.inNamespace namesp, .isDefinition, additionalCheck]
 
 end DataSource
 

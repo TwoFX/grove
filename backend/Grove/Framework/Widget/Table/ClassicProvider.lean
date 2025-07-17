@@ -10,6 +10,8 @@ open Lean
 
 namespace Grove.Framework.Widget.Table
 
+open DataSource
+
 namespace CellDataProvider
 
 namespace Classic
@@ -17,6 +19,7 @@ namespace Classic
 -- Target namespace overrides, ...
 structure Configuration where
   relevantNamespaces : Option (List Name) := none
+  declarationPredicate : DeclarationPredicate := .true
 
 structure RelevantConstant where
   name : Name
@@ -35,8 +38,10 @@ def buildColumnCache (config : Configuration) (layerIdentifiers : List Name) (po
 
   let relevantNamespaces := config.relevantNamespaces.getD layerIdentifiers
 
+  let pred := DeclarationPredicate.notInternal.and config.declarationPredicate
+
   for (name, constantInfo) in (← getEnv).constants do
-    if ← Name.isAutoDecl name then
+    if !(← pred.check name constantInfo) then
       continue
 
     if !relevantNamespaces.any (fun pref => pref.isPrefixOf name) then
@@ -74,6 +79,8 @@ def cellDataForSourceExpression {layerIdentifiers : List Name} {possibleColValue
     if sourceExpression.matches e usedConstants then
       if let some cacheForName := columnCache.columnCache[name]? then
         if let some cacheForLayer := cacheForName.get? targetLayerIndex then
+          if name.toString == "Std.DHashMap.Internal.Raw₀.Const.getD_eq_getValueD" then
+            IO.println s!"{name} matches {sourceExpression.toString}"
           for columnIndex in cacheForLayer do
             cells := cells.modify columnIndex (·.push name)
 
