@@ -5,6 +5,7 @@ import Image from "next/image";
 import { SaveButton } from "../SaveButton";
 import { ClearButton } from "../ClearButton";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { RedoButton, UndoButton } from "../UndoRedoButton";
 
 export function HeaderBar(): JSX.Element {
   return (
@@ -22,9 +23,15 @@ export function HeaderBar(): JSX.Element {
           <Breadcrumbs />
         </div>
       </div>
-      <div className="flex gap-2">
-        <ClearButton />
-        <SaveButton />
+      <div className="flex gap-6">
+        <div className="flex">
+          <UndoButton />
+          <RedoButton />
+        </div>
+        <div className="flex gap-2">
+          <ClearButton />
+          <SaveButton />
+        </div>
       </div>
     </div>
   );

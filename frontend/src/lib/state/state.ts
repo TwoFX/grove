@@ -16,6 +16,7 @@ import {
   AssertionSlice,
   createAssertionSlice,
 } from "@/widgets/assertion/state/create";
+import { temporal } from "zundo";
 
 export interface HasHydratedSlice {
   hasHydrated: boolean;
@@ -37,30 +38,49 @@ export const createHasHydratedSlice: StateCreator<
     ),
 });
 
-export type GroveState = HasHydratedSlice &
-  HashSlice &
-  UISlice &
+export type GroveAdminState = HasHydratedSlice & HashSlice;
+
+export type GroveState = UISlice &
   ShowDeclarationSlice &
   AssociationTableSlice &
   AssertionSlice &
   TableSlice;
 
-export const useGroveStore = create<GroveState>()(
+export const useGroveAdminStore = create<GroveAdminState>()(
   persist(
     (...a) => ({
       ...createHasHydratedSlice(...a),
       ...createHashSlice(...a),
-      ...createUISlice(...a),
-      ...createShowDeclarationSlice(...a),
-      ...createAssociationTableSlice(...a),
-      ...createAssertionSlice(...a),
-      ...createTableSlice(...a),
     }),
     {
-      name: "grove-storage",
+      name: "grove-admin-storage",
       onRehydrateStorage: (state) => {
         return () => state.setHasHydrated(true);
       },
+    },
+  ),
+);
+
+export const useGroveStore = create<GroveState>()(
+  persist(
+    temporal(
+      (...a) => ({
+        ...createUISlice(...a),
+        ...createShowDeclarationSlice(...a),
+        ...createAssociationTableSlice(...a),
+        ...createAssertionSlice(...a),
+        ...createTableSlice(...a),
+      }),
+      {
+        limit: 10,
+        wrapTemporal: (storeInitializer) =>
+          persist(storeInitializer, {
+            name: "grove-temporal-storage",
+          }),
+      },
+    ),
+    {
+      name: "grove-storage",
     },
   ),
 );

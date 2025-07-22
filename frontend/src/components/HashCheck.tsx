@@ -1,5 +1,5 @@
 import { useCountPendingChanges } from "@/lib/state/pending";
-import { useGroveStore } from "@/lib/state/state";
+import { useGroveAdminStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
 import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import { JSX, ReactNode, useContext, useEffect } from "react";
@@ -7,10 +7,10 @@ import { ClearButton } from "./ClearButton";
 
 function HashConflictDialog(): JSX.Element {
   const basisHash = useContext(GroveContext).projectMetadata.hash;
-  const storedHash = useGroveStore((state) => state.hash);
-  const setStoredHash = useGroveStore((state) => state.setHash);
+  const storedHash = useGroveAdminStore((state) => state.hash);
+  const setStoredHash = useGroveAdminStore((state) => state.setHash);
   const pendingCount = useCountPendingChanges();
-  const hasHydrated = useGroveStore((state) => state.hasHydrated);
+  const hasHydrated = useGroveAdminStore((state) => state.hasHydrated);
 
   useEffect(() => {
     if (hasHydrated && (storedHash === "" || pendingCount === 0)) {
