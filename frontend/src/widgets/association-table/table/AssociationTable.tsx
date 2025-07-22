@@ -264,8 +264,8 @@ export function AssociationTable({
   };
 
   return (
-    <div className="flex flex-col flex-grow">
-      <div className="flex-grow">
+    <div className="flex flex-col h-full">
+      <div className="flex-none">
         <DndProvider backend={HTML5Backend}>
           <DataGrid
             columns={columns}
@@ -287,7 +287,7 @@ export function AssociationTable({
           />
         </DndProvider>
       </div>
-      <div className="mt-2 space-x-2">
+      <div className="mt-2 space-x-2 flex-none">
         <button
           onClick={addEmptyRow}
           className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"

@@ -36,7 +36,7 @@ export function TableComponent({
   const indexableCellData = computeIndexableCellData(definition.cells);
 
   return (
-    <div className="m-2 flex flex-col">
+    <div className="p-2 flex flex-col h-full">
       <div className="flex gap-4 justify-between flex-none">
         <TableFactComponent
           definition={definition}
@@ -50,7 +50,7 @@ export function TableComponent({
           setState={setState}
         />
       </div>
-      <div className="flex-grow">
+      <div className="flex-none">
         <Table
           definition={definition}
           state={state}
@@ -59,7 +59,7 @@ export function TableComponent({
         />
       </div>
       {rowAssociation && columnAssociation && (
-        <div className="flex-none">
+        <div className="grow min-h-0 overflow-auto box-border">
           <TableCellDetail
             rowAssociation={rowAssociation}
             columnAssociation={columnAssociation}

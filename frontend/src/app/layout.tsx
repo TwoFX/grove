@@ -26,10 +26,12 @@ export default function RootLayout({
           haveUpstreamInvalidatedFacts={haveUpstreamInvalidatedFacts}
           templateStrings={templates}
         >
-          <header>
-            <HeaderBar />
-          </header>
-          <main>{children}</main>
+          <div className="h-dvh flex flex-col">
+            <header className="flex-none">
+              <HeaderBar />
+            </header>
+            <main className="flex-auto h-full overflow-hidden">{children}</main>
+          </div>
         </GroveClient>
       </body>
     </html>

@@ -97,16 +97,20 @@ export function AssociationTablePage({
   );
 
   return (
-    <div>
-      <AssociationTable
-        widgetId={widgetId}
-        columnDefinitions={tableDefinition.columns}
-        tableRows={tableState.rows}
-        setTableRows={(rows) => setTableState(widgetId, { rows })}
-        dataKind={tableDefinition.dataKind}
-        setSelectedCell={setSelectedCell}
-      />
-      <ReferenceWidget reference={reference} />
+    <div className="p-2 flex flex-col h-full">
+      <div className="flex-none">
+        <AssociationTable
+          widgetId={widgetId}
+          columnDefinitions={tableDefinition.columns}
+          tableRows={tableState.rows}
+          setTableRows={(rows) => setTableState(widgetId, { rows })}
+          dataKind={tableDefinition.dataKind}
+          setSelectedCell={setSelectedCell}
+        />
+      </div>
+      <div className="grow min-h-0 overflow-auto box-border">
+        <ReferenceWidget reference={reference} />
+      </div>
     </div>
   );
 }
