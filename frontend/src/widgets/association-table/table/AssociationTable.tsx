@@ -2,16 +2,13 @@
 
 import "react-data-grid/lib/styles.css";
 import {
+  CellRendererProps,
   Column,
   DataGrid,
-  RenderRowProps,
   SelectColumn,
   textEditor,
 } from "react-data-grid";
 import { JSX, useCallback, useContext, useState } from "react";
-import { DraggableRowRenderer } from "./DraggableRowRenderer";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
 import { v4 as uuidv4 } from "uuid";
 import {
   AssociationTableCell,
@@ -34,6 +31,7 @@ import {
   optionDisplayShort,
   optionKey,
 } from "../state/navigate";
+import { DraggableCellRenderer } from "./DraggableCellRenderer";
 
 function rowKeyGetter(row: AssociationTableRow) {
   return row.uuid;
@@ -178,8 +176,11 @@ export function AssociationTable({
     },
   ];
 
-  const renderRow = useCallback(
-    (key: React.Key, props: RenderRowProps<AssociationTableRow>) => {
+  const renderCell = useCallback(
+    (
+      key: React.Key,
+      props: CellRendererProps<AssociationTableRow, unknown>,
+    ) => {
       function onRowReorder(fromIndex: number, toIndex: number) {
         const newRows = [...tableRows];
         newRows.splice(toIndex, 0, newRows.splice(fromIndex, 1)[0]);
@@ -187,7 +188,7 @@ export function AssociationTable({
       }
 
       return (
-        <DraggableRowRenderer
+        <DraggableCellRenderer
           key={key}
           {...props}
           onRowReorder={onRowReorder}
@@ -266,26 +267,24 @@ export function AssociationTable({
   return (
     <div className="flex flex-col h-full">
       <div className="flex-none">
-        <DndProvider backend={HTML5Backend}>
-          <DataGrid
-            columns={columns}
-            rows={tableRows}
-            onRowsChange={handleRowsChange}
-            renderers={{ renderRow }}
-            selectedRows={selectedRows}
-            onSelectedRowsChange={handleSelectionChange}
-            rowKeyGetter={rowKeyGetter}
-            className="h-full"
-            onSelectedCellChange={({ row, column }) => {
-              if (row) {
-                setSelectedCell({
-                  rowIdentifier: row.uuid,
-                  columnIdentifier: column.key,
-                });
-              }
-            }}
-          />
-        </DndProvider>
+        <DataGrid
+          columns={columns}
+          rows={tableRows}
+          onRowsChange={handleRowsChange}
+          renderers={{ renderCell }}
+          selectedRows={selectedRows}
+          onSelectedRowsChange={handleSelectionChange}
+          rowKeyGetter={rowKeyGetter}
+          className="h-full"
+          onSelectedCellChange={({ row, column }) => {
+            if (row) {
+              setSelectedCell({
+                rowIdentifier: row.uuid,
+                columnIdentifier: column.key,
+              });
+            }
+          }}
+        />
       </div>
       <div className="mt-2 space-x-2 flex-none">
         <button
