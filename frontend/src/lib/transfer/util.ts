@@ -61,13 +61,13 @@ export function nodeKey(node: Node): string {
     case "assertion":
       return node.assertion.definition.widgetId;
     case "namespace":
-      return node.namespace; //  TODO
+      return node.namespace;
     case "section":
       return node.section.id;
     case "showDeclaration":
       return node.showDeclaration.definition.id;
     case "text":
-      return node.text; // TODO
+      return node.text.id;
     case "associationTable":
       return node.associationTable.definition.widgetId;
     case "table":

@@ -29,7 +29,7 @@ inductive Node where
   | «namespace» : String → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
-  | text : String → Node
+  | text : Text → Node
 
 end
 
@@ -49,7 +49,7 @@ partial def Node.toJson (n : Node) : Json :=
      .unary "namespace" String (fun | .namespace s => some s | _ => none),
      .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
-     .unary "text" String (fun | .text t => some t | _ => none)] n
+     .unary "text" Text (fun | .text t => some t | _ => none)] n
 
 end
 
@@ -67,7 +67,7 @@ instance : SchemaFor Node :=
      .unary "namespace" String (fun | .namespace s => some s | _ => none),
      .unary "assertion" Assertion (fun | .assertion a => some a | _ => none),
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
-     .unary "text" String (fun | .text t => some t | _ => none)]
+     .unary "text" Text (fun | .text t => some t | _ => none)]
 
 structure Project where
   projectNamespace : String
@@ -133,6 +133,9 @@ where
       validationResult
     }
 
+def processText (t : Text) : Data.Text :=
+  { t with }
+
 partial def processNode : Node → RenderM Data.Node
   | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM processNode
   | Node.associationTable t => Data.Node.associationTable <$> processAssociationTable t
@@ -140,7 +143,7 @@ partial def processNode : Node → RenderM Data.Node
   | .namespace n => pure <| .namespace n.toString
   | .assertion a => Data.Node.assertion <$> processAssertion a
   | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration s
-  | .text s => pure <| .text s
+  | .text s => pure <| .text (processText s)
 
 def processProject (p : Project) : MetaM Data.Project := do
   let (rootNode, renderState) ← (processNode p.rootNode).run p.restoreState.run

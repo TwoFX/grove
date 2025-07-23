@@ -9,3 +9,4 @@ import Grove.Framework.Widget.Basic
 import Grove.Framework.Widget.ShowDeclaration
 import Grove.Framework.Widget.State
 import Grove.Framework.Widget.Table
+import Grove.Framework.Widget.Text

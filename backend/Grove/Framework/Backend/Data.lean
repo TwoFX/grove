@@ -84,6 +84,15 @@ instance : SchemaFor ShowDeclaration :=
     [.single "definition" ShowDeclaration.definition,
      .arr "facts" ShowDeclaration.facts]
 
+structure Text where
+  id : String
+  content : String
+
+instance : SchemaFor Text :=
+  .structure "text"
+    [.single "id" Text.id,
+     .single "content" Text.content]
+
 end Data
 
 end Grove.Framework.Backend.Full

@@ -8,6 +8,7 @@ import Grove.Framework.Widget.Table.Basic
 import Grove.Framework.Widget.Assertion
 import Grove.Framework.Widget.ShowDeclaration
 import Grove.Framework.Widget.State
+import Grove.Framework.Widget.Text
 import Grove.Framework.Git
 
 open Lean
@@ -25,7 +26,7 @@ inductive Node where
       {layerIdentifiers : List δ} : Table rowKind columnKind cellKind layerIdentifiers → Node
   | assertion : Assertion → Node
   | showDeclaration : ShowDeclaration → Node
-  | text : String → Node
+  | text : Text → Node
 
 instance : Coe Assertion Node where
   coe := .assertion

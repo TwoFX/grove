@@ -14,7 +14,11 @@ export const GroveContext = createContext<GroveContextData>({
   },
   rootNode: {
     constructor: "text",
-    text: "This is the dummy root node created when there is no context available.",
+    text: {
+      id: "dummy-root",
+      content:
+        "This is the dummy root node created when there is no context available.",
+    },
   },
   section: {},
   showDeclarationFact: emptyFactRegistry(),

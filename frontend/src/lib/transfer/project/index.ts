@@ -209,7 +209,7 @@ export interface NodeTable {
 
 export interface NodeText {
   constructor: "text";
-  text: string;
+  text: Text;
 }
 
 export interface Project0 {
@@ -421,6 +421,11 @@ export interface TableState {
   selectedColumnAssociations: string[];
   selectedLayers: string[];
   selectedRowAssociations: string[];
+}
+
+export interface Text {
+  content: string;
+  id: string;
 }
 
 export interface Theorem {

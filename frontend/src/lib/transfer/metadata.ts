@@ -24,7 +24,6 @@ export function createContextData(
   project: Project,
   upstreamInvalidatedFacts: InvalidatedFacts | undefined,
 ): GroveContextData {
-
   const rootNode: Node = project.rootNode;
   const projectMetadata: ProjectMetadata = {
     hash: project.hash,

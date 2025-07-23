@@ -9,6 +9,12 @@
         "isDeprecated": { "type": "boolean" }
       }
     },
+    "text": {
+      "properties": {
+        "id": { "type": "string" },
+        "content": { "type": "string" }
+      }
+    },
     "tableState": {
       "properties": {
         "selectedRowAssociations": { "elements": { "type": "string" } },
@@ -219,7 +225,7 @@
     },
     "node": {
       "mapping": {
-        "text": { "properties": { "text": { "type": "string" } } },
+        "text": { "properties": { "text": { "ref": "text" } } },
         "table": { "properties": { "table": { "ref": "table" } } },
         "showDeclaration": {
           "properties": { "showDeclaration": { "ref": "showDeclaration" } }
