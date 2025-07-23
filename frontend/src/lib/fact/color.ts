@@ -1,6 +1,7 @@
 import { FactStatus, FactValidationResult } from "@/lib/transfer/project";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
 import { InvalidatedFactSet } from "./invalidated/context";
+import validation from "ajv/dist/vocabularies/validation";
 
 export function getStatusColors(status: FactStatus): string {
   switch (status) {
@@ -39,7 +40,7 @@ export function factColor(
   validationResult: FactValidationResult,
   status: FactStatus,
 ): string {
-  if (isNewlyInvalidatedFact(context, widgetId, factId)) {
+  if (isNewlyInvalidatedFact(context, widgetId, factId, validationResult)) {
     return "bg-red-100 text-red-800 border-red-200";
   } else if (validationResult.constructor === "invalidated") {
     return "bg-orange-100 text-orange-800 border-orange-200";
@@ -55,7 +56,7 @@ export function factBackgroundColor(
   validationResult: FactValidationResult,
   status: FactStatus,
 ): string {
-  if (isNewlyInvalidatedFact(context, widgetId, factId)) {
+  if (isNewlyInvalidatedFact(context, widgetId, factId, validationResult)) {
     return "bg-red-100";
   } else if (validationResult.constructor === "invalidated") {
     return "bg-orange-100";

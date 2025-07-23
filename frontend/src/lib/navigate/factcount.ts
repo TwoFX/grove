@@ -28,6 +28,7 @@ export function useComputeFactCounts(): FactCountContextData {
       invalidated,
       fact.widgetId,
       fact.factId,
+      fact.validationResult,
     );
 
     let section: string | undefined = fact.widgetId;
