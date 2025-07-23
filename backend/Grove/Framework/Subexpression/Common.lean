@@ -41,6 +41,26 @@ def emptyCollection (containerType : Name) : Subexpression :=
     computeTargetNamespace n _ := pure n
   }
 
+def homogeneousBinaryOperator (const : Name) (notation_ : String) (type : Name) : PredicateSubexpression where
+  displayShort := s!"{type} {notation_} {type}"
+  predicate := .app3 (.const const) (.appOf type) (.appOf type) (.appOf type)
+  computeTargetNamespace n _ := pure n
+
+def add (type : Name) : Subexpression :=
+  .predicate <| homogeneousBinaryOperator ``HAdd.hAdd "+" type
+
+def sub (type : Name) : Subexpression :=
+  .predicate <| homogeneousBinaryOperator ``HSub.hSub "-" type
+
+def mul (type : Name) : Subexpression :=
+  .predicate <| homogeneousBinaryOperator ``HMul.hMul "*" type
+
+def div (type : Name) : Subexpression :=
+  .predicate <| homogeneousBinaryOperator ``HDiv.hDiv "/" type
+
+def mod (type : Name) : Subexpression :=
+  .predicate <| homogeneousBinaryOperator ``HMod.hMod "%" type
+
 end Subexpression
 
 end Grove.Framework

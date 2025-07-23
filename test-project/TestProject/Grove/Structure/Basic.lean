@@ -111,12 +111,44 @@ def root : Node :=
 
 end SizeIssue
 
+namespace Conversion
+
+def someFiniteIntegerTypes : List Lean.Name :=
+  [`UInt8, `UInt16, `UInt32, `UInt64, `USize]
+
+def finiteIntegerArithmetic : AssociationTable .subexpression someFiniteIntegerTypes where
+  id := "finite-integer-arithmetic"
+  title := "Finite Integer Arithmetic"
+  dataSources n :=
+    (DataSource.definitionsInNamespace n)
+      |>.map Subexpression.declaration
+      |>.or (DataSource.binaryArithmetic n)
+
+def finiteIntegerConversions : AssociationTable .subexpression someFiniteIntegerTypes where
+  id := "finite-integer-conversions"
+  title := "Finite Integer Conversions"
+  dataSources n := (DataSource.definitionsInNamespace n) |>.map Subexpression.declaration
+
+def finiteIntegerConvertThenConvert : Table .subexpression .subexpression .declaration someFiniteIntegerTypes where
+  id := "finite-integer-convert-then-convert"
+  title := "Finite Integer Convert then Convert"
+  rowsFrom := .table finiteIntegerConversions
+  columnsFrom := .table finiteIntegerConversions
+  cellData := .classic _
+
+def root : Node :=
+  .section "conversion" "Conversion" #[.associationTable finiteIntegerArithmetic,
+    .associationTable finiteIntegerConversions, .table finiteIntegerConvertThenConvert]
+
+end Conversion
+
 def introduction : Node :=
   .text "Welcome to the test project for Grove, a quality assurance system for Lean libraries.\n\
   \n\
   These text elements are `Markdown`, so in particular they can be multiple lines."
 
 def root : Node :=
-  .section "test-project" "The Grove test project" #[introduction, Containers.root, SizeIssue.root]
+  .section "test-project" "The Grove test project" #[introduction, Containers.root, SizeIssue.root,
+    Conversion.root]
 
 end TestProject.Grove.Structure

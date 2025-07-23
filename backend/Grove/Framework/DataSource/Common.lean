@@ -23,6 +23,15 @@ def getElem (containerType : Name) (indexType : Option Name := none) : DataSourc
     Subexpression.getElem! containerType indexType,
   ]
 
+def binaryArithmetic (type : Name) : DataSource .subexpression :=
+  .ofArray #[
+    Subexpression.add type,
+    Subexpression.sub type,
+    Subexpression.mul type,
+    Subexpression.div type,
+    Subexpression.mod type,
+  ]
+
 def emptyCollection (containerType : Name) : DataSource .subexpression :=
   .ofArray #[Subexpression.emptyCollection containerType]
 
