@@ -2,6 +2,7 @@ import {
   DataKind,
   FactStatus,
   TableAssociation,
+  TableAssociationLayer,
   TableCellOption,
   TableDefinition,
   TableFactLayerState,
@@ -96,27 +97,16 @@ function tableCellOptionState(
   }
 }
 
-function buildLayerState(
+function computeSingleStates(
   context: GroveContextData,
   templates: Templates,
   definition: TableDefinition,
   cellData: IndexableCellData,
   layerIdentifier: string,
-  rowAssociation: TableAssociation,
-  columnAssociation: TableAssociation,
   selectedCellOptions: TableSelectedCellOptions[],
-): TableFactLayerState | undefined {
-  const rowCol = extractLayers(
-    cellData,
-    layerIdentifier,
-    rowAssociation,
-    columnAssociation,
-  );
-
-  if (!rowCol) return undefined;
-
-  const [rowLayer, , colLayer] = rowCol;
-
+  rowLayer: TableAssociationLayer,
+  colLayer: TableAssociationLayer,
+): TableFactSingleState[] {
   const relevantOptions =
     cellData.cellOptions[layerDataKey(rowLayer.data)]?.[
       layerDataKey(colLayer.data)
@@ -128,6 +118,28 @@ function buildLayerState(
 
   const relevantTableCellOptions = relevantSelectedCellOptionIds.map(
     (id) => relevantOptions.find((opt) => optionKey(opt) === id)!,
+  );
+
+  return relevantTableCellOptions.map((opt) =>
+    tableCellOptionState(templates, context, opt, definition.cellKind),
+  );
+}
+
+function buildLayerState(
+  context: GroveContextData,
+  templates: Templates,
+  definition: TableDefinition,
+  cellData: IndexableCellData,
+  layerIdentifier: string,
+  rowAssociation: TableAssociation,
+  columnAssociation: TableAssociation,
+  selectedCellOptions: TableSelectedCellOptions[],
+): TableFactLayerState {
+  const rowCol = extractLayers(
+    cellData,
+    layerIdentifier,
+    rowAssociation,
+    columnAssociation,
   );
 
   return {
@@ -146,9 +158,18 @@ function buildLayerState(
       layerIdentifier,
       columnAssociation,
     ),
-    selectedCellStates: relevantTableCellOptions.map((opt) =>
-      tableCellOptionState(templates, context, opt, definition.cellKind),
-    ),
+    selectedCellStates: rowCol
+      ? computeSingleStates(
+          context,
+          templates,
+          definition,
+          cellData,
+          layerIdentifier,
+          selectedCellOptions,
+          rowCol[0],
+          rowCol[2],
+        )
+      : [],
   };
 }
 
@@ -163,8 +184,8 @@ function buildFactState(
   selectedLayers: string[],
 ): TableFactState {
   return {
-    layerStates: selectedLayers.flatMap((layer) => {
-      const layerState = buildLayerState(
+    layerStates: selectedLayers.map((layer) =>
+      buildLayerState(
         context,
         templates,
         definition,
@@ -173,9 +194,8 @@ function buildFactState(
         rowAssociation,
         columnAssociation,
         selectedCellOptions,
-      );
-      return layerState ? [layerState] : [];
-    }),
+      ),
+    ),
   };
 }
 

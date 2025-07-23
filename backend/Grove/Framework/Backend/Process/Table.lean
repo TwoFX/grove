@@ -365,22 +365,19 @@ def currentLayerState {rowKind columnKind cellKind : DataKind} {δ : Type} {laye
     (columnAssociations : Std.HashMap (String × String) columnKind.Key)
     (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
     (rowAssociationId : String) (columnAssociationId : String) (layerIdentifier : String) :
-    RenderM (Option (Table.Fact.LayerState rowKind columnKind cellKind)) := do
+    RenderM (Table.Fact.LayerState rowKind columnKind cellKind) := do
+  -- Note: if the source layer identifier and the target layer identifier aren't the same, then
+  -- `rowAssoc`, `colAssoc` and `cellStates` won't have anything to do with each other, but that
+  -- is fine, it's just how the data is organized (by layer rather than by row).
   let rowAssoc ← currentRCState rowAssociations rowAssociationId
-  -- TODO: the line below is critically flawed. It looks up in the column association by the
-  -- source layer ID, but it should be looking up by the target layer id. It looks like this information
-  -- is not available at this point, so it needs to be extracted from the `CellDataForLayer` and passed
-  -- into here.
   let colAssoc ← currentRCState columnAssociations columnAssociationId
-  if rowAssoc.isNone || colAssoc.isNone then
-    return none
   let cellOpts := selectedCellOptions.getD (layerIdentifier, rowAssociationId, columnAssociationId) #[]
   let cellStates : Array (Table.Fact.SingleState cellKind) ←
     cellOpts.iter
       |>.filterMapM (cellDataProvider.getById? ·)
       |>.mapM st
       |>.toArray
-  return some ⟨layerIdentifier, rowAssoc, colAssoc, cellStates⟩
+  return ⟨layerIdentifier, rowAssoc, colAssoc, cellStates⟩
 where
   currentRCState {kind : DataKind} (associations : Std.HashMap (String × String) kind.Key)
       (associationId : String) : RenderM (Option (Table.Fact.SingleState kind)) :=
