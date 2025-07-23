@@ -1,7 +1,6 @@
 import { FactStatus, FactValidationResult } from "@/lib/transfer/project";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
 import { InvalidatedFactSet } from "./invalidated/context";
-import validation from "ajv/dist/vocabularies/validation";
 
 export function getStatusColors(status: FactStatus): string {
   switch (status) {
