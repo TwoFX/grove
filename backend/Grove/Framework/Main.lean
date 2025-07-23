@@ -29,9 +29,12 @@ def perform (p : Project) (imports : Array Name) (fullFileName? invalidatedFileN
   }
   match ← ((Grove.Framework.Backend.Full.render p).run'.run' coreContext { env }).toBaseIO with
   | .error exception =>
-    IO.println s!"{← exception.toMessageData.toString}"
+    IO.println s!"Internal error: {← exception.toMessageData.toString}"
+    return 2
+  | .ok (.error message) =>
+    IO.println message
     return 1
-  | .ok rendered =>
+  | .ok (.ok rendered) =>
     if let some fullFileName := fullFileName? then
       IO.FS.writeFile fullFileName rendered.fullOutput
     if let some invalidatedFileName := invalidatedFileName? then

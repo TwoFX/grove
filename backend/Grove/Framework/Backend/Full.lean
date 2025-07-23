@@ -185,8 +185,29 @@ def Data.Project.render (p : Data.Project) : RenderResult where
   fullOutput := toString (toJson p)
   invalidatedFacts := toString (toJson p.collectInvalidatedFacts)
 
-def render (p : Project) : MetaM RenderResult :=
-  (·.render) <$> processProject p
+partial def Data.Project.validate (p : Data.Project) : Except String Data.Project :=
+  let duplicateIds := ((explore p.rootNode).run (∅, ∅)).2.2.toArray
+  if duplicateIds.isEmpty then
+    Except.ok p
+  else
+    Except.error s!"There were duplicate ids: {duplicateIds}"
+where
+  explore (n : Data.Node) : StateM (Std.HashSet String × Std.HashSet String) PUnit := do
+    match n with
+    | .section s =>
+        register s.id
+        s.children.forM explore
+    | .associationTable t => register t.definition.widgetId
+    | .table t => register t.definition.widgetId
+    | .namespace n => register n
+    | .assertion a => register a.definition.widgetId
+    | .showDeclaration s => register s.definition.id
+    | .text t => register t.id
+  register (id : String) : StateM (Std.HashSet String × Std.HashSet String) PUnit :=
+    modify (fun (once, twice) => if id ∈ once then (once, twice.insert id) else (once.insert id, twice))
+
+def render (p : Project) : MetaM (Except String RenderResult) := do
+  (Except.map (·.render) ∘ Data.Project.validate) <$> processProject p
 
 end Full
 
