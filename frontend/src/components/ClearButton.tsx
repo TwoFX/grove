@@ -1,13 +1,11 @@
-import {
-  useClearPendingChanges,
-  useCountPendingChanges,
-} from "@/lib/state/pending";
+import { useCountPendingChanges } from "@/lib/state/pending";
+import { useGroveStore } from "@/lib/state/state";
 import { JSX } from "react";
 import { BsFillTrash3Fill } from "react-icons/bs";
 
 export function ClearButton(): JSX.Element {
   const numFacts = useCountPendingChanges();
-  const clearFacts = useClearPendingChanges();
+  const clearAll = useGroveStore((state) => state.clearAll);
 
   return (
     <button
@@ -17,7 +15,7 @@ export function ClearButton(): JSX.Element {
           ? "bg-gray-400 cursor-not-allowed"
           : "bg-red-600 hover:bg-red-700 cursor-pointer"
       }`}
-      onClick={clearFacts}
+      onClick={clearAll}
     >
       <BsFillTrash3Fill />
     </button>

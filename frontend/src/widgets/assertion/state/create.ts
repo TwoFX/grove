@@ -11,7 +11,6 @@ export interface AssertionSlice {
     factId: string,
     fact: AssertionFact,
   ) => void;
-  clearPendingAssertionFacts: () => void;
 }
 
 export const createAssertionSlice: StateCreator<
@@ -28,13 +27,6 @@ export const createAssertionSlice: StateCreator<
           draft.pendingAssertionFacts[widgetId] = {};
         }
         draft.pendingAssertionFacts[widgetId][factId] = fact;
-      }),
-    );
-  },
-  clearPendingAssertionFacts: () => {
-    set((state) =>
-      produce(state, (draft) => {
-        draft.pendingAssertionFacts = {};
       }),
     );
   },

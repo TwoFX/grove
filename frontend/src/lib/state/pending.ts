@@ -2,7 +2,6 @@ import {
   useCountPendingShowDeclarationFacts,
   useShowDeclarationFactSummaries,
 } from "@/widgets/show-declaration/state/pending";
-import { useGroveStore } from "./state";
 import { FactSummary } from "../fact/summary";
 import {
   useAssociationTableFactSummaries,
@@ -35,26 +34,6 @@ export function useCountPendingChanges(): number {
     tableFact +
     assertionFact
   );
-}
-
-export function useClearPendingChanges(): () => void {
-  const {
-    clearPendingShowDeclarationFacts,
-    clearPendingAssociationTableFacts,
-    clearPendingAssociationTableStates,
-    clearPendingTableFacts,
-    clearPendingTableStates,
-    clearPendingAssertionFacts,
-  } = useGroveStore();
-
-  return () => {
-    clearPendingShowDeclarationFacts();
-    clearPendingAssociationTableFacts();
-    clearPendingAssociationTableStates();
-    clearPendingTableFacts();
-    clearPendingTableStates();
-    clearPendingAssertionFacts();
-  };
 }
 
 export function useFactSummaries(): FactSummary[] {

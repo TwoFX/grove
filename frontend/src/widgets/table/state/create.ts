@@ -11,13 +11,11 @@ export interface TableSlice {
     factId: string,
     fact: TableFact,
   ) => void;
-  clearPendingTableFacts: () => void;
 
   pendingTableStates: {
     [widgetId: string]: TableState;
   };
   setPendingTableState: (widgetId: string, state: TableState) => void;
-  clearPendingTableStates: () => void;
 }
 
 export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
@@ -34,26 +32,12 @@ export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
       }),
     );
   },
-  clearPendingTableFacts: () => {
-    set((state) =>
-      produce(state, (draft) => {
-        draft.pendingTableFacts = {};
-      }),
-    );
-  },
 
   pendingTableStates: {},
   setPendingTableState: (widgetId, st) => {
     set((state) =>
       produce(state, (draft) => {
         draft.pendingTableStates[widgetId] = st;
-      }),
-    );
-  },
-  clearPendingTableStates: () => {
-    set((state) =>
-      produce(state, (draft) => {
-        draft.pendingTableStates = {};
       }),
     );
   },

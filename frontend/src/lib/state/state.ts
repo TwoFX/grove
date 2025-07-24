@@ -23,7 +23,7 @@ export interface HasHydratedSlice {
   setHasHydrated: (hasHydrated: boolean) => void;
 }
 
-export const createHasHydratedSlice: StateCreator<
+const createHasHydratedSlice: StateCreator<
   HasHydratedSlice,
   [],
   [],
@@ -44,7 +44,26 @@ export type GroveState = UISlice &
   ShowDeclarationSlice &
   AssociationTableSlice &
   AssertionSlice &
-  TableSlice;
+  TableSlice &
+  ClearAllSlice;
+export interface ClearAllSlice {
+  clearAll: () => void;
+}
+
+const createClearAllSlice: StateCreator<GroveState, [], [], ClearAllSlice> = (
+  set,
+) => ({
+  clearAll: () => {
+    set({
+      pendingShowDeclarationFacts: {},
+      pendingAssociationTableFacts: {},
+      pendingAssociationTableStates: {},
+      pendingTableFacts: {},
+      pendingTableStates: {},
+      pendingAssertionFacts: {},
+    });
+  },
+});
 
 export const useGroveAdminStore = create<GroveAdminState>()(
   persist(
@@ -70,6 +89,7 @@ export const useGroveStore = create<GroveState>()(
         ...createAssociationTableSlice(...a),
         ...createAssertionSlice(...a),
         ...createTableSlice(...a),
+        ...createClearAllSlice(...a),
       }),
       {
         limit: 10,

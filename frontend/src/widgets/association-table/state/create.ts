@@ -14,7 +14,6 @@ export interface AssociationTableSlice {
     factId: string,
     fact: AssociationTableFact,
   ) => void;
-  clearPendingAssociationTableFacts: () => void;
 
   pendingAssociationTableStates: {
     [widgetId: string]: AssociationTableState;
@@ -23,7 +22,6 @@ export interface AssociationTableSlice {
     widgetId: string,
     state: AssociationTableState,
   ) => void;
-  clearPendingAssociationTableStates: () => void;
 }
 
 export const createAssociationTableSlice: StateCreator<
@@ -43,26 +41,12 @@ export const createAssociationTableSlice: StateCreator<
       }),
     );
   },
-  clearPendingAssociationTableFacts: () => {
-    set((state) =>
-      produce(state, (draft) => {
-        draft.pendingAssociationTableFacts = {};
-      }),
-    );
-  },
 
   pendingAssociationTableStates: {},
   setPendingAssociationTableState: (widgetId, st) => {
     set((state) =>
       produce(state, (draft) => {
         draft.pendingAssociationTableStates[widgetId] = st;
-      }),
-    );
-  },
-  clearPendingAssociationTableStates: () => {
-    set((state) =>
-      produce(state, (draft) => {
-        draft.pendingAssociationTableStates = {};
       }),
     );
   },
