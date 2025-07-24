@@ -40,13 +40,19 @@ function TableDetailEntry({
     if (contained) {
       setState(
         produce(state, (draft) => {
-          draft.selectedCellOptions[
-            selectedCellOptionsIndex
-          ].selectedCellOptions = draft.selectedCellOptions[
+          const newSelectedOptions = draft.selectedCellOptions[
             selectedCellOptionsIndex
           ].selectedCellOptions.filter(
             (opt) => opt !== layerDataKey(cellOption),
           );
+
+          if (newSelectedOptions.length === 0) {
+            draft.selectedCellOptions.splice(selectedCellOptionsIndex, 1);
+          } else {
+            draft.selectedCellOptions[
+              selectedCellOptionsIndex
+            ].selectedCellOptions = newSelectedOptions;
+          }
         }),
       );
     } else {

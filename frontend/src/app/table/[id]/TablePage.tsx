@@ -30,7 +30,7 @@ export function TablePage({ widgetId }: { widgetId: string }): JSX.Element {
     <TableComponent
       definition={tableDefinition}
       state={tableState}
-      setState={(state) => setTableState(widgetId, state)}
+      setState={(state) => setTableState(context, widgetId, state)}
     />
   );
 }

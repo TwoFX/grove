@@ -34,7 +34,7 @@ function ShowDeclarationFactComponent({
     status,
     message,
   ) =>
-    setPendingFact(widgetId, factId, {
+    setPendingFact(context, widgetId, factId, {
       widgetId: widgetId,
       factId: factId,
       metadata: { status: status, comment: message },

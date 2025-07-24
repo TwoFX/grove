@@ -1,5 +1,6 @@
+import { updatePendingFacts, updatePendingState } from "@/lib/state/util";
+import { GroveContextData } from "@/lib/transfer/contextdata";
 import { TableFact, TableState } from "@/lib/transfer/project";
-import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface TableSlice {
@@ -7,6 +8,7 @@ export interface TableSlice {
     [widgetId: string]: { [factId: string]: TableFact };
   };
   setPendingTableFact: (
+    context: GroveContextData,
     widgetId: string,
     factId: string,
     fact: TableFact,
@@ -15,30 +17,38 @@ export interface TableSlice {
   pendingTableStates: {
     [widgetId: string]: TableState;
   };
-  setPendingTableState: (widgetId: string, state: TableState) => void;
+  setPendingTableState: (
+    context: GroveContextData,
+    widgetId: string,
+    state: TableState,
+  ) => void;
 }
 
 export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
   set,
 ) => ({
   pendingTableFacts: {},
-  setPendingTableFact: (widgetId, factId, fact) => {
-    set((state) =>
-      produce(state, (draft) => {
-        if (!draft.pendingTableFacts[widgetId]) {
-          draft.pendingTableFacts[widgetId] = {};
-        }
-        draft.pendingTableFacts[widgetId][factId] = fact;
-      }),
-    );
+  setPendingTableFact: (context, widgetId, factId, fact) => {
+    set((state) => ({
+      pendingTableFacts: updatePendingFacts(
+        context.tableFact,
+        state.pendingTableFacts,
+        widgetId,
+        factId,
+        fact,
+      ),
+    }));
   },
 
   pendingTableStates: {},
-  setPendingTableState: (widgetId, st) => {
-    set((state) =>
-      produce(state, (draft) => {
-        draft.pendingTableStates[widgetId] = st;
-      }),
-    );
+  setPendingTableState: (context, widgetId, st) => {
+    set((state) => ({
+      pendingTableStates: updatePendingState(
+        context.tableState,
+        state.pendingTableStates,
+        widgetId,
+        st,
+      ),
+    }));
   },
 });

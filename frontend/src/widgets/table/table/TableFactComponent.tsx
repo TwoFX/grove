@@ -254,7 +254,7 @@ export function TableFactComponent({
     status,
     message,
   ) =>
-    setPendingFact(definition.widgetId, factId, {
+    setPendingFact(context, definition.widgetId, factId, {
       widgetId: definition.widgetId,
       factId: factId,
       metadata: { status: status, comment: message },

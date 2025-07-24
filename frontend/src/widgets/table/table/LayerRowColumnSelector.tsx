@@ -55,26 +55,34 @@ export function LayerRowColumnSelector({
         title="Row"
         options={possibleRows}
         selectedOptions={state.selectedRowAssociations}
-        setSelectedOptions={(newSelectedRows) =>
+        setSelectedOptions={(newSelectedRows) => {
+          const uniqueRows = new Set(newSelectedRows);
           setState(
             produce(state, (draft) => {
-              draft.selectedRowAssociations = newSelectedRows;
+              // Make sure that selectedRowAssociations always has the same order as rowAssociations
+              draft.selectedRowAssociations = rowAssociations
+                .map((assoc) => assoc.id)
+                .filter((id) => uniqueRows.has(id));
             }),
-          )
-        }
+          );
+        }}
         displayMode="title"
       />
       <StyledListbox
         title="Column"
         options={possibleCols}
         selectedOptions={state.selectedColumnAssociations}
-        setSelectedOptions={(newSelectedColumns) =>
+        setSelectedOptions={(newSelectedColumns) => {
+          const uniqueColumns = new Set(newSelectedColumns);
           setState(
             produce(state, (draft) => {
-              draft.selectedColumnAssociations = newSelectedColumns;
+              // Make sure that selectedColumnAssociations always has the same order as columnAssociations
+              draft.selectedColumnAssociations = columnAssociations
+                .map((assoc) => assoc.id)
+                .filter((id) => uniqueColumns.has(id));
             }),
-          )
-        }
+          );
+        }}
         displayMode="title"
       />
     </div>

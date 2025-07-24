@@ -20,12 +20,9 @@ def «986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb06
       layerIdentifier := "UInt8"
       rowState := 
         
-        some ⟨"UInt8.toUInt16", .declaration (Declaration.def {
-            name := `UInt8.toUInt16
-            renderedStatement := "UInt8.toUInt16 (a : UInt8) : UInt16"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"UInt8.toUInt16", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt8.toUInt16, renderedStatement := "UInt8.toUInt16 (a : UInt8) : UInt16", isDeprecated := false })⟩
         
       columnState := 
         none
@@ -40,12 +37,9 @@ def «986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb06
         
       columnState := 
         
-        some ⟨"UInt16.toUInt8", .declaration (Declaration.def {
-            name := `UInt16.toUInt8
-            renderedStatement := "UInt16.toUInt8 (a : UInt16) : UInt8"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"UInt16.toUInt8", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt16.toUInt8, renderedStatement := "UInt16.toUInt8 (a : UInt16) : UInt8", isDeprecated := false })⟩
         
       selectedCellStates := #[
       ]
@@ -54,30 +48,22 @@ def «986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb06
       layerIdentifier := "UInt32"
       rowState := 
         
-        some ⟨"UInt32.toUInt16", .declaration (Declaration.def {
-            name := `UInt32.toUInt16
-            renderedStatement := "UInt32.toUInt16 (a : UInt32) : UInt16"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"UInt32.toUInt16", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt32.toUInt16, renderedStatement := "UInt32.toUInt16 (a : UInt32) : UInt16", isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"UInt32.toUInt8", .declaration (Declaration.def {
-            name := `UInt32.toUInt8
-            renderedStatement := "UInt32.toUInt8 (a : UInt32) : UInt8"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"UInt32.toUInt8", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt32.toUInt8, renderedStatement := "UInt32.toUInt8 (a : UInt32) : UInt8", isDeprecated := false })⟩
         
       selectedCellStates := #[
-        ⟨"UInt32.toUInt8_toUInt16", Declaration.thm {
-    name := `UInt32.toUInt8_toUInt16
-    renderedStatement := "UInt32.toUInt8_toUInt16 (n : UInt32) : n.toUInt16.toUInt8 = n.toUInt8"
-    isDeprecated := false
-    isSimp := true
-  }
-⟩
+        ⟨"UInt32.toUInt8_toUInt16", Grove.Framework.Declaration.thm
+  { name := `UInt32.toUInt8_toUInt16,
+    renderedStatement := "UInt32.toUInt8_toUInt16 (n : UInt32) : n.toUInt16.toUInt8 = n.toUInt8",
+    isSimp := true,
+    isDeprecated := false }⟩
 ,
       ]
     },
@@ -85,30 +71,22 @@ def «986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb06
       layerIdentifier := "UInt64"
       rowState := 
         
-        some ⟨"UInt64.toUInt16", .declaration (Declaration.def {
-            name := `UInt64.toUInt16
-            renderedStatement := "UInt64.toUInt16 (a : UInt64) : UInt16"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"UInt64.toUInt16", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt64.toUInt16, renderedStatement := "UInt64.toUInt16 (a : UInt64) : UInt16", isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"UInt64.toUInt8", .declaration (Declaration.def {
-            name := `UInt64.toUInt8
-            renderedStatement := "UInt64.toUInt8 (a : UInt64) : UInt8"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"UInt64.toUInt8", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt64.toUInt8, renderedStatement := "UInt64.toUInt8 (a : UInt64) : UInt8", isDeprecated := false })⟩
         
       selectedCellStates := #[
-        ⟨"UInt64.toUInt8_toUInt16", Declaration.thm {
-    name := `UInt64.toUInt8_toUInt16
-    renderedStatement := "UInt64.toUInt8_toUInt16 (n : UInt64) : n.toUInt16.toUInt8 = n.toUInt8"
-    isDeprecated := false
-    isSimp := true
-  }
-⟩
+        ⟨"UInt64.toUInt8_toUInt16", Grove.Framework.Declaration.thm
+  { name := `UInt64.toUInt8_toUInt16,
+    renderedStatement := "UInt64.toUInt8_toUInt16 (n : UInt64) : n.toUInt16.toUInt8 = n.toUInt8",
+    isSimp := true,
+    isDeprecated := false }⟩
 ,
       ]
     },
@@ -116,30 +94,22 @@ def «986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb06
       layerIdentifier := "USize"
       rowState := 
         
-        some ⟨"USize.toUInt16", .declaration (Declaration.def {
-            name := `USize.toUInt16
-            renderedStatement := "USize.toUInt16 (a : USize) : UInt16"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"USize.toUInt16", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `USize.toUInt16, renderedStatement := "USize.toUInt16 (a : USize) : UInt16", isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"USize.toUInt8", .declaration (Declaration.def {
-            name := `USize.toUInt8
-            renderedStatement := "USize.toUInt8 (a : USize) : UInt8"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"USize.toUInt8", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `USize.toUInt8, renderedStatement := "USize.toUInt8 (a : USize) : UInt8", isDeprecated := false })⟩
         
       selectedCellStates := #[
-        ⟨"USize.toUInt8_toUInt16", Declaration.thm {
-    name := `USize.toUInt8_toUInt16
-    renderedStatement := "USize.toUInt8_toUInt16 (n : USize) : n.toUInt16.toUInt8 = n.toUInt8"
-    isDeprecated := false
-    isSimp := true
-  }
-⟩
+        ⟨"USize.toUInt8_toUInt16", Grove.Framework.Declaration.thm
+  { name := `USize.toUInt8_toUInt16,
+    renderedStatement := "USize.toUInt8_toUInt16 (n : USize) : n.toUInt16.toUInt8 = n.toUInt8",
+    isSimp := true,
+    isDeprecated := false }⟩
 ,
       ]
     },
@@ -152,7 +122,7 @@ def «986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb06
 def table : Table.Data .subexpression .subexpression .declaration where
   widgetId := "finite-integer-convert-then-convert"
   selectedRowAssociations := #["a556b849-a735-48a9-8099-06496bddb069", "986e32a2-1015-4fd0-bf1a-0983a85116ab", "178dabc2-f8ef-4731-bf7a-4f3892082ddd", "dd8fc53e-d116-4ba4-9119-ab830f42b88c", "f339227d-32af-42c1-8889-285142c34fe3", ]
-  selectedColumnAssociations := #["a556b849-a735-48a9-8099-06496bddb069", "986e32a2-1015-4fd0-bf1a-0983a85116ab", "dd8fc53e-d116-4ba4-9119-ab830f42b88c", "178dabc2-f8ef-4731-bf7a-4f3892082ddd", "f339227d-32af-42c1-8889-285142c34fe3", ]
+  selectedColumnAssociations := #["a556b849-a735-48a9-8099-06496bddb069", "986e32a2-1015-4fd0-bf1a-0983a85116ab", "178dabc2-f8ef-4731-bf7a-4f3892082ddd", "dd8fc53e-d116-4ba4-9119-ab830f42b88c", "f339227d-32af-42c1-8889-285142c34fe3", ]
   selectedLayers := #["UInt8", "UInt16", "UInt32", "UInt64", "USize", ]
   selectedCellOptions := #[
     {

@@ -103,7 +103,7 @@ export function AssociationTablePage({
           widgetId={widgetId}
           columnDefinitions={tableDefinition.columns}
           tableRows={tableState.rows}
-          setTableRows={(rows) => setTableState(widgetId, { rows })}
+          setTableRows={(rows) => setTableState(context, widgetId, { rows })}
           dataKind={tableDefinition.dataKind}
           setSelectedCell={setSelectedCell}
         />

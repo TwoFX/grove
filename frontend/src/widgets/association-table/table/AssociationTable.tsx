@@ -73,18 +73,24 @@ function updateRow(
 ): AssociationTableRow {
   // TODO: performance
   const result = produce(row, (draft) => {
-    let found = false;
-    for (const col of draft.columns) {
-      if (col.columnIdentifier === columnIdent) {
-        col.cellValue = newValue;
-        found = true;
+    if (newValue === "") {
+      draft.columns = draft.columns.filter(
+        (col) => col.columnIdentifier !== columnIdent,
+      );
+    } else {
+      let found = false;
+      for (const col of draft.columns) {
+        if (col.columnIdentifier === columnIdent) {
+          col.cellValue = newValue;
+          found = true;
+        }
       }
-    }
-    if (!found) {
-      draft.columns.push({
-        columnIdentifier: columnIdent,
-        cellValue: newValue,
-      });
+      if (!found) {
+        draft.columns.push({
+          columnIdentifier: columnIdent,
+          cellValue: newValue,
+        });
+      }
     }
   });
   return result;

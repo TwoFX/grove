@@ -29,7 +29,7 @@ export function AssertionFactComponent({
     status,
     message,
   ) =>
-    setPendingFact(widgetId, factId, {
+    setPendingFact(context, widgetId, factId, {
       widgetId: widgetId,
       factId: factId,
       assertionId: assertionId,
