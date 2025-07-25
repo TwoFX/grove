@@ -1,6 +1,7 @@
 import {
   AssociationTableFactCellState,
   FactStatus,
+  FactValidationResult,
 } from "@/lib/transfer/project";
 import { JSX, useContext } from "react";
 import {
@@ -11,6 +12,8 @@ import {
 import { useGroveStore } from "@/lib/state/state";
 import { Fact } from "@/components/fact/Fact";
 import { GroveContext } from "@/lib/transfer/context";
+import { associationTableFactStatesEqual } from "./fact";
+import { FactSummary } from "@/lib/fact/summary";
 
 export function AssociationTableFactComponent({
   widgetId,
@@ -30,6 +33,8 @@ export function AssociationTableFactComponent({
     (state) => state.setPendingAssociationTableFact,
   );
 
+  const currentState = newState();
+
   const onAssert: (status: FactStatus, message: string) => void = (
     status,
     message,
@@ -39,23 +44,38 @@ export function AssociationTableFactComponent({
       factId: factId,
       metadata: { status: status, comment: message },
       rowId: rowId,
-      state: newState(),
+      state: currentState,
       validationResult: {
         constructor: "new",
       },
     });
 
-  return (
-    <Fact
-      fact={
-        fact &&
-        computeAssociationTableFactSummary(
-          context,
-          pendingState(fact.widgetId),
-          fact,
-        )
-      }
-      onAssert={onAssert}
-    />
-  );
+  let factWithInvalidation: FactSummary | undefined;
+  if (fact) {
+    factWithInvalidation = computeAssociationTableFactSummary(
+      context,
+      pendingState(fact.widgetId),
+      fact,
+    );
+    if (
+      factWithInvalidation.validationResult.constructor !== "invalidated" &&
+      !associationTableFactStatesEqual(fact.state, currentState)
+    ) {
+      const newInvalidation: FactValidationResult = {
+        constructor: "invalidated",
+        invalidated: {
+          shortDescription: "State changed",
+          longDescription: "State was changed in the frontend",
+        },
+      };
+      factWithInvalidation = {
+        ...factWithInvalidation,
+        validationResult: newInvalidation,
+      };
+    }
+  } else {
+    factWithInvalidation = undefined;
+  }
+
+  return <Fact fact={factWithInvalidation} onAssert={onAssert} />;
 }

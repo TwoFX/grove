@@ -1,6 +1,7 @@
 import {
   DataKind,
   FactStatus,
+  FactValidationResult,
   TableAssociation,
   TableAssociationLayer,
   TableCellOption,
@@ -22,8 +23,9 @@ import { GroveTemplateContext } from "@/lib/templates/context";
 import { Templates } from "@/lib/templates";
 import { declarationStateRepr } from "@/lib/transfer/util";
 import { Fact } from "@/components/fact/Fact";
-import { buildFactId, buildFactIdentifier } from "./fact";
+import { buildFactId, buildFactIdentifier, tableFactStatesEqual } from "./fact";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
+import { FactSummary } from "@/lib/fact/summary";
 
 function buildAssociationState(
   context: GroveContextData,
@@ -250,6 +252,17 @@ export function TableFactComponent({
       opt.columnValue === selectedCell.columnAssociationId,
   );
 
+  const currentState: TableFactState = buildFactState(
+    context,
+    templates,
+    definition,
+    cellData,
+    rowAssociation,
+    columnAssociation,
+    selectedCellOptions,
+    state.selectedLayers,
+  );
+
   const onAssert: (status: FactStatus, message: string) => void = (
     status,
     message,
@@ -259,25 +272,34 @@ export function TableFactComponent({
       factId: factId,
       metadata: { status: status, comment: message },
       identifier: identifier,
-      state: buildFactState(
-        context,
-        templates,
-        definition,
-        cellData,
-        rowAssociation,
-        columnAssociation,
-        selectedCellOptions,
-        state.selectedLayers,
-      ),
+      state: currentState,
       validationResult: {
         constructor: "new",
       },
     });
 
-  return (
-    <Fact
-      fact={fact && computeTableFactSummary(context, associations, fact)}
-      onAssert={onAssert}
-    />
-  );
+  let factWithInvalidation: FactSummary | undefined;
+  if (fact) {
+    factWithInvalidation = computeTableFactSummary(context, associations, fact);
+    if (
+      factWithInvalidation.validationResult.constructor !== "invalidated" &&
+      !tableFactStatesEqual(fact.state, currentState)
+    ) {
+      const newInvalidation: FactValidationResult = {
+        constructor: "invalidated",
+        invalidated: {
+          shortDescription: "State changed",
+          longDescription: "State was changed in the frontend",
+        },
+      };
+      factWithInvalidation = {
+        ...factWithInvalidation,
+        validationResult: newInvalidation,
+      };
+    }
+  } else {
+    factWithInvalidation = undefined;
+  }
+
+  return <Fact fact={factWithInvalidation} onAssert={onAssert} />;
 }
