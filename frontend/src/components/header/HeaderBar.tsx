@@ -6,6 +6,7 @@ import { SaveButton } from "../SaveButton";
 import { ClearButton } from "../ClearButton";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { RedoButton, UndoButton } from "../UndoRedoButton";
+import { ChangeOverview } from "../ChangeOverview";
 
 export function HeaderBar(): JSX.Element {
   return (
@@ -31,6 +32,7 @@ export function HeaderBar(): JSX.Element {
         <div className="flex gap-2">
           <ClearButton />
           <SaveButton />
+          <ChangeOverview />
         </div>
       </div>
     </div>

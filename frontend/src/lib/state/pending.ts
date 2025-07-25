@@ -16,7 +16,9 @@ import {
 import {
   useAssertionFactSummaries,
   useCountPendingAssertionFacts,
+  usePendingAssertionChanges,
 } from "@/widgets/assertion/state/pending";
+import { PendingChange } from "./pendingchange";
 
 export function useCountPendingChanges(): number {
   const showDeclarationFact = useCountPendingShowDeclarationFacts();
@@ -34,6 +36,12 @@ export function useCountPendingChanges(): number {
     tableFact +
     assertionFact
   );
+}
+
+export function usePendingChanges(): PendingChange[] {
+  const pendingAssertionChanges = usePendingAssertionChanges();
+
+  return pendingAssertionChanges;
 }
 
 export function useFactSummaries(): FactSummary[] {

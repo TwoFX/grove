@@ -1,6 +1,7 @@
 import { updatePendingFacts } from "@/lib/state/util";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { AssertionFact } from "@/lib/transfer/project";
+import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface AssertionSlice {
@@ -11,8 +12,9 @@ export interface AssertionSlice {
     context: GroveContextData,
     widgetId: string,
     factId: string,
-    fact: AssertionFact,
+    fact: AssertionFact | undefined,
   ) => void;
+  clearPendingAssertionFacts: (widgetId: string) => void;
 }
 
 export const createAssertionSlice: StateCreator<
@@ -32,5 +34,12 @@ export const createAssertionSlice: StateCreator<
         fact,
       ),
     }));
+  },
+  clearPendingAssertionFacts: (widgetId) => {
+    set((state) =>
+      produce(state, (draft) => {
+        delete draft.pendingAssertionFacts[widgetId];
+      }),
+    );
   },
 });
