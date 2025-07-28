@@ -1,6 +1,7 @@
 import { updatePendingFacts } from "@/lib/state/util";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { ShowDeclarationFact } from "@/lib/transfer/project";
+import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface ShowDeclarationSlice {
@@ -13,6 +14,7 @@ export interface ShowDeclarationSlice {
     factId: string,
     fact: ShowDeclarationFact,
   ) => void;
+  clearPendingShowDeclarationFacts: (widgetId: string) => void;
 }
 
 export const createShowDeclarationSlice: StateCreator<
@@ -32,5 +34,12 @@ export const createShowDeclarationSlice: StateCreator<
         fact,
       ),
     }));
+  },
+  clearPendingShowDeclarationFacts: (widgetId) => {
+    set((state) =>
+      produce(state, (draft) => {
+        delete draft.pendingShowDeclarationFacts[widgetId];
+      }),
+    );
   },
 });

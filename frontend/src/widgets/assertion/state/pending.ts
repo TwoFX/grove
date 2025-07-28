@@ -1,5 +1,8 @@
 import { FactSummary } from "@/lib/fact/summary";
-import { PendingChange } from "@/lib/state/pendingchange";
+import {
+  collectPendingFactChanges,
+  PendingChange,
+} from "@/lib/state/pendingchange";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
@@ -58,26 +61,11 @@ export function usePendingAssertionChanges(): PendingChange[] {
   const context = useContext(GroveContext);
   const pendingFacts = useGroveStore((state) => state.pendingAssertionFacts);
 
-  return Object.entries(pendingFacts).flatMap(
-    ([widgetId, pendingForWidget]) => {
-      const count = Object.keys(pendingForWidget).length;
-      if (count === 0) {
-        return [];
-      } else {
-        const title =
-          context.assertionDefinition.byId[widgetId]?.title ??
-          "Unknown assertion widget";
-        return [
-          {
-            displayShort: `${title}: ${count} facts`,
-            href: `/assertion/${widgetId}`,
-            remove: (state) => {
-              state.clearPendingAssertionFacts(widgetId);
-            },
-            id: `${widgetId}-facts`,
-          },
-        ];
-      }
-    },
+  return collectPendingFactChanges(
+    pendingFacts,
+    context.assertionDefinition,
+    (def) => def.title,
+    "assertion",
+    (state, widgetId) => state.clearPendingAssertionFacts(widgetId),
   );
 }

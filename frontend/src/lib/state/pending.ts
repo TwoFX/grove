@@ -1,5 +1,6 @@
 import {
   useCountPendingShowDeclarationFacts,
+  usePendingShowDeclarationChanges,
   useShowDeclarationFactSummaries,
 } from "@/widgets/show-declaration/state/pending";
 import { FactSummary } from "../fact/summary";
@@ -7,10 +8,12 @@ import {
   useAssociationTableFactSummaries,
   useCountPendingAssociationTableFacts,
   useCountPendingAssociationTableStates,
+  usePendingAssociationTableChanges,
 } from "@/widgets/association-table/state/pending";
 import {
   useCountPendingTableFacts,
   useCountPendingTableStates,
+  usePendingTableChanges,
   useTableFactSummaries,
 } from "@/widgets/table/state/pending";
 import {
@@ -40,8 +43,16 @@ export function useCountPendingChanges(): number {
 
 export function usePendingChanges(): PendingChange[] {
   const pendingAssertionChanges = usePendingAssertionChanges();
+  const pendingAssociationTableChanges = usePendingAssociationTableChanges();
+  const pendingShowDeclarationChanges = usePendingShowDeclarationChanges();
+  const pendingTableChanges = usePendingTableChanges();
 
-  return pendingAssertionChanges;
+  return [
+    ...pendingAssertionChanges,
+    ...pendingAssociationTableChanges,
+    ...pendingShowDeclarationChanges,
+    ...pendingTableChanges,
+  ];
 }
 
 export function useFactSummaries(): FactSummary[] {

@@ -1,5 +1,9 @@
 import { FactSummary } from "@/lib/fact/summary";
 import { useAssociations } from "@/lib/state/association";
+import {
+  collectPendingFactAndStateChanges,
+  PendingChange,
+} from "@/lib/state/pendingchange";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
@@ -90,4 +94,20 @@ export function useTableFactSummaries(): FactSummary[] {
       pendingFact[fact.widgetId]?.[fact.factId] ?? fact,
     );
   });
+}
+
+export function usePendingTableChanges(): PendingChange[] {
+  const context = useContext(GroveContext);
+  const pendingFacts = useGroveStore((state) => state.pendingTableFacts);
+  const pendingStates = useGroveStore((state) => state.pendingTableStates);
+
+  return collectPendingFactAndStateChanges(
+    pendingFacts,
+    pendingStates,
+    context.tableDefinition,
+    (def) => def.title,
+    "table",
+    (state, widgetId) => state.clearPendingTableFacts(widgetId),
+    (state, widgetId) => state.clearPendingTableState(widgetId),
+  );
 }

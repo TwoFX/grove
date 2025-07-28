@@ -4,6 +4,10 @@ import { GroveContext } from "@/lib/transfer/context";
 import { useContext } from "react";
 import { FactSummary } from "@/lib/fact/summary";
 import { GroveContextData } from "@/lib/transfer/contextdata";
+import {
+  collectPendingFactChanges,
+  PendingChange,
+} from "@/lib/state/pendingchange";
 
 export function usePendingShowDeclarationFact(): (
   widgetId: string,
@@ -52,4 +56,19 @@ export function useShowDeclarationFactSummaries(): FactSummary[] {
       pendingFact[fact.widgetId]?.[fact.factId] ?? fact,
     );
   });
+}
+
+export function usePendingShowDeclarationChanges(): PendingChange[] {
+  const context = useContext(GroveContext);
+  const pendingFacts = useGroveStore(
+    (state) => state.pendingShowDeclarationFacts,
+  );
+
+  return collectPendingFactChanges(
+    pendingFacts,
+    context.showDeclarationDefinition,
+    (def) => def.name,
+    undefined,
+    (state, widgetId) => state.clearPendingShowDeclarationFacts(widgetId),
+  );
 }

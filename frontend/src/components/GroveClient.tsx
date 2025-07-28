@@ -83,7 +83,3 @@ export function GroveClient({
     </GroveContext>
   );
 }
-
-// export const GroveClient = dynamic(() => Promise.resolve(GroveClientX), {
-//   ssr: false,
-// });

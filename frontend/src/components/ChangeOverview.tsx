@@ -10,7 +10,11 @@ function ChangeEntry({ change }: { change: PendingChange }): JSX.Element {
 
   return (
     <div className="flex items-center justify-between">
-      <a href={change.href}>{change.displayShort}</a>
+      {change.href ? (
+        <a href={change.href}>{change.displayShort}</a>
+      ) : (
+        <span>{change.displayShort}</span>
+      )}
       <button
         onClick={() => change.remove(state)}
         className="px-2 py-2 hover:bg-gray-200 cursor-pointer"

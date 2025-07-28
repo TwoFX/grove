@@ -4,6 +4,7 @@ import {
   AssociationTableFact,
   AssociationTableState,
 } from "@/lib/transfer/project";
+import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface AssociationTableSlice {
@@ -16,6 +17,7 @@ export interface AssociationTableSlice {
     factId: string,
     fact: AssociationTableFact,
   ) => void;
+  clearPendingAssociationTableFacts: (widgetId: string) => void;
 
   pendingAssociationTableStates: {
     [widgetId: string]: AssociationTableState;
@@ -25,6 +27,7 @@ export interface AssociationTableSlice {
     widgetId: string,
     state: AssociationTableState,
   ) => void;
+  clearPendingAssociationTableState: (widgetId: string) => void;
 }
 
 export const createAssociationTableSlice: StateCreator<
@@ -45,6 +48,13 @@ export const createAssociationTableSlice: StateCreator<
       ),
     }));
   },
+  clearPendingAssociationTableFacts: (widgetId) => {
+    set((state) =>
+      produce(state, (draft) => {
+        delete draft.pendingAssociationTableFacts[widgetId];
+      }),
+    );
+  },
 
   pendingAssociationTableStates: {},
   setPendingAssociationTableState: (context, widgetId, st) => {
@@ -56,5 +66,12 @@ export const createAssociationTableSlice: StateCreator<
         st,
       ),
     }));
+  },
+  clearPendingAssociationTableState: (widgetId) => {
+    set((state) =>
+      produce(state, (draft) => {
+        delete draft.pendingAssociationTableStates[widgetId];
+      }),
+    );
   },
 });

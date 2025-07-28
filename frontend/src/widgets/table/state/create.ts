@@ -1,6 +1,7 @@
 import { updatePendingFacts, updatePendingState } from "@/lib/state/util";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { TableFact, TableState } from "@/lib/transfer/project";
+import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface TableSlice {
@@ -13,6 +14,7 @@ export interface TableSlice {
     factId: string,
     fact: TableFact,
   ) => void;
+  clearPendingTableFacts: (widgetId: string) => void;
 
   pendingTableStates: {
     [widgetId: string]: TableState;
@@ -22,6 +24,7 @@ export interface TableSlice {
     widgetId: string,
     state: TableState,
   ) => void;
+  clearPendingTableState: (widgetId: string) => void;
 }
 
 export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
@@ -39,6 +42,13 @@ export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
       ),
     }));
   },
+  clearPendingTableFacts: (widgetId) => {
+    set((state) =>
+      produce(state, (draft) => {
+        delete draft.pendingTableFacts[widgetId];
+      }),
+    );
+  },
 
   pendingTableStates: {},
   setPendingTableState: (context, widgetId, st) => {
@@ -50,5 +60,12 @@ export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
         st,
       ),
     }));
+  },
+  clearPendingTableState: (widgetId) => {
+    set((state) =>
+      produce(state, (draft) => {
+        delete draft.pendingTableStates[widgetId];
+      }),
+    );
   },
 });
