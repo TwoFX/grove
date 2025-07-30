@@ -8,7 +8,7 @@ import Grove.Framework.HasId
 import Grove.Framework.Declaration
 import Grove.Framework.Subexpression.Basic
 import Grove.JTD.Basic
-import Grove.Framework.Declaration.Name
+import Grove.Framework.LookupM
 
 open Lean Meta
 
@@ -70,8 +70,8 @@ def DataKind.describeDifferences : (kind : DataKind) → kind.State → kind.Sta
   | .subexpression, old, new => Subexpression.State.describeDifferences old new
 
 structure DataSource (kind : DataKind) where
-  getAll : MetaM (Array kind.Key)
-  getById? : String → MetaM (Option kind.Key)
+  getAll : LookupM (Array kind.Key)
+  getById? : String → LookupM (Option kind.Key)
 
 namespace DataSource
 
@@ -91,7 +91,7 @@ def ofArray {kind : DataKind} (l : Array kind.Key) : DataSource kind :=
   }
 
 structure DeclarationPredicate where
-  check : Name → ConstantInfo → MetaM Bool
+  check : Name → ConstantInfo → LookupM Bool
 
 namespace DeclarationPredicate
 
@@ -108,7 +108,7 @@ def not (p : DeclarationPredicate) : DeclarationPredicate where
   check n c := (!·) <$> p.check n c
 
 def notAutoDecl : DeclarationPredicate where
-  check n _ := (!·) <$> Name.isAutoDecl n
+  check n _ := (!·) <$> isAutoDecl n
 
 def notInternalName : DeclarationPredicate where
   check n _ := pure (!n.anyS (·.endsWith "Internal"))

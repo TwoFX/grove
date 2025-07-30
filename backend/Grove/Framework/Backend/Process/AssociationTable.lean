@@ -170,7 +170,7 @@ def processRows {kind : DataKind} (savedData : AssociationTable.Data kind) : Arr
 
 def computeCellState [HasId β] (b : β) (kind : DataKind) (rowId : String)
     (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) :
-    MetaM (Option (AssociationTable.Fact.CellState kind)) :=
+    LookupM (Option (AssociationTable.Fact.CellState kind)) :=
   cellValueMap[(rowId, HasId.getId b)]?.bindM fun cellValue => do
     let some key ← (dataSources b).getById? cellValue | return none
     let cellState ← kind.getState key
@@ -178,7 +178,7 @@ def computeCellState [HasId β] (b : β) (kind : DataKind) (rowId : String)
 
 def computeRowState [HasId β] (kind : DataKind) (l : List β) (rowId : String) (cellValueMap : Std.HashMap (String × String) String)
     (dataSources : β → DataSource kind) :
-    MetaM (Array (AssociationTable.Fact.CellState kind)) :=
+    LookupM (Array (AssociationTable.Fact.CellState kind)) :=
   l.iter.filterMapM (computeCellState · kind rowId cellValueMap dataSources) |>.toArray
 
 def transformCellState {kind : DataKind} (s : AssociationTable.Fact.CellState kind) :

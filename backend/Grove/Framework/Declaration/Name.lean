@@ -11,7 +11,7 @@ open Lean
 namespace Grove.Framework.Name
 
 -- From Batteries, modified to include `rec`.
-def isAutoDecl (decl : Name) : MetaM Bool := do
+def computeIsAutoDecl (decl : Name) : MetaM Bool := do
   if decl.hasMacroScopes then return true
   if decl.isInternal then return true
   let env ← getEnv

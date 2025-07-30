@@ -32,7 +32,7 @@ structure ColumnCache (layerIdentifiers : List Name)
   relevantConstants : Array RelevantConstant
 
 def buildColumnCache (config : Configuration) (layerIdentifiers : List Name) (possibleColValues : Vector (Array Subexpression) layerIdentifiers.length) :
-    MetaM (ColumnCache layerIdentifiers possibleColValues) := do
+    LookupM (ColumnCache layerIdentifiers possibleColValues) := do
   let mut columnCache := ∅
   let mut relevantConstants := #[]
 

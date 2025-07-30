@@ -20,13 +20,13 @@ structure CellDataForRowValue (columnKind cellKind : DataKind) {δ : Type} (laye
   cells : Vector (Array cellKind.Key) possibleValuesForColumns[targetLayerIndex].size
 
 structure CellDataProvider (rowKind columnKind cellKind : DataKind) {δ : Type} (layerIdentifiers : List δ) : Type where
-  getById? : String → MetaM (Option cellKind.Key)
+  getById? : String → LookupM (Option cellKind.Key)
   getCells :
     -- For every layer, get a list of possible row and column values
     (possibleRowValues : Vector (Array rowKind.Key) layerIdentifiers.length) →
     (possibleColValues : Vector (Array columnKind.Key) layerIdentifiers.length) →
       -- The array ranges over all possible row values in the given layer (we cannot express this in
       -- types because there is no `DVector`).
-      MetaM (Vector (Array (CellDataForRowValue columnKind cellKind layerIdentifiers possibleColValues)) layerIdentifiers.length)
+      LookupM (Vector (Array (CellDataForRowValue columnKind cellKind layerIdentifiers possibleColValues)) layerIdentifiers.length)
 
 end Grove.Framework.Widget.Table

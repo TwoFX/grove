@@ -17,7 +17,7 @@ def Assertion.Result.success (assertionId description message : String) : Assert
 def Assertion.Result.failure (assertionId description message : String) : Assertion.Result :=
   ⟨assertionId, description, false, message⟩
 
-abbrev AssertM := ReaderT SavedState MetaM
+abbrev AssertM := ReaderT SavedState LookupM
 
 structure Assertion where
   widgetId : String
