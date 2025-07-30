@@ -3,7 +3,9 @@ Copyright (c) 2025 Batteries authors, Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Batteries authors, Markus Himmel
 -/
-import Lean.Meta.Basic
+module
+
+public import Lean.Meta.Basic
 import Lean.Structure
 
 open Lean
@@ -11,7 +13,7 @@ open Lean
 namespace Grove.Framework.Name
 
 -- From Batteries, modified to include `rec`.
-def computeIsAutoDecl (decl : Name) : MetaM Bool := do
+public def computeIsAutoDecl (decl : Name) : MetaM Bool := do
   if decl.hasMacroScopes then return true
   if decl.isInternal then return true
   let env ← getEnv

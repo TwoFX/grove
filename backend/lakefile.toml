@@ -2,6 +2,9 @@ name = "grove"
 version = "0.1.0"
 defaultTargets = ["Grove", "print-schema"]
 
+[leanOptions]
+experimental.module = true
+
 [[require]]
 name = "Cli"
 scope = "leanprover"
