@@ -3,9 +3,14 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
+public import Grove.Framework.Widget.Table.Basic
+public import Grove.Framework.Display
+public import Grove.Framework.Backend.RenderM.Basic
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
-import Grove.Framework.Reference
+public import Grove.Framework.Reference
 import Grove.Framework.Widget.Table.Compare
 import Std.Data.Iterators
 
@@ -15,83 +20,83 @@ open Widget JTD
 
 namespace Data
 
-structure Table.SelectedCellOptions where
+public structure Table.SelectedCellOptions where
   layerIdentifier : String
   rowValue : String
   columnValue : String
   selectedCellOptions : Array String
 
-instance : SchemaFor Table.SelectedCellOptions :=
+public instance : SchemaFor Table.SelectedCellOptions :=
   .structure "tableSelectedCellOptions"
     [.single "layerIdentifier" Table.SelectedCellOptions.layerIdentifier,
      .single "rowValue" Table.SelectedCellOptions.rowValue,
      .single "columnValue" Table.SelectedCellOptions.columnValue,
      .arr "selectedCellOptions" Table.SelectedCellOptions.selectedCellOptions]
 
-structure Table.State where
+public structure Table.State where
   selectedRowAssociations : Array String
   selectedColumnAssociations : Array String
   selectedCellOptions : Array Table.SelectedCellOptions
   selectedLayers : Array String
 
-instance schemaTableState : SchemaFor Table.State :=
+public instance schemaTableState : SchemaFor Table.State :=
   .structure "tableState"
     [.arr "selectedRowAssociations" Table.State.selectedRowAssociations,
      .arr "selectedColumnAssociations" Table.State.selectedColumnAssociations,
      .arr "selectedCellOptions" Table.State.selectedCellOptions,
      .arr "selectedLayers" Table.State.selectedLayers]
 
-structure Table.Fact.Identifier where
+public structure Table.Fact.Identifier where
   rowAssociationId : String
   columnAssociationId : String
   selectedLayers : Array String
 
-instance : SchemaFor Table.Fact.Identifier :=
+public instance : SchemaFor Table.Fact.Identifier :=
   .structure "tableFactIdentifier"
     [.single "rowAssociationId" Table.Fact.Identifier.rowAssociationId,
      .single "columnAssociationId" Table.Fact.Identifier.columnAssociationId,
      .arr "selectedLayers" Table.Fact.Identifier.selectedLayers]
 
 -- Can be row, column, or cell, for one layer.
-structure Table.Fact.SingleState where
+public structure Table.Fact.SingleState where
   value : String
   stateRepr : String
 
-instance : SchemaFor Table.Fact.SingleState :=
+public instance : SchemaFor Table.Fact.SingleState :=
   .structure "tableFactSingleState"
     [.single "value" Table.Fact.SingleState.value,
      .single "stateRepr" Table.Fact.SingleState.stateRepr]
 
-inductive Table.Fact.OptionalSingleState where
+public inductive Table.Fact.OptionalSingleState where
   | none : Table.Fact.OptionalSingleState
   | some : Table.Fact.SingleState → Table.Fact.OptionalSingleState
 
-instance : SchemaFor Table.Fact.OptionalSingleState :=
+public instance : SchemaFor Table.Fact.OptionalSingleState :=
   .inductive "tableFactOptionalSingleState"
     [.nullary "none" (fun | .none => true | _ => false),
      .unary "some" Table.Fact.SingleState (fun | .some s => some s | _ => none)]
 
-structure Table.Fact.LayerState where
+public structure Table.Fact.LayerState where
   layerIdentifier : String
   rowState : Table.Fact.OptionalSingleState
   columnState : Table.Fact.OptionalSingleState
   selectedCellStates : Array Table.Fact.SingleState
 
-instance : SchemaFor Table.Fact.LayerState :=
+public instance : SchemaFor Table.Fact.LayerState :=
   .structure "tableFactLayerState"
     [.single "layerIdentifier" Table.Fact.LayerState.layerIdentifier,
      .single "rowState" Table.Fact.LayerState.rowState,
      .single "columnState" Table.Fact.LayerState.columnState,
      .arr "selectedCellStates" Table.Fact.LayerState.selectedCellStates]
 
-structure Table.Fact.State where
+public structure Table.Fact.State where
   layerStates : Array Table.Fact.LayerState
 
-instance schemaTableFactState : SchemaFor Table.Fact.State :=
+public instance schemaTableFactState : SchemaFor Table.Fact.State :=
   .structure "tableFactState"
     [.arr "layerStates" Table.Fact.State.layerStates]
 
-structure Table.Fact where
+public structure Table.Fact where
   widgetId : String
   factId : String
   identifier : Table.Fact.Identifier
@@ -99,12 +104,12 @@ structure Table.Fact where
   metadata : Fact.Metadata
   validationResult : Fact.ValidationResult
 
-instance validatedFactTableFact : ValidatedFact Table.Fact where
+public instance validatedFactTableFact : ValidatedFact Table.Fact where
   widgetId := Table.Fact.widgetId
   factId := Table.Fact.factId
   validationResult := Table.Fact.validationResult
 
-instance schemaTableFact : SchemaFor Table.Fact :=
+public instance schemaTableFact : SchemaFor Table.Fact :=
   .structure "tableFact"
     [.single "widgetId" Table.Fact.widgetId,
      .single "factId" Table.Fact.factId,
@@ -113,14 +118,14 @@ instance schemaTableFact : SchemaFor Table.Fact :=
      .single "metadata" Table.Fact.metadata,
      .single "validationResult" Table.Fact.validationResult]
 
-structure Table.AssociationLayer.Data.Other where
+public structure Table.AssociationLayer.Data.Other where
   value : String
   shortDescription : String
   longDescription : String
   reference : Reference
   stateRepr : String
 
-instance schemaTableAssociationLayerDataOther : SchemaFor Table.AssociationLayer.Data.Other :=
+public instance schemaTableAssociationLayerDataOther : SchemaFor Table.AssociationLayer.Data.Other :=
   .structure "tableAssociationLayerDataOther"
     [.single "value" Table.AssociationLayer.Data.Other.value,
      .single "shortDescription" Table.AssociationLayer.Data.Other.shortDescription,
@@ -128,59 +133,59 @@ instance schemaTableAssociationLayerDataOther : SchemaFor Table.AssociationLayer
      .single "reference" Table.AssociationLayer.Data.Other.reference,
      .single "stateRepr" Table.AssociationLayer.Data.Other.stateRepr]
 
-inductive Table.AssociationLayer.Data where
+public inductive Table.AssociationLayer.Data where
   | declaration : String → Table.AssociationLayer.Data
   | other : Table.AssociationLayer.Data.Other → Table.AssociationLayer.Data
 
-instance : SchemaFor Table.AssociationLayer.Data :=
+public instance : SchemaFor Table.AssociationLayer.Data :=
   .inductive "tableAssociationLayerData"
     [.unary "declaration" String (fun | .declaration d => some d | _ => none),
      .unary "other" Table.AssociationLayer.Data.Other (fun | .other o => some o | _ => none)]
 
-structure Table.AssociationLayer where
+public structure Table.AssociationLayer where
   layerIdentifier : String
   data : Table.AssociationLayer.Data
 
-instance : SchemaFor Table.AssociationLayer :=
+public instance : SchemaFor Table.AssociationLayer :=
   .structure "tableAssociationLayer"
     [.single "layerIdentifier" Table.AssociationLayer.layerIdentifier,
      .single "data" Table.AssociationLayer.data]
 
-structure Table.Association where
+public structure Table.Association where
   id : String
   title : String
   layers : Array Table.AssociationLayer
 
-instance : SchemaFor Table.Association :=
+public instance : SchemaFor Table.Association :=
   .structure "tableAssociation"
     [.single "id" Table.Association.id,
       .single "title" Table.Association.title,
      .arr "layers" Table.Association.layers]
 
-structure Table.ConstantAssociationSource where
+public structure Table.ConstantAssociationSource where
   associations : Array Table.Association
 
-instance : SchemaFor Table.ConstantAssociationSource :=
+public instance : SchemaFor Table.ConstantAssociationSource :=
   .structure "tableConstantAssociationSource"
     [.arr "associations" Table.ConstantAssociationSource.associations]
 
-inductive Table.AssociationSource where
+public inductive Table.AssociationSource where
   | const : Table.ConstantAssociationSource → Table.AssociationSource
   | table : /- widgetId -/ String → Table.AssociationSource
 
-instance : SchemaFor Table.AssociationSource :=
+public instance : SchemaFor Table.AssociationSource :=
   .inductive "tableAssociationSource"
     [.unary "const" Table.ConstantAssociationSource (fun | .const t => some t | _ => none),
      .unary "table" String (fun | .table t => some t | _ => none)]
 
-structure Table.CellOption.Other where
+public structure Table.CellOption.Other where
   value : String
   shortDescription : String
   longDescription : String
   reference : Reference
   stateRepr : String
 
-instance schemaTableCellOptionOther : SchemaFor Table.CellOption.Other :=
+public instance schemaTableCellOptionOther : SchemaFor Table.CellOption.Other :=
   .structure "tableCellOptionOther"
     [.single "value" Table.CellOption.Other.value,
      .single "shortDescription" Table.CellOption.Other.shortDescription,
@@ -188,45 +193,45 @@ instance schemaTableCellOptionOther : SchemaFor Table.CellOption.Other :=
      .single "reference" Table.CellOption.Other.reference,
      .single "stateRepr" Table.CellOption.Other.stateRepr]
 
-inductive Table.CellOption where
+public inductive Table.CellOption where
   | declaration : String → Table.CellOption
   | other : Table.CellOption.Other → Table.CellOption
 
-instance schemaTableCellOption : SchemaFor Table.CellOption :=
+public instance schemaTableCellOption : SchemaFor Table.CellOption :=
   .inductive "tableCellOption"
     [.unary "declaration" String (fun | .declaration d => some d | _ => none),
      .unary "other" Table.CellOption.Other (fun | .other o => some o | _ => none)]
 
-structure Table.CellEntry where
+public structure Table.CellEntry where
   columnKey : String
   options : Array Table.CellOption
 
-instance : SchemaFor Table.CellEntry :=
+public instance : SchemaFor Table.CellEntry :=
   .structure "tableCellEntry"
     [.single "columnKey" Table.CellEntry.columnKey,
      .arr "options" Table.CellEntry.options]
 
-structure Table.CellDataForRowValue where
+public structure Table.CellDataForRowValue where
   rowKey : String
   targetLayerIdentifier : String
   cellEntries : Array Table.CellEntry
 
-instance : SchemaFor Table.CellDataForRowValue :=
+public instance : SchemaFor Table.CellDataForRowValue :=
   .structure "tableCellDataForRowValue"
     [.single "rowKey" Table.CellDataForRowValue.rowKey,
      .single "targetLayerIdentifier" Table.CellDataForRowValue.targetLayerIdentifier,
      .arr "cellEntries" Table.CellDataForRowValue.cellEntries]
 
-structure Table.CellDataForLayer where
+public structure Table.CellDataForLayer where
   sourceLayerIdentifier : String
   rows : Array Table.CellDataForRowValue
 
-instance : SchemaFor Table.CellDataForLayer :=
+public instance : SchemaFor Table.CellDataForLayer :=
   .structure "tableCellDataForLayer"
     [.single "sourceLayerIdentifier" Table.CellDataForLayer.sourceLayerIdentifier,
      .arr "rows" Table.CellDataForLayer.rows]
 
-structure Table.Definition where
+public structure Table.Definition where
   widgetId : String
   title : String
   description : String
@@ -238,7 +243,7 @@ structure Table.Definition where
   columnSource : Table.AssociationSource
   cells : Array CellDataForLayer
 
-instance schemaTableDefinition : SchemaFor Table.Definition :=
+public instance schemaTableDefinition : SchemaFor Table.Definition :=
   .structure "tableDefinition"
     [.single "widgetId" Table.Definition.widgetId,
      .single "title" Table.Definition.title,
@@ -251,12 +256,12 @@ instance schemaTableDefinition : SchemaFor Table.Definition :=
      .single "columnSource" Table.Definition.columnSource,
      .arr "cells" Table.Definition.cells]
 
-structure Table where
+public structure Table where
   definition : Table.Definition
   state : Table.State
   facts : Array Table.Fact
 
-instance : SchemaFor Table :=
+public instance : SchemaFor Table :=
   .structure "table"
     [.single "definition" Table.definition,
      .single "state" Table.state,
@@ -425,7 +430,7 @@ def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] 
 end Table
 
 
-def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [HasId δ] [DisplayShort δ]
+public def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BEq δ] [HasId δ] [DisplayShort δ]
     {l : List δ} (t : Table rowKind columnKind cellKind l) : RenderM Data.Table := do
   let ⟨rowSource, rowValues, rowAssociations⟩ ← Table.processAssociationSource t.rowsFrom
   let ⟨columnSource, columnValues, columnAssociations⟩ ← Table.processAssociationSource t.columnsFrom

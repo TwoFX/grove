@@ -3,7 +3,9 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.Subexpression.Basic
+module
+
+public import Grove.Framework.Subexpression.Basic
 
 /-!
 A library of useful subexpressions
@@ -25,16 +27,16 @@ def getElemGeneric (getElemConst : Name) (suffix : String) (containerType : Name
     | some indexTy => .app withContainer (.appOf indexTy)
   computeTargetNamespace n _ := pure n
 
-def getElem (containerType : Name) (indexType : Option Name := none) : Subexpression :=
+public def getElem (containerType : Name) (indexType : Option Name := none) : Subexpression :=
   .predicate <| getElemGeneric ``GetElem.getElem "" containerType indexType
 
-def getElem? (containerType : Name) (indexType : Option Name := none) : Subexpression :=
+public def getElem? (containerType : Name) (indexType : Option Name := none) : Subexpression :=
   .predicate <| getElemGeneric ``GetElem?.getElem? "?" containerType indexType
 
-def getElem! (containerType : Name) (indexType : Option Name := none) : Subexpression :=
+public def getElem! (containerType : Name) (indexType : Option Name := none) : Subexpression :=
   .predicate <| getElemGeneric ``GetElem?.getElem! "!" containerType indexType
 
-def emptyCollection (containerType : Name) : Subexpression :=
+public def emptyCollection (containerType : Name) : Subexpression :=
   .predicate {
     displayShort := "∅"
     predicate := .app (.const ``EmptyCollection.emptyCollection) (.appOf containerType)
@@ -46,19 +48,19 @@ def homogeneousBinaryOperator (const : Name) (notation_ : String) (type : Name) 
   predicate := .app3 (.const const) (.appOf type) (.appOf type) (.appOf type)
   computeTargetNamespace n _ := pure n
 
-def add (type : Name) : Subexpression :=
+public def add (type : Name) : Subexpression :=
   .predicate <| homogeneousBinaryOperator ``HAdd.hAdd "+" type
 
-def sub (type : Name) : Subexpression :=
+public def sub (type : Name) : Subexpression :=
   .predicate <| homogeneousBinaryOperator ``HSub.hSub "-" type
 
-def mul (type : Name) : Subexpression :=
+public def mul (type : Name) : Subexpression :=
   .predicate <| homogeneousBinaryOperator ``HMul.hMul "*" type
 
-def div (type : Name) : Subexpression :=
+public def div (type : Name) : Subexpression :=
   .predicate <| homogeneousBinaryOperator ``HDiv.hDiv "/" type
 
-def mod (type : Name) : Subexpression :=
+public def mod (type : Name) : Subexpression :=
   .predicate <| homogeneousBinaryOperator ``HMod.hMod "%" type
 
 end Subexpression

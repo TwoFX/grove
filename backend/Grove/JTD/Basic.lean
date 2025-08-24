@@ -3,7 +3,9 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Lean.Data.Json.FromToJson
+module
+
+public import Lean.Data.Json.FromToJson
 import Std.Data.HashMap
 
 open Lean
@@ -58,63 +60,66 @@ inductive Schema where
 
 end
 
+-- TODO: test that this instance cannot be public after Sebastian's fix lands
 instance : Inhabited Schema where
-  default := .empty
+  default := Schema.empty
 
 def Schema.toJson : Schema → List (String × Json)
-  | .empty => []
-  | .type p => [("type", p.toString)]
-  | .enum l => [("enum", .arr (l.toArray.map Json.str))]
-  | .elements s => [("elements", .mkObj s.toJson)]
-  | .properties p => [("properties", .mkObj (p.map propJson))]
-  | .discriminator s cases =>  [("discriminator", s), ("mapping", .mkObj (cases.map discJson))]
-  | .ref s => [("ref", s)]
+  | Schema.empty => []
+  | Schema.type p => [("type", p.toString)]
+  | Schema.enum l => [("enum", .arr (l.toArray.map Json.str))]
+  -- TODO: turn the `Schema.toJson s` back into `s.toJson` after #9629
+  | Schema.elements s => [("elements", .mkObj (Schema.toJson s))]
+  | Schema.properties p => [("properties", .mkObj (p.map propJson))]
+  | Schema.discriminator s cases =>  [("discriminator", s), ("mapping", .mkObj (cases.map discJson))]
+  | Schema.ref s => [("ref", s)]
 where
   propJson : Property → String × Json
-    | .mk name s => (name, .mkObj s.toJson)
+    | .mk name s => (name, .mkObj (Schema.toJson s))
   discJson : DiscriminatorCase → String × Json
     | .mk discriminatorValue s => (discriminatorValue,
       match s with
       | none => .mkObj [("optionalProperties", .mkObj [("dummy", .mkObj [("type", "string")])])]
-      | some s => .mkObj [("properties", .mkObj [(discriminatorValue, .mkObj s.toJson)])])
+      | some s => .mkObj [("properties", .mkObj [(discriminatorValue, .mkObj (Schema.toJson s))])])
 
 instance : ToJson Schema where
   toJson := .mkObj ∘ Schema.toJson
 
-class SchemaFor (α : Type u) where
-  addDependencies : Std.HashMap String Schema → Std.HashMap String Schema
-  schema : Schema
-  toJson : α → Json
-deriving Inhabited
+public class SchemaFor (α : Type u) where
+  private addDependencies : Std.HashMap String Schema → Std.HashMap String Schema
+  private schema : Schema
+  private toJson : α → Json
 
-def schemaJson (α : Type u) [SchemaFor α] : Json :=
+public def schemaJson (α : Type u) [SchemaFor α] : Json :=
   let defs := (SchemaFor.addDependencies α ∅).toList.map (fun p => (p.1, Json.mkObj p.2.toJson))
   let defKeys := if defs.isEmpty then [] else [("definitions", Json.mkObj defs)]
   .mkObj ((SchemaFor.schema α).toJson ++ defKeys)
 
-instance (priority := low) {α : Type u} [SchemaFor α] : ToJson α where
-  toJson := SchemaFor.toJson
+public instance (priority := low) {α : Type u} [SchemaFor α] : ToJson α where
+  toJson := private SchemaFor.toJson
 
-instance : SchemaFor String where
+@[instance]
+public def schemaForString : SchemaFor String where
   addDependencies m := m
-  schema := .type .string
+  schema := Schema.type .string
   toJson := toJson
 
-instance : SchemaFor Bool where
+@[instance]
+public def schemaForBool : SchemaFor Bool where
   addDependencies m := m
-  schema := .type .boolean
+  schema := Schema.type .boolean
   toJson := toJson
 
-def SchemaFor.enum {α : Type u} [ToString α] (name : String) (values : List α) : SchemaFor α where
-  addDependencies m := m.insert name (.enum (values.map toString))
-  schema := .ref name
+public def SchemaFor.enum {α : Type u} [ToString α] (name : String) (values : List α) : SchemaFor α where
+  addDependencies m := m.insert name (Schema.enum (values.map toString))
+  schema := Schema.ref name
   toJson := .str ∘ toString
 
-inductive JsonStructureField (α : Type u) where
+public inductive JsonStructureField (α : Type u) where
   | single {β : Type u} (toJson : β → Json := by exact toJson) (name : String) (proj : α → β) : JsonStructureField α
   | arr {β : Type u} (toJson : β → Json := by exact toJson) (name : String) (proj : α → Array β) : JsonStructureField α
 
-inductive StructureField (α : Type u) where
+public inductive StructureField (α : Type u) where
   | single {β : Type u} [SchemaFor β] (name : String) (proj : α → β) : StructureField α
   | arr {β : Type u} [SchemaFor β] (name : String) (proj : α → Array β) : StructureField α
   | backArr (refName : String) {β : Type u} (toJson : β → Json := by exact toJson) (name : String) (proj : α → Array β) : StructureField α
@@ -130,29 +135,29 @@ def JsonStructureField.toJsonProperty {α : Type u} : JsonStructureField α → 
 
 def StructureField.toProperty {α : Type u} : StructureField α → Property
   | @StructureField.single _ β _ name _ => ⟨name, SchemaFor.schema β⟩
-  | @StructureField.arr _ β _ name _ => ⟨name, .elements (SchemaFor.schema β)⟩
-  | @StructureField.backArr _ refName _ _ name _ => ⟨name, .elements (.ref refName)⟩
+  | @StructureField.arr _ β _ name _ => ⟨name, Schema.elements (SchemaFor.schema β)⟩
+  | @StructureField.backArr _ refName _ _ name _ => ⟨name, Schema.elements (Schema.ref refName)⟩
 
 def StructureField.addDependencies {α : Type u} : StructureField α → Std.HashMap String Schema → Std.HashMap String Schema
   | @StructureField.single _ β _ _ _, m => SchemaFor.addDependencies β m
   | @StructureField.arr _ β _ _ _, m => SchemaFor.addDependencies β m
   | @StructureField.backArr _ _ _ _ _ _, m => m
 
-def SchemaFor.structure.toJson {α : Type u} (fields : List (JsonStructureField α)) (a : α) : Json :=
+public def SchemaFor.structure.toJson {α : Type u} (fields : List (JsonStructureField α)) (a : α) : Json :=
   .mkObj (fields.map (fun f => f.toJsonProperty a))
 
-def SchemaFor.structure {α : Type u} (name : String) (fields : List (StructureField α)) : SchemaFor α where
+public def SchemaFor.structure {α : Type u} (name : String) (fields : List (StructureField α)) : SchemaFor α where
   addDependencies m :=
     let upstream : Std.HashMap String Schema := (fields.foldl (init := m) (fun sofar f => f.addDependencies sofar))
-    upstream.insert name (.properties (fields.map StructureField.toProperty))
-  schema := .ref name
+    upstream.insert name (Schema.properties (fields.map StructureField.toProperty))
+  schema := Schema.ref name
   toJson := SchemaFor.structure.toJson (fields.map StructureField.toJsonStructureField)
 
-inductive JsonConstructor (α : Type u) where
+public inductive JsonConstructor (α : Type u) where
   | nullary : String → (is? : α → Bool) → JsonConstructor α
   | unary : (name : String) → (β : Type u) → (get? : α → Option β) → (toJson : β → Json := by exact toJson) → JsonConstructor α
 
-inductive Constructor (α : Type u) where
+public inductive Constructor (α : Type u) where
   | nullary : String → (is? : α → Bool) → Constructor α
   | unary : (name : String) → (β : Type u) → (get? : α → Option β) → (schema : SchemaFor β := by infer_instance) → Constructor α
 
@@ -172,17 +177,17 @@ def JsonConstructor.toJson? {α : Type u} : JsonConstructor α → α → Option
   | .nullary name is?, a => if is? a then some (.mkObj [("constructor", name)]) else none
   | .unary name _ get? toJson, a => (get? a).map (fun b => .mkObj [("constructor", name), (name, toJson b)])
 
-def SchemaFor.inductive.toJson {α : Type u} (constructors : List (JsonConstructor α)) (a : α) : Json := Id.run do
+public def SchemaFor.inductive.toJson {α : Type u} (constructors : List (JsonConstructor α)) (a : α) : Json := Id.run do
   for c in constructors do
     if let some json := c.toJson? a then
       return json
   panic! "No matching constructor found"
 
-def SchemaFor.inductive {α : Type u} (name : String) (constructors : List (Constructor α)) : SchemaFor α where
+public def SchemaFor.inductive {α : Type u} (name : String) (constructors : List (Constructor α)) : SchemaFor α where
   addDependencies m :=
     let upstream : Std.HashMap String Schema := (constructors.foldl (init := m) (fun sofar f => f.addDependencies sofar))
-    upstream.insert name (.discriminator "constructor" (constructors.map Constructor.toDiscriminatorCase))
-  schema := .ref name
+    upstream.insert name (Schema.discriminator "constructor" (constructors.map Constructor.toDiscriminatorCase))
+  schema := Schema.ref name
   toJson := SchemaFor.inductive.toJson (constructors.map Constructor.toJsonConstructor)
 
 end Grove.JTD

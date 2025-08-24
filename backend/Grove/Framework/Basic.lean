@@ -3,13 +3,15 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
 import Lean.Meta.Basic
-import Grove.Framework.Widget.Table.Basic
-import Grove.Framework.Widget.Assertion
-import Grove.Framework.Widget.ShowDeclaration
+public import Grove.Framework.Widget.Table.Basic
+public import Grove.Framework.Widget.Assertion
+public import Grove.Framework.Widget.ShowDeclaration
 import Grove.Framework.Widget.State
-import Grove.Framework.Widget.Text
-import Grove.Framework.Git
+public import Grove.Framework.Widget.Text
+public import Grove.Framework.Git
+public import Grove.Framework.Display
 
 open Lean
 
@@ -17,7 +19,7 @@ namespace Grove.Framework
 
 open Widget
 
-inductive Node where
+public inductive Node where
   | «section» : String → String → Array Node → Node
   | «namespace» : Name → Node
   | associationTable {kind : DataKind} {β : Type} [HasId β] [DisplayShort β]
@@ -28,17 +30,17 @@ inductive Node where
   | showDeclaration : ShowDeclaration → Node
   | text : Text → Node
 
-instance : Coe Assertion Node where
+public instance : Coe Assertion Node where
   coe := .assertion
 
-instance : Coe ShowDeclaration Node where
+public instance : Coe ShowDeclaration Node where
   coe := .showDeclaration
 
-structure Project.Configuration where
+public structure Project.Configuration where
   projectNamespace : Name
   getHash : IO String := getGitHash
 
-structure Project where
+public structure Project where
   config : Project.Configuration
   rootNode : Node
   restoreState : RestoreStateM Unit

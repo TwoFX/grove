@@ -3,9 +3,11 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.Declaration
-import Grove.Framework.Widget.State
-import Lean.Meta.Basic
+module
+
+public import Grove.Framework.Declaration.Basic
+public import Grove.Framework.Widget.State
+public import Std.Data.HashMap
 
 open Lean
 
@@ -15,17 +17,17 @@ open Widget
 
 section RenderM
 
-structure RenderState where
+public structure RenderState where
   declarations : Std.HashMap String Declaration := ∅
 
-def RenderState.getDeclaration (r : RenderState) (n : Name) : MetaM (RenderState × Declaration) :=
+public def RenderState.getDeclaration (r : RenderState) (n : Name) : MetaM (RenderState × Declaration) :=
   match r.declarations.get? n.toString with
   | none => do
     let d ← Declaration.ofName n
     return ({ r with declarations := r.declarations.insert n.toString d }, d)
   | some d => return (r, d)
 
-abbrev RenderM := StateRefT RenderState (ReaderT SavedState LookupM)
+public abbrev RenderM := StateRefT RenderState (ReaderT SavedState LookupM)
 
 def RenderM.modifyGetM {α β : Type} (f : RenderState → α → MetaM (RenderState × β)) (a : α) : RenderM β := do
   let oldState ← get
@@ -34,10 +36,10 @@ def RenderM.modifyGetM {α β : Type} (f : RenderState → α → MetaM (RenderS
   set newState
   return result
 
-def getDeclaration (n : Name) : RenderM Declaration :=
+public def getDeclaration (n : Name) : RenderM Declaration :=
   RenderM.modifyGetM RenderState.getDeclaration n
 
-def RenderM.run {α : Type} (s : SavedState) (r : RenderM α) : MetaM (α × RenderState) :=
+public def RenderM.run {α : Type} (s : SavedState) (r : RenderM α) : MetaM (α × RenderState) :=
   (StateRefT'.run r { }).run s |>.run
 
 end RenderM

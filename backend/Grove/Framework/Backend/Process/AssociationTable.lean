@@ -3,11 +3,16 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
-import Grove.Framework.Reference
 import Grove.Framework.Widget.AssociationTable.Compare
 import Std.Data.Iterators
+public import Grove.Framework.Reference
+public import Grove.Framework.Display
+public import Grove.Framework.Backend.RenderM.Basic
+public import Grove.Framework.Widget.AssociationTable.Basic
 
 open Lean
 
@@ -17,34 +22,34 @@ open Widget JTD
 
 namespace Data
 
-structure AssociationTable.Cell where
+public structure AssociationTable.Cell where
   columnIdentifier : String
   cellValue : String
 
-instance : SchemaFor AssociationTable.Cell :=
+public instance : SchemaFor AssociationTable.Cell :=
   .structure "associationTableCell"
     [.single "columnIdentifier" AssociationTable.Cell.columnIdentifier,
      .single "cellValue" AssociationTable.Cell.cellValue]
 
-structure AssociationTable.Row where
+public structure AssociationTable.Row where
   uuid : String
   title : String
   columns : Array AssociationTable.Cell
 
-instance : SchemaFor AssociationTable.Row :=
+public instance : SchemaFor AssociationTable.Row :=
   .structure "associationTableRow"
     [.single "uuid" AssociationTable.Row.uuid,
      .single "title" AssociationTable.Row.title,
      .arr "columns" AssociationTable.Row.columns]
 
-structure AssociationTable.CellOption.Other where
+public structure AssociationTable.CellOption.Other where
   value : String
   shortDescription : String
   longDescription : String
   reference : Reference
   stateRepr : String
 
-instance : SchemaFor AssociationTable.CellOption.Other :=
+public instance : SchemaFor AssociationTable.CellOption.Other :=
   .structure "associationTableCellOptionOther"
     [.single "value" AssociationTable.CellOption.Other.value,
      .single "shortDescription" AssociationTable.CellOption.Other.shortDescription,
@@ -52,38 +57,38 @@ instance : SchemaFor AssociationTable.CellOption.Other :=
      .single "reference" AssociationTable.CellOption.Other.reference,
      .single "stateRepr" AssociationTable.CellOption.Other.stateRepr]
 
-inductive AssociationTable.CellOption where
+public inductive AssociationTable.CellOption where
   | declaration : String → AssociationTable.CellOption
   | other : AssociationTable.CellOption.Other → AssociationTable.CellOption
 
-instance : SchemaFor AssociationTable.CellOption :=
+public instance : SchemaFor AssociationTable.CellOption :=
   .inductive "associationTableCellOption"
     [.unary "declaration" String (fun | .declaration d => some d | _ => none),
      .unary "other" AssociationTable.CellOption.Other (fun | .other o => some o | _ => none)]
 
-structure AssociationTable.ColumnDiscription where
+public structure AssociationTable.ColumnDiscription where
   identifier : String
   shortDescription : String
   options : Array AssociationTable.CellOption
 
-instance : SchemaFor AssociationTable.ColumnDiscription :=
+public instance : SchemaFor AssociationTable.ColumnDiscription :=
   .structure "associationTableColumnDescription"
     [.single "identifier" AssociationTable.ColumnDiscription.identifier,
      .single "shortDescription" AssociationTable.ColumnDiscription.shortDescription,
      .arr "options" AssociationTable.ColumnDiscription.options]
 
-structure AssociationTable.Fact.CellState where
+public structure AssociationTable.Fact.CellState where
   columnIdentifier : String
   cellValue : String
   stateRepr : String
 
-instance : SchemaFor AssociationTable.Fact.CellState :=
+public instance : SchemaFor AssociationTable.Fact.CellState :=
   .structure "associationTableFactCellState"
     [.single "columnIdentifier" AssociationTable.Fact.CellState.columnIdentifier,
      .single "cellValue" AssociationTable.Fact.CellState.cellValue,
      .single "stateRepr" AssociationTable.Fact.CellState.stateRepr]
 
-structure AssociationTable.Fact where
+public structure AssociationTable.Fact where
   widgetId : String
   factId : String
   rowId : String
@@ -91,12 +96,12 @@ structure AssociationTable.Fact where
   metadata : Fact.Metadata
   validationResult : Fact.ValidationResult
 
-instance : ValidatedFact AssociationTable.Fact where
+public instance : ValidatedFact AssociationTable.Fact where
   widgetId := AssociationTable.Fact.widgetId
   factId := AssociationTable.Fact.factId
   validationResult := AssociationTable.Fact.validationResult
 
-instance : SchemaFor AssociationTable.Fact :=
+public instance schemaForAssociationTableFact : SchemaFor AssociationTable.Fact :=
   .structure "associationTableFact"
     [.single "widgetId" AssociationTable.Fact.widgetId,
      .single "factId" AssociationTable.Fact.factId,
@@ -105,14 +110,14 @@ instance : SchemaFor AssociationTable.Fact :=
      .single "metadata" AssociationTable.Fact.metadata,
      .single "validationResult" AssociationTable.Fact.validationResult]
 
-structure AssociationTable.Definition where
+public structure AssociationTable.Definition where
   widgetId : String
   title : String
   description : String
   dataKind : DataKind
   columns : Array AssociationTable.ColumnDiscription
 
-instance : SchemaFor AssociationTable.Definition :=
+public instance schemaForAssociationTableDefinition : SchemaFor AssociationTable.Definition :=
   .structure "associationTableDefinition"
     [.single "widgetId" AssociationTable.Definition.widgetId,
      .single "title" AssociationTable.Definition.title,
@@ -120,19 +125,19 @@ instance : SchemaFor AssociationTable.Definition :=
      .single "dataKind" AssociationTable.Definition.dataKind,
      .arr "columns" AssociationTable.Definition.columns]
 
-structure AssociationTable.State where
+public structure AssociationTable.State where
   rows : Array AssociationTable.Row
 
-instance : SchemaFor AssociationTable.State :=
+public instance : SchemaFor AssociationTable.State :=
   .structure "associationTableState"
     [.arr "rows" AssociationTable.State.rows]
 
-structure AssociationTable where
+public structure AssociationTable where
   definition : AssociationTable.Definition
   state : AssociationTable.State
   facts : Array AssociationTable.Fact
 
-instance : SchemaFor AssociationTable :=
+public instance : SchemaFor AssociationTable :=
   .structure "associationTable"
     [.single "definition" AssociationTable.definition,
      .single "state" AssociationTable.state,
@@ -215,7 +220,7 @@ end AssociationTable
 
 open AssociationTable
 
-def processAssociationTable {kind : DataKind} {β : Type} [HasId β] [DisplayShort β] {l : List β}
+public def processAssociationTable {kind : DataKind} {β : Type} [HasId β] [DisplayShort β] {l : List β}
     (t : AssociationTable kind l) : RenderM Data.AssociationTable := do
   let columns ← processColumnDescriptions l t.dataSources
 

@@ -3,7 +3,7 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-
+module
 namespace Grove.Framework
 
 def getGitHashViaCommand : IO String :=
@@ -15,7 +15,7 @@ def getGitHashViaCommand : IO String :=
 def getGitHashFromEnvironmentVariable : IO (Option String) :=
   IO.getEnv "GROVE_GIT_HASH"
 
-def getGitHash : IO String := do
+public def getGitHash : IO String := do
   match ← getGitHashFromEnvironmentVariable with
   | none => getGitHashViaCommand
   | some hash => return hash

@@ -3,12 +3,16 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.Widget.AssociationTable.Basic
+module
+
+public import Grove.Framework.Display
+public import Grove.Framework.Widget.AssociationTable.Basic
 import Grove.Framework.Display
+import Grove.Markdown.Basic
 
 namespace Grove.Framework.Widget.AssociationTable.Fact
 
-def describeDifferences {β : Type} [HasId β] [DisplayShort β] (columnIdentifiers : List β)
+public def describeDifferences {β : Type} [HasId β] [DisplayShort β] (columnIdentifiers : List β)
     {kind : DataKind} (old new : Array (CellState kind)) : Option String :=
   let differences := columnIdentifiers.flatMap (fun identifier =>
     describeCellDifference identifier (findCell old identifier) (findCell new identifier))

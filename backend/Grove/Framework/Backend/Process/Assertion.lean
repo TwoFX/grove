@@ -3,8 +3,13 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.Basic
+import Grove.Markdown.Basic
+public import Grove.Framework.Widget.Assertion.Basic
+public import Grove.Framework.Backend.RenderM.Basic
 
 namespace Grove.Framework.Backend.Full
 
@@ -12,33 +17,33 @@ open Widget JTD Std
 
 namespace Data
 
-structure Assertion.Result where
+public structure Assertion.Result where
   assertionId : String
   description : String
   passed : Bool
   message : String
 
-instance : SchemaFor Assertion.Result :=
+public instance : SchemaFor Assertion.Result :=
   .structure "AssertionResult"
     [.single "assertionId" Assertion.Result.assertionId,
      .single "description" Assertion.Result.description,
      .single "passed" Assertion.Result.passed,
      .single "message" Assertion.Result.message]
 
-structure Assertion.Definition where
+public structure Assertion.Definition where
   widgetId : String
   title : String
   description : String
   results : Array Assertion.Result
 
-instance schemaAssertionDefinition : SchemaFor Assertion.Definition :=
+public instance schemaAssertionDefinition : SchemaFor Assertion.Definition :=
   .structure "AssertionDefinition"
     [.single "widgetId" Assertion.Definition.widgetId,
      .single "title" Assertion.Definition.title,
      .single "description" Assertion.Definition.description,
      .arr "results" Assertion.Definition.results]
 
-structure Assertion.Fact where
+public structure Assertion.Fact where
   widgetId : String
   factId : String
   assertionId : String
@@ -46,12 +51,12 @@ structure Assertion.Fact where
   metadata : Fact.Metadata
   validationResult : Fact.ValidationResult
 
-instance validatedFactAssertionFact : ValidatedFact Assertion.Fact where
+public instance validatedFactAssertionFact : ValidatedFact Assertion.Fact where
   widgetId := Assertion.Fact.widgetId
   factId := Assertion.Fact.factId
   validationResult := Assertion.Fact.validationResult
 
-instance schemaAssertionFact : SchemaFor Assertion.Fact :=
+public instance schemaAssertionFact : SchemaFor Assertion.Fact :=
   .structure "AssertionFact"
     [.single "widgetId" Assertion.Fact.widgetId,
      .single "factId" Assertion.Fact.factId,
@@ -60,11 +65,11 @@ instance schemaAssertionFact : SchemaFor Assertion.Fact :=
      .single "metadata" Assertion.Fact.metadata,
      .single "validationResult" Assertion.Fact.validationResult]
 
-structure Assertion where
+public structure Assertion where
   definition : Assertion.Definition
   facts : Array Assertion.Fact
 
-instance : SchemaFor Assertion :=
+public instance : SchemaFor Assertion :=
   .structure "Assertion"
     [.single "definition" Assertion.definition,
      .arr "facts" Assertion.facts]
@@ -110,7 +115,7 @@ where
 
 end Assertion
 
-def processAssertion (a : Assertion) : RenderM Data.Assertion := do
+public def processAssertion (a : Assertion) : RenderM Data.Assertion := do
   let results ← a.check
 
   let savedFacts := (← findAssertion? a.widgetId).map Assertion.Data.facts |>.getD #[]

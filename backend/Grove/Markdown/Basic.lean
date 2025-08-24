@@ -3,15 +3,15 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-
+module
 namespace Grove.Markdown
 
-inductive Paragraph where
+public inductive Paragraph where
   | text : String → Paragraph
   | codeBlock : String → Paragraph
   | blockQuote : String → Paragraph
 
-instance : Coe String Paragraph where
+public instance : Coe String Paragraph where
   coe := .text
 
 def Paragraph.render : Paragraph → String
@@ -19,7 +19,7 @@ def Paragraph.render : Paragraph → String
   | codeBlock c => s!"```\n{c}{if c.endsWith "\n" then "" else "\n"}```"
   | blockQuote b => String.intercalate "\n" <| List.map ("> " ++ ·) <| b.splitOn "\n"
 
-def render (l : List Paragraph) : String :=
+public def render (l : List Paragraph) : String :=
   String.intercalate "\n\n" (l.map Paragraph.render)
 
 end Grove.Markdown

@@ -3,14 +3,17 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
+public import Lean.Meta.Basic
 import Grove.Framework.Declaration.Name
 
 open Lean
 
 namespace Grove.Framework
 
-structure LookupM.State where
-  isAutoDeclCache : Std.HashMap Lean.Name Bool := ∅
+public structure LookupM.State where
+  private isAutoDeclCache : Std.HashMap Lean.Name Bool := ∅
 
 namespace LookupM.State
 
@@ -24,7 +27,7 @@ def isAutoDecl (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
 
 end LookupM.State
 
-abbrev LookupM := StateRefT LookupM.State MetaM
+public abbrev LookupM := StateRefT LookupM.State MetaM
 
 def LookupM.modifyGetM {α β : Type} (f : LookupM.State → α → MetaM (LookupM.State × β)) (a : α) : LookupM β := do
   let oldState ← get
@@ -33,10 +36,10 @@ def LookupM.modifyGetM {α β : Type} (f : LookupM.State → α → MetaM (Looku
   set newState
   return result
 
-def isAutoDecl (n : Name) : LookupM Bool :=
+public def isAutoDecl (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isAutoDecl n
 
-def LookupM.run (f : LookupM α) : MetaM α :=
+public def LookupM.run (f : LookupM α) : MetaM α :=
   StateRefT'.run' f { }
 
 end Grove.Framework

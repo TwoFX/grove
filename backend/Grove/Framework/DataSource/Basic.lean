@@ -3,12 +3,15 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
 import Lean.Meta.Basic
+import Lean.AddDecl
 import Grove.Framework.HasId
-import Grove.Framework.Declaration
-import Grove.Framework.Subexpression.Basic
-import Grove.JTD.Basic
-import Grove.Framework.LookupM
+import Grove.Framework.Declaration.Basic
+public import Grove.Framework.Subexpression.Basic
+public import Grove.JTD.Basic
+public import Grove.Framework.LookupM
 
 open Lean Meta
 
@@ -16,7 +19,7 @@ namespace Grove.Framework
 
 open JTD
 
-inductive DataKind where
+public inductive DataKind where
   | declaration : DataKind
   | subexpression : DataKind
 deriving DecidableEq
@@ -26,113 +29,114 @@ instance : ToString DataKind where
     | .declaration => "declaration"
     | .subexpression => "subexpression"
 
-instance : SchemaFor DataKind :=
+@[no_expose]
+public instance : SchemaFor DataKind :=
   .enum "dataKind" [.declaration, .subexpression]
 
-abbrev DataKind.Key : DataKind → Type
+public abbrev DataKind.Key : DataKind → Type
   | .declaration => Name
   | .subexpression => Subexpression
 
-abbrev DataKind.State : DataKind → Type
+public abbrev DataKind.State : DataKind → Type
   | .declaration => Declaration
   | .subexpression => Subexpression.State
 
-instance : (kind : DataKind) → BEq kind.State
+public instance : (kind : DataKind) → BEq kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
 
-instance : (kind : DataKind) → Inhabited kind.Key
+public instance : (kind : DataKind) → Inhabited kind.Key
   | .declaration => inferInstance
   | .subexpression => inferInstance
 
-instance : (kind : DataKind) → Repr kind.State
+public instance : (kind : DataKind) → Repr kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
 
-def DataKind.getState : (kind : DataKind) → kind.Key → MetaM kind.State
+public def DataKind.getState : (kind : DataKind) → kind.Key → MetaM kind.State
   | .declaration, n => Declaration.ofName n
   | .subexpression, s => s.state
 
-def DataKind.keyString : (kind : DataKind) → kind.Key → String
+public def DataKind.keyString : (kind : DataKind) → kind.Key → String
   | .declaration, n => n.toString
   | .subexpression, p => p.toString
 
-def DataKind.reprState : (kind : DataKind) → kind.State → String
+public def DataKind.reprState : (kind : DataKind) → kind.State → String
   | .declaration, s => s.repr
   | .subexpression, s => s.repr
 
-def DataKind.displayShort : (kind : DataKind) → kind.State → String
+public def DataKind.displayShort : (kind : DataKind) → kind.State → String
   | .declaration, s => s.name.toString
   | .subexpression, p => p.displayShort
 
-def DataKind.describeDifferences : (kind : DataKind) → kind.State → kind.State → Option String
+public def DataKind.describeDifferences : (kind : DataKind) → kind.State → kind.State → Option String
   | .declaration, old, new => Declaration.describeDifferences old new
   | .subexpression, old, new => Subexpression.State.describeDifferences old new
 
-structure DataSource (kind : DataKind) where
+public structure DataSource (kind : DataKind) where
   getAll : LookupM (Array kind.Key)
   getById? : String → LookupM (Option kind.Key)
 
 namespace DataSource
 
-def map {k l : DataKind} (f : k.Key → l.Key) (s : DataSource k) : DataSource l where
+public def map {k l : DataKind} (f : k.Key → l.Key) (s : DataSource k) : DataSource l where
   getAll := Array.map f <$> s.getAll
   getById? id := Option.map f <$> s.getById? id
 
-def or {kind : DataKind} (s t : DataSource kind) : DataSource kind where
+public def or {kind : DataKind} (s t : DataSource kind) : DataSource kind where
   getAll := return (← s.getAll) ++ (← t.getAll)
   getById? id := return (← s.getById? id) <|> (← t.getById? id)
 
-def ofArray {kind : DataKind} (l : Array kind.Key) : DataSource kind :=
+public def ofArray {kind : DataKind} (l : Array kind.Key) : DataSource kind :=
   let m : Std.HashMap String kind.Key := l.foldl (init := ∅) (fun sofar a => sofar.insert (kind.keyString a) a)
   {
     getAll := pure l
     getById? := (pure m[·]?)
   }
 
-structure DeclarationPredicate where
+public structure DeclarationPredicate where
   check : Name → ConstantInfo → LookupM Bool
 
 namespace DeclarationPredicate
 
-protected def true : DeclarationPredicate where
+public protected def true : DeclarationPredicate where
   check _ _ := pure true
 
-def and (p₁ p₂ : DeclarationPredicate) : DeclarationPredicate where
+public def and (p₁ p₂ : DeclarationPredicate) : DeclarationPredicate where
   check n c := p₁.check n c <&&> p₂.check n c
 
-def all (p : List DeclarationPredicate) : DeclarationPredicate where
+public def all (p : List DeclarationPredicate) : DeclarationPredicate where
   check n c := p.allM (·.check n c)
 
-def not (p : DeclarationPredicate) : DeclarationPredicate where
+public def not (p : DeclarationPredicate) : DeclarationPredicate where
   check n c := (!·) <$> p.check n c
 
-def notAutoDecl : DeclarationPredicate where
+public def notAutoDecl : DeclarationPredicate where
   check n _ := (!·) <$> isAutoDecl n
 
-def notInternalName : DeclarationPredicate where
+public def notInternalName : DeclarationPredicate where
   check n _ := pure (!n.anyS (·.endsWith "Internal"))
 
-def notInternal : DeclarationPredicate :=
+public def notInternal : DeclarationPredicate :=
   notAutoDecl.and notInternalName
 
-def inNamespace (namesp : Name) : DeclarationPredicate where
+public def inNamespace (namesp : Name) : DeclarationPredicate where
   check n _ := pure <| namesp.isPrefixOf n
 
-def notInNamespace (namesp : Name) : DeclarationPredicate :=
+public def notInNamespace (namesp : Name) : DeclarationPredicate :=
   not (inNamespace namesp)
 
-def disallow (names : List Name) : DeclarationPredicate :=
+public def disallow (names : List Name) : DeclarationPredicate :=
   let set : NameSet := .ofList names
   ⟨fun n _ => pure <| !set.contains n⟩
 
-def isTheorem : DeclarationPredicate where
+public def isTheorem : DeclarationPredicate where
   check _ c := checkConstant c
 where
   -- TODO: duplicated in Declaration/Basic.lean
   checkConstant (c : ConstantInfo) : MetaM Bool := do
-    if getOriginalConstKind? (← getEnv) c.name == some .thm then
-      return true
+    if Lean.getOriginalConstKind? (← getEnv) c.name == some .thm then
+      return Bool.true
 
     try
       let t ← inferType c.type
@@ -140,12 +144,12 @@ where
     catch
       | _ => return false
 
-def isDefinition : DeclarationPredicate :=
+public def isDefinition : DeclarationPredicate :=
   not isTheorem
 
 end DeclarationPredicate
 
-def declarationsMatching (pred : DeclarationPredicate) (allowInternal : Bool := false) :
+public def declarationsMatching (pred : DeclarationPredicate) (allowInternal : Bool := false) :
     DataSource .declaration :=
   let pred := if allowInternal then pred else DeclarationPredicate.notInternal.and pred
   { getAll := do
@@ -163,7 +167,7 @@ def declarationsMatching (pred : DeclarationPredicate) (allowInternal : Bool := 
       | false => pure none
       | true => pure (some name) }
 
-def definitionsInNamespace (namesp : Name)
+public def definitionsInNamespace (namesp : Name)
     (additionalCheck : DeclarationPredicate := DeclarationPredicate.true) : DataSource .declaration :=
   declarationsMatching <| DeclarationPredicate.all
     [DeclarationPredicate.inNamespace namesp, .isDefinition, additionalCheck]

@@ -3,8 +3,10 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
 import Lean.Meta.Basic
-import Grove.JTD.Basic
+public import Grove.JTD.Basic
 
 open Lean
 
@@ -14,7 +16,7 @@ open JTD
 
 namespace Fact
 
-inductive Status where
+public inductive Status where
   /-- This is confirmed good. -/
   | done
   /-- This is confirmed good because there is nothing to do. -/
@@ -34,31 +36,32 @@ instance : ToString Status where
     | .postponed => "postponed"
     | .bad => "bad"
 
-instance : SchemaFor Status :=
+@[no_expose]
+public instance : SchemaFor Status :=
   .enum "factStatus" [.done, .nothingToDo, .believedGood, .postponed, .bad]
 
-structure Metadata where
+public structure Metadata where
   status : Status
   comment : String
 
-instance : SchemaFor Metadata :=
+public instance : SchemaFor Metadata :=
   .structure "factMetadata" [.single "status" Metadata.status, .single "comment" Metadata.comment]
 
-structure Invalidation where
+public structure Invalidation where
   shortDescription : String
   longDescription : String
 
-instance : SchemaFor Invalidation :=
+public instance : SchemaFor Invalidation :=
   .structure "invalidation"
     [.single "shortDescription" Invalidation.shortDescription,
      .single "longDescription" Invalidation.longDescription]
 
-inductive ValidationResult where
+public inductive ValidationResult where
   | new : ValidationResult
   | ok : ValidationResult
   | invalidated : Invalidation → ValidationResult
 
-instance : SchemaFor ValidationResult :=
+public instance : SchemaFor ValidationResult :=
   .inductive "factValidationResult"
     [.nullary "new" (fun | .new => true | _ => false),
      .nullary "ok" (fun | .ok => true | _ => false),
@@ -66,7 +69,7 @@ instance : SchemaFor ValidationResult :=
 
 end Fact
 
-class ValidatedFact (α : Type) where
+public class ValidatedFact (α : Type) where
   widgetId : α → String
   factId : α → String
   validationResult : α → Fact.ValidationResult

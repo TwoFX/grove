@@ -3,23 +3,25 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
 import Lean.Meta.Basic
-import Grove.Framework.Widget.State
-import Grove.Framework.Widget.Assertion.Fact
+public import Grove.Framework.Widget.State
+public import Grove.Framework.Widget.Assertion.Fact
 
 open Lean
 
 namespace Grove.Framework.Widget
 
-def Assertion.Result.success (assertionId description message : String) : Assertion.Result :=
+public def Assertion.Result.success (assertionId description message : String) : Assertion.Result :=
   ⟨assertionId, description, true, message⟩
 
-def Assertion.Result.failure (assertionId description message : String) : Assertion.Result :=
+public def Assertion.Result.failure (assertionId description message : String) : Assertion.Result :=
   ⟨assertionId, description, false, message⟩
 
-abbrev AssertM := ReaderT SavedState LookupM
+public abbrev AssertM := ReaderT SavedState LookupM
 
-structure Assertion where
+public structure Assertion where
   widgetId : String
   title : String
   description : String

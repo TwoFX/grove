@@ -3,7 +3,11 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.Backend.Process
+module
+
+public import Grove.Framework.Basic
+public import Grove.Framework.Backend.Data
+public import Grove.Framework.Backend.Process
 
 open Lean
 
@@ -15,14 +19,16 @@ namespace Full
 
 namespace Data
 
+public section
+
 mutual
 
-structure Section where
+public structure Section where
   id : String
   title : String
   children : Array Node
 
-inductive Node where
+public inductive Node where
   | «section» : Section → Node
   | associationTable : AssociationTable → Node
   | table : Table → Node
@@ -33,15 +39,16 @@ inductive Node where
 
 end
 
+
 mutual
 
-partial def Section.toJson (s : Section) : Json :=
+public partial def Section.toJson (s : Section) : Json :=
   SchemaFor.structure.toJson
     [.single toJson "id" Section.id,
      .single toJson "title" Section.title,
      .arr Node.toJson "children" Section.children] s
 
-partial def Node.toJson (n : Node) : Json :=
+public partial def Node.toJson (n : Node) : Json :=
   SchemaFor.inductive.toJson
     [.unary "section" Section (fun | .section s => some s | _ => none) Section.toJson,
      .unary "associationTable" AssociationTable (fun | .associationTable a => some a | _ => none),
@@ -53,13 +60,15 @@ partial def Node.toJson (n : Node) : Json :=
 
 end
 
-instance : SchemaFor Section :=
+end
+
+public instance : SchemaFor Section :=
   .structure "section"
     [.single "id" Section.id,
      .single "title" Section.title,
      .backArr "node" Node.toJson "children" Section.children]
 
-instance : SchemaFor Node :=
+public instance : SchemaFor Node :=
   .inductive "node"
     [.unary "section" Section (fun | .section s => some s | _ => none),
      .unary "associationTable" AssociationTable (fun | .associationTable a => some a | _ => none),
@@ -69,32 +78,32 @@ instance : SchemaFor Node :=
      .unary "showDeclaration" ShowDeclaration (fun | .showDeclaration s => some s | _ => none),
      .unary "text" Text (fun | .text t => some t | _ => none)]
 
-structure Project where
+public structure Project where
   projectNamespace : String
   hash : String
   rootNode : Node
   declarations : Array Data.Declaration
 
-instance : SchemaFor Project :=
+public instance : SchemaFor Project :=
   .structure "project"
     [.single "projectNamespace" Project.projectNamespace,
      .single "hash" Project.hash,
      .single "rootNode" Project.rootNode,
      .arr "declarations" Project.declarations]
 
-structure InvalidatedFact where
+public structure InvalidatedFact where
   widgetId : String
   factId : String
 
-instance : SchemaFor InvalidatedFact :=
+public instance : SchemaFor InvalidatedFact :=
   .structure "invalidatedFact"
     [.single "widgetId" InvalidatedFact.widgetId,
      .single "factId" InvalidatedFact.factId]
 
-structure InvalidatedFacts where
+public structure InvalidatedFacts where
   invalidatedFacts : Array InvalidatedFact
 
-instance : SchemaFor InvalidatedFacts :=
+public instance : SchemaFor InvalidatedFacts :=
   .structure "invalidatedFacts"
     [.arr "invalidatedFacts" InvalidatedFacts.invalidatedFacts]
 
@@ -113,7 +122,7 @@ def processDeclaration : Declaration → Data.Declaration
 
 def processShowDeclaration (s : ShowDeclaration) : RenderM Data.ShowDeclaration := do
   let decl ← getDeclaration s.name
-  let facts ← ((← getSavedState).showDeclarationFacts.getD s.id #[]).mapM (processFact s.id decl)
+  let facts ← ((← findShowDeclarationFacts? s.id).getD #[]).mapM (processFact s.id decl)
   return {
     definition := {
       id := s.id
@@ -155,7 +164,7 @@ def processProject (p : Project) : MetaM Data.Project := do
     declarations := renderState.declarations.valuesArray.map processDeclaration
   }
 
-structure RenderResult where
+public structure RenderResult where
   fullOutput : String
   invalidatedFacts : String
 
@@ -206,7 +215,7 @@ where
   register (id : String) : StateM (Std.HashSet String × Std.HashSet String) PUnit :=
     modify (fun (once, twice) => if id ∈ once then (once, twice.insert id) else (once.insert id, twice))
 
-def render (p : Project) : MetaM (Except String RenderResult) := do
+public def render (p : Project) : MetaM (Except String RenderResult) := do
   (Except.map (·.render) ∘ Data.Project.validate) <$> processProject p
 
 end Full

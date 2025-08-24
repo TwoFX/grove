@@ -3,8 +3,10 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.DataSource.Basic
-import Grove.Framework.Fact
+module
+
+public import Grove.Framework.DataSource.Basic
+public import Grove.Framework.Fact
 
 namespace Grove.Framework.Widget
 
@@ -18,36 +20,36 @@ definitions in that namespace, and there are rows like `(List.map, Array.map, ..
 `(List.flatMap, Array.flatMap, ...)`.
 -/
 -- TODO: assume things about α and β to give them identity.
-structure AssociationTable (cellKind : DataKind) {β : Type} (columnIdentifiers : List β) : Type where
+public structure AssociationTable (cellKind : DataKind) {β : Type} (columnIdentifiers : List β) : Type where
   id : String
   title : String
   description : String := ""
   dataSources : β → DataSource cellKind
 
-structure AssociationTable.Data.Cell where
+public structure AssociationTable.Data.Cell where
   columnIdentifier : String
   cellValue : String
 
-structure AssociationTable.Data.Row where
+public structure AssociationTable.Data.Row where
   uuid : String
   title : String
   columns : Array AssociationTable.Data.Cell
 
-structure AssociationTable.Fact.CellState (cellKind : DataKind) where
+public structure AssociationTable.Fact.CellState (cellKind : DataKind) where
   columnIdentifier : String
   cellValue : String
   cellState : cellKind.State
 deriving BEq
 
 -- Row looks good (AD-4/AD-8)
-structure AssociationTable.Fact (cellKind : DataKind) where
+public structure AssociationTable.Fact (cellKind : DataKind) where
   widgetId : String
   factId : String
   rowId : String
   rowState : Array (AssociationTable.Fact.CellState cellKind)
   metadata : Fact.Metadata
 
-structure AssociationTable.Data (cellKind : DataKind) where
+public structure AssociationTable.Data (cellKind : DataKind) where
   widgetId : String
   rows : Array AssociationTable.Data.Row
   facts : Array (AssociationTable.Fact cellKind)

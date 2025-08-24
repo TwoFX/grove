@@ -3,8 +3,9 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.Framework.Widget.Table.CellDataProvider
-import Grove.Framework.Subexpression
+module
+
+public import Grove.Framework.Widget.Table.CellDataProvider
 
 open Lean
 
@@ -17,7 +18,7 @@ namespace CellDataProvider
 namespace Classic
 
 -- Target namespace overrides, ...
-structure Configuration where
+public structure Configuration where
   relevantNamespaces : Option (List Name) := none
   declarationPredicate : DeclarationPredicate := .true
 
@@ -95,7 +96,7 @@ def cellDataForSourceLayer {layerIdentifiers : List Name}
 
 end Classic
 
-def classic (layerIdentifiers : List Name) (config : Classic.Configuration := {}) :
+public def classic (layerIdentifiers : List Name) (config : Classic.Configuration := {}) :
     CellDataProvider .subexpression .subexpression .declaration layerIdentifiers where
   getById? id := pure (some id.toName)
   getCells possibleRowValues possibleColValues := do

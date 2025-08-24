@@ -3,7 +3,9 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
-import Grove.JTD.Basic
+module
+
+public import Grove.JTD.Basic
 
 namespace Grove.Framework
 
@@ -13,11 +15,11 @@ open JTD
 table, a cell might contain a reference to a declaration, so if the user selects a cell, then we
 might show additional information about the declaration in a side bar and the user can assert
 facts about the declaration there. -/
-inductive Reference where
+public inductive Reference where
   | none : Reference
   | declaration : String → Reference
 
-instance : SchemaFor Reference :=
+public instance : SchemaFor Reference :=
   .inductive "reference"
     [.nullary "none" (fun | .none => true | _ => false),
      .unary "declaration" String (fun | .declaration n => some n | _ => none)]
