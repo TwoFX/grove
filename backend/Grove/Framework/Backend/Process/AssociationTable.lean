@@ -7,8 +7,9 @@ module
 
 import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
-import Grove.Framework.Widget.AssociationTable.Compare
+public import Grove.Framework.Widget.AssociationTable.Compare
 import Std.Data.Iterators
+public import Std.Data.Iterators.Producers.Monadic.List
 public import Grove.Framework.Reference
 public import Grove.Framework.Display
 public import Grove.Framework.Backend.RenderM.Basic

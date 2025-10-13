@@ -9,10 +9,11 @@ public import Grove.Framework.Widget.Table.Basic
 public import Grove.Framework.Display
 public import Grove.Framework.Backend.RenderM.Basic
 import Grove.Framework.Backend.Data
-import Grove.Framework.Backend.RenderM.RenderInfo
+public import Grove.Framework.Backend.RenderM.RenderInfo
 public import Grove.Framework.Reference
-import Grove.Framework.Widget.Table.Compare
+public import Grove.Framework.Widget.Table.Compare
 import Std.Data.Iterators
+public import Std.Data.Iterators.Producers.Monadic.List
 
 namespace Grove.Framework.Backend.Full
 

@@ -7,7 +7,7 @@ module
 
 public import Grove.Framework.Display
 public import Grove.Framework.Widget.Table.Basic
-import Grove.Markdown.Basic
+public import Grove.Markdown.Basic
 
 open Std
 

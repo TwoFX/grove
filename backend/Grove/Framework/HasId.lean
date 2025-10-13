@@ -5,6 +5,8 @@ Authors: Markus Himmel
 -/
 module
 
+import Init.Data.ToString.Name
+
 namespace Grove.Framework
 
 public class HasId (α : Type) where

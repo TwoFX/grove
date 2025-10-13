@@ -8,7 +8,7 @@ module
 public import Grove.Framework.Display
 public import Grove.Framework.Widget.AssociationTable.Basic
 import Grove.Framework.Display
-import Grove.Markdown.Basic
+public import Grove.Markdown.Basic
 
 namespace Grove.Framework.Widget.AssociationTable.Fact
 
