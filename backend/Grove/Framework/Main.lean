@@ -45,14 +45,16 @@ def perform (p : Project) (imports : Array Name) (fullFileName? invalidatedFileN
 def perform' (p : Project) (imports : Array Name) (args : Parsed) : IO UInt32 :=
   perform p imports (args.flagAs? "full" String) (args.flagAs? "invalidated" String)
 
-def renderCmd (p : Project) (imports : Array Name) : Cmd := `[Cli|
-  render VIA perform' p imports; ["0.0.1"]
-  "Grove data collection"
+def renderCmd (p : Project) (imports : Array Name) : Cmd :=
+  let perf := perform' p imports
+  `[Cli|
+    render VIA perf; ["0.0.1"]
+    "Grove data collection"
 
-  FLAGS:
-    full : String; "Location of the full output file"
-    invalidated : String; "Location of the invalidated facts output file"
-]
+    FLAGS:
+      full : String; "Location of the full output file"
+      invalidated : String; "Location of the invalidated facts output file"
+  ]
 
 def main (p : Project) (imports : Array Name) (args : List String) : IO UInt32 := do
   (renderCmd p imports).validate args
