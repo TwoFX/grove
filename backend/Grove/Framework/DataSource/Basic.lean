@@ -126,6 +126,9 @@ public def inNamespace (namesp : Name) : DeclarationPredicate where
 public def notInNamespace (namesp : Name) : DeclarationPredicate :=
   not (inNamespace namesp)
 
+public def notInNamespaces (namesps : List Name) : DeclarationPredicate :=
+  all (namesps.map notInNamespace)
+
 public def disallow (names : List Name) : DeclarationPredicate :=
   let set : NameSet := .ofList names
   ⟨fun n _ => pure <| !set.contains n⟩
