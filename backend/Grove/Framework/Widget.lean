@@ -5,9 +5,9 @@ Authors: Markus Himmel
 -/
 module
 
-import Grove.Framework.Widget.Assertion
-import Grove.Framework.Widget.AssociationTable
-import Grove.Framework.Widget.ShowDeclaration
-import Grove.Framework.Widget.State
-import Grove.Framework.Widget.Table
-import Grove.Framework.Widget.Text
+public import Grove.Framework.Widget.Assertion
+public import Grove.Framework.Widget.AssociationTable
+public import Grove.Framework.Widget.ShowDeclaration
+public import Grove.Framework.Widget.State
+public import Grove.Framework.Widget.Table
+public import Grove.Framework.Widget.Text

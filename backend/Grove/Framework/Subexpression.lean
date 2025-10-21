@@ -5,5 +5,5 @@ Authors: Markus Himmel
 -/
 module
 
-import Grove.Framework.Subexpression.Basic
-import Grove.Framework.Subexpression.Common
+public import Grove.Framework.Subexpression.Basic
+public import Grove.Framework.Subexpression.Common

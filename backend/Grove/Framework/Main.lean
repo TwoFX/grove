@@ -3,6 +3,9 @@ Copyright (c) 2025 Lean FRO, LLC. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Markus Himmel
 -/
+module
+
+public import Grove.Framework.Basic
 import Grove.Framework.Backend.Full
 import Lean
 import Std
@@ -56,7 +59,7 @@ def renderCmd (p : Project) (imports : Array Name) : Cmd :=
       invalidated : String; "Location of the invalidated facts output file"
   ]
 
-def main (p : Project) (imports : Array Name) (args : List String) : IO UInt32 := do
+public def main (p : Project) (imports : Array Name) (args : List String) : IO UInt32 := do
   (renderCmd p imports).validate args
 
 end Grove.Framework
