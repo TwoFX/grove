@@ -38,7 +38,7 @@ public instance : Coe ShowDeclaration Node where
 
 public structure Project.Configuration where
   projectNamespace : Name
-  getHash : IO String := getGitHash
+  getHash : IO String.Slice := getGitHash
 
 public structure Project where
   config : Project.Configuration

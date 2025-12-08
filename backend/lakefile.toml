@@ -8,7 +8,7 @@ experimental.module = true
 [[require]]
 name = "Cli"
 scope = "leanprover"
-rev = "main"
+rev = "nightly-testing"
 
 [[lean_lib]]
 name = "Grove"

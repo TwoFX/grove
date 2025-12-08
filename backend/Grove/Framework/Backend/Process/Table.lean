@@ -13,7 +13,6 @@ public import Grove.Framework.Backend.RenderM.RenderInfo
 public import Grove.Framework.Reference
 public import Grove.Framework.Widget.Table.Compare
 import Std.Data.Iterators
-public import Std.Data.Iterators.Producers.Monadic.List
 
 namespace Grove.Framework.Backend.Full
 

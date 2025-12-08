@@ -80,7 +80,7 @@ public instance : SchemaFor Node :=
 
 public structure Project where
   projectNamespace : String
-  hash : String
+  hash : String.Slice
   rootNode : Node
   declarations : Array Data.Declaration
 

@@ -6,16 +6,16 @@ Authors: Markus Himmel
 module
 namespace Grove.Framework
 
-def getGitHashViaCommand : IO String :=
-  String.trim <$> IO.Process.run {
+def getGitHashViaCommand : IO String.Slice :=
+  String.trimAscii <$> IO.Process.run {
     cmd := "git"
     args := #["rev-parse", "HEAD"]
   }
 
-def getGitHashFromEnvironmentVariable : IO (Option String) :=
-  IO.getEnv "GROVE_GIT_HASH"
+def getGitHashFromEnvironmentVariable : IO (Option String.Slice) :=
+  Option.map String.toSlice <$> IO.getEnv "GROVE_GIT_HASH"
 
-public def getGitHash : IO String := do
+public def getGitHash : IO String.Slice := do
   match ← getGitHashFromEnvironmentVariable with
   | none => getGitHashViaCommand
   | some hash => return hash

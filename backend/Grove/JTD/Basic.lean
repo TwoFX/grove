@@ -105,6 +105,12 @@ public def schemaForString : SchemaFor String where
   toJson := toJson
 
 @[instance]
+public def schemaForStringSlice : SchemaFor String.Slice where
+  addDependencies m := m
+  schema := Schema.type .string
+  toJson s := toJson s.copy -- TODO: remove the copy here after https://github.com/leanprover/lean4/pull/11548
+
+@[instance]
 public def schemaForBool : SchemaFor Bool where
   addDependencies m := m
   schema := Schema.type .boolean
