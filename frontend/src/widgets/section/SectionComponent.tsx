@@ -21,13 +21,13 @@ function InvalidatedFactCountComponent({
   return (
     <span className="text-lg">
       <span
-        className={`font-bold ${invalidatedFacts.newlyInvalidatedFacts > 0 ? "text-red-700" : "text-gray-500"}`}
+        className={`font-bold ${invalidatedFacts.newlyInvalidatedFacts > 0 ? "text-status-error-text" : "text-text-tertiary"}`}
       >
         {invalidatedFacts.newlyInvalidatedFacts}
       </span>
-      <span className="text-gray-500">|</span>
+      <span className="text-text-tertiary">|</span>
       <span
-        className={`font-bold ${invalidatedFacts.invalidatedFacts > 0 ? "text-orange-700" : "text-gray-500"}`}
+        className={`font-bold ${invalidatedFacts.invalidatedFacts > 0 ? "text-status-orange-text" : "text-text-tertiary"}`}
       >
         {invalidatedFacts.invalidatedFacts}
       </span>
@@ -69,7 +69,7 @@ function SectionHeader({
 
   return (
     <div
-      className="flex items-baseline gap-2 cursor-pointer hover:bg-gray-100 p-1 rounded"
+      className="flex items-baseline gap-2 cursor-pointer hover:bg-surface-hover p-1 rounded"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={() => {
@@ -99,7 +99,7 @@ function SectionHeader({
           <FiLink
             className={`${
               depth === 0 ? "text-xl" : depth === 1 ? "text-lg" : "text-base"
-            } text-gray-500 hover:text-blue-600`}
+            } text-text-tertiary hover:text-primary`}
           />
         </Link>
       )}
@@ -130,7 +130,7 @@ export function SectionComponent({
         sectionId={section.id}
       />
       {(alwaysExpand || isExpanded) && (
-        <div className="border-1 border-gray-300 p-2 space-y-1">
+        <div className="border-1 border-border p-2 space-y-1">
           {section.children.map((node) => (
             <NodeComponent key={nodeKey(node)} node={node} depth={depth + 1} />
           ))}

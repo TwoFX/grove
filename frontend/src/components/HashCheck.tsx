@@ -23,9 +23,9 @@ function HashConflictDialog(): JSX.Element {
 
   return (
     <Dialog open={hashesDiffer} onClose={() => {}} className="relative z-50">
-      <div className="fixed inset-0 bg-black/30 flex w-screen items-center justify-center p-4">
-        <DialogPanel className="w-full max-w-5xl space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-lg">
-          <DialogTitle className="text-xl font-semibold text-gray-900">
+      <div className="fixed inset-0 bg-overlay flex w-screen items-center justify-center p-4">
+        <DialogPanel className="w-full max-w-5xl space-y-4 rounded-lg border border-border bg-surface p-6 shadow-lg">
+          <DialogTitle className="text-xl font-semibold text-text-primary">
             State conflict
           </DialogTitle>
           <p>
@@ -54,11 +54,11 @@ function HashConflictDialog(): JSX.Element {
               introducing inconsistencies.
             </li>
           </ul>
-          <hr className="border-gray-200" />
+          <hr className="border-border" />
           <div className="flex justify-end gap-4">
             <ClearButton />
             <button
-              className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 cursor-pointer"
+              className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-text-inverse hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2 cursor-pointer"
               onClick={() => setStoredHash(basisHash)}
             >
               Continue with old data

@@ -22,7 +22,7 @@ export function DraggableCellRenderer<R, SR>({
     className = className + " opacity-50";
   }
   if (isOver) {
-    className = className + " bg-gray-500";
+    className = className + " bg-border-strong";
   }
 
   function onDragStart(event: React.DragEvent<HTMLDivElement>) {

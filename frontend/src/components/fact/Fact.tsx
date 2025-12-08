@@ -125,28 +125,28 @@ function FactDialog({
       onClose={() => setDiagOpen(false)}
       className="relative z-50"
     >
-      <div className="fixed inset-0 bg-black/30 flex items-center justify-center p-4">
-        <DialogPanel className="w-6xl space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-lg">
-          <DialogTitle className="text-xl font-semibold text-gray-900">
+      <div className="fixed inset-0 bg-overlay flex items-center justify-center p-4">
+        <DialogPanel className="w-6xl space-y-4 rounded-lg border border-border bg-surface p-6 shadow-lg">
+          <DialogTitle className="text-xl font-semibold text-text-primary">
             {onAssert ? "Edit fact" : "View fact"}
           </DialogTitle>
-          <hr className="border-gray-200" />
+          <hr className="border-border" />
           <div className="max-h-[70vh] overflow-y-auto">{children}</div>
-          <hr className="border-gray-200" />
+          <hr className="border-border" />
           {onAssert && (
             <>
               <div className="space-y-4">
                 <div>
                   <label
                     htmlFor="status"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-text-secondary"
                   >
                     Status
                   </label>
                   <Listbox value={selectedStatus} onChange={setSelectedStatus}>
                     <div className="relative mt-1">
                       <ListboxButton
-                        className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left border focus:outline-none focus-visible:border-blue-500 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${getStatusColors(selectedStatus)}`}
+                        className={`relative w-full cursor-default rounded-lg py-2 pl-3 pr-10 text-left border focus:outline-none focus-visible:border-border-focus focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-opacity-75 focus-visible:ring-offset-2 sm:text-sm ${getStatusColors(selectedStatus)}`}
                       >
                         <span className="flex items-center space-x-2">
                           <FactStatusIcon factStatus={selectedStatus} />
@@ -161,20 +161,20 @@ function FactDialog({
                           />
                         </span>
                       </ListboxButton>
-                      <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-gray-500 ring-opacity-5 focus:outline-none sm:text-sm">
+                      <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto bg-surface py-1 text-base shadow-lg ring-1 ring-border-strong ring-opacity-5 focus:outline-none sm:text-sm">
                         {Object.values(FactStatus).map((status) => (
                           <ListboxOption
                             key={status}
                             value={status}
                             className={({ focus }) =>
                               `relative cursor-default select-none py-1 ${
-                                focus ? "bg-blue-100" : ""
+                                focus ? "bg-primary-light" : ""
                               }`
                             }
                           >
                             {({ selected }) => (
                               <div
-                                className={`flex items-center space-x-2 px-2 py-1 text-xs font-medium border ${getStatusColors(status)} ${selected ? "ring-2 ring-blue-500" : ""}`}
+                                className={`flex items-center space-x-2 px-2 py-1 text-xs font-medium border ${getStatusColors(status)} ${selected ? "ring-2 ring-focus-ring" : ""}`}
                               >
                                 <FactStatusIcon factStatus={status} />
                                 <span className="block truncate">{status}</span>
@@ -189,7 +189,7 @@ function FactDialog({
                 <div>
                   <label
                     htmlFor="comment"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-sm font-medium text-text-secondary"
                   >
                     Comment
                   </label>
@@ -198,20 +198,20 @@ function FactDialog({
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     rows={4}
-                    className="mt-1 block w-full border-gray-300 border-1 focus:border-blue-500 focus:ring-blue-500 sm:text-sm font-mono"
+                    className="mt-1 block w-full border-border border-1 focus:border-border-focus focus:ring-focus-ring sm:text-sm font-mono"
                   />
                 </div>
               </div>
-              <hr className="border-gray-200" />
+              <hr className="border-border" />
               <div className="flex justify-end gap-4">
                 <button
-                  className="rounded-md border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="rounded-md border border-border px-4 py-2 text-sm font-medium text-text-secondary hover:bg-surface-hover focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2"
                   onClick={() => setDiagOpen(false)}
                 >
                   Cancel
                 </button>
                 <button
-                  className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-text-inverse hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2"
                   onClick={() => {
                     setDiagOpen(false);
                     onAssert(selectedStatus, comment);
@@ -248,7 +248,7 @@ export function Fact({
       >
         {fact && <FactBar fact={fact} />}
         {!fact && onAssert && (
-          <div className="inline-flex items-center px-3 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200 hover:bg-gray-200 transition-colors">
+          <div className="inline-flex items-center px-3 rounded-full text-xs font-medium bg-status-neutral-bg text-status-neutral-text border border-status-neutral-border hover:bg-surface-active transition-colors">
             <span>Click here to assert fact</span>
           </div>
         )}

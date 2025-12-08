@@ -145,7 +145,7 @@ export function AssociationTable({
           onRowChange: (row: AssociationTableRow) => void;
         }) => (
           <select
-            className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-focus-ring"
             value={cellFor(row, columnDescription.identifier)?.cellValue}
             onChange={(e) =>
               onRowChange(
@@ -295,21 +295,21 @@ export function AssociationTable({
       <div className="mt-2 space-x-2 flex-none">
         <button
           onClick={addEmptyRow}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="mb-4 px-4 py-2 bg-primary text-text-inverse rounded hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-focus-ring"
         >
           Add Row
         </button>
         <button
           onClick={deleteSelectedRows}
           disabled={selectedRows.size === 0}
-          className="mb-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="mb-4 px-4 py-2 bg-status-error-bg text-text-inverse rounded hover:bg-status-error-border focus:outline-none focus:ring-2 focus:ring-status-error-border disabled:bg-button-disabled-bg disabled:cursor-not-allowed"
         >
           Delete Selected Rows
         </button>
         <button
           onClick={autofillSelectedRows}
           disabled={selectedRows.size === 0}
-          className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="mb-4 px-4 py-2 bg-primary text-text-inverse rounded hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-focus-ring disabled:bg-button-disabled-bg disabled:cursor-not-allowed"
         >
           Autofill selected rows
         </button>

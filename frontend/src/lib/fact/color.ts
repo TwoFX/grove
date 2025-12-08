@@ -5,30 +5,30 @@ import { InvalidatedFactSet } from "./invalidated/context";
 export function getStatusColors(status: FactStatus): string {
   switch (status) {
     case FactStatus.Done:
-      return "bg-green-100 text-green-800 border-green-200";
+      return "bg-status-success-bg text-status-success-text border-status-success-border";
     case FactStatus.Bad:
-      return "bg-red-100 text-red-800 border-red-200";
+      return "bg-status-error-bg text-status-error-text border-status-error-border";
     case FactStatus.BelievedGood:
-      return "bg-blue-100 text-blue-800 border-blue-200";
+      return "bg-status-info-bg text-status-info-text border-status-info-border";
     case FactStatus.NothingToDo:
-      return "bg-gray-100 text-gray-800 border-gray-200";
+      return "bg-status-neutral-bg text-status-neutral-text border-status-neutral-border";
     case FactStatus.Postponed:
-      return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      return "bg-status-warning-bg text-status-warning-text border-status-warning-border";
   }
 }
 
 export function getStatusBackgroundColor(status: FactStatus): string {
   switch (status) {
     case FactStatus.Done:
-      return "bg-green-100";
+      return "bg-status-success-bg";
     case FactStatus.Bad:
-      return "bg-red-100";
+      return "bg-status-error-bg";
     case FactStatus.BelievedGood:
-      return "bg-blue-100";
+      return "bg-status-info-bg";
     case FactStatus.NothingToDo:
-      return "bg-gray-100";
+      return "bg-status-neutral-bg";
     case FactStatus.Postponed:
-      return "bg-yellow-100";
+      return "bg-status-warning-bg";
   }
 }
 
@@ -40,9 +40,9 @@ export function factColor(
   status: FactStatus,
 ): string {
   if (isNewlyInvalidatedFact(context, widgetId, factId, validationResult)) {
-    return "bg-red-100 text-red-800 border-red-200";
+    return "bg-status-error-bg text-status-error-text border-status-error-border";
   } else if (validationResult.constructor === "invalidated") {
-    return "bg-orange-100 text-orange-800 border-orange-200";
+    return "bg-status-orange-bg text-status-orange-text border-status-orange-border";
   }
 
   return getStatusColors(status);
@@ -56,9 +56,9 @@ export function factBackgroundColor(
   status: FactStatus,
 ): string {
   if (isNewlyInvalidatedFact(context, widgetId, factId, validationResult)) {
-    return "bg-red-100";
+    return "bg-status-error-bg";
   } else if (validationResult.constructor === "invalidated") {
-    return "bg-orange-100";
+    return "bg-status-orange-bg";
   }
 
   return getStatusBackgroundColor(status);

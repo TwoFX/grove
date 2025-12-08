@@ -47,16 +47,16 @@ export function StyledListbox({
   return (
     <div className="relative min-w-[300px]">
       <Listbox value={selectedOptions} onChange={setSelectedOptions} multiple>
-        <ListboxButton className="relative w-full cursor-pointer rounded border border-gray-300 bg-white pl-3 pr-8 text-left focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-          <span className="block truncate text-gray-900">{displayText}</span>
+        <ListboxButton className="relative w-full cursor-pointer rounded border border-border bg-surface pl-3 pr-8 text-left focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-focus-ring">
+          <span className="block truncate text-text-primary">{displayText}</span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2">
-            <BsChevronDown className="h-4 w-4 text-gray-400" />
+            <BsChevronDown className="h-4 w-4 text-text-disabled" />
           </span>
         </ListboxButton>
 
-        <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded border border-gray-200 bg-white py-1 shadow-lg focus:outline-none">
+        <ListboxOptions className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded border border-border bg-surface py-1 shadow-lg focus:outline-none">
           {options.length === 0 ? (
-            <div className="px-3 py-2 text-gray-500 text-sm">
+            <div className="px-3 py-2 text-text-tertiary text-sm">
               No options available
             </div>
           ) : (
@@ -64,13 +64,13 @@ export function StyledListbox({
               <ListboxOption
                 key={option.key}
                 value={option.key}
-                className="relative cursor-pointer select-none py-2 pl-8 pr-3 hover:bg-gray-50 data-[focus]:bg-gray-100"
+                className="relative cursor-pointer select-none py-2 pl-8 pr-3 hover:bg-surface-hover data-[focus]:bg-surface-active"
               >
                 {({ selected }) => (
                   <>
                     {selected && (
                       <span className="absolute inset-y-0 left-0 flex items-center pl-2">
-                        <BsCheck className="h-4 w-4 text-black font-bold" />
+                        <BsCheck className="h-4 w-4 text-text-primary font-bold" />
                       </span>
                     )}
                     <span

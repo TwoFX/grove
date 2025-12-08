@@ -13,7 +13,7 @@ export function UndoButton(): JSX.Element {
     <button
       disabled={!canUndo}
       onClick={() => undo()}
-      className={`px-2 rounded-md ${canUndo ? "cursor-pointer hover:bg-gray-200" : "text-gray-400"}`}
+      className={`px-2 rounded-md ${canUndo ? "cursor-pointer hover:bg-surface-active" : "text-text-disabled"}`}
     >
       <FaUndo />
     </button>
@@ -28,7 +28,7 @@ export function RedoButton(): JSX.Element {
     <button
       disabled={!canRedo}
       onClick={() => redo()}
-      className={`px-2 rounded-md ${canRedo ? "cursor-pointer hover:bg-gray-200" : "text-gray-400"}`}
+      className={`px-2 rounded-md ${canRedo ? "cursor-pointer hover:bg-surface-active" : "text-text-disabled"}`}
     >
       <FaRedo />
     </button>

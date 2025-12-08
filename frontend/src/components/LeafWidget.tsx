@@ -22,10 +22,10 @@ export function LeafWidget({
   const toggleExpanded = useGroveStore((state) => state.toggleExpanded);
 
   return (
-    <div className={isExpanded ? "border-gray-200 border-1" : ""}>
+    <div className={isExpanded ? "border-border border-1" : ""}>
       <div className="flex items-center gap-3">
         <div
-          className="flex gap-1 items-center cursor-pointer hover:bg-gray-100 rounded"
+          className="flex gap-1 items-center cursor-pointer hover:bg-surface-hover rounded"
           onClick={() => toggleExpanded(id)}
         >
           <BsChevronDown className={isExpanded ? "" : "-rotate-90"} />

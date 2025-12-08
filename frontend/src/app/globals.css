@@ -1,19 +1,190 @@
 @import "tailwindcss";
 
 :root {
+  /* Base colors */
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Primary colors (blue) */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #dbeafe;
+
+  /* Surface colors */
+  --surface: #ffffff;
+  --surface-hover: #f9fafb;
+  --surface-active: #f3f4f6;
+
+  /* Border colors */
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+  --border-strong: #d1d5db;
+  --border-focus: #2563eb;
+
+  /* Text colors */
+  --text-primary: #111827;
+  --text-secondary: #374151;
+  --text-tertiary: #6b7280;
+  --text-disabled: #9ca3af;
+  --text-inverse: #ffffff;
+
+  /* Status colors */
+  --status-success-bg: #dcfce7;
+  --status-success-border: #bbf7d0;
+  --status-success-text: #166534;
+
+  --status-error-bg: #fee2e2;
+  --status-error-border: #fecaca;
+  --status-error-text: #991b1b;
+
+  --status-warning-bg: #fef3c7;
+  --status-warning-border: #fde68a;
+  --status-warning-text: #92400e;
+
+  --status-info-bg: #dbeafe;
+  --status-info-border: #bfdbfe;
+  --status-info-text: #1e40af;
+
+  --status-neutral-bg: #f3f4f6;
+  --status-neutral-border: #e5e7eb;
+  --status-neutral-text: #1f2937;
+
+  --status-orange-bg: #fed7aa;
+  --status-orange-border: #fdba74;
+  --status-orange-text: #9a3412;
+
+  /* Button colors */
+  --button-disabled-bg: #9ca3af;
+  --button-disabled-text: #ffffff;
+
+  /* Overlay */
+  --overlay: rgba(0, 0, 0, 0.3);
+
+  /* Focus ring */
+  --focus-ring: #2563eb;
+  --focus-ring-offset: #ffffff;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+
+  --color-surface: var(--surface);
+  --color-surface-hover: var(--surface-hover);
+  --color-surface-active: var(--surface-active);
+
+  --color-border: var(--border);
+  --color-border-light: var(--border-light);
+  --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-disabled: var(--text-disabled);
+  --color-text-inverse: var(--text-inverse);
+
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-success-border: var(--status-success-border);
+  --color-status-success-text: var(--status-success-text);
+
+  --color-status-error-bg: var(--status-error-bg);
+  --color-status-error-border: var(--status-error-border);
+  --color-status-error-text: var(--status-error-text);
+
+  --color-status-warning-bg: var(--status-warning-bg);
+  --color-status-warning-border: var(--status-warning-border);
+  --color-status-warning-text: var(--status-warning-text);
+
+  --color-status-info-bg: var(--status-info-bg);
+  --color-status-info-border: var(--status-info-border);
+  --color-status-info-text: var(--status-info-text);
+
+  --color-status-neutral-bg: var(--status-neutral-bg);
+  --color-status-neutral-border: var(--status-neutral-border);
+  --color-status-neutral-text: var(--status-neutral-text);
+
+  --color-status-orange-bg: var(--status-orange-bg);
+  --color-status-orange-border: var(--status-orange-border);
+  --color-status-orange-text: var(--status-orange-text);
+
+  --color-button-disabled-bg: var(--button-disabled-bg);
+  --color-button-disabled-text: var(--button-disabled-text);
+
+  --color-overlay: var(--overlay);
+
+  --color-focus-ring: var(--focus-ring);
+  --color-focus-ring-offset: var(--focus-ring-offset);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    /* Base colors */
+    --background: #181818;
     --foreground: #ededed;
+
+    /* Primary colors (blue) */
+    --primary: #3b82f6;
+    --primary-hover: #60a5fa;
+    --primary-light: #1e3a8a;
+
+    /* Surface colors */
+    --surface: #1a1a1a;
+    --surface-hover: #262626;
+    --surface-active: #333333;
+
+    /* Border colors */
+    --border: #404040;
+    --border-light: #2a2a2a;
+    --border-strong: #525252;
+    --border-focus: #3b82f6;
+
+    /* Text colors */
+    --text-primary: #f5f5f5;
+    --text-secondary: #d4d4d4;
+    --text-tertiary: #a3a3a3;
+    --text-disabled: #737373;
+    --text-inverse: #0a0a0a;
+
+    /* Status colors */
+    --status-success-bg: #14532d;
+    --status-success-border: #166534;
+    --status-success-text: #86efac;
+
+    --status-error-bg: #7f1d1d;
+    --status-error-border: #991b1b;
+    --status-error-text: #fca5a5;
+
+    --status-warning-bg: #78350f;
+    --status-warning-border: #92400e;
+    --status-warning-text: #fcd34d;
+
+    --status-info-bg: #1e3a8a;
+    --status-info-border: #1e40af;
+    --status-info-text: #93c5fd;
+
+    --status-neutral-bg: #262626;
+    --status-neutral-border: #404040;
+    --status-neutral-text: #e5e5e5;
+
+    --status-orange-bg: #7c2d12;
+    --status-orange-border: #9a3412;
+    --status-orange-text: #fdba74;
+
+    /* Button colors */
+    --button-disabled-bg: #525252;
+    --button-disabled-text: #a3a3a3;
+
+    /* Overlay */
+    --overlay: rgba(0, 0, 0, 0.6);
+
+    /* Focus ring */
+    --focus-ring: #3b82f6;
+    --focus-ring-offset: #181818;
   }
 }
 
@@ -24,16 +195,10 @@ body {
 }
 
 pre {
-  background-color: #f5f5f5;
+  background-color: var(--surface-active);
   padding: 1rem;
   border-radius: 0.375rem;
   overflow-x: auto;
-}
-
-@media (prefers-color-scheme: dark) {
-  pre {
-    background-color: #2a2a2a;
-  }
 }
 ul {
   list-style-type: disc;
@@ -45,4 +210,10 @@ ul {
 ul ul {
   list-style-type: circle;
   margin-left: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark-mode-invert {
+    filter: invert(1);
+  }
 }

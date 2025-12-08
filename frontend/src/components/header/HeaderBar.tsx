@@ -18,6 +18,7 @@ export function HeaderBar(): JSX.Element {
           width={70}
           height={40}
           priority
+          className="dark-mode-invert"
         />
         <div className="inline-flex items-baseline gap-6">
           <span className="text-2xl flex items-center">Grove alpha</span>

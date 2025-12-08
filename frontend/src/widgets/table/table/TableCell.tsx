@@ -25,7 +25,7 @@ function TableCellEntry({
   );
 
   if (!rowCol) {
-    return <span className="text-gray-500">·</span>;
+    return <span className="text-text-tertiary">·</span>;
   }
 
   const [rowLayer, , columnLayer] = rowCol;
@@ -92,7 +92,7 @@ export function TableCell({
             cellData={cellData}
           />
           {index < selectedLayers.length - 1 && (
-            <span className="text-gray-300">|</span>
+            <span className="text-text-disabled">|</span>
           )}
         </span>
       ))}

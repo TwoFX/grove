@@ -140,7 +140,7 @@ function TableCellDetailForLayer({
   );
 
   return (
-    <div className="overflow-y-auto border border-gray-200 flex flex-col gap-4">
+    <div className="overflow-y-auto border border-border flex flex-col gap-4">
       Expect: {optionDisplayShort(context, rowLayer.data)} to{" "}
       {optionDisplayShort(context, colLayer.data)}
       {options && (
@@ -152,7 +152,7 @@ function TableCellDetailForLayer({
               .map((opt, index: number) => (
                 <div
                   key={layerDataKey(opt)}
-                  className={`overflow-y-auto ${index % 2 === 0 ? "bg-gray-100" : ""}`}
+                  className={`overflow-y-auto ${index % 2 === 0 ? "bg-surface-active" : ""}`}
                 >
                   <TableDetailEntry
                     cellOption={opt}
@@ -175,7 +175,7 @@ function TableCellDetailForLayer({
                 .map((opt, index: number) => (
                   <div
                     key={layerDataKey(opt)}
-                    className={`overflow-y-auto ${index % 2 === 0 ? "bg-gray-100" : ""}`}
+                    className={`overflow-y-auto ${index % 2 === 0 ? "bg-surface-active" : ""}`}
                   >
                     <TableDetailEntry
                       cellOption={opt}

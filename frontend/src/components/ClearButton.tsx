@@ -10,10 +10,10 @@ export function ClearButton(): JSX.Element {
   return (
     <button
       disabled={numFacts === 0}
-      className={`rounded-md px-4 py-2 text-sm font-medium text-white focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 ${
+      className={`rounded-md px-4 py-2 text-sm font-medium text-text-inverse focus:outline-none focus:ring-2 focus:ring-status-error-border focus:ring-offset-2 ${
         numFacts === 0
-          ? "bg-gray-400 cursor-not-allowed"
-          : "bg-red-600 hover:bg-red-700 cursor-pointer"
+          ? "bg-button-disabled-bg cursor-not-allowed"
+          : "bg-status-error-bg hover:bg-status-error-border cursor-pointer"
       }`}
       onClick={clearAll}
     >
