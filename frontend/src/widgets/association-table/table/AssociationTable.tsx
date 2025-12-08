@@ -145,7 +145,7 @@ export function AssociationTable({
           onRowChange: (row: AssociationTableRow) => void;
         }) => (
           <select
-            className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-focus-ring"
+            className="w-full p-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-focus-ring bg-surface text-text-primary border-border"
             value={cellFor(row, columnDescription.identifier)?.cellValue}
             onChange={(e) =>
               onRowChange(
