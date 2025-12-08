@@ -5,6 +5,7 @@ Authors: Markus Himmel
 -/
 module
 
+public import Grove.Framework.Alias
 public import Grove.Framework.Basic
 public import Grove.Framework.Backend
 public import Grove.Framework.DataSource
