@@ -119,11 +119,36 @@ function FactDialog({
     useState<FactStatus>(initialStatus);
   const [comment, setComment] = useState(initialComment);
 
+  const handleAssert = () => {
+    if (onAssert) {
+      setDiagOpen(false);
+      onAssert(selectedStatus, comment);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!onAssert) return;
+
+    const isTextarea = (e.target as HTMLElement).tagName === "TEXTAREA";
+
+    // Ctrl+Enter or Cmd+Enter anywhere (including textarea) should submit
+    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
+      e.preventDefault();
+      handleAssert();
+    }
+    // Plain Enter outside of textarea should submit
+    else if (e.key === "Enter" && !e.shiftKey && !isTextarea) {
+      e.preventDefault();
+      handleAssert();
+    }
+  };
+
   return (
     <Dialog
       open={diagOpen}
       onClose={() => setDiagOpen(false)}
       className="relative z-50"
+      onKeyDown={handleKeyDown}
     >
       <div className="fixed inset-0 bg-overlay flex items-center justify-center p-4">
         <DialogPanel className="w-6xl space-y-4 rounded-lg border border-border bg-surface p-6 shadow-lg">
@@ -212,10 +237,7 @@ function FactDialog({
                 </button>
                 <button
                   className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-text-inverse hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-focus-ring focus:ring-offset-2"
-                  onClick={() => {
-                    setDiagOpen(false);
-                    onAssert(selectedStatus, comment);
-                  }}
+                  onClick={handleAssert}
                 >
                   Assert
                 </button>
