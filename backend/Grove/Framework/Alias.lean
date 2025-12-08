@@ -10,18 +10,18 @@ public import Grove.Framework.HasId
 
 namespace Grove.Framework
 
-structure Alias (α : Type u) where
+public structure Alias (α : Type u) where
   inner : α
   id : String
   displayShort : String
 
-instance : HasId (Alias α) where
+public instance : HasId (Alias α) where
   getId a := a.id
 
-instance : DisplayShort (Alias α) where
+public instance : DisplayShort (Alias α) where
   displayShort a := a.displayShort
 
-instance [HasId α] [DisplayShort α] : Coe α (Alias α) where
+public instance [HasId α] [DisplayShort α] : Coe α (Alias α) where
   coe i := Alias.mk i (HasId.getId i) (DisplayShort.displayShort i)
 
 end Grove.Framework
