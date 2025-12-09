@@ -31,7 +31,7 @@ jobs:
     steps:
       - name: Build
         id: build
-        uses: TwoFx/grove-action/build@e72413fa58707cfad87514dde6c11141f76c7ac4
+        uses: TwoFx/grove-action/build@master
         with:
           project-path: "test-project"
           script-name: "test-project"
