@@ -48,6 +48,7 @@ public structure AssociationTable.CellOption.Other where
   longDescription : String
   reference : Reference
   stateRepr : String
+  isDeprecated : Bool
 
 public instance : SchemaFor AssociationTable.CellOption.Other :=
   .structure "associationTableCellOptionOther"
@@ -55,7 +56,8 @@ public instance : SchemaFor AssociationTable.CellOption.Other :=
      .single "shortDescription" AssociationTable.CellOption.Other.shortDescription,
      .single "longDescription" AssociationTable.CellOption.Other.longDescription,
      .single "reference" AssociationTable.CellOption.Other.reference,
-     .single "stateRepr" AssociationTable.CellOption.Other.stateRepr]
+     .single "stateRepr" AssociationTable.CellOption.Other.stateRepr,
+     .single "isDeprecated" AssociationTable.CellOption.Other.isDeprecated]
 
 public inductive AssociationTable.CellOption where
   | declaration : String → AssociationTable.CellOption

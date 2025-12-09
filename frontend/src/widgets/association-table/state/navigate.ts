@@ -10,6 +10,7 @@ import {
 } from "@/lib/transfer/project";
 import {
   declarationDisplayShort,
+  declarationIsDeprecated,
   declarationStateRepr,
 } from "@/lib/transfer/util";
 
@@ -49,6 +50,18 @@ export function optionDisplayShort(
       return declarationDisplayShort(context.declarations[opt.declaration]);
     case "other":
       return opt.other.shortDescription;
+  }
+}
+
+export function optionIsDeprecated(
+  context: GroveContextData,
+  opt: AssociationTableCellOption
+): boolean {
+  switch (opt.constructor) {
+    case "declaration":
+      return declarationIsDeprecated(context.declarations[opt.declaration]);
+    case "other":
+      return opt.other.isDeprecated;
   }
 }
 

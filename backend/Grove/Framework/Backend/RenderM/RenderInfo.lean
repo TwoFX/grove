@@ -24,6 +24,7 @@ public structure RenderInfo.Other (kind : DataKind) where
   longDescription : String
   reference : Reference
   stateRepr : String
+  isDeprecated : Bool
 
 -- Parameterized by the data kind because `stateRepr` will differ depending on the data kind but
 -- you can't see it from the string.
@@ -39,6 +40,7 @@ public def _root_.Grove.Framework.PredicateSubexpression.renderInfo (p : Predica
     longDescription := p.displayShort
     reference := .none
     stateRepr := DataKind.subexpression.reprState (← Subexpression.state (.predicate p))
+    isDeprecated := false
   }
 
 def RenderInfo.ofName {kind : DataKind} (n : Name) : RenderM (RenderInfo kind) := do

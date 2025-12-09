@@ -331,7 +331,8 @@
         "stateRepr": { "type": "string" },
         "shortDescription": { "type": "string" },
         "reference": { "ref": "reference" },
-        "longDescription": { "type": "string" }
+        "longDescription": { "type": "string" },
+        "isDeprecated": { "type": "boolean" }
       }
     },
     "associationTableCellOption": {

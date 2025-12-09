@@ -34,6 +34,17 @@ export function declarationDisplayLong(declaration: Declaration): string {
   }
 }
 
+export function declarationIsDeprecated(declaration: Declaration): boolean {
+  switch (declaration.constructor) {
+    case "def":
+      return declaration.def.isDeprecated;
+    case "missing":
+      return true;
+    case "thm":
+      return declaration.thm.isDeprecated;
+  }
+}
+
 export function declarationStateRepr(
   templates: Templates,
   declaration: Declaration,

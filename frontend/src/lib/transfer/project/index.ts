@@ -56,6 +56,7 @@ export interface AssociationTableCellOptionOther0 {
 }
 
 export interface AssociationTableCellOptionOther {
+  isDeprecated: boolean;
   longDescription: string;
   reference: Reference;
   shortDescription: string;

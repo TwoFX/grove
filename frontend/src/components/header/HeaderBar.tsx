@@ -42,7 +42,7 @@ export function HeaderBar(): JSX.Element {
             border: "1px solid",
           }}
         >
-        Saving not supported in this browser
+          Saving not supported in this browser
         </div>
       )}
       <div className="flex gap-6">
