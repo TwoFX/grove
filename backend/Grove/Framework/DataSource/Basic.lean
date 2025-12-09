@@ -171,4 +171,8 @@ public def definitionsInNamespace (namesp : Name)
 
 end DataSource
 
+public def declarationsMatching (namesp : Name) (pred : DataSource.DeclarationPredicate) (allowInternal : Bool := false) :
+    LookupM (Array Name) :=
+  DataSource.declarationsMatching namesp pred allowInternal |>.getAll
+
 end Grove.Framework
