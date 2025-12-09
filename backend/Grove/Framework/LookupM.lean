@@ -7,6 +7,7 @@ module
 
 public import Lean.Meta.Basic
 import Grove.Framework.Declaration.Name
+import Lean.Meta.Instances
 
 open Lean
 
@@ -16,6 +17,7 @@ public structure LookupM.State where
   private isAutoDeclCache : Std.HashMap Lean.Name Bool := ∅
   private isDeprecatedCache : Std.HashMap Lean.Name Bool := ∅
   private isTheoremCache : Std.HashMap Lean.Name Bool := ∅
+  private isInstanceCache : Std.HashMap Lean.Name Bool := ∅
 
 namespace LookupM.State
 
@@ -40,6 +42,13 @@ def isTheorem (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
     return ({ s with isTheoremCache := s.isTheoremCache.insert n ans }, ans)
   | some ans => pure (s, ans)
 
+def isInstance (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
+  match s.isInstanceCache[n]? with
+  | none => do
+    let ans ← Meta.isInstance n
+    return ({ s with isInstanceCache := s.isInstanceCache.insert n ans }, ans)
+  | some ans => pure (s, ans)
+
 end LookupM.State
 
 public abbrev LookupM := StateRefT LookupM.State MetaM
@@ -59,6 +68,9 @@ public def isDeprecated (n : Name) : LookupM Bool :=
 
 public def isTheorem (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isTheorem n
+
+public def isInstance (n : Name) : LookupM Bool :=
+  LookupM.modifyGetM LookupM.State.isInstance n
 
 public def LookupM.run (f : LookupM α) : MetaM α :=
   StateRefT'.run' f { }
