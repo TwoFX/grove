@@ -134,18 +134,7 @@ public def disallow (names : List Name) : DeclarationPredicate :=
   ⟨fun n _ => pure <| !set.contains n⟩
 
 public def isTheorem : DeclarationPredicate where
-  check _ c := checkConstant c
-where
-  -- TODO: duplicated in Declaration/Basic.lean
-  checkConstant (c : ConstantInfo) : MetaM Bool := do
-    if Lean.getOriginalConstKind? (← getEnv) c.name == some .thm then
-      return Bool.true
-
-    try
-      let t ← inferType c.type
-      return t.isProp
-    catch
-      | _ => return false
+  check n _ := Grove.Framework.isTheorem n
 
 public def isDefinition : DeclarationPredicate :=
   not isTheorem
