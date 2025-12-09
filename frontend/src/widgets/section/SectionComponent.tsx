@@ -8,46 +8,8 @@ import { BsChevronDown } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { useGroveStore } from "@/lib/state/state";
 import Link from "next/link";
-import {
-  FactCountContext,
-  InvalidatedFactCounts,
-} from "@/lib/navigate/factcount";
-
-function InvalidatedFactCountComponent({
-  invalidatedFacts,
-}: {
-  invalidatedFacts: InvalidatedFactCounts;
-}): JSX.Element {
-  const tooltipText = `${invalidatedFacts.newlyInvalidatedFacts} newly invalidated, ${invalidatedFacts.invalidatedFacts} invalidated, ${invalidatedFacts.badFacts} bad, ${invalidatedFacts.postponedFacts} postponed`;
-
-  return (
-    <span className="text-lg" title={tooltipText}>
-      <span
-        className={`font-bold ${invalidatedFacts.newlyInvalidatedFacts > 0 ? "text-status-error-text" : "text-text-tertiary"}`}
-      >
-        {invalidatedFacts.newlyInvalidatedFacts}
-      </span>
-      <span className="text-text-tertiary">|</span>
-      <span
-        className={`font-bold ${invalidatedFacts.invalidatedFacts > 0 ? "text-status-orange-text" : "text-text-tertiary"}`}
-      >
-        {invalidatedFacts.invalidatedFacts}
-      </span>
-      <span className="text-text-tertiary">|</span>
-      <span
-        className={`font-bold ${invalidatedFacts.badFacts > 0 ? "text-status-warning-text" : "text-text-tertiary"}`}
-      >
-        {invalidatedFacts.badFacts}
-      </span>
-      <span className="text-text-tertiary">|</span>
-      <span
-        className={`font-bold ${invalidatedFacts.postponedFacts > 0 ? "text-status-info-text" : "text-text-tertiary"}`}
-      >
-        {invalidatedFacts.postponedFacts}
-      </span>
-    </span>
-  );
-}
+import { FactCountContext } from "@/lib/navigate/factcount";
+import { InvalidatedFactCountComponent } from "@/components/InvalidatedFactCountComponent";
 
 function SectionHeader({
   text,
@@ -102,7 +64,7 @@ function SectionHeader({
       {headerContent()}
       {invalidatedFacts && (
         <a href={`/facts/${sectionId}`}>
-          <InvalidatedFactCountComponent invalidatedFacts={invalidatedFacts} />
+          <InvalidatedFactCountComponent invalidatedFacts={invalidatedFacts} size="lg" />
         </a>
       )}
       {isHovered && (

@@ -1,9 +1,11 @@
 "use client";
 
 import { useGroveStore } from "@/lib/state/state";
-import { JSX, ReactElement } from "react";
+import { JSX, ReactElement, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { FaWrench } from "react-icons/fa6";
+import { FactCountContext } from "@/lib/navigate/factcount";
+import { InvalidatedFactCountComponent } from "@/components/InvalidatedFactCountComponent";
 
 export function LeafWidget({
   id,
@@ -20,6 +22,9 @@ export function LeafWidget({
 }): JSX.Element {
   const isExpanded = useGroveStore((state) => state.expanded[id]);
   const toggleExpanded = useGroveStore((state) => state.toggleExpanded);
+  const factCounts = useContext(FactCountContext);
+
+  const invalidatedFacts = factCounts.factCount[id];
 
   return (
     <div className={isExpanded ? "border-border border-1" : ""}>
@@ -34,6 +39,11 @@ export function LeafWidget({
             <span>{title}</span>
           </div>
         </div>
+        {invalidatedFacts && (
+          <a href={`/facts/${id}`}>
+            <InvalidatedFactCountComponent invalidatedFacts={invalidatedFacts} size="sm" />
+          </a>
+        )}
         {link && (
           <a href={`/${link}/${id}`}>
             <FaWrench size={14} />
