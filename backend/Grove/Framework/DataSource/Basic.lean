@@ -142,6 +142,9 @@ public def isDefinition : DeclarationPredicate :=
 public def isInstance : DeclarationPredicate where
   check n _ := Grove.Framework.isInstance n
 
+public def isDeprecated : DeclarationPredicate where
+  check n _ := Grove.Framework.isDeprecated n
+
 end DeclarationPredicate
 
 public def declarationsMatching (namesp : Name) (pred : DeclarationPredicate) (allowInternal : Bool := false) :
