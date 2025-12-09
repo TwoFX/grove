@@ -221,6 +221,10 @@ h3 {
   margin-bottom: 0.75rem;
 }
 
+p {
+  margin-bottom: 1rem;
+}
+
 pre {
   background-color: var(--surface-active);
   padding: 1rem;
