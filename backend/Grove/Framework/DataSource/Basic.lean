@@ -139,6 +139,9 @@ public def isTheorem : DeclarationPredicate where
 public def isDefinition : DeclarationPredicate :=
   not isTheorem
 
+public def isInstance : DeclarationPredicate where
+  check n _ := Grove.Framework.isInstance n
+
 end DeclarationPredicate
 
 public def declarationsMatching (pred : DeclarationPredicate) (allowInternal : Bool := false) :

@@ -8,6 +8,7 @@ module
 public import Lean.Meta.Basic
 import Grove.Framework.Declaration.Name
 import Lean.Meta.Instances
+import Grove.Framework.NameTrie
 
 open Lean
 
@@ -18,6 +19,7 @@ public structure LookupM.State where
   private isDeprecatedCache : Std.HashMap Lean.Name Bool := ∅
   private isTheoremCache : Std.HashMap Lean.Name Bool := ∅
   private isInstanceCache : Std.HashMap Lean.Name Bool := ∅
+  private declarationsTrie : NameTrie Unit
 
 namespace LookupM.State
 
@@ -55,7 +57,7 @@ public abbrev LookupM := StateRefT LookupM.State MetaM
 
 def LookupM.modifyGetM {α β : Type} (f : LookupM.State → α → MetaM (LookupM.State × β)) (a : α) : LookupM β := do
   let oldState ← get
-  set ({ } : LookupM.State)
+  set ({ declarationsTrie := .empty } : LookupM.State)
   let (newState, result) ← f oldState a
   set newState
   return result
@@ -72,7 +74,13 @@ public def isTheorem (n : Name) : LookupM Bool :=
 public def isInstance (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isInstance n
 
-public def LookupM.run (f : LookupM α) : MetaM α :=
-  StateRefT'.run' f { }
+public def inNamespace (n : Name) : LookupM (Array Name) := do
+  return (← get).declarationsTrie.inNamespace n
+
+private def constructTrie : MetaM (NameTrie Unit) := do
+  return (← getEnv).constants.fold (init := NameTrie.empty) (fun t n _ => t.insert n ())
+
+public def LookupM.run (f : LookupM α) : MetaM α := do
+  StateRefT'.run' f { declarationsTrie := ← constructTrie }
 
 end Grove.Framework
