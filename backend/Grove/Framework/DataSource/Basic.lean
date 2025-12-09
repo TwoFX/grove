@@ -144,13 +144,16 @@ public def isInstance : DeclarationPredicate where
 
 end DeclarationPredicate
 
-public def declarationsMatching (pred : DeclarationPredicate) (allowInternal : Bool := false) :
+public def declarationsMatching (namesp : Name) (pred : DeclarationPredicate) (allowInternal : Bool := false) :
     DataSource .declaration :=
+  let pred := DeclarationPredicate.inNamespace namesp |>.and pred
   let pred := if allowInternal then pred else DeclarationPredicate.notInternal.and pred
   { getAll := do
+      let relevantNames ← inNamespace namesp
       let env ← getEnv
       let mut ans := #[]
-      for (constName, info) in env.constants do
+      for constName in relevantNames do
+        let some info := env.find? constName | continue
         if ← pred.check constName info then
           ans := ans.push constName
       return ans
@@ -164,8 +167,7 @@ public def declarationsMatching (pred : DeclarationPredicate) (allowInternal : B
 
 public def definitionsInNamespace (namesp : Name)
     (additionalCheck : DeclarationPredicate := DeclarationPredicate.true) : DataSource .declaration :=
-  declarationsMatching <| DeclarationPredicate.all
-    [DeclarationPredicate.inNamespace namesp, .isDefinition, additionalCheck]
+  declarationsMatching namesp <| DeclarationPredicate.all [.isDefinition, additionalCheck]
 
 end DataSource
 

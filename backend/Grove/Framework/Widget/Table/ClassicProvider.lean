@@ -41,7 +41,15 @@ def buildColumnCache (config : Configuration) (layerIdentifiers : List Name) (po
 
   let pred := DeclarationPredicate.notInternal.and config.declarationPredicate
 
-  for (name, constantInfo) in (← getEnv).constants do
+  let allDecls ← allDeclarations
+  let mut names : Std.HashSet Name := ∅
+  for namesp in relevantNamespaces do
+    if let some t := allDecls.navigate? namesp then
+      names := t.fold (init := names) (fun sofar n _ => sofar.insert n)
+
+  let env ← getEnv
+  for name in names do
+    let some constantInfo := env.find? name | continue
     if !(← pred.check name constantInfo) then
       continue
 

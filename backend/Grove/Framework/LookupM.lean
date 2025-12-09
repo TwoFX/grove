@@ -8,7 +8,7 @@ module
 public import Lean.Meta.Basic
 import Grove.Framework.Declaration.Name
 import Lean.Meta.Instances
-import Grove.Framework.NameTrie
+public import Grove.Framework.NameTrie
 
 open Lean
 
@@ -73,6 +73,9 @@ public def isTheorem (n : Name) : LookupM Bool :=
 
 public def isInstance (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isInstance n
+
+public def allDeclarations : LookupM (NameTrie Unit) := do
+  return (← get).declarationsTrie
 
 public def inNamespace (n : Name) : LookupM (Array Name) := do
   return (← get).declarationsTrie.inNamespace n
