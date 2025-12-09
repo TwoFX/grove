@@ -32,12 +32,14 @@ export function useComputeFactCounts(): FactCountContextData {
       continue;
     }
 
-    const newlyInvalidated = isInvalidated && isNewlyInvalidatedFact(
-      invalidated,
-      fact.widgetId,
-      fact.factId,
-      fact.validationResult,
-    );
+    const newlyInvalidated =
+      isInvalidated &&
+      isNewlyInvalidatedFact(
+        invalidated,
+        fact.widgetId,
+        fact.factId,
+        fact.validationResult,
+      );
 
     let section: string | undefined = fact.widgetId;
     while (section) {

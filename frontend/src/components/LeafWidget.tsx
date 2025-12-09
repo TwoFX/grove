@@ -41,7 +41,10 @@ export function LeafWidget({
         </div>
         {invalidatedFacts && (
           <a href={`/facts/${id}`}>
-            <InvalidatedFactCountComponent invalidatedFacts={invalidatedFacts} size="sm" />
+            <InvalidatedFactCountComponent
+              invalidatedFacts={invalidatedFacts}
+              size="sm"
+            />
           </a>
         )}
         {link && (

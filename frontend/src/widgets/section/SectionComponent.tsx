@@ -64,7 +64,10 @@ function SectionHeader({
       {headerContent()}
       {invalidatedFacts && (
         <a href={`/facts/${sectionId}`}>
-          <InvalidatedFactCountComponent invalidatedFacts={invalidatedFacts} size="lg" />
+          <InvalidatedFactCountComponent
+            invalidatedFacts={invalidatedFacts}
+            size="lg"
+          />
         </a>
       )}
       {isHovered && (

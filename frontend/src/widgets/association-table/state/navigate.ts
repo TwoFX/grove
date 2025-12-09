@@ -55,7 +55,7 @@ export function optionDisplayShort(
 
 export function optionIsDeprecated(
   context: GroveContextData,
-  opt: AssociationTableCellOption
+  opt: AssociationTableCellOption,
 ): boolean {
   switch (opt.constructor) {
     case "declaration":

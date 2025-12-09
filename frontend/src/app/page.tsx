@@ -6,5 +6,9 @@ import { useContext } from "react";
 export default function Home() {
   const context = useContext(GroveContext);
 
-  return <NodeComponent node={context.rootNode} depth={0} />;
+  return (
+    <div style={{ height: "100%", overflow: "auto" }}>
+      <NodeComponent node={context.rootNode} depth={0} />
+    </div>
+  );
 }

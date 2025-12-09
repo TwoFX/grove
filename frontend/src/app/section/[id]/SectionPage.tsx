@@ -22,5 +22,9 @@ export function SectionPage({ sectionId }: { sectionId: string }): JSX.Element {
     });
   }, [setBreadcrumb, section]);
 
-  return <SectionComponent section={section} depth={0} />;
+  return (
+    <div style={{ height: "100%", overflow: "auto" }}>
+      <SectionComponent section={section} depth={0} />
+    </div>
+  );
 }

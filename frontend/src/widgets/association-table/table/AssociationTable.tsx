@@ -136,9 +136,15 @@ export function AssociationTable({
           const cell = cellFor(row, columnDescription.identifier);
           if (!cell) return null;
           const option = optionFor(columnDescription, cell.cellValue);
-          const displayText = option ? optionDisplayShort(context, option) : cell.cellValue;
+          const displayText = option
+            ? optionDisplayShort(context, option)
+            : cell.cellValue;
           const isDeprecated = option && optionIsDeprecated(context, option);
-          return isDeprecated ? <span className="line-through">{displayText}</span> : displayText;
+          return isDeprecated ? (
+            <span className="line-through">{displayText}</span>
+          ) : (
+            displayText
+          );
         },
         renderEditCell: ({
           row,
@@ -158,11 +164,9 @@ export function AssociationTable({
           >
             <option value=""></option>
             {columnDescription.options.map((option) => (
-              <option
-                key={optionKey(option)}
-                value={optionKey(option)}
-              >
-                {optionDisplayShort(context, option)}{optionIsDeprecated(context, option) ? " (Deprecated)" : ""}
+              <option key={optionKey(option)} value={optionKey(option)}>
+                {optionDisplayShort(context, option)}
+                {optionIsDeprecated(context, option) ? " (Deprecated)" : ""}
               </option>
             ))}
           </select>

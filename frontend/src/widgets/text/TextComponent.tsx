@@ -4,7 +4,7 @@ import Markdown from "react-markdown";
 
 export function TextComponent({ text }: { text: Text }): JSX.Element {
   return (
-    <div style={{ maxWidth: "65ch" }}>
+    <div style={{ maxWidth: "85ch" }}>
       <Markdown>{text.content}</Markdown>
     </div>
   );
