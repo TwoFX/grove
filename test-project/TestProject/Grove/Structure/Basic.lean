@@ -167,8 +167,21 @@ def introduction : Node :=
   \n\
   These text elements are `Markdown`, so in particular they can be multiple lines."⟩
 
+def introduction2 : Text where
+  id := "introduction2"
+  content := Grove.Markdown.render [
+    .h1 "Grove Markdown support",
+    .text "In fact, Grove contains an extremely basic Markdown library that can be used to write Markdown in Lean without giant string literals.",
+    .text "It's really little more than a function that takes a list of strings and concatenates them.",
+    .h2 "Here is a level-two heading",
+    .text "With some text",
+    .h3 "And here is a level-three heading",
+    .text "With some more text"
+  ]
+
+
 def root : Node :=
-  .section "test-project" "The Grove test project" #[introduction, Containers.root, SizeIssue.root,
+  .section "test-project" "The Grove test project" #[introduction, .text introduction2, Containers.root, SizeIssue.root,
     Conversion.root, Strings.root]
 
 end TestProject.Grove.Structure
