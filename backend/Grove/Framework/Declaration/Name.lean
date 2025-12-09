@@ -8,6 +8,7 @@ module
 public import Lean.Meta.Basic
 import Lean.Structure
 import Lean.AddDecl
+import Lean.Linter.Deprecated
 
 open Lean Meta
 
@@ -43,5 +44,8 @@ public def computeIsTheorem (n : Name) : MetaM Bool := do
     return (← inferType constantInfo.type).isProp
   catch
     | _ => return false
+
+public def computeIsDeprecated (n : Name) : MetaM Bool := do
+  return Lean.Linter.isDeprecated (← getEnv) n
 
 end Grove.Framework.Name

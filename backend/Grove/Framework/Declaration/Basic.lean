@@ -63,7 +63,7 @@ def isSimpTheorem (n : Name) : MetaM Bool :=
 public def ofName (n : Name) : LookupM Declaration := do
   if (← getEnv).contains n then
     let renderedStatement := (← Lean.PrettyPrinter.ppSignature n).fmt.pretty (width := 100)
-    let isDeprecated := Lean.Linter.isDeprecated (← getEnv) n
+    let isDeprecated ← isDeprecated n
 
     if ← isTheorem n then
       let isSimp ← isSimpTheorem n

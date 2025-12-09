@@ -14,6 +14,7 @@ namespace Grove.Framework
 
 public structure LookupM.State where
   private isAutoDeclCache : Std.HashMap Lean.Name Bool := ∅
+  private isDeprecatedCache : Std.HashMap Lean.Name Bool := ∅
   private isTheoremCache : Std.HashMap Lean.Name Bool := ∅
 
 namespace LookupM.State
@@ -23,6 +24,13 @@ def isAutoDecl (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
   | none => do
     let ans ← Name.computeIsAutoDecl n
     return ({ s with isAutoDeclCache := s.isAutoDeclCache.insert n ans }, ans)
+  | some ans => pure (s, ans)
+
+def isDeprecated (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
+  match s.isDeprecatedCache[n]? with
+  | none => do
+    let ans ← Name.computeIsDeprecated n
+    return ({ s with isDeprecatedCache := s.isDeprecatedCache.insert n ans }, ans)
   | some ans => pure (s, ans)
 
 def isTheorem (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
@@ -45,6 +53,9 @@ def LookupM.modifyGetM {α β : Type} (f : LookupM.State → α → MetaM (Looku
 
 public def isAutoDecl (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isAutoDecl n
+
+public def isDeprecated (n : Name) : LookupM Bool :=
+  LookupM.modifyGetM LookupM.State.isDeprecated n
 
 public def isTheorem (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isTheorem n
