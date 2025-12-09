@@ -33,7 +33,7 @@ public inductive RenderInfo (kind : DataKind) where
   | other : RenderInfo.Other kind → RenderInfo kind
 
 public def _root_.Grove.Framework.PredicateSubexpression.renderInfo (p : PredicateSubexpression) :
-    MetaM (RenderInfo .subexpression) :=
+    LookupM (RenderInfo .subexpression) :=
   return .other {
     value := p.key
     shortDescription := p.displayShort

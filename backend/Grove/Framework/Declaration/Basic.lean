@@ -12,6 +12,7 @@ import Lean.AddDecl
 import Lean.PrettyPrinter
 import Lean.Linter.Deprecated
 import Lean.Meta.Tactic.Simp.Attr
+public import Grove.Framework.LookupM
 
 open Lean Meta
 
@@ -56,26 +57,15 @@ def longDescription : Declaration → String
 instance : HasId Declaration where
   getId d := d.name.toString
 
-private def isTheorem (c : ConstantInfo) : MetaM Bool := do
-  if getOriginalConstKind? (← getEnv) c.name == some .thm then
-    return true
-
-  try
-    return (← inferType c.type).isProp
-  catch
-    | _ => return false
-
 def isSimpTheorem (n : Name) : MetaM Bool :=
   return (← getSimpTheorems).lemmaNames.contains (.decl n)
 
-public def ofName (n : Name) : MetaM Declaration := do
-  let c? := (← getEnv).find? n
-
-  if let some c := c? then
+public def ofName (n : Name) : LookupM Declaration := do
+  if (← getEnv).contains n then
     let renderedStatement := (← Lean.PrettyPrinter.ppSignature n).fmt.pretty (width := 100)
     let isDeprecated := Lean.Linter.isDeprecated (← getEnv) n
 
-    if ← isTheorem c then
+    if ← isTheorem n then
       let isSimp ← isSimpTheorem n
       return Declaration.thm {
         name := n

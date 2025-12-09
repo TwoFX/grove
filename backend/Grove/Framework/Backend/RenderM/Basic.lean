@@ -20,7 +20,7 @@ section RenderM
 public structure RenderState where
   declarations : Std.HashMap String Declaration := ∅
 
-public def RenderState.getDeclaration (r : RenderState) (n : Name) : MetaM (RenderState × Declaration) :=
+public def RenderState.getDeclaration (r : RenderState) (n : Name) : LookupM (RenderState × Declaration) :=
   match r.declarations.get? n.toString with
   | none => do
     let d ← Declaration.ofName n
@@ -29,7 +29,7 @@ public def RenderState.getDeclaration (r : RenderState) (n : Name) : MetaM (Rend
 
 public abbrev RenderM := StateRefT RenderState (ReaderT SavedState LookupM)
 
-def RenderM.modifyGetM {α β : Type} (f : RenderState → α → MetaM (RenderState × β)) (a : α) : RenderM β := do
+def RenderM.modifyGetM {α β : Type} (f : RenderState → α → LookupM (RenderState × β)) (a : α) : RenderM β := do
   let oldState ← get
   set ({ } : RenderState)
   let (newState, result) ← f oldState a

@@ -7,8 +7,9 @@ module
 
 public import Lean.Meta.Basic
 import Lean.Structure
+import Lean.AddDecl
 
-open Lean
+open Lean Meta
 
 namespace Grove.Framework.Name
 
@@ -32,5 +33,15 @@ public def computeIsAutoDecl (decl : Name) : MetaM Bool := do
       if let some _ := isSubobjectField? env n (.mkSimple s) then
         return true
   pure false
+
+public def computeIsTheorem (n : Name) : MetaM Bool := do
+  if getOriginalConstKind? (← getEnv) n == some .thm then
+    return true
+
+  try
+    let some constantInfo := (← getEnv).find? n | return false
+    return (← inferType constantInfo.type).isProp
+  catch
+    | _ => return false
 
 end Grove.Framework.Name

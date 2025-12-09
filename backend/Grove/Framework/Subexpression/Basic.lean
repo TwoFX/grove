@@ -51,7 +51,7 @@ public inductive Subexpression.State where
   | predicate : PredicateSubexpression.State → Subexpression.State
 deriving BEq, Repr
 
-public def Subexpression.state : Subexpression → MetaM Subexpression.State
+public def Subexpression.state : Subexpression → LookupM Subexpression.State
   | .declaration n => .declaration <$> Declaration.ofName n
   | .predicate p => pure <| .predicate ⟨p.key, p.displayShort⟩
 

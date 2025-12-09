@@ -53,7 +53,7 @@ public instance : (kind : DataKind) → Repr kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
 
-public def DataKind.getState : (kind : DataKind) → kind.Key → MetaM kind.State
+public def DataKind.getState : (kind : DataKind) → kind.Key → LookupM kind.State
   | .declaration, n => Declaration.ofName n
   | .subexpression, s => s.state
 

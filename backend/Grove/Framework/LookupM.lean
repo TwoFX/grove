@@ -14,6 +14,7 @@ namespace Grove.Framework
 
 public structure LookupM.State where
   private isAutoDeclCache : Std.HashMap Lean.Name Bool := ∅
+  private isTheoremCache : Std.HashMap Lean.Name Bool := ∅
 
 namespace LookupM.State
 
@@ -22,8 +23,14 @@ def isAutoDecl (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
   | none => do
     let ans ← Name.computeIsAutoDecl n
     return ({ s with isAutoDeclCache := s.isAutoDeclCache.insert n ans }, ans)
-  | some ans => do
-      return (s, ans)
+  | some ans => pure (s, ans)
+
+def isTheorem (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
+  match s.isTheoremCache[n]? with
+  | none => do
+    let ans ← Name.computeIsTheorem n
+    return ({ s with isTheoremCache := s.isTheoremCache.insert n ans }, ans)
+  | some ans => pure (s, ans)
 
 end LookupM.State
 
@@ -38,6 +45,9 @@ def LookupM.modifyGetM {α β : Type} (f : LookupM.State → α → MetaM (Looku
 
 public def isAutoDecl (n : Name) : LookupM Bool :=
   LookupM.modifyGetM LookupM.State.isAutoDecl n
+
+public def isTheorem (n : Name) : LookupM Bool :=
+  LookupM.modifyGetM LookupM.State.isTheorem n
 
 public def LookupM.run (f : LookupM α) : MetaM α :=
   StateRefT'.run' f { }
