@@ -19,6 +19,7 @@ import {
 import { usePendingAssociationTableState } from "@/widgets/association-table/state/pending";
 import { AssociationTable } from "@/widgets/association-table/table/AssociationTable";
 import { JSX, useContext, useEffect, useState } from "react";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 function selectedReference(
   context: GroveContextData,
@@ -97,20 +98,23 @@ export function AssociationTablePage({
   );
 
   return (
-    <div className="p-2 flex flex-col h-full">
-      <div className="flex-none">
-        <AssociationTable
-          widgetId={widgetId}
-          columnDefinitions={tableDefinition.columns}
-          tableRows={tableState.rows}
-          setTableRows={(rows) => setTableState(context, widgetId, { rows })}
-          dataKind={tableDefinition.dataKind}
-          setSelectedCell={setSelectedCell}
-        />
-      </div>
-      <div className="grow min-h-0 overflow-auto box-border">
-        <ReferenceWidget reference={reference} />
-      </div>
+    <div className="p-2 h-full">
+      <PanelGroup direction="vertical">
+        <Panel defaultSize={50} minSize={20} className="h-full">
+          <AssociationTable
+            widgetId={widgetId}
+            columnDefinitions={tableDefinition.columns}
+            tableRows={tableState.rows}
+            setTableRows={(rows) => setTableState(context, widgetId, { rows })}
+            dataKind={tableDefinition.dataKind}
+            setSelectedCell={setSelectedCell}
+          />
+        </Panel>
+        <PanelResizeHandle className="h-1 bg-border hover:bg-primary cursor-row-resize transition-colors" />
+        <Panel defaultSize={50} minSize={20} className="overflow-auto">
+          <ReferenceWidget reference={reference} />
+        </Panel>
+      </PanelGroup>
     </div>
   );
 }

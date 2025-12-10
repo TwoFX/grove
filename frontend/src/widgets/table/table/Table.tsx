@@ -84,7 +84,7 @@ export function Table({
     <DataGrid
       columns={columns}
       rows={rows}
-      className="h-full"
+      style={{ height: "100%" }}
       rowKeyGetter={(row) => row.rowAssociationId}
       headerRowHeight={200}
       onSelectedCellChange={({ row, column }) => {

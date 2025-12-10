@@ -282,7 +282,7 @@ export function AssociationTable({
 
   return (
     <div className="flex flex-col h-full">
-      <div className="flex-none">
+      <div className="flex-1 min-h-0">
         <DataGrid
           columns={columns}
           rows={tableRows}
@@ -291,7 +291,7 @@ export function AssociationTable({
           selectedRows={selectedRows}
           onSelectedRowsChange={handleSelectionChange}
           rowKeyGetter={rowKeyGetter}
-          className="h-full"
+          style={{ height: "100%" }}
           onSelectedCellChange={({ row, column }) => {
             if (row) {
               setSelectedCell({

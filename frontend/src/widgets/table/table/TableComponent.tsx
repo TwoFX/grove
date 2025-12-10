@@ -6,6 +6,7 @@ import { TableFactComponent } from "./TableFactComponent";
 import { TableCellDetail } from "./TableCellDetail";
 import { useAssociations } from "@/lib/state/association";
 import { computeIndexableCellData } from "./preprocess";
+import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 
 export function TableComponent({
   definition,
@@ -36,39 +37,46 @@ export function TableComponent({
   const indexableCellData = computeIndexableCellData(definition.cells);
 
   return (
-    <div className="p-2 flex flex-col h-full">
-      <div className="flex gap-4 justify-between flex-none">
-        <TableFactComponent
-          definition={definition}
-          cellData={indexableCellData}
-          state={state}
-          selectedCell={selectedCell}
-        />
-        <LayerRowColumnSelector
-          definition={definition}
-          state={state}
-          setState={setState}
-        />
-      </div>
-      <div className="flex-none">
-        <Table
-          definition={definition}
-          state={state}
-          setSelectedCell={setSelectedCell}
-          cellData={indexableCellData}
-        />
-      </div>
-      {rowAssociation && columnAssociation && (
-        <div className="grow min-h-0 overflow-auto box-border">
-          <TableCellDetail
-            rowAssociation={rowAssociation}
-            columnAssociation={columnAssociation}
-            state={state}
-            setState={setState}
-            cellData={indexableCellData}
-          />
-        </div>
-      )}
+    <div className="p-2 h-full">
+      <PanelGroup direction="vertical">
+        <Panel defaultSize={50} minSize={20} className="flex flex-col h-full">
+          <div className="flex gap-4 justify-between flex-none">
+            <TableFactComponent
+              definition={definition}
+              cellData={indexableCellData}
+              state={state}
+              selectedCell={selectedCell}
+            />
+            <LayerRowColumnSelector
+              definition={definition}
+              state={state}
+              setState={setState}
+            />
+          </div>
+          <div className="flex-1 min-h-0">
+            <Table
+              definition={definition}
+              state={state}
+              setSelectedCell={setSelectedCell}
+              cellData={indexableCellData}
+            />
+          </div>
+        </Panel>
+        {rowAssociation && columnAssociation && (
+          <>
+            <PanelResizeHandle className="h-1 bg-border hover:bg-primary cursor-row-resize transition-colors" />
+            <Panel defaultSize={50} minSize={20} className="overflow-auto">
+              <TableCellDetail
+                rowAssociation={rowAssociation}
+                columnAssociation={columnAssociation}
+                state={state}
+                setState={setState}
+                cellData={indexableCellData}
+              />
+            </Panel>
+          </>
+        )}
+      </PanelGroup>
     </div>
   );
 }
