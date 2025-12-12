@@ -48,7 +48,9 @@ function FactMetadataContent({
   return (
     <div className="inline-flex items-center space-x-1">
       <FactStatusIcon factStatus={factMetadata.status} />
-      {factMetadata.comment && <Markdown>{factMetadata.comment}</Markdown>}
+      {factMetadata.comment && (
+        <Markdown components={{ p: "span" }}>{factMetadata.comment}</Markdown>
+      )}
     </div>
   );
 }
