@@ -84,7 +84,7 @@ function TableDetailEntry({
       <div className="cursor-pointer" onClick={toggle}>
         {contained ? <BsTrash size={18} /> : <BsPin size={18} />}
       </div>
-      <pre className="font-mono mb-1">
+      <pre className="font-mono mb-1 !bg-transparent">
         {optionDisplayLong(context, cellOption)}
       </pre>
     </div>

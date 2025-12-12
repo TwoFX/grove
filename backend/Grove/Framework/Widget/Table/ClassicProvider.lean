@@ -45,7 +45,7 @@ def buildColumnCache (config : Configuration) (layerIdentifiers : List Name) (po
   let mut names : Std.HashSet Name := ∅
   for namesp in relevantNamespaces do
     if let some t := allDecls.navigate? namesp then
-      names := t.fold (init := names) (fun sofar n _ => sofar.insert n)
+      names := t.fold (init := names) (fun sofar n _ => sofar.insert (namesp ++ n))
 
   let env ← getEnv
   for name in names do

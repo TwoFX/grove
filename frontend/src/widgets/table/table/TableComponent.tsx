@@ -65,14 +65,16 @@ export function TableComponent({
         {rowAssociation && columnAssociation && (
           <>
             <PanelResizeHandle className="h-1 bg-border hover:bg-primary cursor-row-resize transition-colors" />
-            <Panel defaultSize={50} minSize={20} className="overflow-auto">
-              <TableCellDetail
-                rowAssociation={rowAssociation}
-                columnAssociation={columnAssociation}
-                state={state}
-                setState={setState}
-                cellData={indexableCellData}
-              />
+            <Panel defaultSize={50} minSize={20} className="flex flex-col">
+              <div className="flex-1 min-h-0 overflow-auto">
+                <TableCellDetail
+                  rowAssociation={rowAssociation}
+                  columnAssociation={columnAssociation}
+                  state={state}
+                  setState={setState}
+                  cellData={indexableCellData}
+                />
+              </div>
             </Panel>
           </>
         )}
