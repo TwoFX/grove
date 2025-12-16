@@ -24,6 +24,7 @@ public structure AssociationTable (cellKind : DataKind) {β : Type} (columnIdent
   id : String
   title : String
   description : String := ""
+  unassertedFactMode : UnassertedFactMode := .doNothing
   dataSources : β → DataSource cellKind
 
 public structure AssociationTable.Data.Cell where

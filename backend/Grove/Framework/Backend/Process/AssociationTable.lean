@@ -195,29 +195,57 @@ def transformCellState {kind : DataKind} (s : AssociationTable.Fact.CellState ki
   cellValue := s.cellValue
   stateRepr := kind.reprState s.cellState
 
-def processFact [HasId β] [DisplayShort β] {kind : DataKind} (l : List β) (f : AssociationTable.Fact kind)
-    (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) :
+def processFactForRow [HasId β] [DisplayShort β] {kind : DataKind} (l : List β)
+    (widgetId : String)
+    (r : AssociationTable.Data.Row)
+    (factsById : Std.HashMap String (AssociationTable.Fact kind))
+    (cellValueMap : Std.HashMap (String × String) String)
+    (dataSources : β → DataSource kind)
+    (unassertedFactMode : UnassertedFactMode) :
     RenderM (Option Data.AssociationTable.Fact) := do
-  -- TODO: if the rowId doesn't even exist any more, we shouldn't return this as invalidated, but
-  -- drop the fact here.
-  let currentState ← computeRowState kind l f.rowId cellValueMap dataSources
-  let validationResult : Fact.ValidationResult :=
-    match AssociationTable.Fact.describeDifferences l f.rowState currentState with
-    | none => .ok
-    | some s => .invalidated ⟨"Row has changed", s⟩
+  let currentState ← computeRowState kind l r.uuid cellValueMap dataSources
 
-  return some {
-    widgetId := f.widgetId
-    factId := f.factId
-    rowId := f.rowId
-    state := f.rowState.map transformCellState
-    metadata := f.metadata
-    validationResult
-  }
+  match factsById[r.uuid]? with
+  | none =>
+    match unassertedFactMode with
+    | .doNothing => return none
+    | .needsAttention =>
+      return some {
+        widgetId := widgetId
+        factId := r.uuid
+        rowId := r.uuid
+        state := currentState.map transformCellState
+        metadata := {
+          status := .needsAttention
+          comment := ""
+        }
+        validationResult := .ok
 
-def processFacts [HasId β] [DisplayShort β] {kind : DataKind} (l : List β) (facts : Array (AssociationTable.Fact kind))
-    (cellValueMap : Std.HashMap (String × String) String) (dataSources : β → DataSource kind) : RenderM (Array Data.AssociationTable.Fact) :=
-  facts.filterMapM (processFact l · cellValueMap dataSources)
+      }
+  | some f =>
+    let validationResult : Fact.ValidationResult :=
+      match AssociationTable.Fact.describeDifferences l f.rowState currentState with
+      | none => .ok
+      | some s => .invalidated ⟨"Row has changed", s⟩
+
+    return some {
+      widgetId := f.widgetId
+      factId := f.factId
+      rowId := f.rowId
+      state := f.rowState.map transformCellState
+      metadata := f.metadata
+      validationResult
+    }
+
+def processFacts [HasId β] [DisplayShort β] {kind : DataKind} (l : List β)
+    (widgetId : String)
+    (rows : Array AssociationTable.Data.Row)
+    (factsById : Std.HashMap String (AssociationTable.Fact kind))
+    (cellValueMap : Std.HashMap (String × String) String)
+    (dataSources : β → DataSource kind)
+    (unassertedFactMode : UnassertedFactMode) :
+    RenderM (Array Data.AssociationTable.Fact) :=
+  rows.filterMapM (processFactForRow l widgetId · factsById cellValueMap dataSources unassertedFactMode)
 
 end AssociationTable
 
@@ -241,13 +269,15 @@ public def processAssociationTable {kind : DataKind} {β : Type} [HasId β] [Dis
   let cellValueMap : Std.HashMap (String × String) String :=
     savedData.rows.foldl (init := ∅) (fun sofar row => row.columns.foldl (init := sofar)
       (fun sofar' col => sofar'.insert (row.uuid, col.columnIdentifier) col.cellValue))
+  let factsById : Std.HashMap String (AssociationTable.Fact kind) :=
+    savedData.facts.foldl (init := ∅) (fun sofar fact => sofar.insert fact.factId fact)
 
   return {
     definition
     state := {
       rows := processRows savedData
     }
-    facts := ← processFacts l savedData.facts cellValueMap t.dataSources
+    facts := ← processFacts l t.id savedData.rows factsById cellValueMap t.dataSources t.unassertedFactMode
   }
 
 end Grove.Framework.Backend.Full
