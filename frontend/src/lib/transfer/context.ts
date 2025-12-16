@@ -8,6 +8,7 @@ import {
 export const GroveContext = createContext<GroveContextData>({
   declarations: {},
   upstreamInvalidatedFacts: undefined,
+  upstreamNeedAttentionFacts: undefined,
   projectMetadata: {
     hash: "",
     projectNamespace: "",
