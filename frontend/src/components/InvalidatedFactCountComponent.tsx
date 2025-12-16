@@ -8,7 +8,7 @@ export function InvalidatedFactCountComponent({
   invalidatedFacts: InvalidatedFactCounts;
   size?: "sm" | "base" | "lg";
 }): JSX.Element {
-  const tooltipText = `${invalidatedFacts.newlyInvalidatedFacts} newly invalidated, ${invalidatedFacts.invalidatedFacts} invalidated, ${invalidatedFacts.badFacts} bad, ${invalidatedFacts.postponedFacts} postponed`;
+  const tooltipText = `${invalidatedFacts.newlyInvalidatedFacts} newly invalidated, ${invalidatedFacts.invalidatedFacts} invalidated, ${invalidatedFacts.newlyNeedAttentionFacts} newly need attention, ${invalidatedFacts.needsAttentionFacts} need attention, ${invalidatedFacts.badFacts} bad, ${invalidatedFacts.postponedFacts} postponed`;
 
   const sizeClass = `text-${size}`;
 
@@ -24,6 +24,18 @@ export function InvalidatedFactCountComponent({
         className={`font-bold ${invalidatedFacts.invalidatedFacts > 0 ? "text-status-orange-text" : "text-text-tertiary"}`}
       >
         {invalidatedFacts.invalidatedFacts}
+      </span>
+      <span className="text-text-tertiary">|</span>
+      <span
+        className={`font-bold ${invalidatedFacts.newlyNeedAttentionFacts > 0 ? "text-status-warning-text" : "text-text-tertiary"}`}
+      >
+        {invalidatedFacts.newlyNeedAttentionFacts}
+      </span>
+      <span className="text-text-tertiary">|</span>
+      <span
+        className={`font-bold ${invalidatedFacts.needsAttentionFacts > 0 ? "text-status-warning-text" : "text-text-tertiary"}`}
+      >
+        {invalidatedFacts.needsAttentionFacts}
       </span>
       <span className="text-text-tertiary">|</span>
       <span

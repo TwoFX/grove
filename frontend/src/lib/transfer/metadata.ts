@@ -32,6 +32,7 @@ export function createContextData(
   const contextData: GroveContextData = {
     declarations: collectDeclarations(project.declarations),
     upstreamInvalidatedFacts: upstreamInvalidatedFacts?.invalidatedFacts,
+    upstreamNeedAttentionFacts: upstreamInvalidatedFacts?.needAttentionFacts,
     rootNode: rootNode,
     projectMetadata: projectMetadata,
     section: {},

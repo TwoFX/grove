@@ -1,4 +1,4 @@
-import { FactValidationResult } from "@/lib/transfer/project";
+import { FactValidationResult, FactStatus } from "@/lib/transfer/project";
 import { InvalidatedFactSet, makeInvalidatedFact } from "./context";
 
 export function isNewlyInvalidatedFact(
@@ -12,6 +12,27 @@ export function isNewlyInvalidatedFact(
   }
   if (context.upstreamInvalidatedFacts) {
     const result = context.upstreamInvalidatedFacts.has(
+      makeInvalidatedFact({
+        factId: factId,
+        widgetId: widgetId,
+      }),
+    );
+    return !result;
+  }
+  return false;
+}
+
+export function isNewlyNeedAttentionFact(
+  context: InvalidatedFactSet,
+  widgetId: string,
+  factId: string,
+  status: FactStatus,
+): boolean {
+  if (status !== FactStatus.NeedsAttention) {
+    return false;
+  }
+  if (context.upstreamNeedAttentionFacts) {
+    const result = context.upstreamNeedAttentionFacts.has(
       makeInvalidatedFact({
         factId: factId,
         widgetId: widgetId,

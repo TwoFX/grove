@@ -68,6 +68,7 @@ export interface ProjectMetadata {
 
 export interface GroveContextData {
   upstreamInvalidatedFacts: InvalidatedFact[] | undefined;
+  upstreamNeedAttentionFacts: InvalidatedFact[] | undefined;
   rootNode: Node;
   projectMetadata: ProjectMetadata;
   declarations: { [key: string]: Declaration };

@@ -3,6 +3,7 @@
   "definitions": {
     "invalidatedFacts": {
       "properties": {
+        "needAttentionFacts": { "elements": { "ref": "invalidatedFact" } },
         "invalidatedFacts": { "elements": { "ref": "invalidatedFact" } }
       }
     },

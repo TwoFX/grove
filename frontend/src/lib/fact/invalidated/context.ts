@@ -11,8 +11,10 @@ export type InvalidatedFactRecord = RecordOf<InvalidatedFactProps>;
 
 export interface InvalidatedFactSet {
   upstreamInvalidatedFacts: Set<InvalidatedFactRecord> | undefined;
+  upstreamNeedAttentionFacts: Set<InvalidatedFactRecord> | undefined;
 }
 
 export const InvalidatedFactsContext = createContext<InvalidatedFactSet>({
   upstreamInvalidatedFacts: undefined,
+  upstreamNeedAttentionFacts: undefined,
 });

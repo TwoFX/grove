@@ -1,6 +1,9 @@
 import { createContext, useContext } from "react";
 import { useFactSummaries } from "../state/pending";
-import { isNewlyInvalidatedFact } from "../fact/invalidated";
+import {
+  isNewlyInvalidatedFact,
+  isNewlyNeedAttentionFact,
+} from "../fact/invalidated";
 import { GroveContext } from "../transfer/context";
 import { InvalidatedFactsContext } from "../fact/invalidated/context";
 import { FactStatus } from "../transfer/project";
@@ -8,6 +11,8 @@ import { FactStatus } from "../transfer/project";
 export interface InvalidatedFactCounts {
   newlyInvalidatedFacts: number;
   invalidatedFacts: number;
+  newlyNeedAttentionFacts: number;
+  needsAttentionFacts: number;
   badFacts: number;
   postponedFacts: number;
 }
@@ -27,8 +32,9 @@ export function useComputeFactCounts(): FactCountContextData {
     const isInvalidated = fact.validationResult.constructor === "invalidated";
     const isBad = fact.metadata.status === FactStatus.Bad;
     const isPostponed = fact.metadata.status === FactStatus.Postponed;
+    const isNeedsAttention = fact.metadata.status === FactStatus.NeedsAttention;
 
-    if (!isInvalidated && !isBad && !isPostponed) {
+    if (!isInvalidated && !isBad && !isPostponed && !isNeedsAttention) {
       continue;
     }
 
@@ -41,12 +47,23 @@ export function useComputeFactCounts(): FactCountContextData {
         fact.validationResult,
       );
 
+    const newlyNeedsAttention =
+      isNeedsAttention &&
+      isNewlyNeedAttentionFact(
+        invalidated,
+        fact.widgetId,
+        fact.factId,
+        fact.metadata.status,
+      );
+
     let section: string | undefined = fact.widgetId;
     while (section) {
       if (!result.factCount[section]) {
         result.factCount[section] = {
           invalidatedFacts: 0,
           newlyInvalidatedFacts: 0,
+          newlyNeedAttentionFacts: 0,
+          needsAttentionFacts: 0,
           badFacts: 0,
           postponedFacts: 0,
         };
@@ -56,6 +73,12 @@ export function useComputeFactCounts(): FactCountContextData {
         result.factCount[section].newlyInvalidatedFacts += 1;
       } else if (isInvalidated) {
         result.factCount[section].invalidatedFacts += 1;
+      }
+
+      if (newlyNeedsAttention) {
+        result.factCount[section].newlyNeedAttentionFacts += 1;
+      } else if (isNeedsAttention) {
+        result.factCount[section].needsAttentionFacts += 1;
       }
 
       if (isBad) {

@@ -68,6 +68,9 @@ export function GroveClient({
     upstreamInvalidatedFacts: data.upstreamInvalidatedFacts
       ? Set(data.upstreamInvalidatedFacts.map(makeInvalidatedFact))
       : undefined,
+    upstreamNeedAttentionFacts: data.upstreamNeedAttentionFacts
+      ? Set(data.upstreamNeedAttentionFacts.map(makeInvalidatedFact))
+      : undefined,
   };
 
   const templates = setupTemplates(templateStrings);

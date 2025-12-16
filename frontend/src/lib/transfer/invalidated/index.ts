@@ -9,4 +9,5 @@ export interface InvalidatedFact {
 
 export interface InvalidatedFacts0 {
   invalidatedFacts: InvalidatedFact[];
+  needAttentionFacts: InvalidatedFact[];
 }
