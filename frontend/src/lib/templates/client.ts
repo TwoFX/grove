@@ -50,6 +50,8 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
         return ".nothingToDo";
       case FactStatus.Postponed:
         return ".postponed";
+      case FactStatus.NeedsAttention:
+        return ".needsAttention";
     }
   });
 

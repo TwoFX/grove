@@ -14,6 +14,8 @@ export function getStatusColors(status: FactStatus): string {
       return "bg-status-neutral-bg text-status-neutral-text border-status-neutral-border";
     case FactStatus.Postponed:
       return "bg-status-warning-bg text-status-warning-text border-status-warning-border";
+    case FactStatus.NeedsAttention:
+      return "bg-status-orange-bg text-status-orange-text border-status-orange-border";
   }
 }
 
@@ -29,6 +31,8 @@ export function getStatusBackgroundColor(status: FactStatus): string {
       return "bg-status-neutral-bg";
     case FactStatus.Postponed:
       return "bg-status-warning-bg";
+    case FactStatus.NeedsAttention:
+      return "bg-status-orange-bg";
   }
 }
 

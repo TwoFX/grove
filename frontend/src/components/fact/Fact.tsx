@@ -17,6 +17,7 @@ import {
   BsEmojiSmile,
   BsExclamationLg,
   BsChevronDown,
+  BsBell,
 } from "react-icons/bs";
 import Markdown from "react-markdown";
 import { InvalidatedFactsContext } from "@/lib/fact/invalidated/context";
@@ -37,6 +38,8 @@ function FactStatusIcon({
       return <BsCheckLg />;
     case FactStatus.Postponed:
       return <BsClock />;
+    case FactStatus.NeedsAttention:
+      return <BsBell />;
   }
 }
 

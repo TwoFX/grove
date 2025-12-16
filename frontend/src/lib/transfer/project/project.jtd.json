@@ -256,7 +256,14 @@
       "discriminator": "constructor"
     },
     "factStatus": {
-      "enum": ["done", "nothingToDo", "believedGood", "postponed", "bad"]
+      "enum": [
+        "done",
+        "nothingToDo",
+        "believedGood",
+        "postponed",
+        "bad",
+        "needsAttention"
+      ]
     },
     "factMetadata": {
       "properties": {

@@ -140,6 +140,7 @@ export enum FactStatus {
   Bad = "bad",
   BelievedGood = "believedGood",
   Done = "done",
+  NeedsAttention = "needsAttention",
   NothingToDo = "nothingToDo",
   Postponed = "postponed",
 }
