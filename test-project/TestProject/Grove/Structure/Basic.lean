@@ -48,6 +48,18 @@ def listArrayLemmas : Table .subexpression .subexpression .declaration [`List, `
     relevantNamespaces := [`List, `Array, `TestProject.List]
   }
 
+def thisJustFails : Assertion where
+  widgetId := "this-just-fails"
+  title := "A failing assertion"
+  description := "This assertion fails"
+  unassertedFactMode := .needsAttention
+  check := pure #[{
+    assertionId := "0"
+    description := "Failing assertion"
+    passed := false
+    message := "Failed!"
+  }]
+
 def root : Node :=
   .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice,
     .associationTable listArrayOperations, .table listArrayLemmas]
