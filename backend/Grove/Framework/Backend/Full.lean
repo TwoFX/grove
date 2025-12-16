@@ -100,12 +100,18 @@ public instance : SchemaFor InvalidatedFact :=
     [.single "widgetId" InvalidatedFact.widgetId,
      .single "factId" InvalidatedFact.factId]
 
+public def InvalidatedFact.of {α : Type} [ValidatedFact α] (a : α) : InvalidatedFact where
+  widgetId := ValidatedFact.widgetId a
+  factId := ValidatedFact.factId a
+
 public structure InvalidatedFacts where
   invalidatedFacts : Array InvalidatedFact
+  needAttentionFacts : Array InvalidatedFact
 
 public instance : SchemaFor InvalidatedFacts :=
   .structure "invalidatedFacts"
-    [.arr "invalidatedFacts" InvalidatedFacts.invalidatedFacts]
+    [.arr "invalidatedFacts" InvalidatedFacts.invalidatedFacts,
+     .arr "needAttentionFacts" InvalidatedFacts.needAttentionFacts]
 
 end Data
 
@@ -169,9 +175,9 @@ public structure RenderResult where
   invalidatedFacts : String
 
 partial def Data.Project.collectInvalidatedFacts (p : Data.Project) : InvalidatedFacts :=
-  ⟨((explore p.rootNode).run #[]).2⟩
+  ((explore p.rootNode).run ⟨#[], #[]⟩).2
 where
-  explore (n : Data.Node) : StateM (Array InvalidatedFact) PUnit := do
+  explore (n : Data.Node) : StateM InvalidatedFacts PUnit := do
     match n with
     | .section s => s.children.forM explore
     | .associationTable t => exploreFacts t.facts
@@ -181,9 +187,11 @@ where
     | .showDeclaration s => exploreFacts s.facts
     | .text _ => return ()
   exploreFacts {α : Type} [ValidatedFact α] (facts : Array α) :
-      StateM (Array InvalidatedFact) PUnit := facts.forM fun f => do
-    if ValidatedFact.validationResult f matches .invalidated _ ∨ ValidatedFact.status f matches .needsAttention then
-      modify (·.push ⟨ValidatedFact.widgetId f, ValidatedFact.factId f⟩)
+      StateM InvalidatedFacts PUnit := facts.forM fun f => do
+    if ValidatedFact.validationResult f matches .invalidated _ then
+      modify (fun facts => { facts with invalidatedFacts := facts.invalidatedFacts.push (InvalidatedFact.of f) })
+    if ValidatedFact.status f matches .needsAttention then
+      modify (fun facts => { facts with needAttentionFacts := facts.needAttentionFacts.push (InvalidatedFact.of f) })
 
 def Data.Project.render (p : Data.Project) : RenderResult where
   fullOutput := toString (toJson p)

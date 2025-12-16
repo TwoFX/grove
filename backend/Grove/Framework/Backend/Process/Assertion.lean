@@ -85,21 +85,23 @@ def processFacts (widgetId : String) (results : Array Assertion.Result) (facts :
     (unassertedFactMode : UnassertedFactMode) : Array Data.Assertion.Fact :=
   let oldFactsById : Std.HashMap String Assertion.Fact := facts.foldl (init := ∅)
     (fun sofar fact => sofar.insert fact.assertionId fact)
-  results.filterMap (fun currentState => do
-    let fact ← oldFactsById[currentState.assertionId]?.or (emptyFact currentState)
-    return {
-      widgetId := fact.widgetId
-      factId := fact.factId
-      assertionId := fact.assertionId
-      state := processSingle fact.state
-      metadata := fact.metadata
-      validationResult :=
-        match describeDifferences fact.state currentState with
-        | none => .ok
-        | some s => .invalidated ⟨s.1, s.2⟩
-    })
+  results.filterMap (fun currentState =>
+    match oldFactsById[currentState.assertionId]? with
+    | none => emptyFact currentState
+    | some fact =>
+      some {
+        widgetId := fact.widgetId
+        factId := fact.factId
+        assertionId := fact.assertionId
+        state := processSingle fact.state
+        metadata := fact.metadata
+        validationResult :=
+          match describeDifferences fact.state currentState with
+          | none => .ok
+          | some s => .invalidated ⟨s.1, s.2⟩
+      })
 where
-  emptyFact (res : Assertion.Result) : Option Assertion.Fact :=
+  emptyFact (res : Assertion.Result) : Option Data.Assertion.Fact :=
     match unassertedFactMode with
     | .doNothing => none
     | .needsAttention =>
@@ -107,11 +109,12 @@ where
         widgetId := widgetId
         factId := res.assertionId
         assertionId := res.assertionId
-        state := res
+        state := processSingle res
         metadata := {
           status := .needsAttention
           comment := ""
         }
+        validationResult := .ok
       }
   describeDifferences (old new : Assertion.Result) : Option (String × String) :=
     let differences' : List (Option (Option String × List Markdown.Paragraph)) :=
