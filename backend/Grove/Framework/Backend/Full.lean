@@ -178,17 +178,12 @@ where
     | .table t => exploreFacts t.facts
     | .namespace _ => return ()
     | .assertion a => exploreFacts a.facts
-    | .showDeclaration s => s.facts.forM (exploreShowDeclarationFact s.definition.id)
+    | .showDeclaration s => exploreFacts s.facts
     | .text _ => return ()
   exploreFacts {α : Type} [ValidatedFact α] (facts : Array α) :
       StateM (Array InvalidatedFact) PUnit := facts.forM fun f => do
-    if ValidatedFact.validationResult f matches .invalidated _ then
+    if ValidatedFact.validationResult f matches .invalidated _ ∨ ValidatedFact.status f matches .needsAttention then
       modify (·.push ⟨ValidatedFact.widgetId f, ValidatedFact.factId f⟩)
-
-  -- TODO: switch over to exploreFacts
-  exploreShowDeclarationFact (widgetId : String) (s : Data.ShowDeclaration.Fact) : StateM (Array InvalidatedFact) PUnit := do
-    if s.validationResult matches .invalidated _ then
-      modify (·.push ⟨widgetId, s.factId⟩)
 
 def Data.Project.render (p : Data.Project) : RenderResult where
   fullOutput := toString (toJson p)

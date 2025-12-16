@@ -60,6 +60,12 @@ public structure ShowDeclaration.Fact where
   state : Declaration
   validationResult : Fact.ValidationResult
 
+public instance : ValidatedFact ShowDeclaration.Fact where
+  widgetId := ShowDeclaration.Fact.widgetId
+  factId := ShowDeclaration.Fact.factId
+  validationResult := ShowDeclaration.Fact.validationResult
+  status f := f.metadata.status
+
 public instance : SchemaFor ShowDeclaration.Fact :=
   .structure "showDeclarationFact"
     [.single "widgetId" ShowDeclaration.Fact.widgetId,

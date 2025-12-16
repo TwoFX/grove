@@ -108,6 +108,7 @@ public instance validatedFactTableFact : ValidatedFact Table.Fact where
   widgetId := Table.Fact.widgetId
   factId := Table.Fact.factId
   validationResult := Table.Fact.validationResult
+  status f := f.metadata.status
 
 public instance schemaTableFact : SchemaFor Table.Fact :=
   .structure "tableFact"

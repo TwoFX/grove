@@ -102,6 +102,7 @@ public instance : ValidatedFact AssociationTable.Fact where
   widgetId := AssociationTable.Fact.widgetId
   factId := AssociationTable.Fact.factId
   validationResult := AssociationTable.Fact.validationResult
+  status f := f.metadata.status
 
 public instance schemaForAssociationTableFact : SchemaFor AssociationTable.Fact :=
   .structure "associationTableFact"

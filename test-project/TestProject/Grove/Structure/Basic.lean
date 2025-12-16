@@ -155,8 +155,33 @@ def sliceProducing : AssociationTable (β := Alias Lean.Name) .declaration
   description := "Operations on strings and string slices that themselves return a new string slice."
   dataSources n := DataSource.definitionsInNamespace n.inner
 
+def sliceProducingComplete : Assertion where
+  widgetId := "slice-producing-complete"
+  title := "Slice-producing table is complete"
+  description := "All functions in the `String.**` namespace that return a string or a slice are covered in the table"
+  unassertedFactMode := .needsAttention
+  check := do
+    let mut ans := #[]
+    let covered := Std.HashSet.ofArray (← valuesInAssociationTable sliceProducing)
+    let pred : DataSource.DeclarationPredicate :=
+      DataSource.DeclarationPredicate.all [.isDefinition, .not .isDeprecated,
+        .notInNamespace `String.Pos.Raw, .notInNamespace `String.Legacy,
+        .not .isInstance]
+    let env ← getEnv
+    for name in ← declarationsMatching `String pred do
+      let some c := env.find? name | continue
+      if c.type.getForallBody.getUsedConstants.any (fun n => n == ``String || n == ``String.Slice) then
+        let success : Bool := name.toString ∈ covered
+        ans := ans.push {
+          assertionId := name.toString
+          description := s!"`{name}` should appear in the table."
+          passed := success
+          message := s!"`{name}` was{if success then "" else " not"} found in the table."
+        }
+    return ans
+
 def root : Node :=
-  .section "Strings" "String examples" #[.text introduction, .text creatingStringsAndSlices, .associationTable sliceProducing]
+  .section "Strings" "String examples" #[.text introduction, .text creatingStringsAndSlices, .associationTable sliceProducing, .assertion sliceProducingComplete]
 
 end Strings
 

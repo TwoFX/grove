@@ -76,5 +76,13 @@ public class ValidatedFact (α : Type) where
   widgetId : α → String
   factId : α → String
   validationResult : α → Fact.ValidationResult
+  status : α → Fact.Status
+
+/-- Specifies how to handle unasserted facts during processing. -/
+public inductive UnassertedFactMode where
+  /-- Leave the facts unasserted. This is the default. -/
+  | doNothing : UnassertedFactMode
+  /-- Assert a `needsAttention` fact to signal that there is work to be done. `needsAttention` facts are always considered to be invalidated. -/
+  | needsAttention : UnassertedFactMode
 
 end Grove.Framework

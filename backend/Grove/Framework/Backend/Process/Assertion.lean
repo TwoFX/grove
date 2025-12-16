@@ -55,6 +55,7 @@ public instance validatedFactAssertionFact : ValidatedFact Assertion.Fact where
   widgetId := Assertion.Fact.widgetId
   factId := Assertion.Fact.factId
   validationResult := Assertion.Fact.validationResult
+  status f := f.metadata.status
 
 public instance schemaAssertionFact : SchemaFor Assertion.Fact :=
   .structure "AssertionFact"
@@ -80,22 +81,38 @@ namespace Assertion
 
 def processSingle (res : Assertion.Result) : Data.Assertion.Result := { res with }
 
-def processFacts (results : Array Assertion.Result) (facts : Array Assertion.Fact) :
-    Array Data.Assertion.Fact :=
-  let resultsById : Std.HashMap String Assertion.Result := results.foldl (init := ∅)
-    (fun sofar result => sofar.insert result.assertionId result)
-  facts.filterMap (fun fact => resultsById[fact.assertionId]?.map (fun currentState => {
-    widgetId := fact.widgetId
-    factId := fact.factId
-    assertionId := fact.assertionId
-    state := processSingle fact.state
-    metadata := fact.metadata
-    validationResult :=
-      match describeDifferences fact.state currentState with
-      | none => .ok
-      | some s => .invalidated ⟨s.1, s.2⟩
-  }))
+def processFacts (widgetId : String) (results : Array Assertion.Result) (facts : Array Assertion.Fact)
+    (unassertedFactMode : UnassertedFactMode) : Array Data.Assertion.Fact :=
+  let oldFactsById : Std.HashMap String Assertion.Fact := facts.foldl (init := ∅)
+    (fun sofar fact => sofar.insert fact.assertionId fact)
+  results.filterMap (fun currentState => do
+    let fact ← oldFactsById[currentState.assertionId]?.or (emptyFact currentState)
+    return {
+      widgetId := fact.widgetId
+      factId := fact.factId
+      assertionId := fact.assertionId
+      state := processSingle fact.state
+      metadata := fact.metadata
+      validationResult :=
+        match describeDifferences fact.state currentState with
+        | none => .ok
+        | some s => .invalidated ⟨s.1, s.2⟩
+    })
 where
+  emptyFact (res : Assertion.Result) : Option Assertion.Fact :=
+    match unassertedFactMode with
+    | .doNothing => none
+    | .needsAttention =>
+      some {
+        widgetId := widgetId
+        factId := res.assertionId
+        assertionId := res.assertionId
+        state := res
+        metadata := {
+          status := .needsAttention
+          comment := ""
+        }
+      }
   describeDifferences (old new : Assertion.Result) : Option (String × String) :=
     let differences' : List (Option (Option String × List Markdown.Paragraph)) :=
       [comparePassed old.passed new.passed,
@@ -127,7 +144,7 @@ public def processAssertion (a : Assertion) : RenderM Data.Assertion := do
       description := a.description
       results := results.map Assertion.processSingle
     }
-    facts := Assertion.processFacts results savedFacts
+    facts := Assertion.processFacts a.widgetId results savedFacts a.unassertedFactMode
   }
 
 end Grove.Framework.Backend.Full

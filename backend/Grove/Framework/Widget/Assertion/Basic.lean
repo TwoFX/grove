@@ -25,6 +25,7 @@ public structure Assertion where
   widgetId : String
   title : String
   description : String
+  unassertedFactMode : UnassertedFactMode := .doNothing
   check : AssertM (Array Assertion.Result)
 
 end Grove.Framework.Widget
