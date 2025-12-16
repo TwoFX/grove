@@ -62,7 +62,7 @@ def thisJustFails : Assertion where
 
 def root : Node :=
   .section "containers" "Containers" #[designNotes, noOptionToVector, optionMapALooksNice,
-    .associationTable listArrayOperations, .table listArrayLemmas]
+    .associationTable listArrayOperations, .table listArrayLemmas, .assertion thisJustFails]
 
 end Containers
 
