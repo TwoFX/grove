@@ -187,8 +187,14 @@ end Strings
 
 namespace Conversion
 
-def someFiniteIntegerTypes : List Lean.Name :=
+def someUnsignedFiniteIntegerTypes : List Lean.Name :=
   [`UInt8, `UInt16, `UInt32, `UInt64, `USize]
+
+def someSignedFiniteIntegerTypes : List Lean.Name :=
+  [`Int8, `Int16, `Int32, `Int64, `ISize]
+
+def someFiniteIntegerTypes : List Lean.Name :=
+  someUnsignedFiniteIntegerTypes ++ someSignedFiniteIntegerTypes
 
 def finiteIntegerArithmetic : AssociationTable .subexpression someFiniteIntegerTypes where
   id := "finite-integer-arithmetic"
@@ -206,6 +212,7 @@ def finiteIntegerConversions : AssociationTable .subexpression someFiniteInteger
 def finiteIntegerConvertThenConvert : Table .subexpression .subexpression .declaration someFiniteIntegerTypes where
   id := "finite-integer-convert-then-convert"
   title := "Finite Integer Convert then Convert"
+  allowedLayerCombinations := some [someSignedFiniteIntegerTypes, someUnsignedFiniteIntegerTypes]
   rowsFrom := .table finiteIntegerConversions
   columnsFrom := .table finiteIntegerConversions
   cellData := .classic _

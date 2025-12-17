@@ -18,12 +18,14 @@ export function StyledListbox({
   selectedOptions,
   setSelectedOptions,
   displayMode = "list",
+  multiple = true,
 }: {
   title: string;
   options: StyledListboxOption[];
   selectedOptions: string[];
   setSelectedOptions: (selectedOptions: string[]) => void;
   displayMode?: "title" | "list";
+  multiple?: boolean;
 }): JSX.Element {
   const selectedCount = selectedOptions.length;
 
@@ -33,7 +35,7 @@ export function StyledListbox({
   } else {
     // "list" mode
     if (selectedCount === 0) {
-      displayText = `Select ${title}s`;
+      displayText = multiple ? `Select ${title}s` : `Select ${title}`;
     } else {
       const selectedDisplayValues = selectedOptions
         .map(
@@ -44,9 +46,15 @@ export function StyledListbox({
     }
   }
 
+  // Handle the conversion between array interface and single-value mode
+  const listboxValue = multiple ? selectedOptions : (selectedOptions[0] ?? "");
+  const listboxOnChange = multiple
+    ? setSelectedOptions
+    : (value: string) => setSelectedOptions([value]);
+
   return (
     <div className="relative min-w-[300px]">
-      <Listbox value={selectedOptions} onChange={setSelectedOptions} multiple>
+      <Listbox value={listboxValue} onChange={listboxOnChange} multiple={multiple}>
         <ListboxButton className="relative w-full cursor-pointer rounded border border-border bg-surface pl-3 pr-8 text-left focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-focus-ring">
           <span className="block truncate text-text-primary">
             {displayText}
