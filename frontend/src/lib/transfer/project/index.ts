@@ -264,6 +264,14 @@ export interface Table {
   state: TableState;
 }
 
+export interface TableAllowedLayerCombination {
+  layerIdentifiers: string[];
+}
+
+export interface TableAllowedLayerCombinations {
+  allowedLayerCombinations: TableAllowedLayerCombination[];
+}
+
 export interface TableAssociation {
   id: string;
   layers: TableAssociationLayer[];
@@ -354,6 +362,7 @@ export interface TableConstantAssociationSource {
 }
 
 export interface TableDefinition {
+  allowedLayerCombinations: TableFactOptionalAllowedLayerCombinations;
   cellKind: DataKind;
   cells: TableCellDataForLayer[];
   columnKind: DataKind;
@@ -386,6 +395,20 @@ export interface TableFactLayerState {
   layerIdentifier: string;
   rowState: TableFactOptionalSingleState;
   selectedCellStates: TableFactSingleState[];
+}
+
+export type TableFactOptionalAllowedLayerCombinations =
+  | TableFactOptionalAllowedLayerCombinationsNone
+  | TableFactOptionalAllowedLayerCombinationsSome;
+
+export interface TableFactOptionalAllowedLayerCombinationsNone {
+  constructor: "none";
+  dummy?: string;
+}
+
+export interface TableFactOptionalAllowedLayerCombinationsSome {
+  constructor: "some";
+  some: TableAllowedLayerCombinations;
 }
 
 export type TableFactOptionalSingleState =

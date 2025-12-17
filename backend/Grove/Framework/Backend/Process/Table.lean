@@ -232,6 +232,29 @@ public instance : SchemaFor Table.CellDataForLayer :=
     [.single "sourceLayerIdentifier" Table.CellDataForLayer.sourceLayerIdentifier,
      .arr "rows" Table.CellDataForLayer.rows]
 
+public structure Table.AllowedLayerCombination where
+  layerIdentifiers : Array String
+
+public instance : SchemaFor Table.AllowedLayerCombination :=
+  .structure "tableAllowedLayerCombination"
+    [.arr "layerIdentifiers" Table.AllowedLayerCombination.layerIdentifiers]
+
+public structure Table.AllowedLayerCombinations where
+  allowedLayerCombinations : Array AllowedLayerCombination
+
+public instance : SchemaFor Table.AllowedLayerCombinations :=
+  .structure "tableAllowedLayerCombinations"
+    [.arr "allowedLayerCombinations" Table.AllowedLayerCombinations.allowedLayerCombinations]
+
+public inductive Table.OptionalAllowedLayerCombinations where
+  | none
+  | some : Table.AllowedLayerCombinations → Table.OptionalAllowedLayerCombinations
+
+public instance : SchemaFor Table.OptionalAllowedLayerCombinations :=
+  .inductive "tableFactOptionalAllowedLayerCombinations"
+    [.nullary "none" (fun | .none => true | _ => false),
+     .unary "some" Table.AllowedLayerCombinations (fun | .some s => some s | _ => none)]
+
 public structure Table.Definition where
   widgetId : String
   title : String
@@ -240,6 +263,7 @@ public structure Table.Definition where
   columnKind : DataKind
   cellKind : DataKind
   layerIdentifiers : Array String
+  allowedLayerCombinations : Table.OptionalAllowedLayerCombinations
   rowSource : Table.AssociationSource
   columnSource : Table.AssociationSource
   cells : Array CellDataForLayer
@@ -253,6 +277,7 @@ public instance schemaTableDefinition : SchemaFor Table.Definition :=
      .single "columnKind" Table.Definition.columnKind,
      .single "cellKind" Table.Definition.cellKind,
      .arr "layerIdentifiers" Table.Definition.layerIdentifiers,
+     .single "allowedLayerCombinations" Table.Definition.allowedLayerCombinations,
      .single "rowSource" Table.Definition.rowSource,
      .single "columnSource" Table.Definition.columnSource,
      .arr "cells" Table.Definition.cells]
@@ -442,6 +467,7 @@ public def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BE
     title := t.title
     description := t.description
     layerIdentifiers := l.iter.map HasId.getId |>.toArray
+    allowedLayerCombinations := processAllowedLayerCombinations t.allowedLayerCombinations
     rowKind
     columnKind
     cellKind
@@ -467,5 +493,10 @@ public def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BE
   let facts ← savedData.facts.mapM (Table.processFact t.cellData rowAssociations columnAssociations selectedCellOptionMap)
 
   return { definition, state, facts }
+where
+  processAllowedLayerCombinations (allowed : Option (List (List δ))) : Data.Table.OptionalAllowedLayerCombinations :=
+    match allowed with
+    | none => .none
+    | some l => .some ⟨l.iter.map (fun l' => ⟨l'.iter.map HasId.getId |>.toArray⟩) |>.toArray⟩
 
 end Grove.Framework.Backend.Full

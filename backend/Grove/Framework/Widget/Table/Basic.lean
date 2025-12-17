@@ -33,6 +33,10 @@ public structure Table (rowKind columnKind cellKind : DataKind) {δ : Type} (lay
   id : String
   title : String
   description : String := ""
+  /--
+  In the UI, the user will be able to select a set of layer identifiers to display in the cells.
+  Provide a value here to restrict which combinations of layers the user will be able to select. -/
+  allowedLayerCombinations : Option (List (List δ)) := none
   rowsFrom : Table.AssociationSource rowKind layerIdentifiers
   columnsFrom : Table.AssociationSource columnKind layerIdentifiers
   cellData : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers

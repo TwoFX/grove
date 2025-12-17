@@ -51,6 +51,15 @@
       },
       "discriminator": "constructor"
     },
+    "tableFactOptionalAllowedLayerCombinations": {
+      "mapping": {
+        "some": {
+          "properties": { "some": { "ref": "tableAllowedLayerCombinations" } }
+        },
+        "none": { "optionalProperties": { "dummy": { "type": "string" } } }
+      },
+      "discriminator": "constructor"
+    },
     "tableFactLayerState": {
       "properties": {
         "selectedCellStates": { "elements": { "ref": "tableFactSingleState" } },
@@ -87,7 +96,10 @@
         "columnSource": { "ref": "tableAssociationSource" },
         "columnKind": { "ref": "dataKind" },
         "cells": { "elements": { "ref": "tableCellDataForLayer" } },
-        "cellKind": { "ref": "dataKind" }
+        "cellKind": { "ref": "dataKind" },
+        "allowedLayerCombinations": {
+          "ref": "tableFactOptionalAllowedLayerCombinations"
+        }
       }
     },
     "tableConstantAssociationSource": {
@@ -171,6 +183,16 @@
         "layers": { "elements": { "ref": "tableAssociationLayer" } },
         "id": { "type": "string" }
       }
+    },
+    "tableAllowedLayerCombinations": {
+      "properties": {
+        "allowedLayerCombinations": {
+          "elements": { "ref": "tableAllowedLayerCombination" }
+        }
+      }
+    },
+    "tableAllowedLayerCombination": {
+      "properties": { "layerIdentifiers": { "elements": { "type": "string" } } }
     },
     "table": {
       "properties": {
