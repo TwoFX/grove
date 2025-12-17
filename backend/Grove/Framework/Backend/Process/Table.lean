@@ -386,9 +386,13 @@ where
     | none => .none
     | some s => .some ⟨s.value, kind.reprState s.state⟩
 
+def transformLayerStates {rowKind columnKind cellKind : DataKind}
+    (layerStates : Array (Table.Fact.LayerState rowKind columnKind cellKind)) : RenderM Data.Table.Fact.State :=
+  Data.Table.Fact.State.mk <$> layerStates.mapM transformLayerState
+
 def transformState {rowKind columnKind cellKind : DataKind}
     (f : Table.Fact rowKind columnKind cellKind) : RenderM Data.Table.Fact.State :=
-  Data.Table.Fact.State.mk <$> f.layerStates.mapM transformLayerState
+  transformLayerStates f.layerStates
 
 def currentLayerState {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
     (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
@@ -425,16 +429,11 @@ def currentFactState {rowKind columnKind cellKind : DataKind} {δ : Type} {layer
     RenderM (Array (Table.Fact.LayerState rowKind columnKind cellKind)) :=
   selectedLayers.filterMapM (fun layer => currentLayerState cellDataProvider rowAssociations columnAssociations selectedCellOptions rowAssociationId columnAssociationId layer)
 
-def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
-    {layerIdentifiers : List δ}
-    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
-    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
-    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
-    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
-    (f : Table.Fact rowKind columnKind cellKind) : RenderM Data.Table.Fact := do
-  let newState ← currentFactState cellDataProvider rowAssociations columnAssociations selectedCellOptions f.rowAssociationId f.columnAssociationId
-    f.selectedLayers
-
+def processFactCore
+    {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
+    (layerIdentifiers : List δ)
+    (f : Table.Fact rowKind columnKind cellKind)
+    (newState : Array (Table.Fact.LayerState rowKind columnKind cellKind)) : RenderM Data.Table.Fact := do
   let validationResult : Fact.ValidationResult :=
     match Table.Fact.describeDifferences layerIdentifiers f.layerStates newState with
     | none => .ok
@@ -452,6 +451,81 @@ def processFact {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] 
     metadata := f.metadata
     validationResult
   }
+
+def processFact
+    {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
+    {layerIdentifiers : List δ}
+    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
+    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
+    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
+    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
+    (f : Table.Fact rowKind columnKind cellKind) : RenderM Data.Table.Fact := do
+  let newState ← currentFactState cellDataProvider rowAssociations columnAssociations selectedCellOptions f.rowAssociationId f.columnAssociationId
+    f.selectedLayers
+  processFactCore layerIdentifiers f newState
+
+-- Sync with `frontend/src/widgets/table/fact.ts`
+def buildFactId (rowAssociationId columnAssociationId : String) (selectedLayers : Array String) : String :=
+  s!"{rowAssociationId}:::{columnAssociationId}:::{"::".intercalate selectedLayers.toList}"
+
+def processFactForCell
+    {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
+    {layerIdentifiers : List δ}
+    (widgetId : String)
+    (factsById : Std.HashMap String (Table.Fact rowKind columnKind cellKind))
+    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
+    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
+    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
+    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
+    (unassertedFactMode : UnassertedFactMode)
+    (rowAssociationId : String) (columnAssociationId : String) (selectedLayers : Array String) :
+    RenderM (Option Data.Table.Fact) := do
+  let newState ← currentFactState cellDataProvider rowAssociations columnAssociations selectedCellOptions rowAssociationId columnAssociationId
+    selectedLayers
+  let factId := buildFactId rowAssociationId columnAssociationId selectedLayers
+
+  match factsById[factId]? with
+  | none =>
+    match unassertedFactMode with
+    | .doNothing => return none
+    | .needsAttention =>
+      return some {
+        widgetId := widgetId
+        factId := factId
+        identifier := ⟨rowAssociationId, columnAssociationId, selectedLayers⟩
+        state := ← transformLayerStates newState
+        metadata := {
+          status := .needsAttention
+          comment := ""
+        }
+        validationResult := .ok
+      }
+  | some f => processFactCore layerIdentifiers f newState
+
+def processFacts {rowKind columnKind cellKind : DataKind} {δ : Type} [HasId δ] [DisplayShort δ]
+    {layerIdentifiers : List δ}
+    (widgetId : String)
+    (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)
+    (rowAssociations : Std.HashMap (String × String) rowKind.Key)
+    (columnAssociations : Std.HashMap (String × String) columnKind.Key)
+    (selectedCellOptions : Std.HashMap (String × String × String) (Array String))
+    (unassertedFactMode : UnassertedFactMode)
+    (facts : Array (Table.Fact rowKind columnKind cellKind))
+    (allowedLayerCombinations : Option (Array (Array δ)))
+    (state : Data.Table.State) : RenderM (Array Data.Table.Fact) :=
+  match allowedLayerCombinations with
+  | none =>
+    match unassertedFactMode with
+    | .doNothing => facts.mapM (processFact cellDataProvider rowAssociations columnAssociations selectedCellOptions)
+    | .needsAttention => throw (.error .missing "To use unassertedFactMode needsAttention for tables, you must specify a list of allowed layer combinations.")
+  | some allowedLayerCombinations =>
+    let factsById : Std.HashMap String (Table.Fact rowKind columnKind cellKind) :=
+      facts.foldl (init := ∅) (fun sofar fact => sofar.insert fact.factId fact)
+    state.selectedRowAssociations.flatMapM (fun rowAssociationId =>
+      state.selectedColumnAssociations.flatMapM (fun columnAssociationId =>
+        allowedLayerCombinations.filterMapM (fun selectedLayers =>
+          processFactForCell widgetId factsById cellDataProvider rowAssociations columnAssociations selectedCellOptions
+          unassertedFactMode rowAssociationId columnAssociationId (selectedLayers.map HasId.getId))))
 
 end Table
 
@@ -490,11 +564,12 @@ public def processTable {rowKind columnKind cellKind : DataKind} {δ : Type} [BE
     state.selectedCellOptions.foldl (init := ∅) (fun sofar o =>
       sofar.insert (o.layerIdentifier, o.rowValue, o.columnValue) o.selectedCellOptions)
 
-  let facts ← savedData.facts.mapM (Table.processFact t.cellData rowAssociations columnAssociations selectedCellOptionMap)
+  let facts ← Table.processFacts t.id t.cellData rowAssociations columnAssociations selectedCellOptionMap
+    t.unassertedFactMode savedData.facts t.allowedLayerCombinations state
 
   return { definition, state, facts }
 where
-  processAllowedLayerCombinations (allowed : Option (List (List δ))) : Data.Table.OptionalAllowedLayerCombinations :=
+  processAllowedLayerCombinations (allowed : Option (Array (Array δ))) : Data.Table.OptionalAllowedLayerCombinations :=
     match allowed with
     | none => .none
     | some l => .some ⟨l.iter.map (fun l' => ⟨l'.iter.map HasId.getId |>.toArray⟩) |>.toArray⟩

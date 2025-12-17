@@ -212,7 +212,8 @@ def finiteIntegerConversions : AssociationTable .subexpression someFiniteInteger
 def finiteIntegerConvertThenConvert : Table .subexpression .subexpression .declaration someFiniteIntegerTypes where
   id := "finite-integer-convert-then-convert"
   title := "Finite Integer Convert then Convert"
-  allowedLayerCombinations := some [someSignedFiniteIntegerTypes, someUnsignedFiniteIntegerTypes]
+  allowedLayerCombinations := some #[someSignedFiniteIntegerTypes.toArray, someUnsignedFiniteIntegerTypes.toArray]
+  unassertedFactMode := .needsAttention
   rowsFrom := .table finiteIntegerConversions
   columnsFrom := .table finiteIntegerConversions
   cellData := .classic _

@@ -6,6 +6,7 @@ import {
   TableFactState,
 } from "@/lib/transfer/project";
 
+// Sync with `backend/Grove/Framework/Backend/Process/Table.lean`
 export function buildFactId(identifier: TableFactIdentifier): string {
   return (
     identifier.rowAssociationId +
