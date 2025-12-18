@@ -10,13 +10,15 @@ open Grove.Framework Widget
 namespace TestProject.Grove.Generated.«finite-integer-arithmetic»
 
 
-def table : AssociationTable.Data .subexpression where
-  widgetId := "finite-integer-arithmetic"
-  rows := #[
-    ⟨"19250e80-a7b8-4082-a123-ebcf85431189", "", #[]⟩,
-  ]
-  facts := #[
-  ]
+def table : RestoreStateM (AssociationTable.Data .subexpression) := do
+  return {
+    widgetId := "finite-integer-arithmetic"
+    rows := #[
+      ⟨"19250e80-a7b8-4082-a123-ebcf85431189", "", #[]⟩,
+    ]
+    facts := #[
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addAssociationTable table
+  addAssociationTable (← table)

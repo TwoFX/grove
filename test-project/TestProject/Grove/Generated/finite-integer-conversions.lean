@@ -10,17 +10,19 @@ open Grove.Framework Widget
 namespace TestProject.Grove.Generated.«finite-integer-conversions»
 
 
-def table : AssociationTable.Data .subexpression where
-  widgetId := "finite-integer-conversions"
-  rows := #[
-    ⟨"a556b849-a735-48a9-8099-06496bddb069", "toUInt8", #[⟨"UInt16", "UInt16.toUInt8"⟩,⟨"UInt32", "UInt32.toUInt8"⟩,⟨"UInt64", "UInt64.toUInt8"⟩,⟨"USize", "USize.toUInt8"⟩,]⟩,
-    ⟨"986e32a2-1015-4fd0-bf1a-0983a85116ab", "toUInt16", #[⟨"UInt8", "UInt8.toUInt16"⟩,⟨"UInt32", "UInt32.toUInt16"⟩,⟨"UInt64", "UInt64.toUInt16"⟩,⟨"USize", "USize.toUInt16"⟩,]⟩,
-    ⟨"178dabc2-f8ef-4731-bf7a-4f3892082ddd", "toUInt32", #[⟨"UInt8", "UInt8.toUInt32"⟩,⟨"UInt16", "UInt16.toUInt32"⟩,⟨"UInt64", "UInt64.toUInt32"⟩,⟨"USize", "USize.toUInt32"⟩,]⟩,
-    ⟨"dd8fc53e-d116-4ba4-9119-ab830f42b88c", "toUInt64", #[⟨"UInt8", "UInt8.toUInt64"⟩,⟨"UInt16", "UInt16.toUInt64"⟩,⟨"UInt32", "UInt32.toUInt64"⟩,⟨"USize", "USize.toUInt64"⟩,]⟩,
-    ⟨"f339227d-32af-42c1-8889-285142c34fe3", "toUSize", #[⟨"UInt8", "UInt8.toUSize"⟩,⟨"UInt16", "UInt16.toUSize"⟩,⟨"UInt32", "UInt32.toUSize"⟩,⟨"UInt64", "UInt64.toUSize"⟩,]⟩,
-  ]
-  facts := #[
-  ]
+def table : RestoreStateM (AssociationTable.Data .subexpression) := do
+  return {
+    widgetId := "finite-integer-conversions"
+    rows := #[
+      ⟨"a556b849-a735-48a9-8099-06496bddb069", "toUInt8", #[⟨"UInt16", ← migrateName "UInt16.toUInt8"⟩,⟨"UInt32", ← migrateName "UInt32.toUInt8"⟩,⟨"UInt64", ← migrateName "UInt64.toUInt8"⟩,⟨"USize", ← migrateName "USize.toUInt8"⟩,]⟩,
+      ⟨"986e32a2-1015-4fd0-bf1a-0983a85116ab", "toUInt16", #[⟨"UInt8", ← migrateName "UInt8.toUInt16"⟩,⟨"UInt32", ← migrateName "UInt32.toUInt16"⟩,⟨"UInt64", ← migrateName "UInt64.toUInt16"⟩,⟨"USize", ← migrateName "USize.toUInt16"⟩,]⟩,
+      ⟨"178dabc2-f8ef-4731-bf7a-4f3892082ddd", "toUInt32", #[⟨"UInt8", ← migrateName "UInt8.toUInt32"⟩,⟨"UInt16", ← migrateName "UInt16.toUInt32"⟩,⟨"UInt64", ← migrateName "UInt64.toUInt32"⟩,⟨"USize", ← migrateName "USize.toUInt32"⟩,]⟩,
+      ⟨"dd8fc53e-d116-4ba4-9119-ab830f42b88c", "toUInt64", #[⟨"UInt8", ← migrateName "UInt8.toUInt64"⟩,⟨"UInt16", ← migrateName "UInt16.toUInt64"⟩,⟨"UInt32", ← migrateName "UInt32.toUInt64"⟩,⟨"USize", ← migrateName "USize.toUInt64"⟩,]⟩,
+      ⟨"f339227d-32af-42c1-8889-285142c34fe3", "toUSize", #[⟨"UInt8", ← migrateName "UInt8.toUSize"⟩,⟨"UInt16", ← migrateName "UInt16.toUSize"⟩,⟨"UInt32", ← migrateName "UInt32.toUSize"⟩,⟨"UInt64", ← migrateName "UInt64.toUSize"⟩,]⟩,
+    ]
+    facts := #[
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addAssociationTable table
+  addAssociationTable (← table)

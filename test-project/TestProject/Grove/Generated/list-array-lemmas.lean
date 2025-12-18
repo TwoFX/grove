@@ -273,44 +273,46 @@ def «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2d
     comment := "Seems like `List.getElem_zero_filter` is missing."
   }
 
-def table : Table.Data .subexpression .subexpression .declaration where
-  widgetId := "list-array-lemmas"
-  selectedRowAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", "1f04bde9-477c-46cb-a08a-34e35a3be931", ]
-  selectedColumnAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", "805094ea-a106-4230-abba-a67f2d507669", "e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df", ]
-  selectedLayers := #["List", "Array", ]
-  selectedCellOptions := #[
-    {
-      layerIdentifier := "List"
-      rowValue := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
-      columnValue := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
-      selectedCellOptions := #[]
-    },
-    {
-      layerIdentifier := "List"
-      rowValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
-      columnValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
-      selectedCellOptions := #["List.filter_filter", ]
-    },
-    {
-      layerIdentifier := "Array"
-      rowValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
-      columnValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
-      selectedCellOptions := #["Array.filter_filter", ]
-    },
-    {
-      layerIdentifier := "List"
-      rowValue := "1f04bde9-477c-46cb-a08a-34e35a3be931"
-      columnValue := "805094ea-a106-4230-abba-a67f2d507669"
-      selectedCellOptions := #["TestProject.List.cartesian_cons_left", ]
-    },
-  ]
-  facts := #[
-    «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array»,
-    «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
-    «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
-    «1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d507669:::List::Array»,
-    «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df:::List::Array»,
-  ]
+def table : RestoreStateM (Table.Data .subexpression .subexpression .declaration) := do
+  return {
+    widgetId := "list-array-lemmas"
+    selectedRowAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", "1f04bde9-477c-46cb-a08a-34e35a3be931", ]
+    selectedColumnAssociations := #["22ed4b1e-3ee6-484f-a948-56430d51fbeb", "f31e9b71-4ac3-4bb4-8385-198fb1174c81", "805094ea-a106-4230-abba-a67f2d507669", "e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df", ]
+    selectedLayers := #["List", "Array", ]
+    selectedCellOptions := #[
+      {
+        layerIdentifier := "List"
+        rowValue := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+        columnValue := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+        selectedCellOptions := ← #[].mapM migrateName
+      },
+      {
+        layerIdentifier := "List"
+        rowValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+        columnValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+        selectedCellOptions := ← #["List.filter_filter", ].mapM migrateName
+      },
+      {
+        layerIdentifier := "Array"
+        rowValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+        columnValue := "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+        selectedCellOptions := ← #["Array.filter_filter", ].mapM migrateName
+      },
+      {
+        layerIdentifier := "List"
+        rowValue := "1f04bde9-477c-46cb-a08a-34e35a3be931"
+        columnValue := "805094ea-a106-4230-abba-a67f2d507669"
+        selectedCellOptions := ← #["TestProject.List.cartesian_cons_left", ].mapM migrateName
+      },
+    ]
+    facts := #[
+      «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array»,
+      «22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
+      «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array»,
+      «1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d507669:::List::Array»,
+      «f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df:::List::Array»,
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addTable table
+  addTable (← table)

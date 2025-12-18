@@ -161,13 +161,17 @@ partial def processNode : Node → RenderM Data.Node
   | .text s => pure <| .text (processText s)
 
 def processProject (p : Project) : MetaM Data.Project := do
-  let (rootNode, renderState) ← (processNode p.rootNode).run p.restoreState.run
+  let (rootNode, renderState) ← (processNode p.rootNode).run (p.restoreState.run restoreContext)
 
   return {
     projectNamespace := p.config.projectNamespace.toString
     hash := ← p.config.getHash
     rootNode := rootNode
     declarations := renderState.declarations.valuesArray.map processDeclaration
+  }
+where
+  restoreContext : RestoreContext := {
+    renamings := Std.HashMap.ofArray p.renamings
   }
 
 public structure RenderResult where

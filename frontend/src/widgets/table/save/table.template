@@ -48,28 +48,30 @@ def «{{factId}}» : Table.Fact {{dataKind ../definition/rowKind}} {{dataKind ..
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
 
 {{/each}}
-def table : Table.Data {{dataKind definition/rowKind}} {{dataKind definition/columnKind}} {{dataKind definition/cellKind}} where
-  widgetId := {{leanString definition/widgetId}}
+def table : RestoreStateM (Table.Data {{dataKind definition/rowKind}} {{dataKind definition/columnKind}} {{dataKind definition/cellKind}}) := do
+  return {
+    widgetId := {{leanString definition/widgetId}}
 {{#with state}}
-  selectedRowAssociations := #[{{#each selectedRowAssociations}}{{leanString this}}, {{/each}}]
-  selectedColumnAssociations := #[{{#each selectedColumnAssociations}}{{leanString this}}, {{/each}}]
-  selectedLayers := #[{{#each selectedLayers}}{{leanString this}}, {{/each}}]
-  selectedCellOptions := #[
+    selectedRowAssociations := #[{{#each selectedRowAssociations}}{{leanString this}}, {{/each}}]
+    selectedColumnAssociations := #[{{#each selectedColumnAssociations}}{{leanString this}}, {{/each}}]
+    selectedLayers := #[{{#each selectedLayers}}{{leanString this}}, {{/each}}]
+    selectedCellOptions := #[
 {{#each selectedCellOptions}}
-    {
-      layerIdentifier := {{leanString layerIdentifier}}
-      rowValue := {{leanString rowValue}}
-      columnValue := {{leanString columnValue}}
-      selectedCellOptions := #[{{#each selectedCellOptions}}{{leanString this}}, {{/each}}]
-    },
+      {
+        layerIdentifier := {{leanString layerIdentifier}}
+        rowValue := {{leanString rowValue}}
+        columnValue := {{leanString columnValue}}
+        selectedCellOptions := ← #[{{#each selectedCellOptions}}{{leanString this}}, {{/each}}].mapM migrateName
+      },
 {{/each}}
-  ]
+    ]
 {{/with}}
-  facts := #[
+    facts := #[
 {{#each facts}}
-    «{{factId}}»,
+      «{{factId}}»,
 {{/each}}
-  ]
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addTable table
+  addTable (← table)

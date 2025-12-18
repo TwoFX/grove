@@ -27,7 +27,7 @@ public inductive Status where
   | postponed
   /-- This is known bad. -/
   | bad
-  /-- This fact was created automatically created by Grove because of some trigger condition; it will be considered to be invalidated until the user changes it. -/
+  /-- This fact was automatically created by Grove because of some trigger condition; it will be considered to be invalidated until the user changes it. -/
   | needsAttention
 
 instance : ToString Status where

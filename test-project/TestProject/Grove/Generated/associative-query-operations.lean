@@ -10,12 +10,14 @@ open Grove.Framework Widget
 namespace TestProject.Grove.Generated.«associative-query-operations»
 
 
-def table : AssociationTable.Data .subexpression where
-  widgetId := "associative-query-operations"
-  rows := #[
-  ]
-  facts := #[
-  ]
+def table : RestoreStateM (AssociationTable.Data .subexpression) := do
+  return {
+    widgetId := "associative-query-operations"
+    rows := #[
+    ]
+    facts := #[
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addAssociationTable table
+  addAssociationTable (← table)

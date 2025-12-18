@@ -27,18 +27,20 @@ def «22ed4b1e-3ee6-484f-a948-56430d51fbeb» : AssociationTable.Fact .subexpress
     comment := "Blub"
   }
 
-def table : AssociationTable.Data .subexpression where
-  widgetId := "list-array-operations"
-  rows := #[
-    ⟨"22ed4b1e-3ee6-484f-a948-56430d51fbeb", "isEmpty", #[⟨"List", "List.isEmpty"⟩,⟨"Array", "Array.isEmpty"⟩,]⟩,
-    ⟨"f31e9b71-4ac3-4bb4-8385-198fb1174c81", "filter", #[⟨"List", "List.filter"⟩,⟨"Array", "Array.filter"⟩,]⟩,
-    ⟨"805094ea-a106-4230-abba-a67f2d507669", "cartesian", #[⟨"List", "TestProject.List.cartesian"⟩,]⟩,
-    ⟨"1f04bde9-477c-46cb-a08a-34e35a3be931", "cons", #[⟨"List", "List.cons"⟩,]⟩,
-    ⟨"e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df", "GetElem", #[⟨"List", "app (GetElem.getElem) (List*)"⟩,⟨"Array", "app (GetElem.getElem) (Array*)"⟩,]⟩,
-  ]
-  facts := #[
-    «22ed4b1e-3ee6-484f-a948-56430d51fbeb»,
-  ]
+def table : RestoreStateM (AssociationTable.Data .subexpression) := do
+  return {
+    widgetId := "list-array-operations"
+    rows := #[
+      ⟨"22ed4b1e-3ee6-484f-a948-56430d51fbeb", "isEmpty", #[⟨"List", ← migrateName "List.isEmpty"⟩,⟨"Array", ← migrateName "Array.isEmpty"⟩,]⟩,
+      ⟨"f31e9b71-4ac3-4bb4-8385-198fb1174c81", "filter", #[⟨"List", ← migrateName "List.filter"⟩,⟨"Array", ← migrateName "Array.filter"⟩,]⟩,
+      ⟨"805094ea-a106-4230-abba-a67f2d507669", "cartesian", #[⟨"List", ← migrateName "TestProject.List.cartesian"⟩,]⟩,
+      ⟨"1f04bde9-477c-46cb-a08a-34e35a3be931", "cons", #[⟨"List", ← migrateName "List.cons"⟩,]⟩,
+      ⟨"e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df", "GetElem", #[⟨"List", ← migrateName "app (GetElem.getElem) (List*)"⟩,⟨"Array", ← migrateName "app (GetElem.getElem) (Array*)"⟩,]⟩,
+    ]
+    facts := #[
+      «22ed4b1e-3ee6-484f-a948-56430d51fbeb»,
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addAssociationTable table
+  addAssociationTable (← table)

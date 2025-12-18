@@ -18,18 +18,20 @@ def «{{factId}}» : AssociationTable.Fact {{dataKind ../definition/dataKind}} w
   metadata := {{#with metadata}}{{> metadata }}{{/with}}
 {{/each}}
 
-def table : AssociationTable.Data {{dataKind definition/dataKind}} where
-  widgetId := {{leanString definition/widgetId}}
-  rows := #[
+def table : RestoreStateM (AssociationTable.Data {{dataKind definition/dataKind}}) := do
+  return {
+    widgetId := {{leanString definition/widgetId}}
+    rows := #[
 {{#each state/rows}}
-    ⟨{{leanString uuid}}, {{leanString title}}, #[{{#each columns}}⟨{{leanString columnIdentifier}}, {{leanString cellValue}}⟩,{{/each}}]⟩,
+      ⟨{{leanString uuid}}, {{leanString title}}, #[{{#each columns}}⟨{{leanString columnIdentifier}}, ← migrateName {{leanString cellValue}}⟩,{{/each}}]⟩,
 {{/each}}
-  ]
-  facts := #[
+    ]
+    facts := #[
 {{#each facts}}
-    «{{factId}}»,
+      «{{factId}}»,
 {{/each}}
-  ]
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addAssociationTable table
+  addAssociationTable (← table)

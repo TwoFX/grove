@@ -9,15 +9,17 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«associative-create-then-query»
 
-def table : Table.Data .subexpression .subexpression .declaration where
-  widgetId := "associative-create-then-query"
-  selectedRowAssociations := #[]
-  selectedColumnAssociations := #[]
-  selectedLayers := #[]
-  selectedCellOptions := #[
-  ]
-  facts := #[
-  ]
+def table : RestoreStateM (Table.Data .subexpression .subexpression .declaration) := do
+  return {
+    widgetId := "associative-create-then-query"
+    selectedRowAssociations := #[]
+    selectedColumnAssociations := #[]
+    selectedLayers := #[]
+    selectedCellOptions := #[
+    ]
+    facts := #[
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addTable table
+  addTable (← table)

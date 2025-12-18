@@ -17,6 +17,9 @@ open Grove.Framework Widget
 
 namespace Grove.Framework
 
+public structure RestoreContext where
+  renamings : Std.HashMap String String
+
 -- TODO: make fields and imports private after https://github.com/leanprover/lean4/issues/10099 is fixed
 public structure SavedState where
   showDeclarationFacts : HashMap String (Array ShowDeclaration.Fact) := ∅
@@ -24,10 +27,10 @@ public structure SavedState where
   tables : HashMap String (Σ k₁ k₂ k₃, Table.Data k₁ k₂ k₃) := ∅
   assertions : HashMap String Assertion.Data := ∅
 
-public abbrev RestoreStateM := StateM SavedState
+public abbrev RestoreStateM := StateT SavedState (ReaderM RestoreContext)
 
-public def RestoreStateM.run (c : RestoreStateM Unit) : SavedState :=
-  (StateT.run c {}).2
+public def RestoreStateM.run (r : RestoreContext) (c : RestoreStateM Unit) : SavedState :=
+  (StateT.run c {}).run r |>.2
 
 @[inline]
 private def addToMap (m : HashMap String (Array α)) (id : String) (a : α) : HashMap String (Array α) :=
@@ -105,5 +108,9 @@ public def findAssertion? {m : Type → Type} [Monad m] [MonadReaderOf SavedStat
 public def findShowDeclarationFacts? {m : Type → Type} [Monad m] [MonadReaderOf SavedState m]
     (id : String) : m (Option (Array ShowDeclaration.Fact)) := do
   return (← getSavedState).showDeclarationFacts[id]?
+
+public def migrateName {m : Type → Type} [Monad m] [MonadReaderOf RestoreContext m] (id : String) :
+    m String :=
+  return (← read).renamings.getD id id
 
 end Grove.Framework

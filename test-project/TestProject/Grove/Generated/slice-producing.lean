@@ -13,35 +13,31 @@ def «0c47e016-c033-483d-9569-18d69c7238fa» : AssociationTable.Fact .declaratio
   widgetId := "slice-producing"
   factId := "0c47e016-c033-483d-9569-18d69c7238fa"
   rowId := "0c47e016-c033-483d-9569-18d69c7238fa"
-  rowState := #[⟨"String", "String.sliceFrom", Declaration.def {
-    name := `String.sliceFrom
-    renderedStatement := "String.sliceFrom (s : String) (p : s.Pos) : String.Slice"
-    isDeprecated := false
-  }
-⟩,⟨"String.Slice", "String.Slice.sliceFrom", Declaration.def {
-    name := `String.Slice.sliceFrom
-    renderedStatement := "String.Slice.sliceFrom (s : String.Slice) (pos : s.Pos) : String.Slice"
-    isDeprecated := false
-  }
-⟩,⟨"string-pos-forwards", "String.Pos.sliceFrom", Declaration.def {
-    name := `String.Pos.sliceFrom
-    renderedStatement := "String.Pos.sliceFrom {s : String} (p₀ pos : s.Pos) (h : p₀ ≤ pos) : (s.sliceFrom p₀).Pos"
-    isDeprecated := false
-  }
-⟩,]
+  rowState := #[⟨"String", "String.sliceFrom", Grove.Framework.Declaration.def
+  { name := `String.sliceFrom,
+    renderedStatement := "String.sliceFrom (s : String) (p : s.Pos) : String.Slice",
+    isDeprecated := false }⟩,⟨"String.Slice", "String.Slice.sliceFrom", Grove.Framework.Declaration.def
+  { name := `String.Slice.sliceFrom,
+    renderedStatement := "String.Slice.sliceFrom (s : String.Slice) (pos : s.Pos) : String.Slice",
+    isDeprecated := false }⟩,⟨"string-pos-forwards", "String.Pos.sliceFrom", Grove.Framework.Declaration.def
+  { name := `String.Pos.sliceFrom,
+    renderedStatement := "String.Pos.sliceFrom {s : String} (p₀ pos : s.Pos) (h : p₀ ≤ pos) : (s.sliceFrom p₀).Pos",
+    isDeprecated := false }⟩,]
   metadata := {
     status := .done
     comment := ""
   }
 
-def table : AssociationTable.Data .declaration where
-  widgetId := "slice-producing"
-  rows := #[
-    ⟨"0c47e016-c033-483d-9569-18d69c7238fa", "sliceFrom", #[⟨"String", "String.sliceFrom"⟩,⟨"String.Slice", "String.Slice.sliceFrom"⟩,⟨"string-pos-forwards", "String.Pos.sliceFrom"⟩,]⟩,
-  ]
-  facts := #[
-    «0c47e016-c033-483d-9569-18d69c7238fa»,
-  ]
+def table : RestoreStateM (AssociationTable.Data .declaration) := do
+  return {
+    widgetId := "slice-producing"
+    rows := #[
+      ⟨"0c47e016-c033-483d-9569-18d69c7238fa", "sliceFrom", #[⟨"String", ← migrateName "String.sliceFrom"⟩,⟨"String.Slice", ← migrateName "String.Slice.sliceFrom"⟩,⟨"string-pos-forwards", ← migrateName "String.Pos.sliceFrom"⟩,]⟩,
+    ]
+    facts := #[
+      «0c47e016-c033-483d-9569-18d69c7238fa»,
+    ]
+  }
 
 def restoreState : RestoreStateM Unit := do
-  addAssociationTable table
+  addAssociationTable (← table)

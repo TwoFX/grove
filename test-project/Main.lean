@@ -11,9 +11,14 @@ import TestProject
 def config : Grove.Framework.Project.Configuration where
   projectNamespace := `TestProject.Grove
 
+def renamings : Array (String × String) := #[
+
+]
+
 def project : Grove.Framework.Project where
   config := config
   rootNode := TestProject.Grove.Structure.root
+  renamings
   restoreState := TestProject.Grove.Generated.restoreState
 
 def main (args : List String) : IO UInt32 :=

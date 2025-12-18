@@ -43,6 +43,7 @@ public structure Project.Configuration where
 public structure Project where
   config : Project.Configuration
   rootNode : Node
+  renamings : Array (String × String)
   restoreState : RestoreStateM Unit
 
 end Grove.Framework
