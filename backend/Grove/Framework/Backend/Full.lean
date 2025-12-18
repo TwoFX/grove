@@ -161,7 +161,7 @@ partial def processNode : Node → RenderM Data.Node
   | .text s => pure <| .text (processText s)
 
 def processProject (p : Project) : MetaM Data.Project := do
-  let (rootNode, renderState) ← (processNode p.rootNode).run (p.restoreState.run restoreContext)
+  let (rootNode, renderState) ← (processNode p.rootNode).run (p.restoreState.run restoreContext) restoreContext
 
   return {
     projectNamespace := p.config.projectNamespace.toString

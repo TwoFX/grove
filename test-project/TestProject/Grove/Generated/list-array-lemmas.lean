@@ -244,30 +244,26 @@ def «1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d50766
       layerIdentifier := "List"
       rowState := 
         
-        some ⟨"List.cons", .declaration (Declaration.def {
-            name := `List.cons
-            renderedStatement := "List.cons.{u} {α : Type u} (head : α) (tail : List α) : List α"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"List.cons", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `List.cons,
+              renderedStatement := "List.cons.{u} {α : Type u} (head : α) (tail : List α) : List α",
+              isDeprecated := false })⟩
         
       columnState := 
         
-        some ⟨"TestProject.List.cartesian", .declaration (Declaration.def {
-            name := `TestProject.List.cartesian
-            renderedStatement := "TestProject.List.cartesian.{u_1, u_2} {α : Type u_1} {β : Type u_2} (l₁ : List α) (l₂ : List β) :\n  List (α × β)"
-            isDeprecated := false
-          }
-        )⟩
+        some ⟨"TestProject.List.cartesian", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `TestProject.List.cartesian,
+              renderedStatement := "TestProject.List.cartesian.{u_1, u_2} {α : Type u_1} {β : Type u_2} (l₁ : List α) (l₂ : List β) :\n  List (α × β)",
+              isDeprecated := false })⟩
         
       selectedCellStates := #[
-        ⟨"TestProject.List.cartesian_cons_left", Declaration.thm {
-    name := `TestProject.List.cartesian_cons_left
-    renderedStatement := "TestProject.List.cartesian_cons_left.{u_1, u_2} {α : Type u_1} {β : Type u_2} (x : α) (l₁ : List α)\n  (l₂ : List β) :\n  TestProject.List.cartesian (x :: l₁) l₂ =\n    List.map (fun x_1 => (x, x_1)) l₂ ++ TestProject.List.cartesian l₁ l₂"
-    isDeprecated := false
-    isSimp := false
-  }
-⟩
+        ⟨"TestProject.List.cartesian_cons_left", Grove.Framework.Declaration.thm
+  { name := `TestProject.List.cartesian_cons_left,
+    renderedStatement := "TestProject.List.cartesian_cons_left.{u_1, u_2} {α : Type u_1} {β : Type u_2} (x : α) (l₁ : List α)\n  (l₂ : List β) :\n  TestProject.List.cartesian (x :: l₁) l₂ =\n    List.map (fun x_1 => (x, x_1)) l₂ ++ TestProject.List.cartesian l₁ l₂",
+    isSimp := false,
+    isDeprecated := false }⟩
 ,
       ]
     },

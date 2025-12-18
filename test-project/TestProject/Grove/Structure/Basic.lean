@@ -241,9 +241,23 @@ def introduction2 : Text where
     .text "With some more text"
   ]
 
+def enumerateTestProjectNamespace : Assertion where
+  widgetId := "enumerate-test-project-namespace"
+  title := "All declarations in the TestProject.List namespace"
+  description := "Here we list the declarations in the TestProject.List namespace"
+  check := do
+    let mut ans := #[]
+    for name in ← declarationsMatching `TestProject.List DeclarationPredicate.true do
+      ans := ans.push {
+        assertionId := name.toString
+        description := s!"There is a declaration named {name}"
+        passed := true
+        message := s!"There is a declaration named {name}"
+      }
+    return ans
 
 def root : Node :=
   .section "test-project" "The Grove test project" #[introduction, .text introduction2, Containers.root, SizeIssue.root,
-    Conversion.root, Strings.root]
+    Conversion.root, Strings.root, enumerateTestProjectNamespace]
 
 end TestProject.Grove.Structure

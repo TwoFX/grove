@@ -138,7 +138,13 @@ end Assertion
 public def processAssertion (a : Assertion) : RenderM Data.Assertion := do
   let results ← a.check
 
-  let savedFacts := (← findAssertion? a.widgetId).map Assertion.Data.facts |>.getD #[]
+  let savedFacts ← (← findAssertion? a.widgetId)
+    |>.map Assertion.Data.facts
+    |>.getD #[]
+    |>.mapM (fun f => return { f with
+        factId := ← a.migrateAssertionId f.factId
+        assertionId := ← a.migrateAssertionId f.assertionId
+      })
 
   return {
     definition := {

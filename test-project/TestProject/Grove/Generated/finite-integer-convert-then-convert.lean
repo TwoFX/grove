@@ -2175,6 +2175,98 @@ def «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88
     comment := ""
   }
 
+def «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize» : Table.Fact .subexpression .subexpression .declaration where
+  widgetId := "finite-integer-convert-then-convert"
+  factId := "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize"
+  rowAssociationId := "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+  columnAssociationId := "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+  selectedLayers := #["UInt8", "UInt16", "UInt32", "UInt64", "USize", ]
+  layerStates := #[
+    {
+      layerIdentifier := "UInt8"
+      rowState := 
+        
+        some ⟨"UInt8.toUInt32", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt8.toUInt32, renderedStatement := "UInt8.toUInt32 (a : UInt8) : UInt32", isDeprecated := false })⟩
+        
+      columnState := 
+        
+        some ⟨"UInt8.toUInt64", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt8.toUInt64, renderedStatement := "UInt8.toUInt64 (a : UInt8) : UInt64", isDeprecated := false })⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+    {
+      layerIdentifier := "UInt16"
+      rowState := 
+        
+        some ⟨"UInt16.toUInt32", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt16.toUInt32, renderedStatement := "UInt16.toUInt32 (a : UInt16) : UInt32", isDeprecated := false })⟩
+        
+      columnState := 
+        
+        some ⟨"UInt16.toUInt64", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt16.toUInt64, renderedStatement := "UInt16.toUInt64 (a : UInt16) : UInt64", isDeprecated := false })⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+    {
+      layerIdentifier := "UInt32"
+      rowState := 
+        none
+        
+      columnState := 
+        
+        some ⟨"UInt32.toUInt64", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt32.toUInt64, renderedStatement := "UInt32.toUInt64 (a : UInt32) : UInt64", isDeprecated := false })⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+    {
+      layerIdentifier := "UInt64"
+      rowState := 
+        
+        some ⟨"UInt64.toUInt32", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `UInt64.toUInt32, renderedStatement := "UInt64.toUInt32 (a : UInt64) : UInt32", isDeprecated := false })⟩
+        
+      columnState := 
+        none
+        
+      selectedCellStates := #[
+      ]
+    },
+    {
+      layerIdentifier := "USize"
+      rowState := 
+        
+        some ⟨"USize.toUInt32", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `USize.toUInt32, renderedStatement := "USize.toUInt32 (a : USize) : UInt32", isDeprecated := false })⟩
+        
+      columnState := 
+        
+        some ⟨"USize.toUInt64", Grove.Framework.Subexpression.State.declaration
+          (Grove.Framework.Declaration.def
+            { name := `USize.toUInt64, renderedStatement := "USize.toUInt64 (a : USize) : UInt64", isDeprecated := false })⟩
+        
+      selectedCellStates := #[
+      ]
+    },
+  ]
+  metadata := {
+    status := .believedGood
+    comment := ""
+  }
+
 def «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize» : Table.Fact .subexpression .subexpression .declaration where
   widgetId := "finite-integer-convert-then-convert"
   factId := "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize"
@@ -3935,122 +4027,6 @@ def «f339227d-32af-42c1-8889-285142c34fe3:::f339227d-32af-42c1-8889-285142c34fe
     comment := ""
   }
 
-def «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize» : Table.Fact .subexpression .subexpression .declaration where
-  widgetId := "finite-integer-convert-then-convert"
-  factId := "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize"
-  rowAssociationId := "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
-  columnAssociationId := "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
-  selectedLayers := #["UInt8", "UInt16", "UInt32", "UInt64", "USize", ]
-  layerStates := #[
-    {
-      layerIdentifier := "UInt8"
-      rowState := 
-        
-        some ⟨"UInt8.toUInt32", .declaration (Declaration.def {
-            name := `UInt8.toUInt32
-            renderedStatement := "UInt8.toUInt32 (a : UInt8) : UInt32"
-            isDeprecated := false
-          }
-        )⟩
-        
-      columnState := 
-        
-        some ⟨"UInt8.toUInt64", .declaration (Declaration.def {
-            name := `UInt8.toUInt64
-            renderedStatement := "UInt8.toUInt64 (a : UInt8) : UInt64"
-            isDeprecated := false
-          }
-        )⟩
-        
-      selectedCellStates := #[
-      ]
-    },
-    {
-      layerIdentifier := "UInt16"
-      rowState := 
-        
-        some ⟨"UInt16.toUInt32", .declaration (Declaration.def {
-            name := `UInt16.toUInt32
-            renderedStatement := "UInt16.toUInt32 (a : UInt16) : UInt32"
-            isDeprecated := false
-          }
-        )⟩
-        
-      columnState := 
-        
-        some ⟨"UInt16.toUInt64", .declaration (Declaration.def {
-            name := `UInt16.toUInt64
-            renderedStatement := "UInt16.toUInt64 (a : UInt16) : UInt64"
-            isDeprecated := false
-          }
-        )⟩
-        
-      selectedCellStates := #[
-      ]
-    },
-    {
-      layerIdentifier := "UInt32"
-      rowState := 
-        none
-        
-      columnState := 
-        
-        some ⟨"UInt32.toUInt64", .declaration (Declaration.def {
-            name := `UInt32.toUInt64
-            renderedStatement := "UInt32.toUInt64 (a : UInt32) : UInt64"
-            isDeprecated := false
-          }
-        )⟩
-        
-      selectedCellStates := #[
-      ]
-    },
-    {
-      layerIdentifier := "UInt64"
-      rowState := 
-        
-        some ⟨"UInt64.toUInt32", .declaration (Declaration.def {
-            name := `UInt64.toUInt32
-            renderedStatement := "UInt64.toUInt32 (a : UInt64) : UInt32"
-            isDeprecated := false
-          }
-        )⟩
-        
-      columnState := 
-        none
-        
-      selectedCellStates := #[
-      ]
-    },
-    {
-      layerIdentifier := "USize"
-      rowState := 
-        
-        some ⟨"USize.toUInt32", .declaration (Declaration.def {
-            name := `USize.toUInt32
-            renderedStatement := "USize.toUInt32 (a : USize) : UInt32"
-            isDeprecated := false
-          }
-        )⟩
-        
-      columnState := 
-        
-        some ⟨"USize.toUInt64", .declaration (Declaration.def {
-            name := `USize.toUInt64
-            renderedStatement := "USize.toUInt64 (a : USize) : UInt64"
-            isDeprecated := false
-          }
-        )⟩
-        
-      selectedCellStates := #[
-      ]
-    },
-  ]
-  metadata := {
-    status := .believedGood
-    comment := ""
-  }
-
 def table : RestoreStateM (Table.Data .subexpression .subexpression .declaration) := do
   return {
     widgetId := "finite-integer-convert-then-convert"
@@ -4105,6 +4081,7 @@ def table : RestoreStateM (Table.Data .subexpression .subexpression .declaration
       «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::Int8::Int16::Int32::Int64::ISize»,
       «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::UInt8::UInt16::UInt32::UInt64::USize»,
       «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::Int8::Int16::Int32::Int64::ISize»,
+      «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize»,
       «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize»,
       «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize»,
       «dd8fc53e-d116-4ba4-9119-ab830f42b88c:::a556b849-a735-48a9-8099-06496bddb069:::Int8::Int16::Int32::Int64::ISize»,
@@ -4127,7 +4104,6 @@ def table : RestoreStateM (Table.Data .subexpression .subexpression .declaration
       «f339227d-32af-42c1-8889-285142c34fe3:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize»,
       «f339227d-32af-42c1-8889-285142c34fe3:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize»,
       «f339227d-32af-42c1-8889-285142c34fe3:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize»,
-      «178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize»,
     ]
   }
 

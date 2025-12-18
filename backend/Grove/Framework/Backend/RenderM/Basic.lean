@@ -27,7 +27,7 @@ public def RenderState.getDeclaration (r : RenderState) (n : Name) : LookupM (Re
     return ({ r with declarations := r.declarations.insert n.toString d }, d)
   | some d => return (r, d)
 
-public abbrev RenderM := StateRefT RenderState (ReaderT SavedState LookupM)
+public abbrev RenderM := StateRefT RenderState (ReaderT RestoreContext (ReaderT SavedState LookupM))
 
 def RenderM.modifyGetM {α β : Type} (f : RenderState → α → LookupM (RenderState × β)) (a : α) : RenderM β := do
   let oldState ← get
@@ -39,8 +39,8 @@ def RenderM.modifyGetM {α β : Type} (f : RenderState → α → LookupM (Rende
 public def getDeclaration (n : Name) : RenderM Declaration :=
   RenderM.modifyGetM RenderState.getDeclaration n
 
-public def RenderM.run {α : Type} (s : SavedState) (r : RenderM α) : MetaM (α × RenderState) :=
-  (StateRefT'.run r { }).run s |>.run
+public def RenderM.run {α : Type} (s : SavedState) (rc : RestoreContext) (r : RenderM α) : MetaM (α × RenderState) :=
+  (StateRefT'.run r { }).run rc |>.run s |>.run
 
 end RenderM
 
