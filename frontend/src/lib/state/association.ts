@@ -28,15 +28,23 @@ function convertRow(
   return {
     id: source.uuid,
     title: source.title,
-    layers: source.columns.map((cell) => ({
-      layerIdentifier: cell.columnIdentifier,
-      data: convertOption(
-        optionFor(
-          descriptionByIdentifier.get(cell.columnIdentifier)!,
-          cell.cellValue,
-        )!,
-      ),
-    })),
+    layers: source.columns.flatMap((cell) => {
+      const option = optionFor(
+        descriptionByIdentifier.get(cell.columnIdentifier)!,
+        cell.cellValue,
+      );
+
+      if (!option) {
+        return [];
+      }
+
+      return [
+        {
+          layerIdentifier: cell.columnIdentifier,
+          data: convertOption(option),
+        },
+      ];
+    }),
   };
 }
 
