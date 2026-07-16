@@ -4,6 +4,7 @@ import { useGroveStore } from "@/lib/state/state";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { JSX } from "react";
 import { BsChevronDown, BsFillTrash3Fill } from "react-icons/bs";
+import { Link } from "react-router";
 
 function ChangeEntry({ change }: { change: PendingChange }): JSX.Element {
   const state = useGroveStore();
@@ -11,7 +12,7 @@ function ChangeEntry({ change }: { change: PendingChange }): JSX.Element {
   return (
     <div className="flex items-center justify-between">
       {change.href ? (
-        <a href={change.href}>{change.displayShort}</a>
+        <Link to={change.href}>{change.displayShort}</Link>
       ) : (
         <span>{change.displayShort}</span>
       )}

@@ -7,6 +7,7 @@ import { useFactSummaries } from "@/lib/state/pending";
 import { JSX, useContext, useEffect } from "react";
 import { Column, DataGrid } from "react-data-grid";
 import { FiExternalLink } from "react-icons/fi";
+import { Link } from "react-router";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { GroveContext } from "@/lib/transfer/context";
 import { isNewlyInvalidatedFact } from "@/lib/fact/invalidated";
@@ -75,9 +76,9 @@ export function FactPage({ sectionId }: { sectionId: string }): JSX.Element {
       name: "Go",
       width: 20,
       renderCell: ({ row }) => (
-        <a href={row.href}>
+        <Link to={row.href}>
           <FiExternalLink />
-        </a>
+        </Link>
       ),
     },
     { key: "widgetTitle", name: "Widget title", width: 500, resizable: true },
