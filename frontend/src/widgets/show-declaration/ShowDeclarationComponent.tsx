@@ -1,5 +1,3 @@
-"use client";
-
 import { LeafWidget } from "@/components/LeafWidget";
 import { useGroveStore } from "@/lib/state/state";
 import {

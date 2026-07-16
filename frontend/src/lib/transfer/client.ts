@@ -1,69 +1,64 @@
 import { useMemo } from "react";
+import useSWRImmutable from "swr/immutable";
 import { GroveContextData } from "./contextdata";
 import { createContextData } from "./metadata";
-import useSWRImmutable from "swr/immutable";
-
-const stringFetcher: (url: string) => Promise<string> = (url) =>
-  fetch(url).then((res) => res.text());
 
 export interface Load<T> {
   data: T | undefined;
   isLoading: boolean;
 }
 
-function useFetchProjectData(): Load<string> {
-  const { data, error, isLoading } = useSWRImmutable(
-    "/metadata.json",
-    stringFetcher,
-  );
-  if (error) {
-    throw new Error(error);
-  }
-  return { data, isLoading };
-}
+// Relative to the document URL, which hash routing keeps fixed at index.html,
+// so the data files are always resolved next to the app bundle.
+const projectDataUrl = "metadata.json";
+const invalidatedFactsUrl = "invalidated.json";
 
-function useFetchInvalidatedFactsData(shouldFetch: boolean): Load<string> {
-  const { data, error, isLoading } = useSWRImmutable(
-    shouldFetch ? "/invalidated.json" : null,
-    stringFetcher,
-  );
-  if (error) {
-    throw new Error(error);
+const requiredFetcher = async (url: string): Promise<string> => {
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
   }
-  return { data, isLoading };
-}
+  return res.text();
+};
 
-export function useFetchGroveContextData(
-  haveUpstreamInvalidatedFacts: boolean,
-): Load<GroveContextData> {
-  const projectDataRaw = useFetchProjectData();
-  const upstreamInvalidatedFactsData = useFetchInvalidatedFactsData(
-    haveUpstreamInvalidatedFacts,
-  );
+// Resolves to null when the file is not present. A non-OK response, a
+// non-JSON body (e.g. an HTML error page) and a network failure all count
+// as "this Grove has no upstream invalidated facts".
+const optionalJsonFetcher = async (url: string): Promise<string | null> => {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      return null;
+    }
+    const text = await res.text();
+    JSON.parse(text);
+    return text;
+  } catch {
+    return null;
+  }
+};
+
+export function useFetchGroveContextData(): Load<GroveContextData> {
+  const project = useSWRImmutable(projectDataUrl, requiredFetcher);
+  const invalidated = useSWRImmutable(invalidatedFactsUrl, optionalJsonFetcher);
 
   const result: Load<GroveContextData> = useMemo(() => {
-    if (projectDataRaw.isLoading || upstreamInvalidatedFactsData.isLoading) {
+    if (project.data === undefined || invalidated.data === undefined) {
       return { data: undefined, isLoading: true };
-    }
-
-    if (!projectDataRaw.data) {
-      throw new Error("Failed to fetch project data");
     }
 
     return {
       data: createContextData(
-        JSON.parse(projectDataRaw.data),
-        upstreamInvalidatedFactsData.data
-          ? JSON.parse(upstreamInvalidatedFactsData.data)
-          : undefined,
+        JSON.parse(project.data),
+        invalidated.data !== null ? JSON.parse(invalidated.data) : undefined,
       ),
       isLoading: false,
     };
-  }, [
-    projectDataRaw.data,
-    projectDataRaw.isLoading,
-    upstreamInvalidatedFactsData.isLoading,
-    upstreamInvalidatedFactsData.data,
-  ]);
+  }, [project.data, invalidated.data]);
+
+  if (project.error) {
+    throw project.error;
+  }
+
   return result;
 }

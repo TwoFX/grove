@@ -1,10 +1,10 @@
-"use client";
-
 import { useGroveStore } from "@/lib/state/state";
 import { JSX, ReactElement, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";
 import { FaWrench } from "react-icons/fa6";
+import { Link } from "react-router";
 import { FactCountContext } from "@/lib/navigate/factcount";
+import { factsUrl, WidgetRouteKind, widgetUrl } from "@/lib/navigate/urls";
 import { InvalidatedFactCountComponent } from "@/components/InvalidatedFactCountComponent";
 
 export function LeafWidget({
@@ -18,7 +18,7 @@ export function LeafWidget({
   widgetType: string;
   title: string;
   children: ReactElement;
-  link?: string;
+  link?: WidgetRouteKind;
 }): JSX.Element {
   const isExpanded = useGroveStore((state) => state.expanded[id]);
   const toggleExpanded = useGroveStore((state) => state.toggleExpanded);
@@ -40,17 +40,17 @@ export function LeafWidget({
           </div>
         </div>
         {invalidatedFacts && (
-          <a href={`/facts/${id}`}>
+          <Link to={factsUrl(id)}>
             <InvalidatedFactCountComponent
               invalidatedFacts={invalidatedFacts}
               size="sm"
             />
-          </a>
+          </Link>
         )}
         {link && (
-          <a href={`/${link}/${id}`}>
+          <Link to={widgetUrl(link, id)}>
             <FaWrench size={14} />
-          </a>
+          </Link>
         )}
       </div>
       {isExpanded && <div className="pl-6 pt-2 pb-2">{children}</div>}

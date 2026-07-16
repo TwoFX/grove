@@ -1,7 +1,4 @@
-"use client";
-
-import { JSX, useEffect, useState } from "react";
-import Image from "next/image";
+import { JSX } from "react";
 import { SaveButton } from "../SaveButton";
 import { ClearButton } from "../ClearButton";
 import { Breadcrumbs } from "./Breadcrumbs";
@@ -9,22 +6,17 @@ import { RedoButton, UndoButton } from "../UndoRedoButton";
 import { ChangeOverview } from "../ChangeOverview";
 
 export function HeaderBar(): JSX.Element {
-  const [hasFileSystemAccess, setHasFileSystemAccess] = useState(true);
-
-  useEffect(() => {
-    // Check if the File System Access API (showDirectoryPicker) is available
-    setHasFileSystemAccess("showDirectoryPicker" in window);
-  }, []);
+  // Saving requires the File System Access API (showDirectoryPicker).
+  const hasFileSystemAccess = "showDirectoryPicker" in window;
 
   return (
     <div className="flex items-center justify-between p-2 border-b">
       <div className="flex gap-2">
-        <Image
-          src="/lean_logo.svg"
+        <img
+          src="lean_logo.svg"
           alt="Lean Logo"
           width={70}
           height={40}
-          priority
           className="dark-mode-invert"
         />
         <div className="inline-flex items-baseline gap-6">

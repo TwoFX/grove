@@ -80,12 +80,13 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
     switch (node.constructor) {
       case "namespace":
         return [];
-      case "section":
+      case "section": {
         const childResults = await Promise.all(
           node.section.children.map((child) => traverse(dirHandle, child)),
         );
         return childResults.flat();
-      case "showDeclaration":
+      }
+      case "showDeclaration": {
         const showDeclarationId = await writeWidget(
           dirHandle,
           node.showDeclaration.definition,
@@ -93,7 +94,8 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
           renderers.renderShowDeclaration,
         );
         return [showDeclarationId];
-      case "associationTable":
+      }
+      case "associationTable": {
         const associationTableId = await writeWidget(
           dirHandle,
           node.associationTable.definition,
@@ -101,7 +103,8 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
           renderers.renderAssociationTable,
         );
         return [associationTableId];
-      case "assertion":
+      }
+      case "assertion": {
         const assertionId = await writeWidget(
           dirHandle,
           node.assertion.definition,
@@ -109,7 +112,8 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
           renderers.renderAssertion,
         );
         return [assertionId];
-      case "table":
+      }
+      case "table": {
         const tableId = await writeWidget(
           dirHandle,
           node.table.definition,
@@ -117,6 +121,7 @@ export async function saveFiles(rootNode: Node, renderers: Renderers) {
           renderers.renderTable,
         );
         return [tableId];
+      }
       case "text":
         return [];
     }

@@ -1,4 +1,5 @@
 import { FactSummary } from "@/lib/fact/summary";
+import { widgetUrl } from "@/lib/navigate/urls";
 import {
   collectPendingFactAndStateChanges,
   PendingChange,
@@ -69,7 +70,7 @@ export function computeAssociationTableFactSummary(
     widgetTitle: context.associationTableDefinition.byId[fact.widgetId].title,
     widgetId: fact.widgetId,
     factId: fact.factId,
-    href: `/association/${fact.widgetId}`,
+    href: widgetUrl("association", fact.widgetId),
     summary: rowTitle ?? "Unknown",
     metadata: fact.metadata,
     validationResult: fact.validationResult,

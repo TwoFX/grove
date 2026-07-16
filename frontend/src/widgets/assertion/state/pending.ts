@@ -1,4 +1,5 @@
 import { FactSummary } from "@/lib/fact/summary";
+import { widgetUrl } from "@/lib/navigate/urls";
 import {
   collectPendingFactChanges,
   PendingChange,
@@ -38,7 +39,7 @@ export function computeAssertionFactSummary(
     widgetTitle: definition.title,
     widgetId: fact.widgetId,
     factId: fact.factId,
-    href: `/assertion/${fact.widgetId}`,
+    href: widgetUrl("assertion", fact.widgetId),
     summary:
       definition.results.find((r) => r.assertionId === fact.assertionId)
         ?.description ?? "Unknown",

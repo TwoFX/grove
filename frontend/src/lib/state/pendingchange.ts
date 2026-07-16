@@ -1,3 +1,4 @@
+import { WidgetRouteKind, widgetUrl } from "../navigate/urls";
 import { StateRegistry } from "../transfer/contextdata";
 import { GroveState } from "./state";
 
@@ -14,7 +15,7 @@ export function collectPendingFactChanges<TDefinition, TFact>(
   },
   definitions: StateRegistry<TDefinition>,
   getTitle: (def: TDefinition) => string,
-  urlFragment: string | undefined,
+  route: WidgetRouteKind | undefined,
   clearPendingFact: (state: GroveState, widgetId: string) => void,
 ): PendingChange[] {
   return Object.entries(pendingFacts).flatMap(
@@ -28,7 +29,7 @@ export function collectPendingFactChanges<TDefinition, TFact>(
         return [
           {
             displayShort: `${title}: ${count} facts`,
-            href: urlFragment ? `/${urlFragment}/${widgetId}` : undefined,
+            href: route ? widgetUrl(route, widgetId) : undefined,
             remove: (state) => clearPendingFact(state, widgetId),
             id: `${widgetId}-facts`,
           },
@@ -42,7 +43,7 @@ export function collectPendingStateChanges<TDefinition, TState>(
   pendingStates: { [widgetId: string]: TState },
   definitions: StateRegistry<TDefinition>,
   getTitle: (def: TDefinition) => string,
-  urlFragment: string | undefined,
+  route: WidgetRouteKind | undefined,
   clearPendingState: (state: GroveState, widgetId: string) => void,
 ): PendingChange[] {
   return Object.keys(pendingStates).map((widgetId) => {
@@ -50,7 +51,7 @@ export function collectPendingStateChanges<TDefinition, TState>(
     const title = def ? getTitle(def) : "Unknown widget";
     return {
       displayShort: `${title} changed`,
-      href: urlFragment ? `/${urlFragment}/${widgetId}` : undefined,
+      href: route ? widgetUrl(route, widgetId) : undefined,
       remove: (state) => clearPendingState(state, widgetId),
       id: `${widgetId}-state`,
     };
@@ -64,7 +65,7 @@ export function collectPendingFactAndStateChanges<TDefinition, TFact, TState>(
   pendingStates: { [widgetId: string]: TState },
   definitions: StateRegistry<TDefinition>,
   getTitle: (def: TDefinition) => string,
-  urlFragment: string | undefined,
+  route: WidgetRouteKind | undefined,
   clearPendingFact: (state: GroveState, widgetId: string) => void,
   clearPendingState: (state: GroveState, widgetId: string) => void,
 ): PendingChange[] {
@@ -73,14 +74,14 @@ export function collectPendingFactAndStateChanges<TDefinition, TFact, TState>(
       pendingFacts,
       definitions,
       getTitle,
-      urlFragment,
+      route,
       clearPendingFact,
     ),
     ...collectPendingStateChanges(
       pendingStates,
       definitions,
       getTitle,
-      urlFragment,
+      route,
       clearPendingState,
     ),
   ];

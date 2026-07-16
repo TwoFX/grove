@@ -1,5 +1,3 @@
-"use client";
-
 import { ReferenceWidget } from "@/components/ReferenceWidget";
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { useGroveStore } from "@/lib/state/state";
@@ -77,10 +75,6 @@ export function AssociationTablePage({
   });
   const { setBreadcrumb } = useContext(BreadcrumbContext);
 
-  if (!tableState) {
-    throw new Error("Unknown association table");
-  }
-
   const tableDefinition = context.associationTableDefinition.byId[widgetId];
 
   useEffect(() => {
@@ -89,6 +83,10 @@ export function AssociationTablePage({
       title: tableDefinition.title,
     });
   }, [setBreadcrumb, tableDefinition]);
+
+  if (!tableState) {
+    throw new Error("Unknown association table");
+  }
 
   const reference = selectedReference(
     context,

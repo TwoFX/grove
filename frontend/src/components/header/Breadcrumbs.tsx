@@ -1,6 +1,8 @@
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
+import { sectionUrl } from "@/lib/navigate/urls";
 import { GroveContext } from "@/lib/transfer/context";
 import { JSX, useContext } from "react";
+import { Link } from "react-router";
 
 export function Breadcrumbs(): JSX.Element {
   const { breadcrumb } = useContext(BreadcrumbContext);
@@ -24,9 +26,9 @@ export function Breadcrumbs(): JSX.Element {
       {parents.map((id) => (
         <div className="inline-flex gap-2" key={id}>
           <span>
-            <a href={`/section/${id}`} className="hover:underline">
+            <Link to={sectionUrl(id)} className="hover:underline">
               {context.section[id].title}
-            </a>
+            </Link>
           </span>
           <span>/</span>
         </div>

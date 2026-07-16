@@ -1,10 +1,8 @@
-"use client";
-
 import { GroveContext } from "@/lib/transfer/context";
-import { JSX, ReactNode, useState } from "react";
+import { JSX, ReactNode, useMemo, useState } from "react";
 import { HashCheck } from "./HashCheck";
-import { TemplateStrings } from "@/lib/templates";
 import { setupTemplates } from "@/lib/templates/client";
+import { templates as templateStrings } from "@/lib/templates/strings";
 import { GroveTemplateContext } from "@/lib/templates/context";
 import {
   BreadcrumbContext,
@@ -36,20 +34,15 @@ function InnerGroveClient({ children }: { children: ReactNode }): JSX.Element {
 
 export function GroveClient({
   children,
-  haveUpstreamInvalidatedFacts,
-  templateStrings,
 }: {
   children: ReactNode;
-  haveUpstreamInvalidatedFacts: boolean;
-  templateStrings: TemplateStrings;
 }): JSX.Element {
   const [breadcrumb, setBreadcrumb] = useState<BreadcrumbData>({
     id: "",
     title: "",
   });
-  const { data, isLoading } = useFetchGroveContextData(
-    haveUpstreamInvalidatedFacts,
-  );
+  const templates = useMemo(() => setupTemplates(templateStrings), []);
+  const { data, isLoading } = useFetchGroveContextData();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -73,7 +66,6 @@ export function GroveClient({
       : undefined,
   };
 
-  const templates = setupTemplates(templateStrings);
   return (
     <GroveContext value={data}>
       <InvalidatedFactsContext value={invalidatedFactSet}>

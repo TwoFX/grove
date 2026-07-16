@@ -1,5 +1,3 @@
-"use client";
-
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";
@@ -13,10 +11,6 @@ export function TablePage({ widgetId }: { widgetId: string }): JSX.Element {
   const setTableState = useGroveStore((state) => state.setPendingTableState);
   const { setBreadcrumb } = useContext(BreadcrumbContext);
 
-  if (!tableState) {
-    throw new Error("Unknown table");
-  }
-
   const tableDefinition = context.tableDefinition.byId[widgetId];
 
   useEffect(() => {
@@ -25,6 +19,10 @@ export function TablePage({ widgetId }: { widgetId: string }): JSX.Element {
       title: tableDefinition.title,
     });
   }, [setBreadcrumb, tableDefinition]);
+
+  if (!tableState) {
+    throw new Error("Unknown table");
+  }
 
   return (
     <TableComponent

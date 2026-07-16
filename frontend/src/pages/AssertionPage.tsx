@@ -1,5 +1,3 @@
-"use client";
-
 import "react-data-grid/lib/styles.css";
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { GroveContext } from "@/lib/transfer/context";
@@ -15,10 +13,6 @@ export function AssertionPage({ widgetId }: { widgetId: string }) {
   const { setBreadcrumb } = useContext(BreadcrumbContext);
 
   const definition = context.assertionDefinition.byId[widgetId];
-
-  if (!definition) {
-    throw new Error("Unknown assertion");
-  }
 
   useEffect(() => {
     setBreadcrumb({

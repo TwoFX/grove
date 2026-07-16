@@ -3,6 +3,7 @@ import { ShowDeclarationFact } from "@/lib/transfer/project";
 import { GroveContext } from "@/lib/transfer/context";
 import { useContext } from "react";
 import { FactSummary } from "@/lib/fact/summary";
+import { homeUrl, sectionUrl } from "@/lib/navigate/urls";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import {
   collectPendingFactChanges,
@@ -33,11 +34,12 @@ export function computeShowDeclarationFactSummary(
   context: GroveContextData,
   fact: ShowDeclarationFact,
 ): FactSummary {
+  const parent: string | undefined = context.parentSection[fact.widgetId];
   return {
     widgetId: fact.widgetId,
     widgetTitle: context.showDeclarationDefinition.byId[fact.widgetId].name,
     factId: fact.factId,
-    href: `/section/${context.parentSection[fact.widgetId]}`,
+    href: parent !== undefined ? sectionUrl(parent) : homeUrl(),
     summary: "n/A",
     metadata: fact.metadata,
     validationResult: fact.validationResult,
