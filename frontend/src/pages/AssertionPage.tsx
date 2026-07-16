@@ -16,10 +16,6 @@ export function AssertionPage({ widgetId }: { widgetId: string }) {
 
   const definition = context.assertionDefinition.byId[widgetId];
 
-  if (!definition) {
-    throw new Error("Unknown assertion");
-  }
-
   useEffect(() => {
     setBreadcrumb({
       id: definition.widgetId,

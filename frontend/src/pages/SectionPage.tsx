@@ -11,10 +11,6 @@ export function SectionPage({ sectionId }: { sectionId: string }): JSX.Element {
 
   const section = groveContext.section[sectionId];
 
-  if (!section) {
-    throw new Error("Unknown section");
-  }
-
   useEffect(() => {
     setBreadcrumb({
       id: section.id,

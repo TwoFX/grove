@@ -7,7 +7,8 @@ import { nodeKey } from "@/lib/transfer/util";
 import { BsChevronDown } from "react-icons/bs";
 import { FiLink } from "react-icons/fi";
 import { useGroveStore } from "@/lib/state/state";
-import Link from "next/link";
+import { Link } from "react-router";
+import { factsUrl, sectionUrl } from "@/lib/navigate/urls";
 import { FactCountContext } from "@/lib/navigate/factcount";
 import { InvalidatedFactCountComponent } from "@/components/InvalidatedFactCountComponent";
 
@@ -63,18 +64,15 @@ function SectionHeader({
       )}
       {headerContent()}
       {invalidatedFacts && (
-        <a href={`/facts/${sectionId}`}>
+        <Link to={factsUrl(sectionId)}>
           <InvalidatedFactCountComponent
             invalidatedFacts={invalidatedFacts}
             size="lg"
           />
-        </a>
+        </Link>
       )}
       {isHovered && (
-        <Link
-          href={`/section/${sectionId}`}
-          onClick={(e) => e.stopPropagation()}
-        >
+        <Link to={sectionUrl(sectionId)} onClick={(e) => e.stopPropagation()}>
           <FiLink
             className={`${
               depth === 0 ? "text-xl" : depth === 1 ? "text-lg" : "text-base"
