@@ -98,24 +98,25 @@ public def schemaJson (α : Type u) [SchemaFor α] : Json :=
 public instance (priority := low) {α : Type u} [SchemaFor α] : ToJson α where
   toJson := private SchemaFor.toJson
 
-@[instance]
+@[irreducible, instance]
 public def schemaForString : SchemaFor String where
   addDependencies m := m
   schema := Schema.type .string
   toJson := toJson
 
-@[instance]
+@[irreducible, instance]
 public def schemaForStringSlice : SchemaFor String.Slice where
   addDependencies m := m
   schema := Schema.type .string
-  toJson s := toJson s.copy -- TODO: remove the copy here after https://github.com/leanprover/lean4/pull/11548
+  toJson s := toJson s
 
-@[instance]
+@[irreducible, instance]
 public def schemaForBool : SchemaFor Bool where
   addDependencies m := m
   schema := Schema.type .boolean
   toJson := toJson
 
+@[irreducible]
 public def SchemaFor.enum {α : Type u} [ToString α] (name : String) (values : List α) : SchemaFor α where
   addDependencies m := m.insert name (Schema.enum (values.map toString))
   schema := Schema.ref name
@@ -152,6 +153,7 @@ def StructureField.addDependencies {α : Type u} : StructureField α → Std.Has
 public def SchemaFor.structure.toJson {α : Type u} (fields : List (JsonStructureField α)) (a : α) : Json :=
   .mkObj (fields.map (fun f => f.toJsonProperty a))
 
+@[instance_reducible]
 public def SchemaFor.structure {α : Type u} (name : String) (fields : List (StructureField α)) : SchemaFor α where
   addDependencies m :=
     let upstream : Std.HashMap String Schema := (fields.foldl (init := m) (fun sofar f => f.addDependencies sofar))
@@ -189,6 +191,7 @@ public def SchemaFor.inductive.toJson {α : Type u} (constructors : List (JsonCo
       return json
   panic! "No matching constructor found"
 
+@[irreducible]
 public def SchemaFor.inductive {α : Type u} (name : String) (constructors : List (Constructor α)) : SchemaFor α where
   addDependencies m :=
     let upstream : Std.HashMap String Schema := (constructors.foldl (init := m) (fun sofar f => f.addDependencies sofar))
