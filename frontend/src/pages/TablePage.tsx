@@ -1,5 +1,3 @@
-"use client";
-
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContext } from "@/lib/transfer/context";

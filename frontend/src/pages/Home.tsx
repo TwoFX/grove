@@ -1,4 +1,3 @@
-"use client";
 import { GroveContext } from "@/lib/transfer/context";
 import { NodeComponent } from "@/widgets/NodeComponent";
 import { useContext } from "react";

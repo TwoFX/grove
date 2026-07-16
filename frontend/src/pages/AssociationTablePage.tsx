@@ -1,5 +1,3 @@
-"use client";
-
 import { ReferenceWidget } from "@/components/ReferenceWidget";
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { useGroveStore } from "@/lib/state/state";

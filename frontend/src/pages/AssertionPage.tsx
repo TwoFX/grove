@@ -1,5 +1,3 @@
-"use client";
-
 import "react-data-grid/lib/styles.css";
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { GroveContext } from "@/lib/transfer/context";

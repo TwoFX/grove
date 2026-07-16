@@ -56,7 +56,7 @@ export function useAssociations(): (
 
   return (source) => {
     switch (source.constructor) {
-      case "table":
+      case "table": {
         const state = pendingTableState(source.table);
         const definition =
           context.associationTableDefinition.byId[source.table];
@@ -65,6 +65,7 @@ export function useAssociations(): (
         } else {
           return [];
         }
+      }
       case "const":
         return source.const.associations;
     }

@@ -1,5 +1,3 @@
-"use client";
-
 import { Section } from "@/lib/transfer/project";
 import { JSX, useContext, useState } from "react";
 import { NodeComponent } from "../NodeComponent";

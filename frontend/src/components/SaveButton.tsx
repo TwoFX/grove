@@ -1,5 +1,3 @@
-"use client";
-
 import { saveFiles, useRenderers } from "@/lib/save/save";
 import { useCountPendingChanges } from "@/lib/state/pending";
 import { JSX, useContext } from "react";

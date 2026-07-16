@@ -1,5 +1,3 @@
-"use client";
-
 import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { GroveContext } from "@/lib/transfer/context";
 import { SectionComponent } from "@/widgets/section/SectionComponent";

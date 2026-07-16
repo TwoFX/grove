@@ -1,5 +1,3 @@
-"use client";
-
 import { useGroveStore } from "@/lib/state/state";
 import { JSX } from "react";
 import { FaRedo, FaUndo } from "react-icons/fa";

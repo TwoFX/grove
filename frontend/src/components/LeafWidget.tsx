@@ -1,5 +1,3 @@
-"use client";
-
 import { useGroveStore } from "@/lib/state/state";
 import { JSX, ReactElement, useContext } from "react";
 import { BsChevronDown } from "react-icons/bs";

@@ -1,5 +1,3 @@
-"use client";
-
 import { GroveContext } from "@/lib/transfer/context";
 import { JSX, ReactNode, useMemo, useState } from "react";
 import { HashCheck } from "./HashCheck";

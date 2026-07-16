@@ -1,5 +1,3 @@
-"use client";
-
 import "react-data-grid/lib/styles.css";
 import { Fact } from "@/components/fact/Fact";
 import { FactSummary } from "@/lib/fact/summary";
