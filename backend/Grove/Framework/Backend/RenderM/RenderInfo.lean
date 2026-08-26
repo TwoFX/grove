@@ -43,6 +43,18 @@ public def _root_.Grove.Framework.PredicateSubexpression.renderInfo (p : Predica
     isDeprecated := false
   }
 
+public def _root_.Grove.Framework.Synthesis.Key.renderInfo (k : Synthesis.Key) :
+    LookupM (RenderInfo .synthesis) := do
+  let state ← Synthesis.State.of k
+  return .other {
+    value := k.toString
+    shortDescription := state.displayShort
+    longDescription := state.displayLong
+    reference := .none
+    stateRepr := state.repr
+    isDeprecated := false
+  }
+
 def RenderInfo.ofName {kind : DataKind} (n : Name) : RenderM (RenderInfo kind) := do
   discard <| getDeclaration n
   return .decl n
@@ -58,5 +70,6 @@ def _root_.Grove.Framework.Subexpression.renderInfo : Subexpression → RenderM 
 public def _root_.Grove.Framework.DataKind.renderInfo : (kind : DataKind) → kind.Key → RenderM (RenderInfo kind)
   | .declaration, d => RenderInfo.ofName d
   | .subexpression, s => s.renderInfo
+  | .synthesis, s => s.renderInfo
 
 end Grove.Framework.Backend.Full

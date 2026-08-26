@@ -53,6 +53,10 @@ def isInstance (s : LookupM.State) (n : Name) : MetaM (LookupM.State × Bool) :=
 
 end LookupM.State
 
+/--
+Monad on top of `MetaM` that caches some commonly needed information, for example whether a `Name`
+refers to a theorem.
+-/
 public abbrev LookupM := StateRefT LookupM.State MetaM
 
 def LookupM.modifyGetM {α β : Type} (f : LookupM.State → α → MetaM (LookupM.State × β)) (a : α) : LookupM β := do

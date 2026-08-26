@@ -12,6 +12,7 @@ import Grove.Framework.Declaration.Basic
 public import Grove.Framework.Subexpression.Basic
 public import Grove.JTD.Basic
 public import Grove.Framework.LookupM
+public import Grove.Framework.Synthesis.Basic
 
 open Lean Meta
 
@@ -22,56 +23,68 @@ open JTD
 public inductive DataKind where
   | declaration : DataKind
   | subexpression : DataKind
+  | synthesis : DataKind
 deriving DecidableEq
 
 instance : ToString DataKind where
   toString
     | .declaration => "declaration"
     | .subexpression => "subexpression"
+    | .synthesis => "synthesis"
 
 @[no_expose]
 public instance : SchemaFor DataKind :=
-  .enum "dataKind" [.declaration, .subexpression]
+  .enum "dataKind" [.declaration, .subexpression, .synthesis]
 
 public abbrev DataKind.Key : DataKind → Type
   | .declaration => Name
   | .subexpression => Subexpression
+  | .synthesis => Synthesis.Key
 
 public abbrev DataKind.State : DataKind → Type
   | .declaration => Declaration
   | .subexpression => Subexpression.State
+  | .synthesis => Synthesis.State
 
 public instance : (kind : DataKind) → BEq kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
+  | .synthesis => inferInstance
 
 public instance : (kind : DataKind) → Inhabited kind.Key
   | .declaration => inferInstance
   | .subexpression => inferInstance
+  | .synthesis => inferInstance
 
 public instance : (kind : DataKind) → Repr kind.State
   | .declaration => inferInstance
   | .subexpression => inferInstance
+  | .synthesis => inferInstance
 
 public def DataKind.getState : (kind : DataKind) → kind.Key → LookupM kind.State
   | .declaration, n => Declaration.ofName n
   | .subexpression, s => s.state
+  | .synthesis, k => Synthesis.State.of k
 
 public def DataKind.keyString : (kind : DataKind) → kind.Key → String
   | .declaration, n => n.toString
   | .subexpression, p => p.toString
+  | .synthesis, k => k.toString
 
 public def DataKind.reprState : (kind : DataKind) → kind.State → String
   | .declaration, s => s.repr
   | .subexpression, s => s.repr
+  | .synthesis, s => s.repr
 
 public def DataKind.displayShort : (kind : DataKind) → kind.State → String
   | .declaration, s => s.name.toString
   | .subexpression, p => p.displayShort
+  | .synthesis, s => s.displayShort
 
 public def DataKind.describeDifferences : (kind : DataKind) → kind.State → kind.State → Option String
   | .declaration, old, new => Declaration.describeDifferences old new
   | .subexpression, old, new => Subexpression.State.describeDifferences old new
+  | .synthesis, old, new => old.describeDifferences new
 
 public structure DataSource (kind : DataKind) where
   getAll : LookupM (Array kind.Key)
