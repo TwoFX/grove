@@ -34,6 +34,7 @@ const browser = await chromium.launch({
 ```
 
 Flows worth driving:
+
 - `/#/` home renders "Test project" tree; `/#/section/<id>`, `/#/facts/<id>`,
   `/#/assertion/<id>`, `/#/association/<id>`, `/#/table/<id>` deep links.
 - Bogus ids → NotFound page with working "Back to overview" link.

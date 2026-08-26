@@ -308,7 +308,7 @@
       },
       "discriminator": "constructor"
     },
-    "dataKind": { "enum": ["declaration", "subexpression"] },
+    "dataKind": { "enum": ["declaration", "subexpression", "synthesis"] },
     "associationTableState": {
       "properties": { "rows": { "elements": { "ref": "associationTableRow" } } }
     },

@@ -52,10 +52,12 @@ function LayerCombinationSelector({
       : [];
 
   // Create a unique key for each combination by joining layer identifiers
-  const combinationOptions: StyledListboxOption[] = combinations.map((combo, index) => ({
-    key: `combo-${index}`,
-    displayShort: combo.layerIdentifiers.join(", "),
-  }));
+  const combinationOptions: StyledListboxOption[] = combinations.map(
+    (combo, index) => ({
+      key: `combo-${index}`,
+      displayShort: combo.layerIdentifiers.join(", "),
+    }),
+  );
 
   // Find the currently selected combination based on state.selectedLayers
   const findSelectedCombination = (): string[] => {
@@ -125,7 +127,11 @@ export function LayerRowColumnSelector({
         setState={setState}
       />
     ) : (
-      <FreeLayerSelector definition={definition} state={state} setState={setState} />
+      <FreeLayerSelector
+        definition={definition}
+        state={state}
+        setState={setState}
+      />
     );
 
   return (

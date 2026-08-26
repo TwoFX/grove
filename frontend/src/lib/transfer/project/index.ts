@@ -106,6 +106,7 @@ export interface AssociationTableState {
 export enum DataKind {
   Declaration = "declaration",
   Subexpression = "subexpression",
+  Synthesis = "synthesis",
 }
 
 export type Declaration = DeclarationDef | DeclarationMissing | DeclarationThm;

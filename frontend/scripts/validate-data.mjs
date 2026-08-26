@@ -8,7 +8,10 @@ const projectSchema = JSON.parse(
   readFileSync("src/lib/transfer/project/project.jtd.json", "utf8"),
 );
 const invalidatedFactsSchema = JSON.parse(
-  readFileSync("src/lib/transfer/invalidated/invalidatedFacts.jtd.json", "utf8"),
+  readFileSync(
+    "src/lib/transfer/invalidated/invalidatedFacts.jtd.json",
+    "utf8",
+  ),
 );
 
 const ajv = new Ajv();
@@ -25,7 +28,8 @@ function validate(label, schema, location) {
   console.log(`${label} at ${location} is valid`);
 }
 
-const projectLocation = process.env.GROVE_DATA_LOCATION ?? "public/metadata.json";
+const projectLocation =
+  process.env.GROVE_DATA_LOCATION ?? "public/metadata.json";
 validate("project metadata", projectSchema, projectLocation);
 
 const invalidatedLocation =

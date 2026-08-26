@@ -54,7 +54,11 @@ export function StyledListbox({
 
   return (
     <div className="relative min-w-[300px]">
-      <Listbox value={listboxValue} onChange={listboxOnChange} multiple={multiple}>
+      <Listbox
+        value={listboxValue}
+        onChange={listboxOnChange}
+        multiple={multiple}
+      >
         <ListboxButton className="relative w-full cursor-pointer rounded border border-border bg-surface pl-3 pr-8 text-left focus:border-border-focus focus:outline-none focus:ring-1 focus:ring-focus-ring">
           <span className="block truncate text-text-primary">
             {displayText}
