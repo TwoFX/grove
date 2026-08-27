@@ -8,3 +8,4 @@ module
 public import Grove.Framework.Widget.Table.Basic
 public import Grove.Framework.Widget.Table.CellDataProvider
 public import Grove.Framework.Widget.Table.ClassicProvider
+public import Grove.Framework.Widget.Table.SynthesisProvider

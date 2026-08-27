@@ -61,6 +61,8 @@ export function setupTemplates(templateStrings: TemplateStrings): Templates {
         return ".declaration";
       case DataKind.Subexpression:
         return ".subexpression";
+      case DataKind.Synthesis:
+        return ".synthesis";
     }
   });
 

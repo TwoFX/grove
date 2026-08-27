@@ -15,18 +15,21 @@ namespace Synthesis
 public structure Key where
   typeName : Lean.Name
   className : Lean.Name
-  parameterInstances : Array Lean.Name
-deriving Inhabited, BEq, Repr
+  parameterClassNames : Array Lean.Name
+deriving Inhabited, BEq, Repr, ToJson, FromJson
 
 public def Key.toString (key : Key) : String :=
-  (repr key).pretty
+  (toJson key).pretty
+
+public def Key.ofString? (str : String) : Option Key :=
+  Except.toOption (Json.parse str >>= fromJson?)
 
 public structure State where
   result? : Option Result
 deriving BEq, Repr
 
 public def State.of (key : Key) : LookupM State :=
-  (⟨·⟩) <$> trySynthesize key.typeName key.className key.parameterInstances
+  (⟨·⟩) <$> trySynthesize key.typeName key.className key.parameterClassNames
 
 public def State.repr (state : State) : String :=
   (_root_.repr state).pretty

@@ -64,6 +64,8 @@ export function declarationStateRepr(
       return declarationStr;
     case DataKind.Subexpression:
       return ".declaration (" + declarationStr + ")";
+    case DataKind.Synthesis:
+      throw new Error("Declarations should never be serialized into synthesis results.")
   }
 }
 

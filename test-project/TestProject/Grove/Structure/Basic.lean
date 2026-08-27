@@ -256,8 +256,26 @@ def enumerateTestProjectNamespace : Assertion where
       }
     return ans
 
+def synthesisExample : Table .declaration .declaration .synthesis [()] where
+  id := "synthesis-example"
+  title := "Example for synthesis table"
+  rowsFrom := .const (pure #[assoc ``Int, assoc ``Nat, assoc ``Std.DHashMap])
+  columnsFrom := .const (pure #[assoc ``BEq, assoc ``Ord])
+  cellData := .synthesis #[``BEq, ``Ord]
+where assoc (n : Lean.Name) : Table.Association .declaration Unit := {
+  id := n.toString
+  title := n.toString
+  layers := #[⟨(), n⟩]
+}
+
+instance : HasId Unit where
+  getId _ := "()"
+
+instance : DisplayShort Unit where
+  displayShort _ := "n/A"
+
 def root : Node :=
   .section "test-project" "The Grove test project" #[introduction, .text introduction2, Containers.root, SizeIssue.root,
-    Conversion.root, Strings.root, enumerateTestProjectNamespace]
+    Conversion.root, Strings.root, enumerateTestProjectNamespace, .table synthesisExample]
 
 end TestProject.Grove.Structure
