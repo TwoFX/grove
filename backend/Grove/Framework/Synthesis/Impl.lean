@@ -15,10 +15,26 @@ open Lean Meta
 namespace Grove.Framework
 
 public structure Synthesis.Result where
-  displayShort : String
-  displayLong: String
+  head : String
+  term : String
   usedInstances : Array String
 deriving BEq, Repr
+
+namespace Synthesis.Result
+
+public def displayShort (r : Result) : String :=
+  r.head
+
+public def displayLong (r : Result) : String :=
+  s!"{r.term}\n\n{formatInstances r.usedInstances}"
+where
+  formatInstances (a : Array String) : String :=
+    if a.isEmpty then
+      "Uses no instances."
+    else
+      s!"Uses {Std.Iter.intercalateString ", " (a.iter.map (s!"[{·}]"))}."
+
+end Synthesis.Result
 
 def lastComponent : Name → String
   | .str _ s => s
@@ -108,17 +124,17 @@ def synthesizeCore (typeName className : Name) (parameterInstances : Array Name)
       match ← trySynthInstance goal with
       | .some inst =>
         let inst ← instantiateMVars inst
-        let displayShort ← match inst.getAppFn with
+        let head ← match inst.getAppFn with
           | .const n _ => pure n.toString
           | _ => do pure (← PrettyPrinter.ppExpr inst).pretty
-        let displayLong ← withOptions (fun opts => opts.setBool `pp.explicit true) do
+        let term ← withOptions (fun opts => opts.setBool `pp.explicit true) do
           pure ((← PrettyPrinter.ppExpr inst).pretty (width := 100))
         let usedInstances ← assumptions.filterMapM fun assumption => do
           if inst.containsFVar assumption.fvarId! then
             return some (← PrettyPrinter.ppExpr (← inferType assumption)).pretty
           else
             return none
-        return some { displayShort, displayLong, usedInstances }
+        return some { head, term, usedInstances }
       | _ => return none
   catch _ =>
     return none

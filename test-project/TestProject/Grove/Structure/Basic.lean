@@ -259,9 +259,9 @@ def enumerateTestProjectNamespace : Assertion where
 def synthesisExample : Table .declaration .declaration .synthesis [()] where
   id := "synthesis-example"
   title := "Example for synthesis table"
-  rowsFrom := .const (pure #[assoc ``Int, assoc ``Nat, assoc ``Std.DHashMap])
+  rowsFrom := .const (pure #[assoc ``Int, assoc ``Nat, assoc ``Std.DHashMap, assoc ``Std.HashMap])
   columnsFrom := .const (pure #[assoc ``BEq, assoc ``Ord])
-  cellData := .synthesis #[``BEq, ``Ord]
+  cellData := .synthesis #[``BEq, ``Ord, ``Hashable, ``LawfulBEq]
 where assoc (n : Lean.Name) : Table.Association .declaration Unit := {
   id := n.toString
   title := n.toString

@@ -13,16 +13,28 @@ namespace Grove.Framework.Widget.Table.CellDataProvider
 
 namespace Synthesis
 
+def keyIfSynthesizable (typeName className : Lean.Name) (parameterClassNames : Array Lean.Name) :
+    LookupM (Option Synthesis.Key) := do
+  let k : Synthesis.Key := {
+    typeName
+    className
+    parameterClassNames
+  }
+  -- Missing Option.guardM
+  if (← Synthesis.State.of k).result?.isSome then
+    return some k
+  else
+    return none
+
+
 def getCells (typeName : Lean.Name)
     (classNames : Vector (Array Lean.Name) 1)
     (parameterClassNames : Array Lean.Name) :
-    LookupM (CellDataForRowValue .declaration .synthesis [()] classNames) := pure {
+    LookupM (CellDataForRowValue .declaration .synthesis [()] classNames) := do
+  return {
     targetLayerIndex := 0
-    cells := classNames[0].toVector.map (fun className => #[{
-      typeName
-      className
-      parameterClassNames
-    }])
+    cells := ← classNames[0].toVector.mapM (fun className =>
+      return (← keyIfSynthesizable typeName className parameterClassNames).toArray)
   }
 
 end Synthesis
