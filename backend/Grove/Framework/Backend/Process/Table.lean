@@ -336,9 +336,10 @@ def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {
     let some tableData ← findAssociationTable? kind t.id
       | return ⟨.table t.id, possibleValues, ∅⟩
 
+    let layersById : Std.HashMap String β :=
+      layerIdentifiers.foldl (init := ∅) (fun sofar b => sofar.insertIfNew (HasId.getId b) b)
     let associations ← tableData.rows.foldlM (init := ∅) (fun sofar row => row.columns.foldlM (init := sofar) (fun sofar cell => do
-      -- TODO: this is terrible.
-      let some layer := layerIdentifiers.find? (fun b => HasId.getId b == cell.columnIdentifier) | return sofar
+      let some layer := layersById[cell.columnIdentifier]? | return sofar
       let dataSource := t.dataSources layer
       let some key ← dataSource.getById? cell.cellValue | return sofar
       return sofar.insert (row.uuid, cell.columnIdentifier) key))
