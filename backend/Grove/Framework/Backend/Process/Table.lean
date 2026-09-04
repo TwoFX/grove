@@ -418,7 +418,7 @@ where
       (associationId : String) : RenderM (Option (Table.Fact.SingleState kind)) :=
     associations[(associationId, layerIdentifier)]?.mapM st
   st {kind : DataKind} (k : kind.Key) : RenderM (Table.Fact.SingleState kind) :=
-    return ⟨kind.keyString k, ← kind.getState k⟩
+    return ⟨kind.keyString k, ← getState kind k⟩
 
 def currentFactState {rowKind columnKind cellKind : DataKind} {δ : Type} {layerIdentifiers : List δ}
     (cellDataProvider : Table.CellDataProvider rowKind columnKind cellKind layerIdentifiers)

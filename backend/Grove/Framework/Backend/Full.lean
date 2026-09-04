@@ -164,13 +164,20 @@ partial def processNode (indent : String) : Node → RenderM Data.Node
   | Node.text s => timedLog indent "Text" s.id (pure <| .text (processText s))
 
 def processProject (p : Project) : MetaM Data.Project := do
-  let (rootNode, renderState) ← (processNode "" p.rootNode).run (p.restoreState.run restoreContext) restoreContext
+  let ((rootNode, declarations), _) ← RenderM.run (p.restoreState.run restoreContext) restoreContext do
+    let rootNode ← processNode "" p.rootNode
+    -- Widgets only record which declarations they reference. The (expensive) pretty-printing of
+    -- all referenced declarations happens here, in parallel.
+    let pending ← pendingDeclarations
+    timedLog "" "Declarations" (some s!"({pending.size} to pretty-print)") (computeDeclarations pending)
+    let declarations ← collectUsedDeclarations
+    return (rootNode, declarations)
 
   return {
     projectNamespace := p.config.projectNamespace.toString
     hash := ← p.config.getHash
     rootNode := rootNode
-    declarations := renderState.declarations.valuesArray.map processDeclaration
+    declarations := declarations.map processDeclaration
   }
 where
   restoreContext : RestoreContext := {

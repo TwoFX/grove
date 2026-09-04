@@ -56,7 +56,7 @@ public def _root_.Grove.Framework.Synthesis.Key.renderInfo (k : Synthesis.Key) :
   }
 
 def RenderInfo.ofName {kind : DataKind} (n : Name) : RenderM (RenderInfo kind) := do
-  discard <| getDeclaration n
+  registerDeclaration n
   return .decl n
 
 public def RenderInfo.displayShort {kind : DataKind} : RenderInfo kind → String
