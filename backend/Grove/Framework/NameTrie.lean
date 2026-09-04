@@ -29,17 +29,11 @@ where
   go (t : NameTrie α) : List Name → α → NameTrie α
     | [], a => { t with bot := some a }
     | (.str _ s)::xs, a =>
-      match t.str[s]? with
-      | none => { t with str := t.str.insert s (go NameTrie.empty xs a) }
-      | some inner =>
-        let str := t.str.erase s
-        { t with str := str.insert s (go inner xs a) }
+      let ⟨bot, str, num⟩ := t
+      ⟨bot, str.alter s (fun inner => some (go (inner.getD NameTrie.empty) xs a)), num⟩
     | (.num _ n)::xs, a =>
-      match t.num[n]? with
-      | none => { t with num := t.num.insert n (go NameTrie.empty xs a) }
-      | some inner =>
-        let num := t.num.erase n
-        { t with num := num.insert n (go inner xs a) }
+      let ⟨bot, str, num⟩ := t
+      ⟨bot, str, num.alter n (fun inner => some (go (inner.getD NameTrie.empty) xs a))⟩
     | (.anonymous)::_, _ => t
 
 public def navigate? (t : NameTrie α) (n : Name) : Option (NameTrie α) :=
