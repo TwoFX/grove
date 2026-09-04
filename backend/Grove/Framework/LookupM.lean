@@ -9,6 +9,7 @@ public import Lean.Meta.Basic
 import Grove.Framework.Declaration.Name
 import Lean.Meta.Instances
 public import Grove.Framework.NameTrie
+import Grove.Framework.Log
 
 open Lean
 
@@ -88,6 +89,7 @@ private def constructTrie : MetaM (NameTrie Unit) := do
   return (← getEnv).constants.fold (init := NameTrie.empty) (fun t n _ => t.insert n ())
 
 public def LookupM.run (f : LookupM α) : MetaM α := do
-  StateRefT'.run' f { declarationsTrie := ← constructTrie }
+  let trie ← timedLog "" "Indexing declarations" none constructTrie
+  StateRefT'.run' f { declarationsTrie := trie }
 
 end Grove.Framework

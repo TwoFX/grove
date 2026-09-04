@@ -8,7 +8,7 @@ module
 public import Grove.Framework.Basic
 public import Grove.Framework.Backend.Data
 public import Grove.Framework.Backend.Process
-import Std.Time.DateTime.Timestamp
+import Grove.Framework.Log
 
 open Lean
 
@@ -151,19 +151,6 @@ where
 
 def processText (t : Text) : Data.Text :=
   { t with }
-
-def log (indent type id : String) : IO Unit :=
-  IO.println s!"{indent}{type} {id}"
-
-def timedLog [Monad m] [MonadLiftT BaseIO m] [MonadLiftT IO m] (indent type : String) (id : Option String)
-    (action : m α) : m α := do
-  IO.print s!"{indent}{type}{id.elim "" (" " ++ ·)}"
-  (← IO.getStdout).flush
-  let start ← Std.Time.Timestamp.now
-  let res ← action
-  let duration := (← Std.Time.Timestamp.now) - start
-  IO.println s!" ({duration.toMilliseconds.val.toFloat / 1000} seconds)"
-  return res
 
 partial def processNode (indent : String) : Node → RenderM Data.Node
   | Node.section id title nodes => do

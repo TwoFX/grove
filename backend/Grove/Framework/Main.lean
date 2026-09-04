@@ -10,6 +10,7 @@ import Grove.Framework.Backend.Full
 import Lean
 import Std
 import Grove.Cli
+import Grove.Framework.Log
 
 open Lean Cli
 
@@ -18,7 +19,7 @@ namespace Grove.Framework
 def perform (p : Project) (imports : Array Name) (fullFileName? invalidatedFileName? : Option String) : IO UInt32 := do
   Lean.initSearchPath (← Lean.findSysroot)
   unsafe enableInitializersExecution
-  let env: Environment ← importModules
+  let env: Environment ← timedLog "" "Importing modules" none <| importModules
     (imports := imports.map ({ module := · }))
     (opts := {})
     (trustLevel := 1)
