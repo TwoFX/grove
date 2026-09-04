@@ -19,10 +19,14 @@ namespace Grove.Framework
 def perform (p : Project) (imports : Array Name) (fullFileName? invalidatedFileName? : Option String) : IO UInt32 := do
   Lean.initSearchPath (← Lean.findSysroot)
   unsafe enableInitializersExecution
+  -- The environment is needed until the very end, so we never want to free it. Marking it
+  -- persistent (which is what `leakEnv` does) also disables reference counting for it, which
+  -- avoids a lot of contention when pretty-printing declarations on multiple threads.
   let env: Environment ← timedLog "" "Importing modules" none <| importModules
     (imports := imports.map ({ module := · }))
     (opts := {})
     (trustLevel := 1)
+    (leakEnv := true)
     (loadExts := true)
   let coreContext: Lean.Core.Context := {
     currNamespace := `Example

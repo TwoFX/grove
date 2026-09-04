@@ -23,6 +23,8 @@ public def empty : NameTrie α where
   str := ∅
   num := ∅
 
+public instance : Inhabited (NameTrie α) := ⟨.empty⟩
+
 public def insert (t : NameTrie α) (n : Name) (a : α) : NameTrie α :=
   go t n.components a
 where

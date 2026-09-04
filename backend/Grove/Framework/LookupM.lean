@@ -111,4 +111,39 @@ public def LookupM.run (f : LookupM α) : MetaM α := do
   let trie ← timedLog "" "Indexing declarations" none constructTrie
   StateRefT'.run' f { declarationsTrie := trie }
 
+/--
+Runs `f` on all elements of `xs`, distributing the work over multiple threads. Every thread starts
+out with an empty cache, and the caches built up by the threads are discarded afterwards, so this
+is only worthwhile if `f` is expensive (for example because it pretty-prints something) and does
+not benefit much from the caches anyway.
+-/
+public def LookupM.parallelMap {α β : Type} (xs : Array α) (f : α → LookupM β)
+    (chunkSize : Nat := 128) : LookupM (Array β) := do
+  if xs.size ≤ chunkSize then
+    return ← xs.mapM f
+  -- Everything that is shared with the worker threads is marked persistent, i.e. reference
+  -- counting is disabled for it. Otherwise, reference counting on these hot objects would be
+  -- atomic and heavily contended, which makes the tasks much slower than necessary. All of these
+  -- objects are needed until the end of the process anyway. Safety: no other threads are running
+  -- at this point.
+  let ctx ← unsafe Runtime.markPersistent (← readThe Core.Context)
+  let env ← unsafe Runtime.markPersistent (← getEnv)
+  let trie := (← get).declarationsTrie
+  let trie ← unsafe Runtime.markPersistent trie
+  let runChunk (chunk : Array α) : IO (Array β) := do
+    let action : MetaM (Array β) := StateRefT'.run' (chunk.mapM f) { declarationsTrie := trie }
+    let (result, _, _) ← action.toIO ctx { env }
+    return result
+  let mut tasks := #[]
+  let mut start := 0
+  while start < xs.size do
+    tasks := tasks.push (← IO.asTask (runChunk (xs.extract start (start + chunkSize))))
+    start := start + chunkSize
+  let mut result := Array.mkEmpty xs.size
+  for task in tasks do
+    match ← IO.wait task with
+    | .ok chunkResult => result := result ++ chunkResult
+    | .error e => throwError (toString e)
+  return result
+
 end Grove.Framework
