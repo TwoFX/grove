@@ -208,7 +208,8 @@ where
       modify (fun facts => { facts with needAttentionFacts := facts.needAttentionFacts.push (InvalidatedFact.of f) })
 
 def Data.Project.render (p : Data.Project) : RenderResult where
-  fullOutput := toString (toJson p)
+  -- The full output is large and only ever read by machines, so we skip the pretty-printer.
+  fullOutput := (toJson p).compress
   invalidatedFacts := toString (toJson p.collectInvalidatedFacts)
 
 partial def Data.Project.validate (p : Data.Project) : Except String Data.Project :=
