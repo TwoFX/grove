@@ -151,7 +151,7 @@ end Data
 namespace AssociationTable
 
 def processRenderInfo {kind : DataKind} : RenderInfo kind → Data.AssociationTable.CellOption
-  | .decl n => .declaration n.toString
+  | .decl n => .declaration n
   | .other o => .other { o with }
 
 def processCellOption {kind : DataKind} (key : kind.Key) : RenderM (String × Data.AssociationTable.CellOption) := do

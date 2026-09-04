@@ -307,7 +307,7 @@ def processAssociationLayer {kind : DataKind} {β : Type} [HasId β] (l : Table.
   let renderInfo ← kind.renderInfo l.layerValue
   let layerIdentifier := HasId.getId l.layerIdentifier
   match renderInfo with
-  | .decl n => return ⟨layerIdentifier, .declaration n.toString⟩
+  | .decl n => return ⟨layerIdentifier, .declaration n⟩
   | .other o => return ⟨layerIdentifier, .other { o with }⟩
 
 def processAssociationSource {kind : DataKind} {β : Type} [BEq β] [HasId β] {layerIdentifiers : List β}
@@ -365,11 +365,16 @@ where
     targetLayerIdentifier := HasId.getId layerIdentifiers[d.targetLayerIndex]
     cellEntries := (Vector.toArray <| ← d.cells.mapFinIdxM (fun cidx cell hcidx => do return {
       columnKey := columnKind.keyString columnValues[d.targetLayerIndex][cidx]
-      options := ← cell.mapM (fun k => mapRenderInfo <$> cellKind.renderInfo k)
+      options := ← renderCellOptions cell
     })).filter (fun cellEntry => !cellEntry.options.isEmpty)
   }
-  mapRenderInfo : RenderInfo cellKind → Data.Table.CellOption
-    | .decl n => .declaration n.toString
+  renderCellOptions {kind : DataKind} (cell : Array kind.Key) : RenderM (Array Data.Table.CellOption) :=
+    match kind, cell with
+    -- Fast path for the common case: there is no need to go through `RenderM` for every cell entry.
+    | .declaration, names => (·.map .declaration) <$> registerDeclarations names
+    | kind, cell => cell.mapM (fun k => mapRenderInfo <$> kind.renderInfo k)
+  mapRenderInfo {kind : DataKind} : RenderInfo kind → Data.Table.CellOption
+    | .decl n => .declaration n
     | .other o => .other { o with }
 
 def transformLayerState {rowKind columnKind cellKind : DataKind}

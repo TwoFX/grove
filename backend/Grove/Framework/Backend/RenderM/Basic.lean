@@ -8,7 +8,6 @@ module
 public import Grove.Framework.Declaration.Basic
 public import Grove.Framework.Widget.State
 public import Std.Data.HashMap
-public import Std.Data.HashSet
 
 open Lean
 
@@ -26,7 +25,8 @@ public structure RenderState where
   These are the declarations that appear in the output.
   -/
   usedDeclarations : Array Name := #[]
-  usedDeclarationSet : Std.HashSet Name := ∅
+  /-- The referenced declarations together with their names rendered as strings. -/
+  usedDeclarationNames : Std.HashMap Name String := ∅
 
 public abbrev RenderM := StateRefT RenderState (ReaderT RestoreContext (ReaderT SavedState LookupM))
 
@@ -43,21 +43,46 @@ public def lookupDeclaration (n : Name) : RenderM Declaration := do
   return d
 
 /--
-Marks the declaration `n` as referenced by some widget, so that it will be part of the output. The
-current state of the declaration is not computed at this point, see `computeDeclarations`.
+Marks the declaration `n` as referenced by some widget, so that it will be part of the output, and
+returns the name rendered as a string. The current state of the declaration is not computed at this
+point, see `computeDeclarations`.
+
+Declarations are typically referenced many times (a lemma usually appears in several cells of a
+table), so the rendered name is cached.
 -/
-public def registerDeclaration (n : Name) : RenderM Unit :=
+public def registerDeclaration (n : Name) : RenderM String := do
+  if let some str := (← get).usedDeclarationNames[n]? then
+    return str
+  let str := n.toString
   modify fun s =>
-    if s.usedDeclarationSet.contains n then
-      s
-    else
-      { s with
-        usedDeclarations := s.usedDeclarations.push n
-        usedDeclarationSet := s.usedDeclarationSet.insert n }
+    { s with
+      usedDeclarations := s.usedDeclarations.push n
+      usedDeclarationNames := s.usedDeclarationNames.insert n str }
+  return str
+
+/--
+Like `registerDeclaration`, but for many declarations at once. This is much cheaper than calling
+`registerDeclaration` for every declaration when there are many of them (tables typically have
+hundreds of thousands of cell entries).
+-/
+public def registerDeclarations (ns : Array Name) : RenderM (Array String) :=
+  modifyGet fun s => Id.run do
+    let mut s := s
+    let mut strs := Array.mkEmpty ns.size
+    for n in ns do
+      match s.usedDeclarationNames[n]? with
+      | some str => strs := strs.push str
+      | none =>
+        let str := n.toString
+        s := { s with
+          usedDeclarations := s.usedDeclarations.push n
+          usedDeclarationNames := s.usedDeclarationNames.insert n str }
+        strs := strs.push str
+    return (strs, s)
 
 /-- Marks the declaration `n` as referenced and returns its current state. -/
 public def getDeclaration (n : Name) : RenderM Declaration := do
-  registerDeclaration n
+  discard <| registerDeclaration n
   lookupDeclaration n
 
 /-- Like `DataKind.getState`, but makes use of the declaration cache. -/

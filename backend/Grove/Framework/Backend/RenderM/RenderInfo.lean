@@ -29,7 +29,8 @@ public structure RenderInfo.Other (kind : DataKind) where
 -- Parameterized by the data kind because `stateRepr` will differ depending on the data kind but
 -- you can't see it from the string.
 public inductive RenderInfo (kind : DataKind) where
-  | decl : Name → RenderInfo kind
+  /-- A declaration, given by its name rendered as a string. -/
+  | decl : String → RenderInfo kind
   | other : RenderInfo.Other kind → RenderInfo kind
 
 public def _root_.Grove.Framework.PredicateSubexpression.renderInfo (p : PredicateSubexpression) :
@@ -55,12 +56,11 @@ public def _root_.Grove.Framework.Synthesis.Key.renderInfo (k : Synthesis.Key) :
     isDeprecated := false
   }
 
-def RenderInfo.ofName {kind : DataKind} (n : Name) : RenderM (RenderInfo kind) := do
-  registerDeclaration n
-  return .decl n
+def RenderInfo.ofName {kind : DataKind} (n : Name) : RenderM (RenderInfo kind) :=
+  .decl <$> registerDeclaration n
 
 public def RenderInfo.displayShort {kind : DataKind} : RenderInfo kind → String
-  | .decl n => n.toString
+  | .decl n => n
   | .other o => o.shortDescription
 
 def _root_.Grove.Framework.Subexpression.renderInfo : Subexpression → RenderM (RenderInfo .subexpression)
