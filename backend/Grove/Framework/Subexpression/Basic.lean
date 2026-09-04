@@ -21,6 +21,14 @@ public structure PredicateSubexpression where
 public def PredicateSubexpression.key (p : PredicateSubexpression) : String :=
   p.predicate.key
 
+/--
+Checks whether the subexpression occurs in `e`. `usedConstants` must be the set of constants
+occurring in `e`.
+-/
+public def PredicateSubexpression.matches (p : PredicateSubexpression) (e : Expr)
+    (usedConstants : NameSet) : Bool :=
+  p.predicate.occurs e usedConstants
+
 public structure PredicateSubexpression.State where
   key : String
   displayShort : String
@@ -37,8 +45,14 @@ def Subexpression.searchKey : Subexpression → SearchKey
   | declaration n => .byName n
   | predicate p => .byExpr p.predicate
 
+/--
+Checks whether the subexpression occurs in `e`. `usedConstants` must be the set of constants
+occurring in `e`.
+-/
 public def Subexpression.matches (s : Subexpression) (e : Expr) (usedConstants : NameSet) : Bool :=
-  s.searchKey.matches e usedConstants
+  match s with
+  | .declaration n => usedConstants.contains n
+  | .predicate p => p.matches e usedConstants
 
 public instance : HasId Subexpression where
   getId s := private s.searchKey.id
