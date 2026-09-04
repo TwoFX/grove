@@ -85,8 +85,27 @@ public def allDeclarations : LookupM (NameTrie Unit) := do
 public def inNamespace (n : Name) : LookupM (Array Name) := do
   return (← get).declarationsTrie.inNamespace n
 
+/-- Hash of the first two components of `n`. -/
+private def prefixKey (n : Name) : Nat :=
+  (dropLast n (n.getNumParts - 2)).hash.toNat
+where
+  dropLast : Name → Nat → Name
+    | n, 0 => n
+    | n, k + 1 => dropLast n.getPrefix k
+
+/--
+Builds a trie containing all constants in the environment. Since there are a lot of constants,
+the work is distributed over multiple threads: the constants are partitioned by the first two
+components of their names, a trie is built for every partition, and the resulting tries (which
+only overlap in their top two levels) are merged.
+-/
 private def constructTrie : MetaM (NameTrie Unit) := do
-  return (← getEnv).constants.fold (init := NameTrie.empty) (fun t n _ => t.insert n ())
+  let numBuckets := 64
+  let buckets := (← getEnv).constants.fold (init := Array.replicate numBuckets #[]) fun buckets n _ =>
+    buckets.modify (prefixKey n % numBuckets) (·.push n)
+  let tasks := buckets.map fun bucket => Task.spawn fun _ =>
+    bucket.foldl (init := NameTrie.empty) fun t n => t.insert n ()
+  return tasks.foldl (init := NameTrie.empty) fun t task => t.merge task.get
 
 public def LookupM.run (f : LookupM α) : MetaM α := do
   let trie ← timedLog "" "Indexing declarations" none constructTrie

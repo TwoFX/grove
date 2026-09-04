@@ -36,6 +36,15 @@ where
       ⟨bot, str, num.alter n (fun inner => some (go (inner.getD NameTrie.empty) xs a))⟩
     | (.anonymous)::_, _ => t
 
+/--
+Merges two tries. If both tries contain a value for the same name, the value from `t₂` is used.
+The cost is proportional to the number of nodes that occur in both tries.
+-/
+public partial def merge (t₁ t₂ : NameTrie α) : NameTrie α :=
+  ⟨t₂.bot <|> t₁.bot,
+   t₂.str.foldl (init := t₁.str) (fun m k v => m.alter k (fun | none => some v | some v' => some (merge v' v))),
+   t₂.num.foldl (init := t₁.num) (fun m k v => m.alter k (fun | none => some v | some v' => some (merge v' v)))⟩
+
 public def navigate? (t : NameTrie α) (n : Name) : Option (NameTrie α) :=
   go t n.components
 where
