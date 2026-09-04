@@ -8,6 +8,7 @@ module
 public import Grove.Framework.Basic
 public import Grove.Framework.Backend.Data
 public import Grove.Framework.Backend.Process
+import Std.Time.DateTime.Timestamp
 
 open Lean
 
@@ -151,17 +152,32 @@ where
 def processText (t : Text) : Data.Text :=
   { t with }
 
-partial def processNode : Node → RenderM Data.Node
-  | .section id title nodes => (.section ⟨id, title, ·⟩) <$> nodes.mapM processNode
-  | Node.associationTable t => Data.Node.associationTable <$> processAssociationTable t
-  | Node.table t => Data.Node.table <$> processTable t
-  | .namespace n => pure <| .namespace n.toString
-  | .assertion a => Data.Node.assertion <$> processAssertion a
-  | .showDeclaration s => Data.Node.showDeclaration <$> processShowDeclaration s
-  | .text s => pure <| .text (processText s)
+def log (indent type id : String) : IO Unit :=
+  IO.println s!"{indent}{type} {id}"
+
+def timedLog [Monad m] [MonadLiftT BaseIO m] [MonadLiftT IO m] (indent type : String) (id : Option String)
+    (action : m α) : m α := do
+  IO.print s!"{indent}{type}{id.elim "" (" " ++ ·)}"
+  (← IO.getStdout).flush
+  let start ← Std.Time.Timestamp.now
+  let res ← action
+  let duration := (← Std.Time.Timestamp.now) - start
+  IO.println s!" ({duration.toMilliseconds.val.toFloat / 1000} seconds)"
+  return res
+
+partial def processNode (indent : String) : Node → RenderM Data.Node
+  | Node.section id title nodes => do
+    log indent "Section" id
+    (.section ⟨id, title, ·⟩) <$> nodes.mapM (processNode (indent ++ "  "))
+  | Node.associationTable t => timedLog indent "Association table" t.title (Data.Node.associationTable <$> processAssociationTable t)
+  | Node.table t => timedLog indent "Table" t.title (Data.Node.table <$> processTable t)
+  | Node.namespace n => timedLog indent "Namespace" n.toString (pure <| .namespace n.toString)
+  | Node.assertion a => timedLog indent "Assertion" a.title (Data.Node.assertion <$> processAssertion a)
+  | Node.showDeclaration s => timedLog indent "Declaration" s.name.toString (Data.Node.showDeclaration <$> processShowDeclaration s)
+  | Node.text s => timedLog indent "Text" s.id (pure <| .text (processText s))
 
 def processProject (p : Project) : MetaM Data.Project := do
-  let (rootNode, renderState) ← (processNode p.rootNode).run (p.restoreState.run restoreContext) restoreContext
+  let (rootNode, renderState) ← (processNode "" p.rootNode).run (p.restoreState.run restoreContext) restoreContext
 
   return {
     projectNamespace := p.config.projectNamespace.toString
@@ -222,8 +238,16 @@ where
   register (id : String) : StateM (Std.HashSet String × Std.HashSet String) PUnit :=
     modify (fun (once, twice) => if id ∈ once then (once, twice.insert id) else (once.insert id, twice))
 
+def validate (p : Data.Project) : IO (Except String Data.Project) := do
+  return p.validate
+
+def renderProject (p : Except String Data.Project) : IO (Except String RenderResult) := do
+  return Except.map (Data.Project.render) p
+
 public def render (p : Project) : MetaM (Except String RenderResult) := do
-  (Except.map (·.render) ∘ Data.Project.validate) <$> processProject p
+  let p ← processProject p
+  let p ← timedLog "" "Validation" none (validate p)
+  timedLog "" "Rendering" none (renderProject p)
 
 end Full
 
