@@ -15,6 +15,9 @@ public class DisplayShort (α : Type) where
 public instance : DisplayShort Lean.Name where
   displayShort n := n.toString
 
+public instance : DisplayShort Unit where
+  displayShort _ := "(default)"
+
 public class DisplayLong (α : Type) where
   displayLong : α → String
 

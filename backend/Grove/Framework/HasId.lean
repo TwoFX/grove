@@ -15,4 +15,7 @@ public class HasId (α : Type) where
 public instance : HasId Lean.Name where
   getId n := n.toString
 
+public instance : HasId Unit where
+  getId _ := "()"
+
 end Grove.Framework

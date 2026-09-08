@@ -268,12 +268,6 @@ where assoc (n : Lean.Name) : Table.Association .declaration Unit := {
   layers := #[⟨(), n⟩]
 }
 
-instance : HasId Unit where
-  getId _ := "()"
-
-instance : DisplayShort Unit where
-  displayShort _ := "n/A"
-
 def root : Node :=
   .section "test-project" "The Grove test project" #[introduction, .text introduction2, Containers.root, SizeIssue.root,
     Conversion.root, Strings.root, enumerateTestProjectNamespace, .table synthesisExample]
