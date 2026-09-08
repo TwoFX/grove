@@ -7,6 +7,7 @@ module
 
 public import Grove.Framework.Widget.Table.CellDataProvider
 public import Grove.Framework.Widget.AssociationTable.Basic
+public import Grove.Framework.Display
 
 open Lean
 
@@ -26,6 +27,19 @@ public structure Association (kind : DataKind) (β : Type) where
 public inductive AssociationSource (kind : DataKind) {β : Type} (layerIdentifiers : List β) where
   | table : Widget.AssociationTable kind layerIdentifiers → AssociationSource kind layerIdentifiers
   | const : MetaM (Array (Association kind β)) → AssociationSource kind layerIdentifiers
+
+namespace AssociationSource
+
+public def constUnit {kind : DataKind} [HasId kind.Key] [DisplayShort kind.Key]
+    (l : MetaM (Array kind.Key)) : AssociationSource kind [()] :=
+  .const (Array.map assoc <$> l)
+where assoc (n : kind.Key) : Association kind Unit := {
+  id := HasId.getId n
+  title := DisplayShort.displayShort n
+  layers := #[⟨(), n⟩]
+}
+
+end AssociationSource
 
 end Table
 

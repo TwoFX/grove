@@ -259,14 +259,9 @@ def enumerateTestProjectNamespace : Assertion where
 def synthesisExample : Table .declaration .declaration .synthesis [()] where
   id := "synthesis-example"
   title := "Example for synthesis table"
-  rowsFrom := .const (pure #[assoc ``Int, assoc ``Nat, assoc ``Std.DHashMap, assoc ``Std.HashMap])
-  columnsFrom := .const (pure #[assoc ``BEq, assoc ``Ord])
+  rowsFrom := .constUnit (pure #[``Int, ``Nat, ``Std.DHashMap, ``Std.HashMap])
+  columnsFrom := .constUnit (pure #[``BEq, ``Ord])
   cellData := .synthesis #[``BEq, ``Ord, ``Hashable, ``LawfulBEq]
-where assoc (n : Lean.Name) : Table.Association .declaration Unit := {
-  id := n.toString
-  title := n.toString
-  layers := #[⟨(), n⟩]
-}
 
 def root : Node :=
   .section "test-project" "The Grove test project" #[introduction, .text introduction2, Containers.root, SizeIssue.root,
