@@ -1,12 +1,22 @@
-import { JSX, useState } from "react";
+import { JSX, KeyboardEvent, useState } from "react";
 import { LayerRowColumnSelector } from "./LayerRowColumnSelector";
-import { TableDefinition, TableState } from "@/lib/transfer/project";
+import {
+  FactStatus,
+  TableDefinition,
+  TableState,
+} from "@/lib/transfer/project";
+import { Fact } from "@/components/fact/Fact";
 import { Table } from "./Table";
-import { TableFactComponent } from "./TableFactComponent";
+import { useTableFact } from "./useTableFact";
 import { TableCellDetail } from "./TableCellDetail";
 import { useAssociations } from "@/lib/state/association";
-import { computeIndexableCellData } from "./preprocess";
+import {
+  computeIndexableCellData,
+  extractLayers,
+  layerDataKey,
+} from "./preprocess";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { produce } from "immer";
 
 export function TableComponent({
   definition,
@@ -18,6 +28,7 @@ export function TableComponent({
   setState: (state: TableState) => void;
 }): JSX.Element {
   const associations = useAssociations();
+  const [factDialogOpen, setFactDialogOpen] = useState(false);
 
   const rowAssociations = associations(definition.rowSource);
   const columnAssociations = associations(definition.columnSource);
@@ -35,18 +46,118 @@ export function TableComponent({
   );
 
   const indexableCellData = computeIndexableCellData(definition.cells);
+  const tableFact = useTableFact({
+    definition,
+    cellData: indexableCellData,
+    state,
+    selectedCell,
+  });
+
+  const selectFirstOptions = () => {
+    if (!rowAssociation || !columnAssociation) return;
+
+    const nextState = produce(state, (draft) => {
+      for (const layerIdentifier of state.selectedLayers) {
+        const layers = extractLayers(
+          indexableCellData,
+          layerIdentifier,
+          rowAssociation,
+          columnAssociation,
+        );
+        if (!layers) continue;
+
+        const [rowLayer, , columnLayer] = layers;
+        const firstOption =
+          indexableCellData.cellOptions[layerDataKey(rowLayer.data)]?.[
+            layerDataKey(columnLayer.data)
+          ]?.[layerIdentifier]?.[0];
+        if (!firstOption) continue;
+
+        const optionId = layerDataKey(firstOption);
+        const selection = draft.selectedCellOptions.find(
+          (opt) =>
+            opt.rowValue === rowAssociation.id &&
+            opt.columnValue === columnAssociation.id &&
+            opt.layerIdentifier === layerIdentifier,
+        );
+
+        if (selection) {
+          if (!selection.selectedCellOptions.includes(optionId)) {
+            selection.selectedCellOptions.push(optionId);
+          }
+        } else {
+          draft.selectedCellOptions.push({
+            rowValue: rowAssociation.id,
+            columnValue: columnAssociation.id,
+            layerIdentifier,
+            selectedCellOptions: [optionId],
+          });
+        }
+      }
+    });
+
+    if (nextState !== state) setState(nextState);
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (
+      !tableFact ||
+      !rowAssociation ||
+      !columnAssociation ||
+      !state.selectedRowAssociations.includes(rowAssociation.id) ||
+      !state.selectedColumnAssociations.includes(columnAssociation.id) ||
+      event.defaultPrevented ||
+      !event.ctrlKey ||
+      event.altKey ||
+      event.metaKey ||
+      event.shiftKey
+    ) {
+      return;
+    }
+
+    const target = event.target;
+    if (
+      !(target instanceof HTMLElement) ||
+      !event.currentTarget.contains(target) ||
+      target.isContentEditable ||
+      target.closest(
+        'input, textarea, select, [role="textbox"], [role="dialog"], [role="alertdialog"], [role="listbox"]',
+      )
+    ) {
+      return;
+    }
+
+    const key = event.key.toLowerCase();
+    if (key !== "enter" && key !== "k" && key !== "j") return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.repeat) return;
+
+    if (key === "enter") {
+      setFactDialogOpen(true);
+    } else if (key === "k") {
+      tableFact.onAssert(FactStatus.Done, "");
+    } else if (key === "j") {
+      selectFirstOptions();
+    }
+  };
 
   return (
-    <div className="p-2 h-full">
+    <div className="p-2 h-full" onKeyDownCapture={handleKeyDown}>
       <PanelGroup direction="vertical">
         <Panel defaultSize={50} minSize={20} className="flex flex-col h-full">
           <div className="flex gap-4 justify-between flex-none">
-            <TableFactComponent
-              definition={definition}
-              cellData={indexableCellData}
-              state={state}
-              selectedCell={selectedCell}
-            />
+            {tableFact ? (
+              <Fact
+                fact={tableFact.fact}
+                onAssert={tableFact.onAssert}
+                open={factDialogOpen}
+                onOpenChange={setFactDialogOpen}
+              />
+            ) : (
+              <div>Cannot assert fact for this.</div>
+            )}
             <LayerRowColumnSelector
               definition={definition}
               state={state}

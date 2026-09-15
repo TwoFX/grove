@@ -258,11 +258,17 @@ function FactDialog({
 export function Fact({
   fact,
   onAssert,
+  open,
+  onOpenChange,
 }: {
   fact: FactSummary | undefined;
   onAssert: ((status: FactStatus, message: string) => void) | undefined;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }): JSX.Element {
-  const [diagOpen, setDiagOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
+  const diagOpen = open ?? internalOpen;
+  const setDiagOpen = onOpenChange ?? setInternalOpen;
 
   const initialStatus: FactStatus = fact?.metadata.status ?? FactStatus.Done;
   const initialMessage: string = fact?.metadata.comment ?? "";

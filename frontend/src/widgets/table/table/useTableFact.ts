@@ -13,7 +13,7 @@ import {
   TableSelectedCellOptions,
   TableState,
 } from "@/lib/transfer/project";
-import { JSX, useContext } from "react";
+import { useContext } from "react";
 import { computeTableFactSummary, usePendingTableFact } from "../state/pending";
 import { useAssociations } from "@/lib/state/association";
 import { useGroveStore } from "@/lib/state/state";
@@ -22,7 +22,6 @@ import { GroveContext } from "@/lib/transfer/context";
 import { GroveTemplateContext } from "@/lib/templates/context";
 import { Templates } from "@/lib/templates";
 import { declarationStateRepr } from "@/lib/transfer/util";
-import { Fact } from "@/components/fact/Fact";
 import { buildFactId, buildFactIdentifier, tableFactStatesEqual } from "./fact";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 import { FactSummary } from "@/lib/fact/summary";
@@ -201,7 +200,7 @@ function buildFactState(
   };
 }
 
-export function TableFactComponent({
+export function useTableFact({
   definition,
   cellData,
   state,
@@ -214,7 +213,12 @@ export function TableFactComponent({
     rowAssociationId: string;
     columnAssociationId: string;
   };
-}): JSX.Element {
+}):
+  | {
+      fact: FactSummary | undefined;
+      onAssert: (status: FactStatus, comment: string) => void;
+    }
+  | undefined {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const pendingFact = usePendingTableFact();
@@ -243,7 +247,7 @@ export function TableFactComponent({
   );
 
   if (!rowAssociation || !columnAssociation) {
-    return <div>Cannot assert fact for this.</div>;
+    return undefined;
   }
 
   const selectedCellOptions = state.selectedCellOptions.filter(
@@ -301,5 +305,5 @@ export function TableFactComponent({
     factWithInvalidation = undefined;
   }
 
-  return <Fact fact={factWithInvalidation} onAssert={onAssert} />;
+  return { fact: factWithInvalidation, onAssert };
 }
