@@ -13,7 +13,7 @@ import {
   TableSelectedCellOptions,
   TableState,
 } from "@/lib/transfer/project";
-import { JSX, useContext } from "react";
+import { JSX, Ref, useContext } from "react";
 import { computeTableFactSummary, usePendingTableFact } from "../state/pending";
 import { useAssociations } from "@/lib/state/association";
 import { useGroveStore } from "@/lib/state/state";
@@ -22,7 +22,7 @@ import { GroveContext } from "@/lib/transfer/context";
 import { GroveTemplateContext } from "@/lib/templates/context";
 import { Templates } from "@/lib/templates";
 import { declarationStateRepr } from "@/lib/transfer/util";
-import { Fact } from "@/components/fact/Fact";
+import { Fact, FactHandle } from "@/components/fact/Fact";
 import { buildFactId, buildFactIdentifier, tableFactStatesEqual } from "./fact";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 import { FactSummary } from "@/lib/fact/summary";
@@ -206,6 +206,7 @@ export function TableFactComponent({
   cellData,
   state,
   selectedCell,
+  ref,
 }: {
   definition: TableDefinition;
   cellData: IndexableCellData;
@@ -214,6 +215,7 @@ export function TableFactComponent({
     rowAssociationId: string;
     columnAssociationId: string;
   };
+  ref?: Ref<FactHandle>;
 }): JSX.Element {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
@@ -301,5 +303,5 @@ export function TableFactComponent({
     factWithInvalidation = undefined;
   }
 
-  return <Fact fact={factWithInvalidation} onAssert={onAssert} />;
+  return <Fact ref={ref} fact={factWithInvalidation} onAssert={onAssert} />;
 }

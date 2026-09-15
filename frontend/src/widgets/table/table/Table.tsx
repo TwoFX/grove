@@ -88,12 +88,10 @@ export function Table({
       rowKeyGetter={(row) => row.rowAssociationId}
       headerRowHeight={200}
       onSelectedCellChange={({ row, column }) => {
-        if (row) {
-          setSelectedCell({
-            rowAssociationId: row?.rowAssociationId,
-            columnAssociationId: column.key,
-          });
-        }
+        setSelectedCell({
+          rowAssociationId: row?.rowAssociationId ?? "",
+          columnAssociationId: row ? column.key : "",
+        });
       }}
     />
   );

@@ -1,6 +1,11 @@
-import { JSX, useState } from "react";
+import { JSX, KeyboardEvent, useRef, useState } from "react";
 import { LayerRowColumnSelector } from "./LayerRowColumnSelector";
-import { TableDefinition, TableState } from "@/lib/transfer/project";
+import {
+  FactStatus,
+  TableDefinition,
+  TableState,
+} from "@/lib/transfer/project";
+import { FactHandle } from "@/components/fact/Fact";
 import { Table } from "./Table";
 import { TableFactComponent } from "./TableFactComponent";
 import { TableCellDetail } from "./TableCellDetail";
@@ -18,6 +23,7 @@ export function TableComponent({
   setState: (state: TableState) => void;
 }): JSX.Element {
   const associations = useAssociations();
+  const factRef = useRef<FactHandle>(null);
 
   const rowAssociations = associations(definition.rowSource);
   const columnAssociations = associations(definition.columnSource);
@@ -36,12 +42,55 @@ export function TableComponent({
 
   const indexableCellData = computeIndexableCellData(definition.cells);
 
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    const fact = factRef.current;
+    if (
+      !fact ||
+      !rowAssociation ||
+      !columnAssociation ||
+      !state.selectedRowAssociations.includes(rowAssociation.id) ||
+      !state.selectedColumnAssociations.includes(columnAssociation.id) ||
+      event.defaultPrevented ||
+      !event.ctrlKey ||
+      event.altKey ||
+      event.metaKey ||
+      event.shiftKey
+    ) {
+      return;
+    }
+
+    const target = event.target;
+    if (
+      !(target instanceof HTMLElement) ||
+      !event.currentTarget.contains(target) ||
+      target.isContentEditable ||
+      target.closest(
+        'input, textarea, select, [role="textbox"], [role="dialog"], [role="alertdialog"], [role="listbox"]',
+      )
+    ) {
+      return;
+    }
+
+    if (event.key !== "Enter" && event.key.toLowerCase() !== "k") return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.repeat) return;
+
+    if (event.key === "Enter") {
+      fact.openDialog();
+    } else {
+      fact.assertFact(FactStatus.Done, "");
+    }
+  };
+
   return (
-    <div className="p-2 h-full">
+    <div className="p-2 h-full" onKeyDownCapture={handleKeyDown}>
       <PanelGroup direction="vertical">
         <Panel defaultSize={50} minSize={20} className="flex flex-col h-full">
           <div className="flex gap-4 justify-between flex-none">
             <TableFactComponent
+              ref={factRef}
               definition={definition}
               cellData={indexableCellData}
               state={state}
