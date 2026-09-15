@@ -62,8 +62,8 @@ export function Table({
 
           return (
             <TableCell
-              widgetId={definition.widgetId}
-              selectedLayers={state.selectedLayers}
+              definition={definition}
+              state={state}
               cellData={cellData}
               rowAssociation={rowAssociation}
               columnAssociation={columnAssociation}

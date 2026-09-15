@@ -1,10 +1,13 @@
 import { JSX, useContext } from "react";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
-import { buildFactId, buildFactIdentifier } from "./fact";
-import { TableAssociation } from "@/lib/transfer/project";
-import { usePendingTableFact } from "../state/pending";
+import {
+  TableAssociation,
+  TableDefinition,
+  TableState,
+} from "@/lib/transfer/project";
 import { factBackgroundColor } from "@/lib/fact/color";
 import { InvalidatedFactsContext } from "@/lib/fact/invalidated/context";
+import { useTableFact } from "./useTableFact";
 
 function TableCellEntry({
   rowAssociation,
@@ -42,20 +45,28 @@ function TableCellEntry({
 }
 
 export function TableCell({
-  widgetId,
-  selectedLayers,
+  definition,
+  state,
   cellData,
   rowAssociation,
   columnAssociation,
 }: {
-  widgetId: string;
-  selectedLayers: string[];
+  definition: TableDefinition;
+  state: TableState;
   cellData: IndexableCellData;
   rowAssociation: TableAssociation | undefined;
   columnAssociation: TableAssociation | undefined;
 }): JSX.Element {
-  const pendingTableFact = usePendingTableFact();
   const context = useContext(InvalidatedFactsContext);
+  const tableFact = useTableFact({
+    definition,
+    cellData,
+    state,
+    selectedCell: {
+      rowAssociationId: rowAssociation?.id ?? "",
+      columnAssociationId: columnAssociation?.id ?? "",
+    },
+  });
 
   if (!rowAssociation || !columnAssociation) {
     return (
@@ -63,14 +74,7 @@ export function TableCell({
     );
   }
 
-  const factId = buildFactId(
-    buildFactIdentifier(
-      rowAssociation.id,
-      columnAssociation.id,
-      selectedLayers,
-    ),
-  );
-  const fact = pendingTableFact(widgetId, factId);
+  const fact = tableFact?.fact;
   const color = fact
     ? factBackgroundColor(
         context,
@@ -83,7 +87,7 @@ export function TableCell({
 
   return (
     <div className={`flex h-full w-full justify-center items-center ${color}`}>
-      {selectedLayers.map((layerIdentifier, index: number) => (
+      {state.selectedLayers.map((layerIdentifier, index: number) => (
         <span key={index}>
           <TableCellEntry
             rowAssociation={rowAssociation}
@@ -91,7 +95,7 @@ export function TableCell({
             layerIdentifier={layerIdentifier}
             cellData={cellData}
           />
-          {index < selectedLayers.length - 1 && (
+          {index < state.selectedLayers.length - 1 && (
             <span className="text-text-disabled">|</span>
           )}
         </span>
