@@ -1,13 +1,13 @@
-import { JSX, KeyboardEvent, useRef, useState } from "react";
+import { JSX, KeyboardEvent, useState } from "react";
 import { LayerRowColumnSelector } from "./LayerRowColumnSelector";
 import {
   FactStatus,
   TableDefinition,
   TableState,
 } from "@/lib/transfer/project";
-import { FactHandle } from "@/components/fact/Fact";
+import { Fact } from "@/components/fact/Fact";
 import { Table } from "./Table";
-import { TableFactComponent } from "./TableFactComponent";
+import { useTableFact } from "./useTableFact";
 import { TableCellDetail } from "./TableCellDetail";
 import { useAssociations } from "@/lib/state/association";
 import { computeIndexableCellData } from "./preprocess";
@@ -23,7 +23,7 @@ export function TableComponent({
   setState: (state: TableState) => void;
 }): JSX.Element {
   const associations = useAssociations();
-  const factRef = useRef<FactHandle>(null);
+  const [factDialogOpen, setFactDialogOpen] = useState(false);
 
   const rowAssociations = associations(definition.rowSource);
   const columnAssociations = associations(definition.columnSource);
@@ -41,11 +41,16 @@ export function TableComponent({
   );
 
   const indexableCellData = computeIndexableCellData(definition.cells);
+  const tableFact = useTableFact({
+    definition,
+    cellData: indexableCellData,
+    state,
+    selectedCell,
+  });
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    const fact = factRef.current;
     if (
-      !fact ||
+      !tableFact ||
       !rowAssociation ||
       !columnAssociation ||
       !state.selectedRowAssociations.includes(rowAssociation.id) ||
@@ -78,9 +83,9 @@ export function TableComponent({
     if (event.repeat) return;
 
     if (event.key === "Enter") {
-      fact.openDialog();
+      setFactDialogOpen(true);
     } else {
-      fact.assertFact(FactStatus.Done, "");
+      tableFact.onAssert(FactStatus.Done, "");
     }
   };
 
@@ -89,13 +94,16 @@ export function TableComponent({
       <PanelGroup direction="vertical">
         <Panel defaultSize={50} minSize={20} className="flex flex-col h-full">
           <div className="flex gap-4 justify-between flex-none">
-            <TableFactComponent
-              ref={factRef}
-              definition={definition}
-              cellData={indexableCellData}
-              state={state}
-              selectedCell={selectedCell}
-            />
+            {tableFact ? (
+              <Fact
+                fact={tableFact.fact}
+                onAssert={tableFact.onAssert}
+                open={factDialogOpen}
+                onOpenChange={setFactDialogOpen}
+              />
+            ) : (
+              <div>Cannot assert fact for this.</div>
+            )}
             <LayerRowColumnSelector
               definition={definition}
               state={state}

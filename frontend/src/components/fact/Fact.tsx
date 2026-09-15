@@ -10,14 +10,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import {
-  JSX,
-  ReactElement,
-  Ref,
-  useContext,
-  useImperativeHandle,
-  useState,
-} from "react";
+import { JSX, ReactElement, useContext, useState } from "react";
 import {
   BsCheckLg,
   BsClock,
@@ -262,30 +255,20 @@ function FactDialog({
   );
 }
 
-export interface FactHandle {
-  openDialog: () => void;
-  assertFact: (status: FactStatus, comment: string) => void;
-}
-
 export function Fact({
   fact,
   onAssert,
-  ref,
+  open,
+  onOpenChange,
 }: {
   fact: FactSummary | undefined;
   onAssert: ((status: FactStatus, message: string) => void) | undefined;
-  ref?: Ref<FactHandle>;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }): JSX.Element {
-  const [diagOpen, setDiagOpen] = useState(false);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      openDialog: () => setDiagOpen(true),
-      assertFact: (status, comment) => onAssert?.(status, comment),
-    }),
-    [onAssert],
-  );
+  const [internalOpen, setInternalOpen] = useState(false);
+  const diagOpen = open ?? internalOpen;
+  const setDiagOpen = onOpenChange ?? setInternalOpen;
 
   const initialStatus: FactStatus = fact?.metadata.status ?? FactStatus.Done;
   const initialMessage: string = fact?.metadata.comment ?? "";
