@@ -2,12 +2,13 @@ import { JSX, KeyboardEvent, useState } from "react";
 import { LayerRowColumnSelector } from "./LayerRowColumnSelector";
 import {
   FactStatus,
+  TableAssociation,
   TableDefinition,
   TableState,
 } from "@/lib/transfer/project";
 import { Fact } from "@/components/fact/Fact";
 import { Table } from "./Table";
-import { useTableFact } from "./useTableFact";
+import { useAssertTableFact, useTableFact } from "./useTableFact";
 import { TableCellDetail } from "./TableCellDetail";
 import { useAssociations } from "@/lib/state/association";
 import {
@@ -46,6 +47,10 @@ export function TableComponent({
   );
 
   const indexableCellData = computeIndexableCellData(definition.cells);
+  const assertTableFact = useAssertTableFact({
+    definition,
+    cellData: indexableCellData,
+  });
   const tableFact = useTableFact({
     definition,
     cellData: indexableCellData,
@@ -53,50 +58,73 @@ export function TableComponent({
     selectedCell,
   });
 
-  const selectFirstOptions = () => {
-    if (!rowAssociation || !columnAssociation) return;
-
-    const nextState = produce(state, (draft) => {
-      for (const layerIdentifier of state.selectedLayers) {
-        const layers = extractLayers(
-          indexableCellData,
-          layerIdentifier,
-          rowAssociation,
-          columnAssociation,
-        );
-        if (!layers) continue;
-
-        const [rowLayer, , columnLayer] = layers;
-        const firstOption =
-          indexableCellData.cellOptions[layerDataKey(rowLayer.data)]?.[
-            layerDataKey(columnLayer.data)
-          ]?.[layerIdentifier]?.[0];
-        if (!firstOption) continue;
-
-        const optionId = layerDataKey(firstOption);
-        const selection = draft.selectedCellOptions.find(
-          (opt) =>
-            opt.rowValue === rowAssociation.id &&
-            opt.columnValue === columnAssociation.id &&
-            opt.layerIdentifier === layerIdentifier,
-        );
-
-        if (selection) {
-          if (!selection.selectedCellOptions.includes(optionId)) {
-            selection.selectedCellOptions.push(optionId);
-          }
-        } else {
-          draft.selectedCellOptions.push({
-            rowValue: rowAssociation.id,
-            columnValue: columnAssociation.id,
+  const selectFirstOptions = (
+    rowAssociation: TableAssociation,
+    columns: TableAssociation[],
+  ): TableState =>
+    produce(state, (draft) => {
+      for (const columnAssociation of columns) {
+        for (const layerIdentifier of state.selectedLayers) {
+          const layers = extractLayers(
+            indexableCellData,
             layerIdentifier,
-            selectedCellOptions: [optionId],
-          });
+            rowAssociation,
+            columnAssociation,
+          );
+          if (!layers) continue;
+
+          const [rowLayer, , columnLayer] = layers;
+          const firstOption =
+            indexableCellData.cellOptions[layerDataKey(rowLayer.data)]?.[
+              layerDataKey(columnLayer.data)
+            ]?.[layerIdentifier]?.[0];
+          if (!firstOption) continue;
+
+          const optionId = layerDataKey(firstOption);
+          const selection = draft.selectedCellOptions.find(
+            (opt) =>
+              opt.rowValue === rowAssociation.id &&
+              opt.columnValue === columnAssociation.id &&
+              opt.layerIdentifier === layerIdentifier,
+          );
+
+          if (selection) {
+            if (!selection.selectedCellOptions.includes(optionId)) {
+              selection.selectedCellOptions.push(optionId);
+            }
+          } else {
+            draft.selectedCellOptions.push({
+              rowValue: rowAssociation.id,
+              columnValue: columnAssociation.id,
+              layerIdentifier,
+              selectedCellOptions: [optionId],
+            });
+          }
         }
       }
     });
 
+  const assertRow = (rowAssociationId: string) => {
+    const rowAssociation = rowAssociations.find(
+      (assoc) => assoc.id === rowAssociationId,
+    );
+    if (!rowAssociation) return;
+
+    const columns = columnAssociations.filter((assoc) =>
+      state.selectedColumnAssociations.includes(assoc.id),
+    );
+    const nextState = selectFirstOptions(rowAssociation, columns);
     if (nextState !== state) setState(nextState);
+
+    for (const columnAssociation of columns) {
+      assertTableFact(
+        nextState,
+        rowAssociation,
+        columnAssociation,
+        FactStatus.Done,
+        "",
+      );
+    }
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -139,7 +167,8 @@ export function TableComponent({
     } else if (key === "k") {
       tableFact.onAssert(FactStatus.Done, "");
     } else if (key === "j") {
-      selectFirstOptions();
+      const nextState = selectFirstOptions(rowAssociation, [columnAssociation]);
+      if (nextState !== state) setState(nextState);
     }
   };
 
@@ -170,6 +199,7 @@ export function TableComponent({
               state={state}
               setSelectedCell={setSelectedCell}
               cellData={indexableCellData}
+              onAssertRow={assertRow}
             />
           </div>
         </Panel>

@@ -6,6 +6,7 @@ import { JSX } from "react";
 import { Column, DataGrid, RenderCellProps } from "react-data-grid";
 import { IndexableCellData } from "./preprocess";
 import { TableCell } from "./TableCell";
+import { BsCheckLg } from "react-icons/bs";
 
 interface Row {
   rowAssociationId: string;
@@ -17,10 +18,12 @@ export function Table({
   cellData,
   state,
   setSelectedCell,
+  onAssertRow,
 }: {
   definition: TableDefinition;
   cellData: IndexableCellData;
   state: TableState;
+  onAssertRow: (rowAssociationId: string) => void;
   setSelectedCell: (selectedCell: {
     rowAssociationId: string;
     columnAssociationId: string;
@@ -71,6 +74,29 @@ export function Table({
           );
         },
       })),
+    {
+      key: "assert-row",
+      name: "",
+      width: 44,
+      renderHeaderCell: () => <span className="sr-only">Row actions</span>,
+      renderCell({ row, tabIndex }) {
+        return (
+          <button
+            type="button"
+            className="flex h-full w-full items-center justify-center cursor-pointer hover:bg-surface-hover focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-focus-ring"
+            tabIndex={tabIndex}
+            title="Select first options and assert every cell in this row as done"
+            aria-label={`Select first options and assert every cell in ${row["left-hand"]} as done`}
+            onClick={(event) => {
+              event.stopPropagation();
+              onAssertRow(row.rowAssociationId);
+            }}
+          >
+            <BsCheckLg aria-hidden="true" />
+          </button>
+        );
+      },
+    },
   ];
 
   const rows: Row[] = rowAssociations

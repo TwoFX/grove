@@ -181,11 +181,16 @@ function buildFactState(
   cellData: IndexableCellData,
   rowAssociation: TableAssociation,
   columnAssociation: TableAssociation,
-  selectedCellOptions: TableSelectedCellOptions[],
-  selectedLayers: string[],
+  state: TableState,
 ): TableFactState {
+  const selectedCellOptions = state.selectedCellOptions.filter(
+    (opt) =>
+      opt.rowValue === rowAssociation.id &&
+      opt.columnValue === columnAssociation.id,
+  );
+
   return {
-    layerStates: selectedLayers.map((layer) =>
+    layerStates: state.selectedLayers.map((layer) =>
       buildLayerState(
         context,
         templates,
@@ -197,6 +202,50 @@ function buildFactState(
         selectedCellOptions,
       ),
     ),
+  };
+}
+
+export function useAssertTableFact({
+  definition,
+  cellData,
+}: {
+  definition: TableDefinition;
+  cellData: IndexableCellData;
+}) {
+  const context = useContext(GroveContext);
+  const templates = useContext(GroveTemplateContext);
+  const setPendingFact = useGroveStore((state) => state.setPendingTableFact);
+
+  return (
+    state: TableState,
+    rowAssociation: TableAssociation,
+    columnAssociation: TableAssociation,
+    status: FactStatus,
+    comment: string,
+  ) => {
+    const identifier = buildFactIdentifier(
+      rowAssociation.id,
+      columnAssociation.id,
+      state.selectedLayers,
+    );
+    const factId = buildFactId(identifier);
+
+    setPendingFact(context, definition.widgetId, factId, {
+      widgetId: definition.widgetId,
+      factId,
+      metadata: { status, comment },
+      identifier,
+      state: buildFactState(
+        context,
+        templates,
+        definition,
+        cellData,
+        rowAssociation,
+        columnAssociation,
+        state,
+      ),
+      validationResult: { constructor: "new" },
+    });
   };
 }
 
@@ -222,7 +271,7 @@ export function useTableFact({
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const pendingFact = usePendingTableFact();
-  const setPendingFact = useGroveStore((state) => state.setPendingTableFact);
+  const assertTableFact = useAssertTableFact({ definition, cellData });
   const associations = useAssociations();
 
   const rowAssociations = associations(definition.rowSource);
@@ -250,12 +299,6 @@ export function useTableFact({
     return undefined;
   }
 
-  const selectedCellOptions = state.selectedCellOptions.filter(
-    (opt) =>
-      opt.rowValue === selectedCell.rowAssociationId &&
-      opt.columnValue === selectedCell.columnAssociationId,
-  );
-
   const currentState: TableFactState = buildFactState(
     context,
     templates,
@@ -263,24 +306,14 @@ export function useTableFact({
     cellData,
     rowAssociation,
     columnAssociation,
-    selectedCellOptions,
-    state.selectedLayers,
+    state,
   );
 
   const onAssert: (status: FactStatus, message: string) => void = (
     status,
     message,
   ) =>
-    setPendingFact(context, definition.widgetId, factId, {
-      widgetId: definition.widgetId,
-      factId: factId,
-      metadata: { status: status, comment: message },
-      identifier: identifier,
-      state: currentState,
-      validationResult: {
-        constructor: "new",
-      },
-    });
+    assertTableFact(state, rowAssociation, columnAssociation, status, message);
 
   let factWithInvalidation: FactSummary | undefined;
   if (fact) {
