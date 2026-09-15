@@ -10,8 +10,13 @@ import { Table } from "./Table";
 import { useTableFact } from "./useTableFact";
 import { TableCellDetail } from "./TableCellDetail";
 import { useAssociations } from "@/lib/state/association";
-import { computeIndexableCellData } from "./preprocess";
+import {
+  computeIndexableCellData,
+  extractLayers,
+  layerDataKey,
+} from "./preprocess";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
+import { produce } from "immer";
 
 export function TableComponent({
   definition,
@@ -48,6 +53,52 @@ export function TableComponent({
     selectedCell,
   });
 
+  const selectFirstOptions = () => {
+    if (!rowAssociation || !columnAssociation) return;
+
+    const nextState = produce(state, (draft) => {
+      for (const layerIdentifier of state.selectedLayers) {
+        const layers = extractLayers(
+          indexableCellData,
+          layerIdentifier,
+          rowAssociation,
+          columnAssociation,
+        );
+        if (!layers) continue;
+
+        const [rowLayer, , columnLayer] = layers;
+        const firstOption =
+          indexableCellData.cellOptions[layerDataKey(rowLayer.data)]?.[
+            layerDataKey(columnLayer.data)
+          ]?.[layerIdentifier]?.[0];
+        if (!firstOption) continue;
+
+        const optionId = layerDataKey(firstOption);
+        const selection = draft.selectedCellOptions.find(
+          (opt) =>
+            opt.rowValue === rowAssociation.id &&
+            opt.columnValue === columnAssociation.id &&
+            opt.layerIdentifier === layerIdentifier,
+        );
+
+        if (selection) {
+          if (!selection.selectedCellOptions.includes(optionId)) {
+            selection.selectedCellOptions.push(optionId);
+          }
+        } else {
+          draft.selectedCellOptions.push({
+            rowValue: rowAssociation.id,
+            columnValue: columnAssociation.id,
+            layerIdentifier,
+            selectedCellOptions: [optionId],
+          });
+        }
+      }
+    });
+
+    if (nextState !== state) setState(nextState);
+  };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (
       !tableFact ||
@@ -76,16 +127,19 @@ export function TableComponent({
       return;
     }
 
-    if (event.key !== "Enter" && event.key.toLowerCase() !== "k") return;
+    const key = event.key.toLowerCase();
+    if (key !== "enter" && key !== "k" && key !== "j") return;
 
     event.preventDefault();
     event.stopPropagation();
     if (event.repeat) return;
 
-    if (event.key === "Enter") {
+    if (key === "enter") {
       setFactDialogOpen(true);
-    } else {
+    } else if (key === "k") {
       tableFact.onAssert(FactStatus.Done, "");
+    } else if (key === "j") {
+      selectFirstOptions();
     }
   };
 
