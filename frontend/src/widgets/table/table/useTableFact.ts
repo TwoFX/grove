@@ -117,9 +117,10 @@ function computeSingleStates(
     selectedCellOptions.find((opt) => opt.layerIdentifier === layerIdentifier)
       ?.selectedCellOptions ?? [];
 
-  const relevantTableCellOptions = relevantSelectedCellOptionIds.map(
-    (id) => relevantOptions.find((opt) => optionKey(opt) === id)!,
-  );
+  // Saved selections can refer to options that are no longer available.
+  const relevantTableCellOptions = relevantSelectedCellOptionIds
+    .map((id) => relevantOptions.find((opt) => optionKey(opt) === id))
+    .filter((opt) => opt !== undefined);
 
   return relevantTableCellOptions.map((opt) =>
     tableCellOptionState(templates, context, opt, definition.cellKind),
