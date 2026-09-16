@@ -10,10 +10,7 @@ open Grove.Framework Widget
 namespace {{metadata/projectNamespace}}.Generated.«{{definition/widgetId}}»
 
 {{#*inline "leanState"}}
-⟨
-  {{leanString value}},
-  {{{stateRepr}}}
-⟩
+⟨{{leanString value}}, {{{stateRepr}}}⟩
 {{/inline}}
 {{#*inline "optstate"}}
 {{#if (isNone this)}}none{{/if}}
