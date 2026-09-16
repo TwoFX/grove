@@ -5,6 +5,7 @@ Authors: Julia M. Himmel
 -/
 module
 public import Grove.Framework.Synthesis.Impl
+import Grove.Framework.Format
 
 open Lean Meta
 
@@ -32,7 +33,7 @@ public def State.of (key : Key) : LookupM State :=
   (⟨·⟩) <$> trySynthesize key.typeName key.className key.parameterClassNames
 
 public def State.repr (state : State) : String :=
-  (_root_.repr state).pretty
+  (_root_.repr state).prettyOneline
 
 public def State.displayShort (state : State) : String :=
   state.result?.map (·.displayShort) |>.getD "Synthesis failed"

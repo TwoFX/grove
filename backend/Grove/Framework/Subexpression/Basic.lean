@@ -8,6 +8,7 @@ module
 public import Grove.Framework.HasId
 public import Grove.Framework.Declaration.Basic
 public import Grove.Framework.Search
+import Grove.Framework.Format
 
 open Lean Meta
 
@@ -74,7 +75,7 @@ public def Subexpression.toString : Subexpression → String
   | .predicate p => p.key
 
 public def Subexpression.State.repr (s : Subexpression.State) : String :=
-  (_root_.repr s).pretty
+  (_root_.repr s).prettyOneline
 
 public def Subexpression.State.displayShort : Subexpression.State → String
   | .declaration d => d.name.toString

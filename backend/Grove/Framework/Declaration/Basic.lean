@@ -13,6 +13,7 @@ import Lean.PrettyPrinter
 import Lean.Linter.Deprecated
 import Lean.Meta.Tactic.Simp.Attr
 public import Grove.Framework.LookupM
+import Grove.Framework.Format
 
 open Lean Meta
 
@@ -42,7 +43,7 @@ deriving BEq, Repr
 namespace Declaration
 
 public def repr (d : Declaration) : String :=
-  (_root_.repr d).pretty
+  (_root_.repr d).prettyOneline
 
 public def name : Declaration → Name
   | Declaration.thm t => t.name
