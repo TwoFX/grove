@@ -11,13 +11,12 @@ function HashConflictDialog(): JSX.Element {
   const setStoredHash = useGroveAdminStore((state) => state.setHash);
   const pendingChanges = usePendingChanges();
   const pendingCount = useCountPendingChanges();
-  const hasHydrated = useGroveAdminStore((state) => state.hasHydrated);
 
   useEffect(() => {
-    if (hasHydrated && (storedHash === "" || pendingCount === 0)) {
+    if (storedHash === "" || pendingCount === 0) {
       setStoredHash(basisHash);
     }
-  }, [hasHydrated, storedHash, pendingCount, setStoredHash, basisHash]);
+  }, [storedHash, pendingCount, setStoredHash, basisHash]);
 
   const hashesDiffer = basisHash !== storedHash;
 

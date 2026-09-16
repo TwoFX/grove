@@ -6,7 +6,6 @@ import { create, StateCreator } from "zustand";
 import { persist } from "zustand/middleware";
 import { createUISlice, UISlice } from "./slices/ui";
 import { createHashSlice, HashSlice } from "./slices/hash";
-import { produce } from "immer";
 import {
   AssociationTableSlice,
   createAssociationTableSlice,
@@ -17,28 +16,9 @@ import {
   createAssertionSlice,
 } from "@/widgets/assertion/state/create";
 import { temporal } from "zundo";
+import { persistenceOptions } from "./persistence";
 
-export interface HasHydratedSlice {
-  hasHydrated: boolean;
-  setHasHydrated: (hasHydrated: boolean) => void;
-}
-
-const createHasHydratedSlice: StateCreator<
-  HasHydratedSlice,
-  [],
-  [],
-  HasHydratedSlice
-> = (set) => ({
-  hasHydrated: false,
-  setHasHydrated: (hasHydrated) =>
-    set((state) =>
-      produce(state, (draft) => {
-        draft.hasHydrated = hasHydrated;
-      }),
-    ),
-});
-
-export type GroveAdminState = HasHydratedSlice & HashSlice;
+export type GroveAdminState = HashSlice;
 
 export type GroveState = UISlice &
   ShowDeclarationSlice &
@@ -67,16 +47,8 @@ const createClearAllSlice: StateCreator<GroveState, [], [], ClearAllSlice> = (
 
 export const useGroveAdminStore = create<GroveAdminState>()(
   persist(
-    (...a) => ({
-      ...createHasHydratedSlice(...a),
-      ...createHashSlice(...a),
-    }),
-    {
-      name: "grove-admin-storage",
-      onRehydrateStorage: (state) => {
-        return () => state.setHasHydrated(true);
-      },
-    },
+    createHashSlice,
+    persistenceOptions<GroveAdminState>("grove-admin-storage"),
   ),
 );
 
@@ -94,13 +66,14 @@ export const useGroveStore = create<GroveState>()(
       {
         limit: 10,
         wrapTemporal: (storeInitializer) =>
-          persist(storeInitializer, {
-            name: "grove-temporal-storage",
-          }),
+          persist(
+            storeInitializer,
+            persistenceOptions<ReturnType<typeof storeInitializer>>(
+              "grove-temporal-storage",
+            ),
+          ),
       },
     ),
-    {
-      name: "grove-storage",
-    },
+    persistenceOptions<GroveState>("grove-storage"),
   ),
 );
