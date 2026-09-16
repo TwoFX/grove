@@ -8,7 +8,7 @@ import {
 } from "@/lib/transfer/project";
 import { Fact } from "@/components/fact/Fact";
 import { Table } from "./Table";
-import { useAssertTableFact, useTableFact } from "./useTableFact";
+import { useTableFactAssertions, useTableFact } from "./useTableFact";
 import { TableCellDetail } from "./TableCellDetail";
 import { useAssociations } from "@/lib/state/association";
 import {
@@ -47,7 +47,7 @@ export function TableComponent({
   );
 
   const indexableCellData = computeIndexableCellData(definition.cells);
-  const assertTableFact = useAssertTableFact({
+  const { assertTableRow } = useTableFactAssertions({
     definition,
     cellData: indexableCellData,
   });
@@ -114,17 +114,7 @@ export function TableComponent({
       state.selectedColumnAssociations.includes(assoc.id),
     );
     const nextState = selectFirstOptions(rowAssociation, columns);
-    if (nextState !== state) setState(nextState);
-
-    for (const columnAssociation of columns) {
-      assertTableFact(
-        nextState,
-        rowAssociation,
-        columnAssociation,
-        FactStatus.Done,
-        "",
-      );
-    }
+    assertTableRow(nextState, rowAssociation, columns);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {

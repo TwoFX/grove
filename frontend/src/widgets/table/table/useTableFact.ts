@@ -6,6 +6,7 @@ import {
   TableAssociationLayer,
   TableCellOption,
   TableDefinition,
+  TableFact,
   TableFactLayerState,
   TableFactOptionalSingleState,
   TableFactSingleState,
@@ -206,7 +207,7 @@ function buildFactState(
   };
 }
 
-export function useAssertTableFact({
+export function useTableFactAssertions({
   definition,
   cellData,
 }: {
@@ -216,14 +217,15 @@ export function useAssertTableFact({
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const setPendingFact = useGroveStore((state) => state.setPendingTableFact);
+  const setPendingRow = useGroveStore((state) => state.setPendingTableRow);
 
-  return (
+  const buildFact = (
     state: TableState,
     rowAssociation: TableAssociation,
     columnAssociation: TableAssociation,
     status: FactStatus,
     comment: string,
-  ) => {
+  ): TableFact => {
     const identifier = buildFactIdentifier(
       rowAssociation.id,
       columnAssociation.id,
@@ -231,7 +233,7 @@ export function useAssertTableFact({
     );
     const factId = buildFactId(identifier);
 
-    setPendingFact(context, definition.widgetId, factId, {
+    return {
       widgetId: definition.widgetId,
       factId,
       metadata: { status, comment },
@@ -246,7 +248,38 @@ export function useAssertTableFact({
         state,
       ),
       validationResult: { constructor: "new" },
-    });
+    };
+  };
+
+  return {
+    assertTableFact: (
+      state: TableState,
+      rowAssociation: TableAssociation,
+      columnAssociation: TableAssociation,
+      status: FactStatus,
+      comment: string,
+    ) => {
+      const fact = buildFact(
+        state,
+        rowAssociation,
+        columnAssociation,
+        status,
+        comment,
+      );
+      setPendingFact(context, definition.widgetId, fact.factId, fact);
+    },
+    assertTableRow: (
+      state: TableState,
+      rowAssociation: TableAssociation,
+      columnAssociations: TableAssociation[],
+    ) => {
+      if (columnAssociations.length === 0) return;
+
+      const facts = columnAssociations.map((columnAssociation) =>
+        buildFact(state, rowAssociation, columnAssociation, FactStatus.Done, ""),
+      );
+      setPendingRow(context, definition.widgetId, state, facts);
+    },
   };
 }
 
@@ -272,7 +305,7 @@ export function useTableFact({
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const pendingFact = usePendingTableFact();
-  const assertTableFact = useAssertTableFact({ definition, cellData });
+  const { assertTableFact } = useTableFactAssertions({ definition, cellData });
   const associations = useAssociations();
 
   const rowAssociations = associations(definition.rowSource);

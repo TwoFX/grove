@@ -24,6 +24,12 @@ export interface TableSlice {
     widgetId: string,
     state: TableState,
   ) => void;
+  setPendingTableRow: (
+    context: GroveContextData,
+    widgetId: string,
+    state: TableState,
+    facts: TableFact[],
+  ) => void;
   clearPendingTableState: (widgetId: string) => void;
 }
 
@@ -58,6 +64,28 @@ export const createTableSlice: StateCreator<TableSlice, [], [], TableSlice> = (
         state.pendingTableStates,
         widgetId,
         st,
+      ),
+    }));
+  },
+  setPendingTableRow: (context, widgetId, st, facts) => {
+    // Save the selections and every fact together so the row is one undo step.
+    set((state) => ({
+      pendingTableStates: updatePendingState(
+        context.tableState,
+        state.pendingTableStates,
+        widgetId,
+        st,
+      ),
+      pendingTableFacts: facts.reduce(
+        (pending, fact) =>
+          updatePendingFacts(
+            context.tableFact,
+            pending,
+            widgetId,
+            fact.factId,
+            fact,
+          ),
+        state.pendingTableFacts,
       ),
     }));
   },
