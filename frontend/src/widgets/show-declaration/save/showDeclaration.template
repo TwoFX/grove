@@ -9,16 +9,9 @@ open Grove.Framework Widget
 
 namespace {{metadata/projectNamespace}}.Generated.«{{definition/id}}»
 
-{{#each facts}}
-def «{{factId}}» : ShowDeclaration.Fact where
-  widgetId := {{leanString ../definition/id}}
-  factId := {{leanString factId}}
-  metadata := {{#with metadata}}{{> metadata }}{{/with}}
-  state := {{#with state}}{{> declaration }}{{/with}}
-{{/each}}
+def facts : RestoreStateM (Array ShowDeclaration.Fact) := do
+  return (← readSavedState (α := ShowDeclaration.Data) savedStateFile%).facts
 
 def restoreState : RestoreStateM Unit := do
-{{#each facts}}
-  addShowDeclarationFact «{{factId}}»
-{{/each}}
-  return ()
+  for fact in ← facts do
+    addShowDeclarationFact fact

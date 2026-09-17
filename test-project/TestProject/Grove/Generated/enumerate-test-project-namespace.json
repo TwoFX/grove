@@ -1,0 +1,35 @@
+{
+  "widgetId": "enumerate-test-project-namespace",
+  "facts": [
+    {
+      "widgetId": "enumerate-test-project-namespace",
+      "state": {
+        "passed": true,
+        "message": "There is a declaration named TestProject.List.cartesian",
+        "description": "There is a declaration named TestProject.List.cartesian",
+        "assertionId": "TestProject.List.cartesian"
+      },
+      "metadata": {
+        "status": "done",
+        "comment": "Cute"
+      },
+      "factId": "TestProject.List.cartesian",
+      "assertionId": "TestProject.List.cartesian"
+    },
+    {
+      "widgetId": "enumerate-test-project-namespace",
+      "state": {
+        "passed": true,
+        "message": "There is a declaration named TestProject.List.cartesian_cons_left",
+        "description": "There is a declaration named TestProject.List.cartesian_cons_left",
+        "assertionId": "TestProject.List.cartesian_cons_left"
+      },
+      "metadata": {
+        "status": "bad",
+        "comment": "I don't like it"
+      },
+      "factId": "TestProject.List.cartesian_cons_left",
+      "assertionId": "TestProject.List.cartesian_cons_left"
+    }
+  ]
+}

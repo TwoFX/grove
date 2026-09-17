@@ -59,14 +59,14 @@ public structure Table (rowKind columnKind cellKind : DataKind) {δ : Type} (lay
 public structure Table.Fact.SingleState (kind : DataKind) where
   value : String
   state : kind.State
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 public structure Table.Fact.LayerState (rowKind columnKind cellKind : DataKind) where
   layerIdentifier : String
   rowState : Option (SingleState rowKind)
   columnState : Option (SingleState columnKind)
   selectedCellStates : Array (SingleState cellKind)
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 -- Selected cell options look good and are consistent
 public structure Table.Fact (rowKind columnKind cellKind : DataKind) where
@@ -77,12 +77,14 @@ public structure Table.Fact (rowKind columnKind cellKind : DataKind) where
   selectedLayers : Array String
   layerStates : Array (Table.Fact.LayerState rowKind columnKind cellKind)
   metadata : Fact.Metadata
+deriving ToJson, FromJson
 
 public structure Table.Data.SelectedCellOptions where
   layerIdentifier : String
   rowValue : String
   columnValue : String
   selectedCellOptions : Array String
+deriving ToJson, FromJson
 
 public structure Table.Data (rowKind columnKind cellKind : DataKind) where
   widgetId : String
@@ -91,5 +93,6 @@ public structure Table.Data (rowKind columnKind cellKind : DataKind) where
   selectedCellOptions : Array Table.Data.SelectedCellOptions
   selectedLayers : Array String
   facts : Array (Table.Fact rowKind columnKind cellKind)
+deriving ToJson, FromJson
 
 end Grove.Framework.Widget

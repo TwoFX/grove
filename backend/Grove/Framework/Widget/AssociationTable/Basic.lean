@@ -8,6 +8,8 @@ module
 public import Grove.Framework.DataSource.Basic
 public import Grove.Framework.Fact
 
+open Lean
+
 namespace Grove.Framework.Widget
 
 /--
@@ -30,17 +32,19 @@ public structure AssociationTable (cellKind : DataKind) {β : Type} (columnIdent
 public structure AssociationTable.Data.Cell where
   columnIdentifier : String
   cellValue : String
+deriving ToJson, FromJson
 
 public structure AssociationTable.Data.Row where
   uuid : String
   title : String
   columns : Array AssociationTable.Data.Cell
+deriving ToJson, FromJson
 
 public structure AssociationTable.Fact.CellState (cellKind : DataKind) where
   columnIdentifier : String
   cellValue : String
   cellState : cellKind.State
-deriving BEq
+deriving BEq, ToJson, FromJson
 
 -- Row looks good (AD-4/AD-8)
 public structure AssociationTable.Fact (cellKind : DataKind) where
@@ -49,10 +53,12 @@ public structure AssociationTable.Fact (cellKind : DataKind) where
   rowId : String
   rowState : Array (AssociationTable.Fact.CellState cellKind)
   metadata : Fact.Metadata
+deriving ToJson, FromJson
 
 public structure AssociationTable.Data (cellKind : DataKind) where
   widgetId : String
   rows : Array AssociationTable.Data.Row
   facts : Array (AssociationTable.Fact cellKind)
+deriving ToJson, FromJson
 
 end Grove.Framework.Widget

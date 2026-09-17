@@ -1,0 +1,1370 @@
+{
+  "widgetId": "slice-producing-complete",
+  "facts": [
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Pos.appendRight` was not found in the table.",
+        "description": "`String.Pos.appendRight` should appear in the table.",
+        "assertionId": "String.Pos.appendRight"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Pos.appendRight",
+      "assertionId": "String.Pos.appendRight"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Pos.modify` was not found in the table.",
+        "description": "`String.Pos.modify` should appear in the table.",
+        "assertionId": "String.Pos.modify"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Pos.modify",
+      "assertionId": "String.Pos.modify"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Pos.set` was not found in the table.",
+        "description": "`String.Pos.set` should appear in the table.",
+        "assertionId": "String.Pos.set"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Pos.set",
+      "assertionId": "String.Pos.set"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.ByteIterator.s` was not found in the table.",
+        "description": "`String.Slice.ByteIterator.s` should appear in the table.",
+        "assertionId": "String.Slice.ByteIterator.s"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.ByteIterator.s",
+      "assertionId": "String.Slice.ByteIterator.s"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.RevByteIterator.s` was not found in the table.",
+        "description": "`String.Slice.RevByteIterator.s` should appear in the table.",
+        "assertionId": "String.Slice.RevByteIterator.s"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.RevByteIterator.s",
+      "assertionId": "String.Slice.RevByteIterator.s"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.copy` was not found in the table.",
+        "description": "`String.Slice.copy` should appear in the table.",
+        "assertionId": "String.Slice.copy"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.copy",
+      "assertionId": "String.Slice.copy"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.drop` was not found in the table.",
+        "description": "`String.Slice.drop` should appear in the table.",
+        "assertionId": "String.Slice.drop"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.drop",
+      "assertionId": "String.Slice.drop"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropEnd` was not found in the table.",
+        "description": "`String.Slice.dropEnd` should appear in the table.",
+        "assertionId": "String.Slice.dropEnd"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropEnd",
+      "assertionId": "String.Slice.dropEnd"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropEndWhile` was not found in the table.",
+        "description": "`String.Slice.dropEndWhile` should appear in the table.",
+        "assertionId": "String.Slice.dropEndWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropEndWhile",
+      "assertionId": "String.Slice.dropEndWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropPrefix` was not found in the table.",
+        "description": "`String.Slice.dropPrefix` should appear in the table.",
+        "assertionId": "String.Slice.dropPrefix"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropPrefix",
+      "assertionId": "String.Slice.dropPrefix"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropPrefix?` was not found in the table.",
+        "description": "`String.Slice.dropPrefix?` should appear in the table.",
+        "assertionId": "String.Slice.dropPrefix?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropPrefix?",
+      "assertionId": "String.Slice.dropPrefix?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropSuffix` was not found in the table.",
+        "description": "`String.Slice.dropSuffix` should appear in the table.",
+        "assertionId": "String.Slice.dropSuffix"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropSuffix",
+      "assertionId": "String.Slice.dropSuffix"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropSuffix?` was not found in the table.",
+        "description": "`String.Slice.dropSuffix?` should appear in the table.",
+        "assertionId": "String.Slice.dropSuffix?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropSuffix?",
+      "assertionId": "String.Slice.dropSuffix?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.dropWhile` was not found in the table.",
+        "description": "`String.Slice.dropWhile` should appear in the table.",
+        "assertionId": "String.Slice.dropWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.dropWhile",
+      "assertionId": "String.Slice.dropWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.extract` was not found in the table.",
+        "description": "`String.Slice.extract` should appear in the table.",
+        "assertionId": "String.Slice.extract"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.extract",
+      "assertionId": "String.Slice.extract"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.intercalate` was not found in the table.",
+        "description": "`String.Slice.intercalate` should appear in the table.",
+        "assertionId": "String.Slice.intercalate"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.intercalate",
+      "assertionId": "String.Slice.intercalate"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.lines` was not found in the table.",
+        "description": "`String.Slice.lines` should appear in the table.",
+        "assertionId": "String.Slice.lines"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.lines",
+      "assertionId": "String.Slice.lines"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.lines.lineMap` was not found in the table.",
+        "description": "`String.Slice.lines.lineMap` should appear in the table.",
+        "assertionId": "String.Slice.lines.lineMap"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.lines.lineMap",
+      "assertionId": "String.Slice.lines.lineMap"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.mk` was not found in the table.",
+        "description": "`String.Slice.mk` should appear in the table.",
+        "assertionId": "String.Slice.mk"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.mk",
+      "assertionId": "String.Slice.mk"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.replace` was not found in the table.",
+        "description": "`String.Slice.replace` should appear in the table.",
+        "assertionId": "String.Slice.replace"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.replace",
+      "assertionId": "String.Slice.replace"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.revSplit` was not found in the table.",
+        "description": "`String.Slice.revSplit` should appear in the table.",
+        "assertionId": "String.Slice.revSplit"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.revSplit",
+      "assertionId": "String.Slice.revSplit"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.slice` was not found in the table.",
+        "description": "`String.Slice.slice` should appear in the table.",
+        "assertionId": "String.Slice.slice"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.slice",
+      "assertionId": "String.Slice.slice"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.slice!` was not found in the table.",
+        "description": "`String.Slice.slice!` should appear in the table.",
+        "assertionId": "String.Slice.slice!"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.slice!",
+      "assertionId": "String.Slice.slice!"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.slice?` was not found in the table.",
+        "description": "`String.Slice.slice?` should appear in the table.",
+        "assertionId": "String.Slice.slice?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.slice?",
+      "assertionId": "String.Slice.slice?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.sliceFrom` was not found in the table.",
+        "description": "`String.Slice.sliceFrom` should appear in the table.",
+        "assertionId": "String.Slice.sliceFrom"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.sliceFrom",
+      "assertionId": "String.Slice.sliceFrom"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.sliceTo` was not found in the table.",
+        "description": "`String.Slice.sliceTo` should appear in the table.",
+        "assertionId": "String.Slice.sliceTo"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.sliceTo",
+      "assertionId": "String.Slice.sliceTo"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.split` was not found in the table.",
+        "description": "`String.Slice.split` should appear in the table.",
+        "assertionId": "String.Slice.split"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.split",
+      "assertionId": "String.Slice.split"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.splitInclusive` was not found in the table.",
+        "description": "`String.Slice.splitInclusive` should appear in the table.",
+        "assertionId": "String.Slice.splitInclusive"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.splitInclusive",
+      "assertionId": "String.Slice.splitInclusive"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.str` was not found in the table.",
+        "description": "`String.Slice.str` should appear in the table.",
+        "assertionId": "String.Slice.str"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.str",
+      "assertionId": "String.Slice.str"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.take` was not found in the table.",
+        "description": "`String.Slice.take` should appear in the table.",
+        "assertionId": "String.Slice.take"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.take",
+      "assertionId": "String.Slice.take"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.takeEnd` was not found in the table.",
+        "description": "`String.Slice.takeEnd` should appear in the table.",
+        "assertionId": "String.Slice.takeEnd"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.takeEnd",
+      "assertionId": "String.Slice.takeEnd"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.takeEndWhile` was not found in the table.",
+        "description": "`String.Slice.takeEndWhile` should appear in the table.",
+        "assertionId": "String.Slice.takeEndWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.takeEndWhile",
+      "assertionId": "String.Slice.takeEndWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.takeWhile` was not found in the table.",
+        "description": "`String.Slice.takeWhile` should appear in the table.",
+        "assertionId": "String.Slice.takeWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.takeWhile",
+      "assertionId": "String.Slice.takeWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.toString` was not found in the table.",
+        "description": "`String.Slice.toString` should appear in the table.",
+        "assertionId": "String.Slice.toString"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.toString",
+      "assertionId": "String.Slice.toString"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.trimAscii` was not found in the table.",
+        "description": "`String.Slice.trimAscii` should appear in the table.",
+        "assertionId": "String.Slice.trimAscii"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.trimAscii",
+      "assertionId": "String.Slice.trimAscii"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.trimAsciiEnd` was not found in the table.",
+        "description": "`String.Slice.trimAsciiEnd` should appear in the table.",
+        "assertionId": "String.Slice.trimAsciiEnd"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.trimAsciiEnd",
+      "assertionId": "String.Slice.trimAsciiEnd"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.Slice.trimAsciiStart` was not found in the table.",
+        "description": "`String.Slice.trimAsciiStart` should appear in the table.",
+        "assertionId": "String.Slice.trimAsciiStart"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.Slice.trimAsciiStart",
+      "assertionId": "String.Slice.trimAsciiStart"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.ToSlice.toSlice` was not found in the table.",
+        "description": "`String.ToSlice.toSlice` should appear in the table.",
+        "assertionId": "String.ToSlice.toSlice"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.ToSlice.toSlice",
+      "assertionId": "String.ToSlice.toSlice"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.append` was not found in the table.",
+        "description": "`String.append` should appear in the table.",
+        "assertionId": "String.append"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.append",
+      "assertionId": "String.append"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.capitalize` was not found in the table.",
+        "description": "`String.capitalize` should appear in the table.",
+        "assertionId": "String.capitalize"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.capitalize",
+      "assertionId": "String.capitalize"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.crlfToLf` was not found in the table.",
+        "description": "`String.crlfToLf` should appear in the table.",
+        "assertionId": "String.crlfToLf"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.crlfToLf",
+      "assertionId": "String.crlfToLf"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.decEq` was not found in the table.",
+        "description": "`String.decEq` should appear in the table.",
+        "assertionId": "String.decEq"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.decEq",
+      "assertionId": "String.decEq"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.decapitalize` was not found in the table.",
+        "description": "`String.decapitalize` should appear in the table.",
+        "assertionId": "String.decapitalize"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.decapitalize",
+      "assertionId": "String.decapitalize"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.drop` was not found in the table.",
+        "description": "`String.drop` should appear in the table.",
+        "assertionId": "String.drop"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.drop",
+      "assertionId": "String.drop"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropEnd` was not found in the table.",
+        "description": "`String.dropEnd` should appear in the table.",
+        "assertionId": "String.dropEnd"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropEnd",
+      "assertionId": "String.dropEnd"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropEndWhile` was not found in the table.",
+        "description": "`String.dropEndWhile` should appear in the table.",
+        "assertionId": "String.dropEndWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropEndWhile",
+      "assertionId": "String.dropEndWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropPrefix` was not found in the table.",
+        "description": "`String.dropPrefix` should appear in the table.",
+        "assertionId": "String.dropPrefix"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropPrefix",
+      "assertionId": "String.dropPrefix"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropPrefix?` was not found in the table.",
+        "description": "`String.dropPrefix?` should appear in the table.",
+        "assertionId": "String.dropPrefix?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropPrefix?",
+      "assertionId": "String.dropPrefix?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropSuffix` was not found in the table.",
+        "description": "`String.dropSuffix` should appear in the table.",
+        "assertionId": "String.dropSuffix"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropSuffix",
+      "assertionId": "String.dropSuffix"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropSuffix?` was not found in the table.",
+        "description": "`String.dropSuffix?` should appear in the table.",
+        "assertionId": "String.dropSuffix?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropSuffix?",
+      "assertionId": "String.dropSuffix?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.dropWhile` was not found in the table.",
+        "description": "`String.dropWhile` should appear in the table.",
+        "assertionId": "String.dropWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.dropWhile",
+      "assertionId": "String.dropWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.extract` was not found in the table.",
+        "description": "`String.extract` should appear in the table.",
+        "assertionId": "String.extract"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.extract",
+      "assertionId": "String.extract"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.fromExpr?` was not found in the table.",
+        "description": "`String.fromExpr?` should appear in the table.",
+        "assertionId": "String.fromExpr?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.fromExpr?",
+      "assertionId": "String.fromExpr?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.fromUTF8` was not found in the table.",
+        "description": "`String.fromUTF8` should appear in the table.",
+        "assertionId": "String.fromUTF8"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.fromUTF8",
+      "assertionId": "String.fromUTF8"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.fromUTF8!` was not found in the table.",
+        "description": "`String.fromUTF8!` should appear in the table.",
+        "assertionId": "String.fromUTF8!"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.fromUTF8!",
+      "assertionId": "String.fromUTF8!"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.fromUTF8?` was not found in the table.",
+        "description": "`String.fromUTF8?` should appear in the table.",
+        "assertionId": "String.fromUTF8?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.fromUTF8?",
+      "assertionId": "String.fromUTF8?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.intercalate` was not found in the table.",
+        "description": "`String.intercalate` should appear in the table.",
+        "assertionId": "String.intercalate"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.intercalate",
+      "assertionId": "String.intercalate"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.join` was not found in the table.",
+        "description": "`String.join` should appear in the table.",
+        "assertionId": "String.join"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.join",
+      "assertionId": "String.join"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.lines` was not found in the table.",
+        "description": "`String.lines` should appear in the table.",
+        "assertionId": "String.lines"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.lines",
+      "assertionId": "String.lines"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.mangle` was not found in the table.",
+        "description": "`String.mangle` should appear in the table.",
+        "assertionId": "String.mangle"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.mangle",
+      "assertionId": "String.mangle"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.map` was not found in the table.",
+        "description": "`String.map` should appear in the table.",
+        "assertionId": "String.map"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.map",
+      "assertionId": "String.map"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.mapAux` was not found in the table.",
+        "description": "`String.mapAux` should appear in the table.",
+        "assertionId": "String.mapAux"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.mapAux",
+      "assertionId": "String.mapAux"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.ofByteArray` was not found in the table.",
+        "description": "`String.ofByteArray` should appear in the table.",
+        "assertionId": "String.ofByteArray"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.ofByteArray",
+      "assertionId": "String.ofByteArray"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.ofList` was not found in the table.",
+        "description": "`String.ofList` should appear in the table.",
+        "assertionId": "String.ofList"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.ofList",
+      "assertionId": "String.ofList"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.push` was not found in the table.",
+        "description": "`String.push` should appear in the table.",
+        "assertionId": "String.push"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.push",
+      "assertionId": "String.push"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.pushn` was not found in the table.",
+        "description": "`String.pushn` should appear in the table.",
+        "assertionId": "String.pushn"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.pushn",
+      "assertionId": "String.pushn"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.quote` was not found in the table.",
+        "description": "`String.quote` should appear in the table.",
+        "assertionId": "String.quote"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.quote",
+      "assertionId": "String.quote"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.removeLeadingSpaces` was not found in the table.",
+        "description": "`String.removeLeadingSpaces` should appear in the table.",
+        "assertionId": "String.removeLeadingSpaces"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.removeLeadingSpaces",
+      "assertionId": "String.removeLeadingSpaces"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.replace` was not found in the table.",
+        "description": "`String.replace` should appear in the table.",
+        "assertionId": "String.replace"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.replace",
+      "assertionId": "String.replace"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.singleton` was not found in the table.",
+        "description": "`String.singleton` should appear in the table.",
+        "assertionId": "String.singleton"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.singleton",
+      "assertionId": "String.singleton"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.slice` was not found in the table.",
+        "description": "`String.slice` should appear in the table.",
+        "assertionId": "String.slice"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.slice",
+      "assertionId": "String.slice"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.slice!` was not found in the table.",
+        "description": "`String.slice!` should appear in the table.",
+        "assertionId": "String.slice!"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.slice!",
+      "assertionId": "String.slice!"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.slice?` was not found in the table.",
+        "description": "`String.slice?` should appear in the table.",
+        "assertionId": "String.slice?"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.slice?",
+      "assertionId": "String.slice?"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.sliceFrom` was not found in the table.",
+        "description": "`String.sliceFrom` should appear in the table.",
+        "assertionId": "String.sliceFrom"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.sliceFrom",
+      "assertionId": "String.sliceFrom"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.sliceTo` was not found in the table.",
+        "description": "`String.sliceTo` should appear in the table.",
+        "assertionId": "String.sliceTo"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.sliceTo",
+      "assertionId": "String.sliceTo"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.split` was not found in the table.",
+        "description": "`String.split` should appear in the table.",
+        "assertionId": "String.split"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.split",
+      "assertionId": "String.split"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.splitAux` was not found in the table.",
+        "description": "`String.splitAux` should appear in the table.",
+        "assertionId": "String.splitAux"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.splitAux",
+      "assertionId": "String.splitAux"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.splitInclusive` was not found in the table.",
+        "description": "`String.splitInclusive` should appear in the table.",
+        "assertionId": "String.splitInclusive"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.splitInclusive",
+      "assertionId": "String.splitInclusive"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.splitOn` was not found in the table.",
+        "description": "`String.splitOn` should appear in the table.",
+        "assertionId": "String.splitOn"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.splitOn",
+      "assertionId": "String.splitOn"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.splitOnAux` was not found in the table.",
+        "description": "`String.splitOnAux` should appear in the table.",
+        "assertionId": "String.splitOnAux"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.splitOnAux",
+      "assertionId": "String.splitOnAux"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.splitToList` was not found in the table.",
+        "description": "`String.splitToList` should appear in the table.",
+        "assertionId": "String.splitToList"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.splitToList",
+      "assertionId": "String.splitToList"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.take` was not found in the table.",
+        "description": "`String.take` should appear in the table.",
+        "assertionId": "String.take"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.take",
+      "assertionId": "String.take"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.takeEnd` was not found in the table.",
+        "description": "`String.takeEnd` should appear in the table.",
+        "assertionId": "String.takeEnd"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.takeEnd",
+      "assertionId": "String.takeEnd"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.takeEndWhile` was not found in the table.",
+        "description": "`String.takeEndWhile` should appear in the table.",
+        "assertionId": "String.takeEndWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.takeEndWhile",
+      "assertionId": "String.takeEndWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.takeWhile` was not found in the table.",
+        "description": "`String.takeWhile` should appear in the table.",
+        "assertionId": "String.takeWhile"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.takeWhile",
+      "assertionId": "String.takeWhile"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.toLower` was not found in the table.",
+        "description": "`String.toLower` should appear in the table.",
+        "assertionId": "String.toLower"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.toLower",
+      "assertionId": "String.toLower"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.toSlice` was not found in the table.",
+        "description": "`String.toSlice` should appear in the table.",
+        "assertionId": "String.toSlice"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.toSlice",
+      "assertionId": "String.toSlice"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.toUpper` was not found in the table.",
+        "description": "`String.toUpper` should appear in the table.",
+        "assertionId": "String.toUpper"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.toUpper",
+      "assertionId": "String.toUpper"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.trimAscii` was not found in the table.",
+        "description": "`String.trimAscii` should appear in the table.",
+        "assertionId": "String.trimAscii"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.trimAscii",
+      "assertionId": "String.trimAscii"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.trimAsciiEnd` was not found in the table.",
+        "description": "`String.trimAsciiEnd` should appear in the table.",
+        "assertionId": "String.trimAsciiEnd"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.trimAsciiEnd",
+      "assertionId": "String.trimAsciiEnd"
+    },
+    {
+      "widgetId": "slice-producing-complete",
+      "state": {
+        "passed": false,
+        "message": "`String.trimAsciiStart` was not found in the table.",
+        "description": "`String.trimAsciiStart` should appear in the table.",
+        "assertionId": "String.trimAsciiStart"
+      },
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "factId": "String.trimAsciiStart",
+      "assertionId": "String.trimAsciiStart"
+    }
+  ]
+}

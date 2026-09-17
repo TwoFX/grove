@@ -1,0 +1,4941 @@
+{
+  "widgetId": "finite-integer-convert-then-convert",
+  "selectedRowAssociations": [
+    "a556b849-a735-48a9-8099-06496bddb069",
+    "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+    "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+    "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+    "f339227d-32af-42c1-8889-285142c34fe3"
+  ],
+  "selectedLayers": [
+    "UInt8",
+    "UInt16",
+    "UInt32",
+    "UInt64",
+    "USize"
+  ],
+  "selectedColumnAssociations": [
+    "a556b849-a735-48a9-8099-06496bddb069",
+    "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+    "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+    "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+    "f339227d-32af-42c1-8889-285142c34fe3"
+  ],
+  "selectedCellOptions": [
+    {
+      "selectedCellOptions": [
+        "UInt32.toUInt8_toUInt16"
+      ],
+      "rowValue": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "layerIdentifier": "UInt32",
+      "columnValue": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "selectedCellOptions": [
+        "UInt64.toUInt8_toUInt16"
+      ],
+      "rowValue": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "layerIdentifier": "UInt64",
+      "columnValue": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "selectedCellOptions": [
+        "USize.toUInt8_toUInt16"
+      ],
+      "rowValue": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "layerIdentifier": "USize",
+      "columnValue": "a556b849-a735-48a9-8099-06496bddb069"
+    }
+  ],
+  "facts": [
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::a556b849-a735-48a9-8099-06496bddb069:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::a556b849-a735-48a9-8099-06496bddb069:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "a556b849-a735-48a9-8099-06496bddb069",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": null
+        }
+      ],
+      "factId": "a556b849-a735-48a9-8099-06496bddb069:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb069:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "done",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [
+            {
+              "value": "UInt32.toUInt8_toUInt16",
+              "state": {
+                "thm": {
+                  "renderedStatement": "UInt32.toUInt8_toUInt16 (n : UInt32) : n.toUInt16.toUInt8 = n.toUInt8",
+                  "name": "UInt32.toUInt8_toUInt16",
+                  "isSimp": true,
+                  "isDeprecated": false
+                },
+                "constructor": "thm"
+              }
+            }
+          ],
+          "rowState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [
+            {
+              "value": "UInt64.toUInt8_toUInt16",
+              "state": {
+                "thm": {
+                  "renderedStatement": "UInt64.toUInt8_toUInt16 (n : UInt64) : n.toUInt16.toUInt8 = n.toUInt8",
+                  "name": "UInt64.toUInt8_toUInt16",
+                  "isSimp": true,
+                  "isDeprecated": false
+                },
+                "constructor": "thm"
+              }
+            }
+          ],
+          "rowState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [
+            {
+              "value": "USize.toUInt8_toUInt16",
+              "state": {
+                "thm": {
+                  "renderedStatement": "USize.toUInt8_toUInt16 (n : USize) : n.toUInt16.toUInt8 = n.toUInt8",
+                  "name": "USize.toUInt8_toUInt16",
+                  "isSimp": true,
+                  "isDeprecated": false
+                },
+                "constructor": "thm"
+              }
+            }
+          ],
+          "rowState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::a556b849-a735-48a9-8099-06496bddb069:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": null
+        }
+      ],
+      "factId": "986e32a2-1015-4fd0-bf1a-0983a85116ab:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::a556b849-a735-48a9-8099-06496bddb069:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::a556b849-a735-48a9-8099-06496bddb069:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "believedGood",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": null
+        }
+      ],
+      "factId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::a556b849-a735-48a9-8099-06496bddb069:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::a556b849-a735-48a9-8099-06496bddb069:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "USize",
+          "columnState": null
+        }
+      ],
+      "factId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::a556b849-a735-48a9-8099-06496bddb069:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt8 (a : UInt16) : UInt8",
+                  "name": "UInt16.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt8 (a : UInt32) : UInt8",
+                  "name": "UInt32.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt8 (a : UInt64) : UInt8",
+                  "name": "UInt64.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt8",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt8 (a : USize) : UInt8",
+                  "name": "USize.toUInt8",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::a556b849-a735-48a9-8099-06496bddb069:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "a556b849-a735-48a9-8099-06496bddb069"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt16 (a : UInt8) : UInt16",
+                  "name": "UInt8.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt16 (a : UInt32) : UInt16",
+                  "name": "UInt32.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt16 (a : UInt64) : UInt16",
+                  "name": "UInt64.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt16",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt16 (a : USize) : UInt16",
+                  "name": "USize.toUInt16",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::986e32a2-1015-4fd0-bf1a-0983a85116ab:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "986e32a2-1015-4fd0-bf1a-0983a85116ab"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt32 (a : UInt8) : UInt32",
+                  "name": "UInt8.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt32 (a : UInt16) : UInt32",
+                  "name": "UInt16.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUInt32 (a : UInt64) : UInt32",
+                  "name": "UInt64.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt32",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt32 (a : USize) : UInt32",
+                  "name": "USize.toUInt32",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::178dabc2-f8ef-4731-bf7a-4f3892082ddd:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "178dabc2-f8ef-4731-bf7a-4f3892082ddd"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUInt64 (a : UInt8) : UInt64",
+                  "name": "UInt8.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUInt64 (a : UInt16) : UInt64",
+                  "name": "UInt16.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUInt64 (a : UInt32) : UInt64",
+                  "name": "UInt32.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "USize",
+          "columnState": {
+            "value": "USize.toUInt64",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "USize.toUInt64 (a : USize) : UInt64",
+                  "name": "USize.toUInt64",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::dd8fc53e-d116-4ba4-9119-ab830f42b88c:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "dd8fc53e-d116-4ba4-9119-ab830f42b88c"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "Int8",
+        "Int16",
+        "Int32",
+        "Int64",
+        "ISize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int8",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int16",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int32",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Int64",
+          "columnState": null
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "ISize",
+          "columnState": null
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::f339227d-32af-42c1-8889-285142c34fe3:::Int8::Int16::Int32::Int64::ISize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    },
+    {
+      "widgetId": "finite-integer-convert-then-convert",
+      "selectedLayers": [
+        "UInt8",
+        "UInt16",
+        "UInt32",
+        "UInt64",
+        "USize"
+      ],
+      "rowAssociationId": "f339227d-32af-42c1-8889-285142c34fe3",
+      "metadata": {
+        "status": "needsAttention",
+        "comment": ""
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt8",
+          "columnState": {
+            "value": "UInt8.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt8.toUSize (a : UInt8) : USize",
+                  "name": "UInt8.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt16",
+          "columnState": {
+            "value": "UInt16.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt16.toUSize (a : UInt16) : USize",
+                  "name": "UInt16.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt32",
+          "columnState": {
+            "value": "UInt32.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt32.toUSize (a : UInt32) : USize",
+                  "name": "UInt32.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "UInt64",
+          "columnState": {
+            "value": "UInt64.toUSize",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "UInt64.toUSize (a : UInt64) : USize",
+                  "name": "UInt64.toUSize",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "USize",
+          "columnState": null
+        }
+      ],
+      "factId": "f339227d-32af-42c1-8889-285142c34fe3:::f339227d-32af-42c1-8889-285142c34fe3:::UInt8::UInt16::UInt32::UInt64::USize",
+      "columnAssociationId": "f339227d-32af-42c1-8889-285142c34fe3"
+    }
+  ]
+}

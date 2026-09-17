@@ -7,6 +7,8 @@ module
 
 public import Grove.Framework.Fact
 
+open Lean
+
 namespace Grove.Framework.Widget.Assertion
 
 public structure Result where
@@ -14,6 +16,7 @@ public structure Result where
   description : String
   passed : Bool
   message : String
+deriving ToJson, FromJson
 
 public structure Fact where
   widgetId : String
@@ -21,9 +24,11 @@ public structure Fact where
   assertionId : String
   state : Assertion.Result
   metadata : Fact.Metadata
+deriving ToJson, FromJson
 
 public structure Data where
   widgetId : String
   facts : Array Assertion.Fact
+deriving ToJson, FromJson
 
 end Grove.Framework.Widget.Assertion

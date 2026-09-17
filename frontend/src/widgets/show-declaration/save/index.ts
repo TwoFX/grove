@@ -1,3 +1,8 @@
+import {
+  RenderedWidget,
+  renderWidget,
+  showDeclarationData,
+} from "@/lib/save/json";
 import { ShowDeclarationDefinition } from "@/lib/transfer/project";
 import { usePendingShowDeclarationFact } from "../state/pending";
 import { useContext } from "react";
@@ -10,7 +15,7 @@ function getPossibleFactIds(): string[] {
 
 export function useRenderShowDeclaration(): (
   definition: ShowDeclarationDefinition,
-) => string {
+) => RenderedWidget {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const getFact = usePendingShowDeclarationFact();
@@ -25,11 +30,12 @@ export function useRenderShowDeclaration(): (
       }
     });
 
-    return templates.showDeclaration({
-      state: undefined,
-      metadata: context.projectMetadata,
-      definition,
-      facts,
-    });
+    return renderWidget(
+      templates.showDeclaration({
+        metadata: context.projectMetadata,
+        definition,
+      }),
+      showDeclarationData(definition.id, facts),
+    );
   };
 }

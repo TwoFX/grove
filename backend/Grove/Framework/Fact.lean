@@ -29,6 +29,7 @@ public inductive Status where
   | bad
   /-- This fact was automatically created by Grove because of some trigger condition; it will be considered to be invalidated until the user changes it. -/
   | needsAttention
+deriving FromJson
 
 instance : ToString Status where
   toString
@@ -46,6 +47,7 @@ public instance : SchemaFor Status :=
 public structure Metadata where
   status : Status
   comment : String
+deriving FromJson
 
 public instance : SchemaFor Metadata :=
   .structure "factMetadata" [.single "status" Metadata.status, .single "comment" Metadata.comment]

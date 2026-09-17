@@ -1,0 +1,116 @@
+{
+  "widgetId": "finite-integer-conversions",
+  "rows": [
+    {
+      "uuid": "a556b849-a735-48a9-8099-06496bddb069",
+      "title": "toUInt8",
+      "columns": [
+        {
+          "columnIdentifier": "UInt16",
+          "cellValue": "UInt16.toUInt8"
+        },
+        {
+          "columnIdentifier": "UInt32",
+          "cellValue": "UInt32.toUInt8"
+        },
+        {
+          "columnIdentifier": "UInt64",
+          "cellValue": "UInt64.toUInt8"
+        },
+        {
+          "columnIdentifier": "USize",
+          "cellValue": "USize.toUInt8"
+        }
+      ]
+    },
+    {
+      "uuid": "986e32a2-1015-4fd0-bf1a-0983a85116ab",
+      "title": "toUInt16",
+      "columns": [
+        {
+          "columnIdentifier": "UInt8",
+          "cellValue": "UInt8.toUInt16"
+        },
+        {
+          "columnIdentifier": "UInt32",
+          "cellValue": "UInt32.toUInt16"
+        },
+        {
+          "columnIdentifier": "UInt64",
+          "cellValue": "UInt64.toUInt16"
+        },
+        {
+          "columnIdentifier": "USize",
+          "cellValue": "USize.toUInt16"
+        }
+      ]
+    },
+    {
+      "uuid": "178dabc2-f8ef-4731-bf7a-4f3892082ddd",
+      "title": "toUInt32",
+      "columns": [
+        {
+          "columnIdentifier": "UInt8",
+          "cellValue": "UInt8.toUInt32"
+        },
+        {
+          "columnIdentifier": "UInt16",
+          "cellValue": "UInt16.toUInt32"
+        },
+        {
+          "columnIdentifier": "UInt64",
+          "cellValue": "UInt64.toUInt32"
+        },
+        {
+          "columnIdentifier": "USize",
+          "cellValue": "USize.toUInt32"
+        }
+      ]
+    },
+    {
+      "uuid": "dd8fc53e-d116-4ba4-9119-ab830f42b88c",
+      "title": "toUInt64",
+      "columns": [
+        {
+          "columnIdentifier": "UInt8",
+          "cellValue": "UInt8.toUInt64"
+        },
+        {
+          "columnIdentifier": "UInt16",
+          "cellValue": "UInt16.toUInt64"
+        },
+        {
+          "columnIdentifier": "UInt32",
+          "cellValue": "UInt32.toUInt64"
+        },
+        {
+          "columnIdentifier": "USize",
+          "cellValue": "USize.toUInt64"
+        }
+      ]
+    },
+    {
+      "uuid": "f339227d-32af-42c1-8889-285142c34fe3",
+      "title": "toUSize",
+      "columns": [
+        {
+          "columnIdentifier": "UInt8",
+          "cellValue": "UInt8.toUSize"
+        },
+        {
+          "columnIdentifier": "UInt16",
+          "cellValue": "UInt16.toUSize"
+        },
+        {
+          "columnIdentifier": "UInt32",
+          "cellValue": "UInt32.toUSize"
+        },
+        {
+          "columnIdentifier": "UInt64",
+          "cellValue": "UInt64.toUSize"
+        }
+      ]
+    }
+  ],
+  "facts": []
+}

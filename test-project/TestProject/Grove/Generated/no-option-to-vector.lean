@@ -9,26 +9,8 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«no-option-to-vector»
 
-def «0» : Assertion.Fact where
-  widgetId := "no-option-to-vector"
-  factId := "0"
-  assertionId := "0"
-  state := {
-    assertionId := "0"
-    description := "n/A"
-    passed := true
-    message := "As expected, 'Option.toVector' does not exist."
-  }
-  metadata := {
-    status := .done
-    comment := ""
-  }
-
-def table : Assertion.Data  where
-  widgetId := "no-option-to-vector"
-  facts := #[
-    «0»,
-  ]
+def table : RestoreStateM Assertion.Data :=
+  readSavedState savedStateFile%
 
 def restoreState : RestoreStateM Unit := do
-  addAssertion table
+  addAssertion (← table)

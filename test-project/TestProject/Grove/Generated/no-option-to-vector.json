@@ -1,0 +1,20 @@
+{
+  "widgetId": "no-option-to-vector",
+  "facts": [
+    {
+      "widgetId": "no-option-to-vector",
+      "state": {
+        "passed": true,
+        "message": "As expected, 'Option.toVector' does not exist.",
+        "description": "n/A",
+        "assertionId": "0"
+      },
+      "metadata": {
+        "status": "done",
+        "comment": ""
+      },
+      "factId": "0",
+      "assertionId": "0"
+    }
+  ]
+}

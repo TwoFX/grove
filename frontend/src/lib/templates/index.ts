@@ -1,15 +1,8 @@
 import {
   AssertionDefinition,
-  AssertionFact,
   AssociationTableDefinition,
-  AssociationTableFact,
-  AssociationTableState,
-  Declaration,
   ShowDeclarationDefinition,
-  ShowDeclarationFact,
   TableDefinition,
-  TableFact,
-  TableState,
 } from "@/lib/transfer/project";
 import { ProjectMetadata } from "../transfer/contextdata";
 
@@ -18,17 +11,12 @@ export interface TemplateStrings {
   showDeclaration: string;
   associationTable: string;
   table: string;
-  declaration: string;
-  metadataPartial: string;
-  declarationPartial: string;
   assertion: string;
 }
 
-export interface Widget<TDefinition, TState, TFact> {
+export interface Widget<TDefinition> {
   metadata: ProjectMetadata;
   definition: TDefinition;
-  state: TState;
-  facts: TFact[];
 }
 
 export interface Templates {
@@ -37,20 +25,11 @@ export interface Templates {
     ids: string[];
   }>;
   showDeclaration: HandlebarsTemplateDelegate<
-    Widget<ShowDeclarationDefinition, void, ShowDeclarationFact>
+    Widget<ShowDeclarationDefinition>
   >;
   associationTable: HandlebarsTemplateDelegate<
-    Widget<
-      AssociationTableDefinition,
-      AssociationTableState,
-      AssociationTableFact
-    >
+    Widget<AssociationTableDefinition>
   >;
-  table: HandlebarsTemplateDelegate<
-    Widget<TableDefinition, TableState, TableFact>
-  >;
-  declaration: HandlebarsTemplateDelegate<Declaration>;
-  assertion: HandlebarsTemplateDelegate<
-    Widget<AssertionDefinition, void, AssertionFact>
-  >;
+  table: HandlebarsTemplateDelegate<Widget<TableDefinition>>;
+  assertion: HandlebarsTemplateDelegate<Widget<AssertionDefinition>>;
 }

@@ -20,16 +20,13 @@ import { useAssociations } from "@/lib/state/association";
 import { useGroveStore } from "@/lib/state/state";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { GroveContext } from "@/lib/transfer/context";
-import { GroveTemplateContext } from "@/lib/templates/context";
-import { Templates } from "@/lib/templates";
-import { declarationStateRepr } from "@/lib/transfer/util";
+import { declarationStateJson } from "@/lib/transfer/util";
 import { buildFactId, buildFactIdentifier, tableFactStatesEqual } from "./fact";
 import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
 import { FactSummary } from "@/lib/fact/summary";
 
 function buildAssociationState(
   context: GroveContextData,
-  templates: Templates,
   dataKind: DataKind,
   layerIdentifier: string,
   assoc: TableAssociation,
@@ -47,8 +44,7 @@ function buildAssociationState(
       return {
         constructor: "some",
         some: {
-          stateRepr: declarationStateRepr(
-            templates,
+          stateJson: declarationStateJson(
             context.declarations[layer.data.declaration],
             dataKind,
           ),
@@ -59,7 +55,7 @@ function buildAssociationState(
       return {
         constructor: "some",
         some: {
-          stateRepr: layer.data.other.stateRepr,
+          stateJson: layer.data.other.stateJson,
           value: layer.data.other.value,
         },
       };
@@ -76,7 +72,6 @@ function optionKey(opt: TableCellOption): string {
 }
 
 function tableCellOptionState(
-  templates: Templates,
   context: GroveContextData,
   opt: TableCellOption,
   dataKind: DataKind,
@@ -84,8 +79,7 @@ function tableCellOptionState(
   switch (opt.constructor) {
     case "declaration":
       return {
-        stateRepr: declarationStateRepr(
-          templates,
+        stateJson: declarationStateJson(
           context.declarations[opt.declaration],
           dataKind,
         ),
@@ -93,7 +87,7 @@ function tableCellOptionState(
       };
     case "other":
       return {
-        stateRepr: opt.other.stateRepr,
+        stateJson: opt.other.stateJson,
         value: opt.other.value,
       };
   }
@@ -101,7 +95,6 @@ function tableCellOptionState(
 
 function computeSingleStates(
   context: GroveContextData,
-  templates: Templates,
   definition: TableDefinition,
   cellData: IndexableCellData,
   layerIdentifier: string,
@@ -124,13 +117,12 @@ function computeSingleStates(
     .filter((opt) => opt !== undefined);
 
   return relevantTableCellOptions.map((opt) =>
-    tableCellOptionState(templates, context, opt, definition.cellKind),
+    tableCellOptionState(context, opt, definition.cellKind),
   );
 }
 
 function buildLayerState(
   context: GroveContextData,
-  templates: Templates,
   definition: TableDefinition,
   cellData: IndexableCellData,
   layerIdentifier: string,
@@ -149,14 +141,12 @@ function buildLayerState(
     layerIdentifier: layerIdentifier,
     rowState: buildAssociationState(
       context,
-      templates,
       definition.rowKind,
       layerIdentifier,
       rowAssociation,
     ),
     columnState: buildAssociationState(
       context,
-      templates,
       definition.columnKind,
       layerIdentifier,
       columnAssociation,
@@ -164,7 +154,6 @@ function buildLayerState(
     selectedCellStates: rowCol
       ? computeSingleStates(
           context,
-          templates,
           definition,
           cellData,
           layerIdentifier,
@@ -178,7 +167,6 @@ function buildLayerState(
 
 function buildFactState(
   context: GroveContextData,
-  templates: Templates,
   definition: TableDefinition,
   cellData: IndexableCellData,
   rowAssociation: TableAssociation,
@@ -195,7 +183,6 @@ function buildFactState(
     layerStates: state.selectedLayers.map((layer) =>
       buildLayerState(
         context,
-        templates,
         definition,
         cellData,
         layer,
@@ -215,7 +202,6 @@ export function useTableFactAssertions({
   cellData: IndexableCellData;
 }) {
   const context = useContext(GroveContext);
-  const templates = useContext(GroveTemplateContext);
   const setPendingFact = useGroveStore((state) => state.setPendingTableFact);
   const setPendingRow = useGroveStore((state) => state.setPendingTableRow);
 
@@ -240,7 +226,6 @@ export function useTableFactAssertions({
       identifier,
       state: buildFactState(
         context,
-        templates,
         definition,
         cellData,
         rowAssociation,
@@ -276,7 +261,13 @@ export function useTableFactAssertions({
       if (columnAssociations.length === 0) return;
 
       const facts = columnAssociations.map((columnAssociation) =>
-        buildFact(state, rowAssociation, columnAssociation, FactStatus.Done, ""),
+        buildFact(
+          state,
+          rowAssociation,
+          columnAssociation,
+          FactStatus.Done,
+          "",
+        ),
       );
       setPendingRow(context, definition.widgetId, state, facts);
     },
@@ -303,7 +294,6 @@ export function useTableFact({
     }
   | undefined {
   const context = useContext(GroveContext);
-  const templates = useContext(GroveTemplateContext);
   const pendingFact = usePendingTableFact();
   const { assertTableFact } = useTableFactAssertions({ definition, cellData });
   const associations = useAssociations();
@@ -335,7 +325,6 @@ export function useTableFact({
 
   const currentState: TableFactState = buildFactState(
     context,
-    templates,
     definition,
     cellData,
     rowAssociation,

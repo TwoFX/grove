@@ -25,20 +25,34 @@ public structure Theorem where
   renderedStatement : String
   isSimp : Bool
   isDeprecated : Bool
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 -- TODO: make private after https://github.com/leanprover/lean4/issues/10098 is fixed
 public structure Definition where
   name : Name
   renderedStatement : String
   isDeprecated : Bool
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 public inductive Declaration where
   | thm : Theorem → Declaration
   | def : Definition → Declaration
   | missing : Name → Declaration
 deriving BEq, Repr
+
+public instance : ToJson Declaration where
+  toJson
+    | .thm t => Json.mkObj [("constructor", "thm"), ("thm", toJson t)]
+    | .def d => Json.mkObj [("constructor", "def"), ("def", toJson d)]
+    | .missing n => Json.mkObj [("constructor", "missing"), ("missing", toJson n)]
+
+public instance : FromJson Declaration where
+  fromJson? j := do
+    match ← j.getObjValAs? String "constructor" with
+    | "thm" => .thm <$> j.getObjValAs? Theorem "thm"
+    | "def" => .def <$> j.getObjValAs? Definition "def"
+    | "missing" => .missing <$> j.getObjValAs? Name "missing"
+    | c => throw s!"Unknown declaration constructor: {c}"
 
 namespace Declaration
 

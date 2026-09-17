@@ -18,7 +18,7 @@ public structure Synthesis.Result where
   head : String
   term : String
   usedInstances : Array String
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 namespace Synthesis.Result
 

@@ -9,29 +9,8 @@ open Grove.Framework Widget
 
 namespace {{metadata/projectNamespace}}.Generated.«{{definition/widgetId}}»
 
-{{#each facts}}
-def «{{factId}}» : AssociationTable.Fact {{dataKind ../definition/dataKind}} where
-  widgetId := {{leanString ../definition/widgetId}}
-  factId := {{leanString factId}}
-  rowId := {{leanString rowId}}
-  rowState := #[{{#each state}}⟨{{leanString columnIdentifier}}, {{leanString cellValue}}, {{{stateRepr}}}⟩,{{/each}}]
-  metadata := {{#with metadata}}{{> metadata }}{{/with}}
-{{/each}}
-
-def table : RestoreStateM (AssociationTable.Data {{dataKind definition/dataKind}}) := do
-  return {
-    widgetId := {{leanString definition/widgetId}}
-    rows := #[
-{{#each state/rows}}
-      ⟨{{leanString uuid}}, {{leanString title}}, #[{{#each columns}}⟨{{leanString columnIdentifier}}, ← migrateName {{leanString cellValue}}⟩,{{/each}}]⟩,
-{{/each}}
-    ]
-    facts := #[
-{{#each facts}}
-      «{{factId}}»,
-{{/each}}
-    ]
-  }
+def table : RestoreStateM (AssociationTable.Data {{dataKind definition/dataKind}}) :=
+  AssociationTable.load {{dataKind definition/dataKind}} savedStateFile%
 
 def restoreState : RestoreStateM Unit := do
   addAssociationTable (← table)

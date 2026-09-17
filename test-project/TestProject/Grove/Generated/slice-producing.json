@@ -1,0 +1,72 @@
+{
+  "widgetId": "slice-producing",
+  "rows": [
+    {
+      "uuid": "0c47e016-c033-483d-9569-18d69c7238fa",
+      "title": "sliceFrom",
+      "columns": [
+        {
+          "columnIdentifier": "String",
+          "cellValue": "String.sliceFrom"
+        },
+        {
+          "columnIdentifier": "String.Slice",
+          "cellValue": "String.Slice.sliceFrom"
+        },
+        {
+          "columnIdentifier": "string-pos-forwards",
+          "cellValue": "String.Pos.sliceFrom"
+        }
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "widgetId": "slice-producing",
+      "rowState": [
+        {
+          "columnIdentifier": "String",
+          "cellValue": "String.sliceFrom",
+          "cellState": {
+            "def": {
+              "renderedStatement": "String.sliceFrom (s : String) (p : s.Pos) : String.Slice",
+              "name": "String.sliceFrom",
+              "isDeprecated": false
+            },
+            "constructor": "def"
+          }
+        },
+        {
+          "columnIdentifier": "String.Slice",
+          "cellValue": "String.Slice.sliceFrom",
+          "cellState": {
+            "def": {
+              "renderedStatement": "String.Slice.sliceFrom (s : String.Slice) (pos : s.Pos) : String.Slice",
+              "name": "String.Slice.sliceFrom",
+              "isDeprecated": false
+            },
+            "constructor": "def"
+          }
+        },
+        {
+          "columnIdentifier": "string-pos-forwards",
+          "cellValue": "String.Pos.sliceFrom",
+          "cellState": {
+            "def": {
+              "renderedStatement": "String.Pos.sliceFrom {s : String} (p₀ pos : s.Pos) (h : p₀ ≤ pos) : (s.sliceFrom p₀).Pos",
+              "name": "String.Pos.sliceFrom",
+              "isDeprecated": false
+            },
+            "constructor": "def"
+          }
+        }
+      ],
+      "rowId": "0c47e016-c033-483d-9569-18d69c7238fa",
+      "metadata": {
+        "status": "done",
+        "comment": ""
+      },
+      "factId": "0c47e016-c033-483d-9569-18d69c7238fa"
+    }
+  ]
+}

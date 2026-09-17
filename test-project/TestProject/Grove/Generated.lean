@@ -38,3 +38,4 @@ def restoreState : RestoreStateM Unit := do
   «slice-producing».restoreState
   «slice-producing-complete».restoreState
   «enumerate-test-project-namespace».restoreState
+  return ()

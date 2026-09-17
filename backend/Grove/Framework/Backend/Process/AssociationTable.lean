@@ -5,7 +5,7 @@ Authors: Julia M. Himmel
 -/
 module
 
-import Grove.Framework.Backend.Data
+public import Grove.Framework.Backend.Data
 import Grove.Framework.Backend.RenderM.RenderInfo
 public import Grove.Framework.Widget.AssociationTable.Compare
 import Std.Data.Iterators
@@ -47,7 +47,7 @@ public structure AssociationTable.CellOption.Other where
   shortDescription : String
   longDescription : String
   reference : Reference
-  stateRepr : String
+  stateJson : Data.StateSnapshot
   isDeprecated : Bool
 
 public instance : SchemaFor AssociationTable.CellOption.Other :=
@@ -56,7 +56,7 @@ public instance : SchemaFor AssociationTable.CellOption.Other :=
      .single "shortDescription" AssociationTable.CellOption.Other.shortDescription,
      .single "longDescription" AssociationTable.CellOption.Other.longDescription,
      .single "reference" AssociationTable.CellOption.Other.reference,
-     .single "stateRepr" AssociationTable.CellOption.Other.stateRepr,
+     .single "stateJson" AssociationTable.CellOption.Other.stateJson,
      .single "isDeprecated" AssociationTable.CellOption.Other.isDeprecated]
 
 public inductive AssociationTable.CellOption where
@@ -82,13 +82,13 @@ public instance : SchemaFor AssociationTable.ColumnDiscription :=
 public structure AssociationTable.Fact.CellState where
   columnIdentifier : String
   cellValue : String
-  stateRepr : String
+  stateJson : Data.StateSnapshot
 
 public instance : SchemaFor AssociationTable.Fact.CellState :=
   .structure "associationTableFactCellState"
     [.single "columnIdentifier" AssociationTable.Fact.CellState.columnIdentifier,
      .single "cellValue" AssociationTable.Fact.CellState.cellValue,
-     .single "stateRepr" AssociationTable.Fact.CellState.stateRepr]
+     .single "stateJson" AssociationTable.Fact.CellState.stateJson]
 
 public structure AssociationTable.Fact where
   widgetId : String
@@ -193,7 +193,7 @@ def transformCellState {kind : DataKind} (s : AssociationTable.Fact.CellState ki
     Data.AssociationTable.Fact.CellState where
   columnIdentifier := s.columnIdentifier
   cellValue := s.cellValue
-  stateRepr := kind.reprState s.cellState
+  stateJson := Data.StateSnapshot.ofState kind s.cellState
 
 def processFactForRow [HasId β] [DisplayShort β] {kind : DataKind} (l : List β)
     (widgetId : String)

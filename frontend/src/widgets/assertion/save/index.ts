@@ -1,3 +1,4 @@
+import { RenderedWidget, renderWidget, assertionData } from "@/lib/save/json";
 import { useContext } from "react";
 import { GroveContext } from "@/lib/transfer/context";
 import { GroveTemplateContext } from "@/lib/templates/context";
@@ -10,7 +11,7 @@ function getPossibleFactIds(state: AssertionDefinition): string[] {
 
 export function useRenderAssertion(): (
   assertion: AssertionDefinition,
-) => string {
+) => RenderedWidget {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const getFact = usePendingAssertionFact();
@@ -25,11 +26,9 @@ export function useRenderAssertion(): (
       }
     });
 
-    return templates.assertion({
-      metadata: context.projectMetadata,
-      definition,
-      state: undefined,
-      facts,
-    });
+    return renderWidget(
+      templates.assertion({ metadata: context.projectMetadata, definition }),
+      assertionData(definition.widgetId, facts),
+    );
   };
 }

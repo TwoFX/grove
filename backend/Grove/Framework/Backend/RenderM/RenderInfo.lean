@@ -6,7 +6,7 @@ Authors: Julia M. Himmel
 module
 
 public import Grove.Framework.Reference
-import Grove.JTD.Basic
+public import Grove.Framework.Backend.Data
 public import Grove.Framework.Backend.RenderM.Basic
 public import Lean.Meta.Basic
 public import Grove.Framework.Subexpression.Basic
@@ -23,11 +23,10 @@ public structure RenderInfo.Other (kind : DataKind) where
   shortDescription : String
   longDescription : String
   reference : Reference
-  stateRepr : String
+  stateJson : Data.StateSnapshot
   isDeprecated : Bool
 
--- Parameterized by the data kind because `stateRepr` will differ depending on the data kind but
--- you can't see it from the string.
+-- Parameterized by the data kind of the options represented here.
 public inductive RenderInfo (kind : DataKind) where
   /-- A declaration, given by its name rendered as a string. -/
   | decl : String → RenderInfo kind
@@ -40,7 +39,7 @@ public def _root_.Grove.Framework.PredicateSubexpression.renderInfo (p : Predica
     shortDescription := p.displayShort
     longDescription := p.displayShort
     reference := .none
-    stateRepr := DataKind.subexpression.reprState (← Subexpression.state (.predicate p))
+    stateJson := Data.StateSnapshot.ofState .subexpression (← Subexpression.state (.predicate p))
     isDeprecated := false
   }
 
@@ -52,7 +51,7 @@ public def _root_.Grove.Framework.Synthesis.Key.renderInfo (k : Synthesis.Key) :
     shortDescription := state.displayShort
     longDescription := state.displayLong
     reference := .none
-    stateRepr := state.repr
+    stateJson := Data.StateSnapshot.ofState .synthesis state
     isDeprecated := false
   }
 

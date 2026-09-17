@@ -9,29 +9,8 @@ open Grove.Framework Widget
 
 namespace {{metadata/projectNamespace}}.Generated.«{{definition/widgetId}}»
 
-{{#each facts}}
-def «{{factId}}» : Assertion.Fact where
-  widgetId := {{leanString ../definition/widgetId}}
-  factId := {{leanString factId}}
-  assertionId := {{leanString assertionId}}
-  state := {
-{{#with state}}
-    assertionId := {{leanString assertionId}}
-    description := {{leanString description}}
-    passed := {{passed}}
-    message := {{leanString message}}
-{{/with}}
-  }
-  metadata := {{#with metadata}}{{> metadata }}{{/with}}
-{{/each}}
-
-def table : Assertion.Data {{dataKind definition/dataKind}} where
-  widgetId := {{leanString definition/widgetId}}
-  facts := #[
-{{#each facts}}
-    «{{factId}}»,
-{{/each}}
-  ]
+def table : RestoreStateM Assertion.Data :=
+  readSavedState savedStateFile%
 
 def restoreState : RestoreStateM Unit := do
-  addAssertion table
+  addAssertion (← table)

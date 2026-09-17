@@ -9,6 +9,8 @@ import Grove.Framework.Basic
 import Grove.Framework.Widget.State
 public import Grove.JTD.Basic
 public import Grove.Framework.Fact
+public import Grove.Framework.DataSource.Basic
+public import Grove.Framework.Declaration.Basic
 
 open Lean
 
@@ -52,6 +54,46 @@ public instance : SchemaFor Declaration :=
     [.unary "thm" Theorem (fun | .thm t => some t | _ => none),
      .unary "def" Definition (fun | .def d => some d | _ => none),
      .unary "missing" String (fun | .missing s => some s | _ => none)]
+
+public def Declaration.ofDeclaration : Grove.Framework.Declaration → Declaration
+  | .thm t => .thm { t with name := t.name.toString }
+  | .def d => .def { d with name := d.name.toString }
+  | .missing n => .missing n.toString
+
+public instance : SchemaFor PredicateSubexpression.State :=
+  .structure "predicateState"
+    [.single "key" PredicateSubexpression.State.key,
+     .single "displayShort" PredicateSubexpression.State.displayShort]
+
+public instance : SchemaFor Synthesis.Result :=
+  .structure "synthesisResult"
+    [.single "head" Synthesis.Result.head,
+     .single "term" Synthesis.Result.term,
+     .arr "usedInstances" Synthesis.Result.usedInstances]
+
+/-- A typed snapshot for the frontend. The discriminant distinguishes every shape, including
+failed synthesis. Saving converts it back to the corresponding `DataKind.State` JSON. -/
+public inductive StateSnapshot where
+  | declaration : Declaration → StateSnapshot
+  | subexpressionDeclaration : Declaration → StateSnapshot
+  | subexpressionPredicate : PredicateSubexpression.State → StateSnapshot
+  | synthesisSuccess : Synthesis.Result → StateSnapshot
+  | synthesisFailure : StateSnapshot
+
+public instance : SchemaFor StateSnapshot :=
+  .inductive "stateSnapshot"
+    [.unary "declaration" Declaration (fun | .declaration d => some d | _ => none),
+     .unary "subexpressionDeclaration" Declaration (fun | .subexpressionDeclaration d => some d | _ => none),
+     .unary "subexpressionPredicate" PredicateSubexpression.State (fun | .subexpressionPredicate p => some p | _ => none),
+     .unary "synthesisSuccess" Synthesis.Result (fun | .synthesisSuccess r => some r | _ => none),
+     .nullary "synthesisFailure" (fun | .synthesisFailure => true | _ => false)]
+
+public def StateSnapshot.ofState : (kind : DataKind) → kind.State → StateSnapshot
+  | .declaration, d => .declaration (.ofDeclaration d)
+  | .subexpression, .declaration d => .subexpressionDeclaration (.ofDeclaration d)
+  | .subexpression, .predicate p => .subexpressionPredicate p
+  | .synthesis, ⟨some r⟩ => .synthesisSuccess r
+  | .synthesis, ⟨none⟩ => .synthesisFailure
 
 public structure ShowDeclaration.Fact where
   widgetId : String

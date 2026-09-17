@@ -9,20 +9,9 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«show-option-mapa»
 
-def «0» : ShowDeclaration.Fact where
-  widgetId := "show-option-mapa"
-  factId := "0"
-  metadata := {
-    status := .bad
-    comment := "f should be explicit"
-  }
-  state := Declaration.def {
-    name := `Option.mapA
-    renderedStatement := "Option.mapA.{u_1, u_2, u_3} {m : Type u_1 → Type u_2} {α : Type u_3} {β : Type u_1} [Applicative m] {f : α → m β} :\n  Option α → m (Option β)"
-    isDeprecated := false
-  }
-
+def facts : RestoreStateM (Array ShowDeclaration.Fact) := do
+  return (← readSavedState (α := ShowDeclaration.Data) savedStateFile%).facts
 
 def restoreState : RestoreStateM Unit := do
-  addShowDeclarationFact «0»
-  return ()
+  for fact in ← facts do
+    addShowDeclarationFact fact

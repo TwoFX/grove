@@ -27,7 +27,7 @@ public def Key.ofString? (str : String) : Option Key :=
 
 public structure State where
   result? : Option Result
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 public def State.of (key : Key) : LookupM State :=
   (⟨·⟩) <$> trySynthesize key.typeName key.className key.parameterClassNames

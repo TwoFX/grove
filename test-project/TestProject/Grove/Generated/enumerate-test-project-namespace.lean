@@ -9,41 +9,8 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«enumerate-test-project-namespace»
 
-def «TestProject.List.cartesian» : Assertion.Fact where
-  widgetId := "enumerate-test-project-namespace"
-  factId := "TestProject.List.cartesian"
-  assertionId := "TestProject.List.cartesian"
-  state := {
-    assertionId := "TestProject.List.cartesian"
-    description := "There is a declaration named TestProject.List.cartesian"
-    passed := true
-    message := "There is a declaration named TestProject.List.cartesian"
-  }
-  metadata := {
-    status := .done
-    comment := "Cute"
-  }
-def «TestProject.List.cartesian_cons_left» : Assertion.Fact where
-  widgetId := "enumerate-test-project-namespace"
-  factId := "TestProject.List.cartesian_cons_left"
-  assertionId := "TestProject.List.cartesian_cons_left"
-  state := {
-    assertionId := "TestProject.List.cartesian_cons_left"
-    description := "There is a declaration named TestProject.List.cartesian_cons_left"
-    passed := true
-    message := "There is a declaration named TestProject.List.cartesian_cons_left"
-  }
-  metadata := {
-    status := .bad
-    comment := "I don't like it"
-  }
-
-def table : Assertion.Data  where
-  widgetId := "enumerate-test-project-namespace"
-  facts := #[
-    «TestProject.List.cartesian»,
-    «TestProject.List.cartesian_cons_left»,
-  ]
+def table : RestoreStateM Assertion.Data :=
+  readSavedState savedStateFile%
 
 def restoreState : RestoreStateM Unit := do
-  addAssertion table
+  addAssertion (← table)

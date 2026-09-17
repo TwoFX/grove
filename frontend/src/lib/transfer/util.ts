@@ -1,5 +1,9 @@
-import { DataKind, Declaration, Node } from "@/lib/transfer/project/index";
-import { Templates } from "../templates";
+import {
+  DataKind,
+  Declaration,
+  Node,
+  StateSnapshot,
+} from "@/lib/transfer/project/index";
 
 export function declarationName(declaration: Declaration): string {
   switch (declaration.constructor) {
@@ -45,27 +49,23 @@ export function declarationIsDeprecated(declaration: Declaration): boolean {
   }
 }
 
-export function declarationStateRepr(
-  templates: Templates,
+export function declarationStateJson(
   declaration: Declaration,
   targetDataKind: DataKind,
-): string {
-  /*
-  This is an optimization. When a table mentions a declaration, we want the data about the declaration
-  to be transmitted exactly once in the global declarations object. However, this means that in the
-  places where we need it, we do not have access to the relevant "stateRepr" object to put the
-  declaration back into a fact state. So we build something equivalent to it here in the frontend.
-  This duplicates backend logic and doesn't even generate an equivalent result (because the formatting
-  is different), but it's a necessary optimization to keep the JSON small.
-  */
-  const declarationStr = templates.declaration(declaration);
+): StateSnapshot {
+  // Declarations are shared in the backend output; reconstruct their snapshot here.
   switch (targetDataKind) {
     case DataKind.Declaration:
-      return declarationStr;
+      return { constructor: "declaration", declaration };
     case DataKind.Subexpression:
-      return ".declaration (" + declarationStr + ")";
+      return {
+        constructor: "subexpressionDeclaration",
+        subexpressionDeclaration: declaration,
+      };
     case DataKind.Synthesis:
-      throw new Error("Declarations should never be serialized into synthesis results.")
+      throw new Error(
+        "Declarations should never be serialized into synthesis results.",
+      );
   }
 }
 

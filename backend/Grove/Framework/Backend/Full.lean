@@ -116,17 +116,6 @@ public instance : SchemaFor InvalidatedFacts :=
 
 end Data
 
-def processTheorem (t : Theorem) : Data.Theorem :=
-  { t with name := t.name.toString }
-
-def processDefinition (d : Definition) : Data.Definition :=
-  { d with name := d.name.toString }
-
-def processDeclaration : Declaration → Data.Declaration
-  | .thm t => .thm (processTheorem t)
-  | .def d => .def (processDefinition d)
-  | .missing n => .missing n.toString
-
 def processShowDeclaration (s : ShowDeclaration) : RenderM Data.ShowDeclaration := do
   let decl ← getDeclaration s.name
   let facts ← ((← findShowDeclarationFacts? s.id).getD #[]).mapM (processFact s.id decl)
@@ -145,7 +134,7 @@ where
       widgetId := widgetId
       factId := f.factId
       metadata := f.metadata
-      state := processDeclaration f.state
+      state := Data.Declaration.ofDeclaration f.state
       validationResult
     }
 
@@ -164,7 +153,7 @@ partial def processNode (indent : String) : Node → RenderM Data.Node
   | Node.text s => timedLog indent "Text" s.id (pure <| .text (processText s))
 
 def processProject (p : Project) : MetaM Data.Project := do
-  let ((rootNode, declarations), _) ← RenderM.run (p.restoreState.run restoreContext) restoreContext do
+  let ((rootNode, declarations), _) ← RenderM.run (← p.restoreState.run restoreContext) restoreContext do
     let rootNode ← processNode "" p.rootNode
     -- Widgets only record which declarations they reference. The (expensive) pretty-printing of
     -- all referenced declarations happens here, in parallel.
@@ -177,7 +166,7 @@ def processProject (p : Project) : MetaM Data.Project := do
     projectNamespace := p.config.projectNamespace.toString
     hash := ← p.config.getHash
     rootNode := rootNode
-    declarations := declarations.map processDeclaration
+    declarations := declarations.map Data.Declaration.ofDeclaration
   }
 where
   restoreContext : RestoreContext := {

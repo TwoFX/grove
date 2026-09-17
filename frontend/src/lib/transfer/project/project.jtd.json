@@ -41,7 +41,7 @@
     "tableFactSingleState": {
       "properties": {
         "value": { "type": "string" },
-        "stateRepr": { "type": "string" }
+        "stateJson": { "ref": "stateSnapshot" }
       }
     },
     "tableFactOptionalSingleState": {
@@ -110,7 +110,7 @@
     "tableCellOptionOther": {
       "properties": {
         "value": { "type": "string" },
-        "stateRepr": { "type": "string" },
+        "stateJson": { "ref": "stateSnapshot" },
         "shortDescription": { "type": "string" },
         "reference": { "ref": "reference" },
         "longDescription": { "type": "string" }
@@ -156,7 +156,7 @@
     "tableAssociationLayerDataOther": {
       "properties": {
         "value": { "type": "string" },
-        "stateRepr": { "type": "string" },
+        "stateJson": { "ref": "stateSnapshot" },
         "shortDescription": { "type": "string" },
         "reference": { "ref": "reference" },
         "longDescription": { "type": "string" }
@@ -201,6 +201,35 @@
         "definition": { "ref": "tableDefinition" }
       }
     },
+    "synthesisResult": {
+      "properties": {
+        "usedInstances": { "elements": { "type": "string" } },
+        "term": { "type": "string" },
+        "head": { "type": "string" }
+      }
+    },
+    "stateSnapshot": {
+      "mapping": {
+        "synthesisSuccess": {
+          "properties": { "synthesisSuccess": { "ref": "synthesisResult" } }
+        },
+        "synthesisFailure": {
+          "optionalProperties": { "dummy": { "type": "string" } }
+        },
+        "subexpressionPredicate": {
+          "properties": {
+            "subexpressionPredicate": { "ref": "predicateState" }
+          }
+        },
+        "subexpressionDeclaration": {
+          "properties": { "subexpressionDeclaration": { "ref": "declaration" } }
+        },
+        "declaration": {
+          "properties": { "declaration": { "ref": "declaration" } }
+        }
+      },
+      "discriminator": "constructor"
+    },
     "showDeclarationFact": {
       "properties": {
         "widgetId": { "type": "string" },
@@ -243,6 +272,12 @@
         "projectNamespace": { "type": "string" },
         "hash": { "type": "string" },
         "declarations": { "elements": { "ref": "declaration" } }
+      }
+    },
+    "predicateState": {
+      "properties": {
+        "key": { "type": "string" },
+        "displayShort": { "type": "string" }
       }
     },
     "node": {
@@ -321,7 +356,7 @@
     },
     "associationTableFactCellState": {
       "properties": {
-        "stateRepr": { "type": "string" },
+        "stateJson": { "ref": "stateSnapshot" },
         "columnIdentifier": { "type": "string" },
         "cellValue": { "type": "string" }
       }
@@ -357,7 +392,7 @@
     "associationTableCellOptionOther": {
       "properties": {
         "value": { "type": "string" },
-        "stateRepr": { "type": "string" },
+        "stateJson": { "ref": "stateSnapshot" },
         "shortDescription": { "type": "string" },
         "reference": { "ref": "reference" },
         "longDescription": { "type": "string" },

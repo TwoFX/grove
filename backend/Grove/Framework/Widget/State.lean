@@ -27,10 +27,10 @@ public structure SavedState where
   tables : HashMap String (Σ k₁ k₂ k₃, Table.Data k₁ k₂ k₃) := ∅
   assertions : HashMap String Assertion.Data := ∅
 
-public abbrev RestoreStateM := StateT SavedState (ReaderM RestoreContext)
+public abbrev RestoreStateM := StateT SavedState (ReaderT RestoreContext IO)
 
-public def RestoreStateM.run (r : RestoreContext) (c : RestoreStateM Unit) : SavedState :=
-  (StateT.run c {}).run r |>.2
+public def RestoreStateM.run (r : RestoreContext) (c : RestoreStateM Unit) : IO SavedState := do
+  return (← (StateT.run c {}).run r).2
 
 @[inline]
 private def addToMap (m : HashMap String (Array α)) (id : String) (a : α) : HashMap String (Array α) :=

@@ -20,4 +20,5 @@ public import Grove.Framework.Reference
 public import Grove.Framework.Search
 public import Grove.Framework.Subexpression
 public import Grove.Framework.Widget
+public import Grove.Framework.Widget.State.Json
 public import Grove.Framework.Format

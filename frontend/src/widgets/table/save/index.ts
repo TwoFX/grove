@@ -1,3 +1,4 @@
+import { RenderedWidget, renderWidget, tableData } from "@/lib/save/json";
 import { TableDefinition, TableState } from "@/lib/transfer/project";
 import { usePendingTableState } from "../state/pending";
 import { useContext } from "react";
@@ -14,7 +15,7 @@ export function emptyTableState(): TableState {
   };
 }
 
-export function useRenderTable(): (table: TableDefinition) => string {
+export function useRenderTable(): (table: TableDefinition) => RenderedWidget {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const pendingFacts = useGroveStore((state) => state.pendingTableFacts);
@@ -35,11 +36,9 @@ export function useRenderTable(): (table: TableDefinition) => string {
       ...pendings,
     ];
 
-    return templates.table({
-      state,
-      metadata: context.projectMetadata,
-      definition,
-      facts: allFacts,
-    });
+    return renderWidget(
+      templates.table({ metadata: context.projectMetadata, definition }),
+      tableData(definition.widgetId, state, allFacts),
+    );
   };
 }

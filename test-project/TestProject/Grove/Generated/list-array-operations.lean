@@ -9,38 +9,8 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«list-array-operations»
 
-def «22ed4b1e-3ee6-484f-a948-56430d51fbeb» : AssociationTable.Fact .subexpression where
-  widgetId := "list-array-operations"
-  factId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
-  rowId := "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
-  rowState := #[⟨"List", "List.leftpadTR", Grove.Framework.Subexpression.State.declaration
-  (Grove.Framework.Declaration.def
-    { name := `List.leftpadTR,
-      renderedStatement := "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α",
-      isDeprecated := false })⟩,⟨"Array", "Array.mkArray6", Grove.Framework.Subexpression.State.declaration
-  (Grove.Framework.Declaration.def
-    { name := `Array.mkArray6,
-      renderedStatement := "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α",
-      isDeprecated := false })⟩,]
-  metadata := {
-    status := .done
-    comment := "Blub"
-  }
-
-def table : RestoreStateM (AssociationTable.Data .subexpression) := do
-  return {
-    widgetId := "list-array-operations"
-    rows := #[
-      ⟨"22ed4b1e-3ee6-484f-a948-56430d51fbeb", "isEmpty", #[⟨"List", ← migrateName "List.isEmpty"⟩,⟨"Array", ← migrateName "Array.isEmpty"⟩,]⟩,
-      ⟨"f31e9b71-4ac3-4bb4-8385-198fb1174c81", "filter", #[⟨"List", ← migrateName "List.filter"⟩,⟨"Array", ← migrateName "Array.filter"⟩,]⟩,
-      ⟨"805094ea-a106-4230-abba-a67f2d507669", "cartesian", #[⟨"List", ← migrateName "TestProject.List.cartesian"⟩,]⟩,
-      ⟨"1f04bde9-477c-46cb-a08a-34e35a3be931", "cons", #[⟨"List", ← migrateName "List.cons"⟩,]⟩,
-      ⟨"e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df", "GetElem", #[⟨"List", ← migrateName "app (GetElem.getElem) (List*)"⟩,⟨"Array", ← migrateName "app (GetElem.getElem) (Array*)"⟩,]⟩,
-    ]
-    facts := #[
-      «22ed4b1e-3ee6-484f-a948-56430d51fbeb»,
-    ]
-  }
+def table : RestoreStateM (AssociationTable.Data .subexpression) :=
+  AssociationTable.load .subexpression savedStateFile%
 
 def restoreState : RestoreStateM Unit := do
   addAssociationTable (← table)

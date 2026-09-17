@@ -9,15 +9,8 @@ open Grove.Framework Widget
 
 namespace TestProject.Grove.Generated.«associative-creation-operations»
 
-
-def table : RestoreStateM (AssociationTable.Data .subexpression) := do
-  return {
-    widgetId := "associative-creation-operations"
-    rows := #[
-    ]
-    facts := #[
-    ]
-  }
+def table : RestoreStateM (AssociationTable.Data .subexpression) :=
+  AssociationTable.load .subexpression savedStateFile%
 
 def restoreState : RestoreStateM Unit := do
   addAssociationTable (← table)

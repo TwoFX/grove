@@ -21,6 +21,37 @@ npm run validate-data
 (`GROVE_DATA_LOCATION` and `GROVE_UPSTREAM_INVALIDATED_FACTS_LOCATION`
 override the default `public/` locations.)
 
+## Saving state
+
+Save into the project's Grove directory as before. `Generated.lean` imports the
+widget modules, and each widget in `Generated/` now has a small `.lean` loader
+and a matching `.json` payload. Commit both files. Selections, rows, fact
+metadata, and historical snapshots live in JSON; snapshots no longer contain
+Lean source code.
+
+Snapshot values in the frontend use the schema-defined `StateSnapshot` union:
+declarations, subexpression declarations or predicates, and successful or failed
+synthesis. The save functions convert these tagged values to Lean's saved-state
+JSON format. The schema validates each snapshot's fields as well as its tag.
+
+The backend reads the JSON when `restoreState` runs. The loaders resolve their
+JSON sibling paths when compiled, so the files must remain in the checkout used
+for the build. Rebuild the generated modules if that checkout moves. Missing or
+invalid JSON fails restoration with the filename in the error message. Name
+migrations still update active selections, leaving historical facts intact.
+
+`restoreState : RestoreStateM Unit` remains the entry point; `RestoreStateM.run`
+now returns `IO SavedState`. Table helpers, including assertions, return their
+data in `RestoreStateM`. Individual facts are stored in JSON instead of separate
+Lean definitions. Pending browser facts with snapshots from an older frontend
+must be reasserted before saving in this format.
+
+Run the frontend-to-Lean save/restore checks from the repository root:
+
+```bash
+bash scripts/test-json-state.sh
+```
+
 ## Development
 
 ```bash

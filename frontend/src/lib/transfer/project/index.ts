@@ -60,7 +60,7 @@ export interface AssociationTableCellOptionOther {
   longDescription: string;
   reference: Reference;
   shortDescription: string;
-  stateRepr: string;
+  stateJson: StateSnapshot;
   value: string;
 }
 
@@ -90,7 +90,7 @@ export interface AssociationTableFact {
 export interface AssociationTableFactCellState {
   cellValue: string;
   columnIdentifier: string;
-  stateRepr: string;
+  stateJson: StateSnapshot;
 }
 
 export interface AssociationTableRow {
@@ -215,6 +215,11 @@ export interface NodeText {
   text: Text;
 }
 
+export interface PredicateState {
+  displayShort: string;
+  key: string;
+}
+
 export interface Project0 {
   declarations: Declaration[];
   hash: string;
@@ -257,6 +262,44 @@ export interface ShowDeclarationFact {
   state: Declaration;
   validationResult: FactValidationResult;
   widgetId: string;
+}
+
+export type StateSnapshot =
+  | StateSnapshotDeclaration
+  | StateSnapshotSubexpressionDeclaration
+  | StateSnapshotSubexpressionPredicate
+  | StateSnapshotSynthesisFailure
+  | StateSnapshotSynthesisSuccess;
+
+export interface StateSnapshotDeclaration {
+  constructor: "declaration";
+  declaration: Declaration;
+}
+
+export interface StateSnapshotSubexpressionDeclaration {
+  constructor: "subexpressionDeclaration";
+  subexpressionDeclaration: Declaration;
+}
+
+export interface StateSnapshotSubexpressionPredicate {
+  constructor: "subexpressionPredicate";
+  subexpressionPredicate: PredicateState;
+}
+
+export interface StateSnapshotSynthesisFailure {
+  constructor: "synthesisFailure";
+  dummy?: string;
+}
+
+export interface StateSnapshotSynthesisSuccess {
+  constructor: "synthesisSuccess";
+  synthesisSuccess: SynthesisResult;
+}
+
+export interface SynthesisResult {
+  head: string;
+  term: string;
+  usedInstances: string[];
 }
 
 export interface Table {
@@ -302,7 +345,7 @@ export interface TableAssociationLayerDataOther {
   longDescription: string;
   reference: Reference;
   shortDescription: string;
-  stateRepr: string;
+  stateJson: StateSnapshot;
   value: string;
 }
 
@@ -354,7 +397,7 @@ export interface TableCellOptionOther {
   longDescription: string;
   reference: Reference;
   shortDescription: string;
-  stateRepr: string;
+  stateJson: StateSnapshot;
   value: string;
 }
 
@@ -427,7 +470,7 @@ export interface TableFactOptionalSingleStateSome {
 }
 
 export interface TableFactSingleState {
-  stateRepr: string;
+  stateJson: StateSnapshot;
   value: string;
 }
 

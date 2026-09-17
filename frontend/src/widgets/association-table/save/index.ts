@@ -1,4 +1,9 @@
 import {
+  RenderedWidget,
+  renderWidget,
+  associationTableData,
+} from "@/lib/save/json";
+import {
   AssociationTableDefinition,
   AssociationTableState,
 } from "@/lib/transfer/project";
@@ -22,7 +27,7 @@ export function emptyAssociationTableState(): AssociationTableState {
 
 export function useRenderAssociationTable(): (
   associationTable: AssociationTableDefinition,
-) => string {
+) => RenderedWidget {
   const context = useContext(GroveContext);
   const templates = useContext(GroveTemplateContext);
   const getFact = usePendingAssociationTableFact();
@@ -40,11 +45,12 @@ export function useRenderAssociationTable(): (
       }
     });
 
-    return templates.associationTable({
-      state,
-      metadata: context.projectMetadata,
-      definition,
-      facts,
-    });
+    return renderWidget(
+      templates.associationTable({
+        metadata: context.projectMetadata,
+        definition,
+      }),
+      associationTableData(definition.widgetId, state, facts),
+    );
   };
 }

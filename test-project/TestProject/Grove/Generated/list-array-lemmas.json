@@ -1,0 +1,439 @@
+{
+  "widgetId": "list-array-lemmas",
+  "selectedRowAssociations": [
+    "22ed4b1e-3ee6-484f-a948-56430d51fbeb",
+    "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+    "1f04bde9-477c-46cb-a08a-34e35a3be931"
+  ],
+  "selectedLayers": [
+    "List",
+    "Array"
+  ],
+  "selectedColumnAssociations": [
+    "22ed4b1e-3ee6-484f-a948-56430d51fbeb",
+    "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+    "805094ea-a106-4230-abba-a67f2d507669",
+    "e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df"
+  ],
+  "selectedCellOptions": [
+    {
+      "selectedCellOptions": [],
+      "rowValue": "22ed4b1e-3ee6-484f-a948-56430d51fbeb",
+      "layerIdentifier": "List",
+      "columnValue": "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+    },
+    {
+      "selectedCellOptions": [
+        "List.filter_filter"
+      ],
+      "rowValue": "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+      "layerIdentifier": "List",
+      "columnValue": "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+    },
+    {
+      "selectedCellOptions": [
+        "Array.filter_filter"
+      ],
+      "rowValue": "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+      "layerIdentifier": "Array",
+      "columnValue": "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+    },
+    {
+      "selectedCellOptions": [
+        "TestProject.List.cartesian_cons_left"
+      ],
+      "rowValue": "1f04bde9-477c-46cb-a08a-34e35a3be931",
+      "layerIdentifier": "List",
+      "columnValue": "805094ea-a106-4230-abba-a67f2d507669"
+    }
+  ],
+  "facts": [
+    {
+      "widgetId": "list-array-lemmas",
+      "selectedLayers": [
+        "List",
+        "Array"
+      ],
+      "rowAssociationId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+      "metadata": {
+        "status": "done",
+        "comment": "Blub"
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [
+            {
+              "value": "List.filter_filter",
+              "state": {
+                "thm": {
+                  "renderedStatement": "List.filter_filter.{u_1} {α✝ : Type u_1} {p q : α✝ → Bool} {l : List α✝} :\n  List.filter p (List.filter q l) = List.filter (fun a => p a && q a) l",
+                  "name": "List.filter_filter",
+                  "isSimp": true,
+                  "isDeprecated": false
+                },
+                "constructor": "thm"
+              }
+            }
+          ],
+          "rowState": {
+            "value": "List.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+                  "name": "List.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "List",
+          "columnState": {
+            "value": "List.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+                  "name": "List.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [
+            {
+              "value": "Array.filter_filter",
+              "state": {
+                "thm": {
+                  "renderedStatement": "Array.filter_filter.{u_1} {α : Type u_1} {p q : α → Bool} {xs : Array α} :\n  Array.filter p (Array.filter q xs) = Array.filter (fun a => p a && q a) xs",
+                  "name": "Array.filter_filter",
+                  "isSimp": true,
+                  "isDeprecated": false
+                },
+                "constructor": "thm"
+              }
+            }
+          ],
+          "rowState": {
+            "value": "Array.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+                  "name": "Array.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "Array",
+          "columnState": {
+            "value": "Array.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+                  "name": "Array.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81:::f31e9b71-4ac3-4bb4-8385-198fb1174c81:::List::Array",
+      "columnAssociationId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81"
+    },
+    {
+      "widgetId": "list-array-lemmas",
+      "selectedLayers": [
+        "List",
+        "Array"
+      ],
+      "rowAssociationId": "22ed4b1e-3ee6-484f-a948-56430d51fbeb",
+      "metadata": {
+        "status": "done",
+        "comment": "Blubxcxc"
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "List.isEmpty",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.isEmpty.{u} {α : Type u} : List α → Bool",
+                  "name": "List.isEmpty",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "List",
+          "columnState": {
+            "value": "List.isEmpty",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.isEmpty.{u} {α : Type u} : List α → Bool",
+                  "name": "List.isEmpty",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "Array.isEmpty",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.isEmpty.{u} {α : Type u} (xs : Array α) : Bool",
+                  "name": "Array.isEmpty",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "Array",
+          "columnState": {
+            "value": "Array.isEmpty",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.isEmpty.{u} {α : Type u} (xs : Array α) : Bool",
+                  "name": "Array.isEmpty",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "22ed4b1e-3ee6-484f-a948-56430d51fbeb:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array",
+      "columnAssociationId": "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+    },
+    {
+      "widgetId": "list-array-lemmas",
+      "selectedLayers": [
+        "List",
+        "Array"
+      ],
+      "rowAssociationId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+      "metadata": {
+        "status": "postponed",
+        "comment": "Blubxcxc"
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "List.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+                  "name": "List.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "List",
+          "columnState": {
+            "value": "List.isEmpty",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.isEmpty.{u} {α : Type u} : List α → Bool",
+                  "name": "List.isEmpty",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "Array.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+                  "name": "Array.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "Array",
+          "columnState": {
+            "value": "Array.isEmpty",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.isEmpty.{u} {α : Type u} (xs : Array α) : Bool",
+                  "name": "Array.isEmpty",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81:::22ed4b1e-3ee6-484f-a948-56430d51fbeb:::List::Array",
+      "columnAssociationId": "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+    },
+    {
+      "widgetId": "list-array-lemmas",
+      "selectedLayers": [
+        "List",
+        "Array"
+      ],
+      "rowAssociationId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+      "metadata": {
+        "status": "bad",
+        "comment": "Seems like `List.getElem_zero_filter` is missing."
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "List.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.filter.{u} {α : Type u} (p : α → Bool) (l : List α) : List α",
+                  "name": "List.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "List",
+          "columnState": {
+            "value": "app (GetElem.getElem) (List*)",
+            "state": {
+              "predicate": {
+                "key": "app (GetElem.getElem) (List*)",
+                "displayShort": "List[·]"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": {
+            "value": "Array.filter",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "Array.filter.{u} {α : Type u} (p : α → Bool) (as : Array α) (start : Nat := 0) (stop : Nat := as.size) : Array α",
+                  "name": "Array.filter",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "Array",
+          "columnState": {
+            "value": "app (GetElem.getElem) (Array*)",
+            "state": {
+              "predicate": {
+                "key": "app (GetElem.getElem) (Array*)",
+                "displayShort": "Array[·]"
+              }
+            }
+          }
+        }
+      ],
+      "factId": "f31e9b71-4ac3-4bb4-8385-198fb1174c81:::e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df:::List::Array",
+      "columnAssociationId": "e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df"
+    },
+    {
+      "widgetId": "list-array-lemmas",
+      "selectedLayers": [
+        "List",
+        "Array"
+      ],
+      "rowAssociationId": "1f04bde9-477c-46cb-a08a-34e35a3be931",
+      "metadata": {
+        "status": "done",
+        "comment": "Looks nice :)"
+      },
+      "layerStates": [
+        {
+          "selectedCellStates": [
+            {
+              "value": "TestProject.List.cartesian_cons_left",
+              "state": {
+                "thm": {
+                  "renderedStatement": "TestProject.List.cartesian_cons_left.{u_1, u_2} {α : Type u_1} {β : Type u_2} (x : α) (l₁ : List α)\n  (l₂ : List β) :\n  TestProject.List.cartesian (x :: l₁) l₂ =\n    List.map (fun x_1 => (x, x_1)) l₂ ++ TestProject.List.cartesian l₁ l₂",
+                  "name": "TestProject.List.cartesian_cons_left",
+                  "isSimp": false,
+                  "isDeprecated": false
+                },
+                "constructor": "thm"
+              }
+            }
+          ],
+          "rowState": {
+            "value": "List.cons",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "List.cons.{u} {α : Type u} (head : α) (tail : List α) : List α",
+                  "name": "List.cons",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          },
+          "layerIdentifier": "List",
+          "columnState": {
+            "value": "TestProject.List.cartesian",
+            "state": {
+              "declaration": {
+                "def": {
+                  "renderedStatement": "TestProject.List.cartesian.{u_1, u_2} {α : Type u_1} {β : Type u_2} (l₁ : List α) (l₂ : List β) :\n  List (α × β)",
+                  "name": "TestProject.List.cartesian",
+                  "isDeprecated": false
+                },
+                "constructor": "def"
+              }
+            }
+          }
+        },
+        {
+          "selectedCellStates": [],
+          "rowState": null,
+          "layerIdentifier": "Array",
+          "columnState": null
+        }
+      ],
+      "factId": "1f04bde9-477c-46cb-a08a-34e35a3be931:::805094ea-a106-4230-abba-a67f2d507669:::List::Array",
+      "columnAssociationId": "805094ea-a106-4230-abba-a67f2d507669"
+    }
+  ]
+}

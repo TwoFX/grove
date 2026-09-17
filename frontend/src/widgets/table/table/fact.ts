@@ -33,7 +33,7 @@ function tableFactSingleStateEqual(
   first: TableFactSingleState,
   second: TableFactSingleState,
 ): boolean {
-  // Intentionally not checking stateRepr here
+  // Intentionally not checking stateJson here
   return first.value === second.value;
 }
 

@@ -16,3 +16,4 @@ def restoreState : RestoreStateM Unit := do
 {{#each ids}}
   «{{this}}».restoreState
 {{/each}}
+  return ()

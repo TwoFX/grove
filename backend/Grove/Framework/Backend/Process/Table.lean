@@ -60,12 +60,12 @@ public instance : SchemaFor Table.Fact.Identifier :=
 -- Can be row, column, or cell, for one layer.
 public structure Table.Fact.SingleState where
   value : String
-  stateRepr : String
+  stateJson : Data.StateSnapshot
 
 public instance : SchemaFor Table.Fact.SingleState :=
   .structure "tableFactSingleState"
     [.single "value" Table.Fact.SingleState.value,
-     .single "stateRepr" Table.Fact.SingleState.stateRepr]
+     .single "stateJson" Table.Fact.SingleState.stateJson]
 
 public inductive Table.Fact.OptionalSingleState where
   | none : Table.Fact.OptionalSingleState
@@ -124,7 +124,7 @@ public structure Table.AssociationLayer.Data.Other where
   shortDescription : String
   longDescription : String
   reference : Reference
-  stateRepr : String
+  stateJson : Data.StateSnapshot
 
 public instance schemaTableAssociationLayerDataOther : SchemaFor Table.AssociationLayer.Data.Other :=
   .structure "tableAssociationLayerDataOther"
@@ -132,7 +132,7 @@ public instance schemaTableAssociationLayerDataOther : SchemaFor Table.Associati
      .single "shortDescription" Table.AssociationLayer.Data.Other.shortDescription,
      .single "longDescription" Table.AssociationLayer.Data.Other.longDescription,
      .single "reference" Table.AssociationLayer.Data.Other.reference,
-     .single "stateRepr" Table.AssociationLayer.Data.Other.stateRepr]
+     .single "stateJson" Table.AssociationLayer.Data.Other.stateJson]
 
 public inductive Table.AssociationLayer.Data where
   | declaration : String → Table.AssociationLayer.Data
@@ -184,7 +184,7 @@ public structure Table.CellOption.Other where
   shortDescription : String
   longDescription : String
   reference : Reference
-  stateRepr : String
+  stateJson : Data.StateSnapshot
 
 public instance schemaTableCellOptionOther : SchemaFor Table.CellOption.Other :=
   .structure "tableCellOptionOther"
@@ -192,7 +192,7 @@ public instance schemaTableCellOptionOther : SchemaFor Table.CellOption.Other :=
      .single "shortDescription" Table.CellOption.Other.shortDescription,
      .single "longDescription" Table.CellOption.Other.longDescription,
      .single "reference" Table.CellOption.Other.reference,
-     .single "stateRepr" Table.CellOption.Other.stateRepr]
+     .single "stateJson" Table.CellOption.Other.stateJson]
 
 public inductive Table.CellOption where
   | declaration : String → Table.CellOption
@@ -385,12 +385,12 @@ def transformLayerState {rowKind columnKind cellKind : DataKind}
     rowState := transformOptionSingleState f.rowState
     columnState := transformOptionSingleState f.columnState
     selectedCellStates := f.selectedCellStates.map (fun cell =>
-      ⟨cell.value, cellKind.reprState cell.state⟩)
+      ⟨cell.value, Data.StateSnapshot.ofState cellKind cell.state⟩)
   }
 where
   transformOptionSingleState {kind : DataKind} : Option (Table.Fact.SingleState kind) → Data.Table.Fact.OptionalSingleState
     | none => .none
-    | some s => .some ⟨s.value, kind.reprState s.state⟩
+    | some s => .some ⟨s.value, Data.StateSnapshot.ofState kind s.state⟩
 
 def transformLayerStates {rowKind columnKind cellKind : DataKind}
     (layerStates : Array (Table.Fact.LayerState rowKind columnKind cellKind)) : RenderM Data.Table.Fact.State :=

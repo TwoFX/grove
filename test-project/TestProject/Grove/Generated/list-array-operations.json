@@ -1,0 +1,108 @@
+{
+  "widgetId": "list-array-operations",
+  "rows": [
+    {
+      "uuid": "22ed4b1e-3ee6-484f-a948-56430d51fbeb",
+      "title": "isEmpty",
+      "columns": [
+        {
+          "columnIdentifier": "List",
+          "cellValue": "List.isEmpty"
+        },
+        {
+          "columnIdentifier": "Array",
+          "cellValue": "Array.isEmpty"
+        }
+      ]
+    },
+    {
+      "uuid": "f31e9b71-4ac3-4bb4-8385-198fb1174c81",
+      "title": "filter",
+      "columns": [
+        {
+          "columnIdentifier": "List",
+          "cellValue": "List.filter"
+        },
+        {
+          "columnIdentifier": "Array",
+          "cellValue": "Array.filter"
+        }
+      ]
+    },
+    {
+      "uuid": "805094ea-a106-4230-abba-a67f2d507669",
+      "title": "cartesian",
+      "columns": [
+        {
+          "columnIdentifier": "List",
+          "cellValue": "TestProject.List.cartesian"
+        }
+      ]
+    },
+    {
+      "uuid": "1f04bde9-477c-46cb-a08a-34e35a3be931",
+      "title": "cons",
+      "columns": [
+        {
+          "columnIdentifier": "List",
+          "cellValue": "List.cons"
+        }
+      ]
+    },
+    {
+      "uuid": "e9ebb6fa-fd9c-4e99-87c5-184deb7bc2df",
+      "title": "GetElem",
+      "columns": [
+        {
+          "columnIdentifier": "List",
+          "cellValue": "app (GetElem.getElem) (List*)"
+        },
+        {
+          "columnIdentifier": "Array",
+          "cellValue": "app (GetElem.getElem) (Array*)"
+        }
+      ]
+    }
+  ],
+  "facts": [
+    {
+      "widgetId": "list-array-operations",
+      "rowState": [
+        {
+          "columnIdentifier": "List",
+          "cellValue": "List.leftpadTR",
+          "cellState": {
+            "declaration": {
+              "def": {
+                "renderedStatement": "List.leftpadTR.{u} {α : Type u} (n : Nat) (a : α) (l : List α) : List α",
+                "name": "List.leftpadTR",
+                "isDeprecated": false
+              },
+              "constructor": "def"
+            }
+          }
+        },
+        {
+          "columnIdentifier": "Array",
+          "cellValue": "Array.mkArray6",
+          "cellState": {
+            "declaration": {
+              "def": {
+                "renderedStatement": "Array.mkArray6.{u} {α : Type u} (a₁ a₂ a₃ a₄ a₅ a₆ : α) : Array α",
+                "name": "Array.mkArray6",
+                "isDeprecated": false
+              },
+              "constructor": "def"
+            }
+          }
+        }
+      ],
+      "rowId": "22ed4b1e-3ee6-484f-a948-56430d51fbeb",
+      "metadata": {
+        "status": "done",
+        "comment": "Blub"
+      },
+      "factId": "22ed4b1e-3ee6-484f-a948-56430d51fbeb"
+    }
+  ]
+}

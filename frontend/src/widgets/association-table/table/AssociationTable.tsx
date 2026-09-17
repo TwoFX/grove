@@ -19,12 +19,10 @@ import { GroveContext } from "@/lib/transfer/context";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import { produce } from "immer";
 import { AssociationTableFactComponent } from "../AssociationTableFactComponent";
-import { Templates } from "@/lib/templates";
-import { GroveTemplateContext } from "@/lib/templates/context";
 import {
   columnDescriptionFor,
   optionFor,
-  optionStateRepr,
+  optionStateJson,
   cellFor,
   optionDisplayShort,
   optionKey,
@@ -38,7 +36,6 @@ function rowKeyGetter(row: AssociationTableRow) {
 
 function rowFactState(
   context: GroveContextData,
-  templates: Templates,
   columnDefinitions: AssociationTableColumnDescription[],
   row: AssociationTableRow,
   dataKind: DataKind,
@@ -59,7 +56,7 @@ function rowFactState(
       {
         cellValue: cell.cellValue,
         columnIdentifier: cell.columnIdentifier,
-        stateRepr: optionStateRepr(context, templates, option, dataKind),
+        stateJson: optionStateJson(context, option, dataKind),
       },
     ];
   });
@@ -114,7 +111,7 @@ export function AssociationTable({
   }) => void;
 }): JSX.Element {
   const context = useContext(GroveContext);
-  const templates = useContext(GroveTemplateContext);
+
   const [selectedRows, setSelectedRows] = useState<ReadonlySet<string>>(
     new Set(),
   );
@@ -182,7 +179,7 @@ export function AssociationTable({
             rowId={row.uuid}
             factId={row.uuid}
             newState={() =>
-              rowFactState(context, templates, columnDefinitions, row, dataKind)
+              rowFactState(context, columnDefinitions, row, dataKind)
             }
           />
         );

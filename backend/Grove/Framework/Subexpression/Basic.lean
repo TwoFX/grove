@@ -33,7 +33,7 @@ public def PredicateSubexpression.matches (p : PredicateSubexpression) (e : Expr
 public structure PredicateSubexpression.State where
   key : String
   displayShort : String
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 public inductive Subexpression where
   | declaration : Name → Subexpression
@@ -64,7 +64,7 @@ public def Declaration.toSubexpression (d : Declaration) : Subexpression :=
 public inductive Subexpression.State where
   | declaration : Declaration → Subexpression.State
   | predicate : PredicateSubexpression.State → Subexpression.State
-deriving BEq, Repr
+deriving BEq, Repr, ToJson, FromJson
 
 public def Subexpression.state : Subexpression → LookupM Subexpression.State
   | .declaration n => .declaration <$> Declaration.ofName n

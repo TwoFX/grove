@@ -1,4 +1,3 @@
-import { Templates } from "@/lib/templates";
 import { GroveContextData } from "@/lib/transfer/contextdata";
 import {
   AssociationTableColumnDescription,
@@ -7,11 +6,12 @@ import {
   AssociationTableRow,
   AssociationTableCell,
   Reference,
+  StateSnapshot,
 } from "@/lib/transfer/project";
 import {
   declarationDisplayShort,
   declarationIsDeprecated,
-  declarationStateRepr,
+  declarationStateJson,
 } from "@/lib/transfer/util";
 
 export function columnDescriptionFor(
@@ -65,21 +65,19 @@ export function optionIsDeprecated(
   }
 }
 
-export function optionStateRepr(
+export function optionStateJson(
   context: GroveContextData,
-  templates: Templates,
   opt: AssociationTableCellOption,
   dataKind: DataKind,
-): string {
+): StateSnapshot {
   switch (opt.constructor) {
     case "declaration":
-      return declarationStateRepr(
-        templates,
+      return declarationStateJson(
         context.declarations[opt.declaration],
         dataKind,
       );
     case "other":
-      return opt.other.stateRepr;
+      return opt.other.stateJson;
   }
 }
 

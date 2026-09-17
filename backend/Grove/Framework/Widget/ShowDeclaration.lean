@@ -23,6 +23,7 @@ public structure Fact where
   factId : String
   metadata : Fact.Metadata
   state : Declaration
+deriving ToJson, FromJson
 
 namespace Fact
 
