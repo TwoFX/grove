@@ -1,4 +1,4 @@
-import { JSX, KeyboardEvent, useState } from "react";
+import { JSX, KeyboardEvent, useMemo, useState } from "react";
 import { LayerRowColumnSelector } from "./LayerRowColumnSelector";
 import {
   FactStatus,
@@ -46,7 +46,10 @@ export function TableComponent({
     (assoc) => assoc.id === selectedCell.columnAssociationId,
   );
 
-  const indexableCellData = computeIndexableCellData(definition.cells);
+  const indexableCellData = useMemo(
+    () => computeIndexableCellData(definition.cells),
+    [definition.cells]
+  );
   const { assertTableRow } = useTableFactAssertions({
     definition,
     cellData: indexableCellData,
