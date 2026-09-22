@@ -225,6 +225,7 @@ function FactDialog({
                   </label>
                   <textarea
                     id="comment"
+                    data-autofocus
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     rows={4}
