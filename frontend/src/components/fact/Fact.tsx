@@ -10,7 +10,7 @@ import {
   ListboxOption,
   ListboxOptions,
 } from "@headlessui/react";
-import { JSX, ReactElement, useContext, useState } from "react";
+import { JSX, ReactElement, useContext, useEffect, useState } from "react";
 import {
   BsCheckLg,
   BsClock,
@@ -21,6 +21,13 @@ import {
 } from "react-icons/bs";
 import Markdown from "react-markdown";
 import { InvalidatedFactsContext } from "@/lib/fact/invalidated/context";
+import { createStore } from "zustand/vanilla";
+
+// Remember dialog defaults for this session, outside persisted facts and undo history.
+const factDialogDefaults = createStore<FactMetadata>(() => ({
+  status: FactStatus.Done,
+  comment: "",
+}));
 
 function FactStatusIcon({
   factStatus,
@@ -107,25 +114,30 @@ function FactBar({ fact }: { fact: FactSummary }): JSX.Element {
 
 function FactDialog({
   children,
-  initialStatus,
-  initialComment,
+  factMetadata,
   onAssert,
-  diagOpen,
   setDiagOpen,
 }: {
   children: ReactElement;
-  initialStatus: FactStatus;
-  initialComment: string;
+  factMetadata: FactMetadata | undefined;
   onAssert: ((status: FactStatus, comment: string) => void) | undefined;
-  diagOpen: boolean;
   setDiagOpen: (open: boolean) => void;
 }): JSX.Element {
-  const [selectedStatus, setSelectedStatus] =
-    useState<FactStatus>(initialStatus);
-  const [comment, setComment] = useState(initialComment);
+  const [initialMetadata] = useState(
+    () => factMetadata ?? factDialogDefaults.getState(),
+  );
+  const [selectedStatus, setSelectedStatus] = useState<FactStatus>(
+    initialMetadata.status,
+  );
+  const [comment, setComment] = useState(initialMetadata.comment);
+
+  useEffect(() => {
+    factDialogDefaults.setState(initialMetadata);
+  }, [initialMetadata]);
 
   const handleAssert = () => {
     if (onAssert) {
+      factDialogDefaults.setState({ status: selectedStatus, comment });
       setDiagOpen(false);
       onAssert(selectedStatus, comment);
     }
@@ -150,7 +162,7 @@ function FactDialog({
 
   return (
     <Dialog
-      open={diagOpen}
+      open
       onClose={() => setDiagOpen(false)}
       className="relative z-50"
       onKeyDown={handleKeyDown}
@@ -271,9 +283,6 @@ export function Fact({
   const diagOpen = open ?? internalOpen;
   const setDiagOpen = onOpenChange ?? setInternalOpen;
 
-  const initialStatus: FactStatus = fact?.metadata.status ?? FactStatus.Done;
-  const initialMessage: string = fact?.metadata.comment ?? "";
-
   return (
     <>
       <div
@@ -287,23 +296,23 @@ export function Fact({
           </div>
         )}
       </div>
-      <FactDialog
-        initialStatus={initialStatus}
-        initialComment={initialMessage}
-        onAssert={onAssert}
-        diagOpen={diagOpen}
-        setDiagOpen={setDiagOpen}
-      >
-        <>
-          {fact && fact.validationResult.constructor === "invalidated" && (
-            <div className="overflow-y-auto space-y-4">
-              <Markdown>
-                {fact.validationResult.invalidated.longDescription}
-              </Markdown>
-            </div>
-          )}
-        </>
-      </FactDialog>
+      {diagOpen && (
+        <FactDialog
+          factMetadata={fact?.metadata}
+          onAssert={onAssert}
+          setDiagOpen={setDiagOpen}
+        >
+          <>
+            {fact && fact.validationResult.constructor === "invalidated" && (
+              <div className="overflow-y-auto space-y-4">
+                <Markdown>
+                  {fact.validationResult.invalidated.longDescription}
+                </Markdown>
+              </div>
+            )}
+          </>
+        </FactDialog>
+      )}
     </>
   );
 }
