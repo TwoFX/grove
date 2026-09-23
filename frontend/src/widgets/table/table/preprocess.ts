@@ -136,3 +136,14 @@ export function extractLayers(
 
   return [rowLayer, targetLayerIdentifier, columnLayer];
 }
+
+export function lookupCellOptions(
+  cellData: IndexableCellData,
+  layerIdentifier: string,
+  rowLayer: TableAssociationLayer,
+  columnLayer: TableAssociationLayer,
+): TableCellOption[] | undefined {
+  return cellData.cellOptions[layerDataKey(rowLayer.data)]?.[
+    layerDataKey(columnLayer.data)
+  ]?.[layerIdentifier];
+}

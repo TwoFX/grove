@@ -5,6 +5,7 @@ import {
   optionDisplayLong,
   optionDisplayShort,
   layerDataKey,
+  lookupCellOptions,
 } from "./preprocess";
 import {
   TableAssociation,
@@ -121,10 +122,12 @@ function TableCellDetailForLayer({
 
   const [rowLayer, , colLayer] = rowCol;
 
-  const options =
-    cellData.cellOptions[layerDataKey(rowLayer.data)]?.[
-      layerDataKey(colLayer.data)
-    ]?.[layerIdentifier];
+  const options = lookupCellOptions(
+    cellData,
+    layerIdentifier,
+    rowLayer,
+    colLayer,
+  );
 
   const selectedCellOptionsIndex = state.selectedCellOptions.findIndex(
     (op) =>

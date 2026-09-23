@@ -22,7 +22,11 @@ import { GroveContextData } from "@/lib/transfer/contextdata";
 import { GroveContext } from "@/lib/transfer/context";
 import { declarationStateJson } from "@/lib/transfer/util";
 import { buildFactId, buildFactIdentifier, tableFactStatesEqual } from "./fact";
-import { extractLayers, IndexableCellData, layerDataKey } from "./preprocess";
+import {
+  extractLayers,
+  IndexableCellData,
+  lookupCellOptions,
+} from "./preprocess";
 import { FactSummary } from "@/lib/fact/summary";
 
 function buildAssociationState(
@@ -103,9 +107,7 @@ function computeSingleStates(
   colLayer: TableAssociationLayer,
 ): TableFactSingleState[] {
   const relevantOptions =
-    cellData.cellOptions[layerDataKey(rowLayer.data)]?.[
-      layerDataKey(colLayer.data)
-    ]?.[layerIdentifier] ?? [];
+    lookupCellOptions(cellData, layerIdentifier, rowLayer, colLayer) ?? [];
 
   const relevantSelectedCellOptionIds =
     selectedCellOptions.find((opt) => opt.layerIdentifier === layerIdentifier)

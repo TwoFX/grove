@@ -15,6 +15,7 @@ import {
   computeIndexableCellData,
   extractLayers,
   layerDataKey,
+  lookupCellOptions,
 } from "./preprocess";
 import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import { produce } from "immer";
@@ -77,10 +78,12 @@ export function TableComponent({
           if (!layers) continue;
 
           const [rowLayer, , columnLayer] = layers;
-          const firstOption =
-            indexableCellData.cellOptions[layerDataKey(rowLayer.data)]?.[
-              layerDataKey(columnLayer.data)
-            ]?.[layerIdentifier]?.[0];
+          const firstOption = lookupCellOptions(
+            indexableCellData,
+            layerIdentifier,
+            rowLayer,
+            columnLayer,
+          )?.[0];
           if (!firstOption) continue;
 
           const optionId = layerDataKey(firstOption);
