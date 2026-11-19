@@ -3,7 +3,7 @@ import { BreadcrumbContext } from "@/lib/navigate/breadcrumb";
 import { GroveContext } from "@/lib/transfer/context";
 import { AssertionResult } from "@/lib/transfer/project";
 import { AssertionFactComponent } from "@/widgets/assertion/AssertionFactComponent";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Column, DataGrid } from "react-data-grid";
 import { BsCheck } from "react-icons/bs";
 import { ImCross } from "react-icons/im";
@@ -20,6 +20,15 @@ export function AssertionPage({ widgetId }: { widgetId: string }) {
       title: definition.title,
     });
   }, [setBreadcrumb, definition]);
+
+  // Show failed assertions first, keeping the original order within each group.
+  const rows = useMemo(
+    () => [
+      ...definition.results.filter((res) => !res.passed),
+      ...definition.results.filter((res) => res.passed),
+    ],
+    [definition.results],
+  );
 
   const columns: Column<AssertionResult>[] = [
     { key: "assertionId", name: "ID", resizable: true },
@@ -50,7 +59,7 @@ export function AssertionPage({ widgetId }: { widgetId: string }) {
   return (
     <div>
       <div>{definition.description}</div>
-      <DataGrid rows={definition.results} columns={columns} />
+      <DataGrid rows={rows} columns={columns} />
     </div>
   );
 }
