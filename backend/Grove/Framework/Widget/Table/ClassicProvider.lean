@@ -84,10 +84,6 @@ def SubexpressionIndex.matching (idx : SubexpressionIndex α) (type : Expr)
   idx.predicates.foldl (init := result) fun result (p, a) =>
     if p.matches type usedConstants then result.push a else result
 
-@[inline]
-def _root_.Vector.modify (v : Vector α n) (i : Nat) (f : α → α) : Vector α n :=
-  ⟨v.toArray.modify i f, by simp⟩
-
 /--
 Computes the cell contents for all layers. Instead of checking every relevant constant against
 every row and column value, every relevant constant is visited once, and the row and column values
