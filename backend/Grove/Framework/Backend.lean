@@ -7,5 +7,6 @@ module
 
 public import Grove.Framework.Backend.Data
 public import Grove.Framework.Backend.Full
+public import Grove.Framework.Backend.Print
 public import Grove.Framework.Backend.Process
 public import Grove.Framework.Backend.RenderM

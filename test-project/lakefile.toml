@@ -1,6 +1,6 @@
 name = "test-project"
 version = "0.1.0"
-defaultTargets = ["test-project"]
+defaultTargets = ["test-project", "print-widget"]
 
 # Real users will be using `git` and `subDir` instead.
 [[require]]
@@ -14,3 +14,8 @@ name = "TestProject"
 name = "test-project"
 supportInterpreter = true
 root = "Main"
+
+[[lean_exe]]
+name = "print-widget"
+supportInterpreter = true
+root = "PrintWidget"
